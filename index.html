@@ -1646,7 +1646,7 @@
             <div class="post">
                 <h1>santi.wtf</h1>
                 <p style="text-align: center; margin-bottom: 20px;">
-                    <a href="#" onclick="loadHome(); return false;">home</a> | <a href="#" onclick="loadPost('posts/now.html'); return false;">now</a> | <a href="#" onclick="loadArchive(); return false;">archive</a>
+                    <a href="#" onclick="loadHome(); return false;">home</a> | <a href="#" onclick="loadPost('now.html'); return false;">now</a> | <a href="#" onclick="loadArchive(); return false;">archive</a>
                 </p>
                 <h2>welcome, friend. please take off your shoes</h2>
                 <p>i built this site because i miss the internet — the one before the apps.</p>
@@ -1683,7 +1683,7 @@
             <div class="post">
                 <h1>santi.wtf</h1>
                 <p style="text-align: center; margin-bottom: 20px;">
-                    <a href="#" onclick="loadHome(); return false;">home</a> | <a href="#" onclick="loadPost('posts/now.html'); return false;">now</a> | <a href="#" onclick="loadArchive(); return false;">archive</a>
+                    <a href="#" onclick="loadHome(); return false;">home</a> | <a href="#" onclick="loadPost('now.html'); return false;">now</a> | <a href="#" onclick="loadArchive(); return false;">archive</a>
                 </p>
 
                 <h2>archive</h2>
@@ -1851,10 +1851,15 @@
 
                     // Update URL hash
                     if (updateHash) {
-                        history.pushState(null, '', '#' + url);
-                        // Extract post name for address bar
-                        const postName = url.replace('posts/', '').replace('.html', '');
-                        updateAddressBar('https://santi.wtf/' + postName);
+                        // Handle root-level pages vs posts
+                        if (url === 'now.html') {
+                            history.pushState(null, '', '#now');
+                            updateAddressBar('https://santi.wtf/now');
+                        } else {
+                            history.pushState(null, '', '#' + url);
+                            const postName = url.replace('posts/', '').replace('.html', '');
+                            updateAddressBar('https://santi.wtf/' + postName);
+                        }
                     }
 
                     // Add to history
@@ -1915,6 +1920,9 @@
             } else if (pageUrl === 'archive') {
                 history.replaceState(null, '', '#archive');
                 updateAddressBar('https://santi.wtf/archive');
+            } else if (pageUrl === 'now.html') {
+                history.replaceState(null, '', '#now');
+                updateAddressBar('https://santi.wtf/now');
             } else {
                 history.replaceState(null, '', '#' + pageUrl);
                 const postName = pageUrl.replace('posts/', '').replace('.html', '');
@@ -1956,6 +1964,8 @@
                 loadHome(false);
             } else if (hash === 'archive') {
                 loadArchive(false);
+            } else if (hash === 'now') {
+                loadPost('now.html', false);
             } else if (hash.startsWith('posts/')) {
                 loadPost(hash, false);
             } else {
