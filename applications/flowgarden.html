@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FlowGarden</title>
+    <style>
+        /* --- CORE SYSTEM STYLES --- */
+        * { box-sizing: border-box; }
+
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'MS Sans Serif', 'Segoe UI', sans-serif;
+            height: 100%;
+            user-select: none;
+        }
+
+        .fg-container {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* --- FLOWGARDEN UI --- */
+        
+        /* Layout */
+        .fg-layout {
+            display: flex;
+            flex: 1;
+            gap: 6px;
+            padding: 4px;
+        }
+
+        /* Editor (Left) */
+        .fg-editor-pane {
+            flex: 3;
+            border: 2px solid;
+            border-color: #808080 #fff #fff #808080; /* Inset */
+            background: #fff;
+            display: flex;
+            flex-direction: column;
+        }
+
+        textarea {
+            width: 100%;
+            height: 100%;
+            border: none;
+            padding: 15px;
+            resize: none;
+            outline: none;
+            font-family: 'Courier New', monospace;
+            font-size: 16px;
+            line-height: 1.5;
+            color: #222;
+        }
+        textarea:disabled {
+            background: #e0e0e0;
+            color: #888;
+        }
+
+        /* Sidebar (Right) */
+        .fg-sidebar {
+            flex: 1;
+            min-width: 180px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .fg-panel {
+            background: #c0c0c0;
+            border: 1px solid;
+            border-color: #fff #808080 #808080 #fff; /* Outset */
+            padding: 4px;
+        }
+
+        /* Canvas */
+        .fg-canvas-wrapper {
+            background: #e6ffff;
+            border: 2px solid;
+            border-color: #808080 #fff #fff #808080; /* Inset */
+            height: 160px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        canvas { width: 100%; height: 100%; object-fit: contain; }
+
+        /* Progress Bars */
+        .fg-label { font-size: 10px; font-weight: bold; margin-bottom: 2px; }
+        .fg-track {
+            height: 14px;
+            background: #fff;
+            border: 1px solid #808080;
+            width: 100%;
+            position: relative;
+        }
+        .fg-fill {
+            height: 100%;
+            width: 100%;
+            transition: width 0.1s linear;
+        }
+        
+        .fg-water { background: #000080; }
+        .fg-water.danger { background: #ff0000; }
+        .fg-growth { background: #008000; width: 0%; }
+
+        /* Buttons & Inputs */
+        .win-btn {
+            width: 100%;
+            padding: 4px;
+            background: #c0c0c0;
+            border: 1px solid;
+            border-color: #fff #000 #000 #fff;
+            cursor: pointer;
+            font-family: 'MS Sans Serif', sans-serif;
+            font-size: 11px;
+            font-weight: bold;
+            margin-top: 4px;
+        }
+        .win-btn:active {
+            border-color: #000 #fff #fff #000;
+            transform: translate(1px, 1px);
+        }
+        .win-btn:disabled { color: #888; cursor: not-allowed; }
+        .win-btn.highlight { background: #ffffcc; }
+
+        .fg-input {
+            width: 100%;
+            padding: 3px;
+            border: 2px solid #808080;
+            font-family: inherit;
+            font-size: 11px;
+            margin-bottom: 8px;
+        }
+
+        /* --- SETUP OVERLAY --- */
+        #fg-setup {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: #c0c0c0;
+            z-index: 10;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .setup-box {
+            width: 250px;
+            padding: 15px;
+            border: 2px solid;
+            border-color: #fff #808080 #808080 #fff;
+            background: #c0c0c0;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="fg-container">
+        <div id="fg-setup">
+            <div class="setup-box">
+                <p style="margin: 0 0 10px 0; font-weight: bold;">New Session</p>
+                <p style="font-size: 11px; margin-bottom: 15px;">
+                    Keep typing. If you stop for 5 seconds, the plant dies.
+                    <strong>Backspace is disabled.</strong>
+                </p>
+                <label class="fg-label">Goal Type:</label>
+                <select id="goal-type" class="fg-input">
+                    <option value="words">Word Count</option>
+                    <option value="minutes">Time (Minutes)</option>
+                </select>
+                <label class="fg-label">Target:</label>
+                <input type="number" id="goal-val" class="fg-input" value="300">
+                <button class="win-btn" onclick="game.start()">Plant Seed</button>
+            </div>
+        </div>
+
+        <div class="fg-layout">
+            <div class="fg-editor-pane">
+                <textarea id="editor" disabled placeholder="Plant a seed to begin..."></textarea>
+            </div>
+            <div class="fg-sidebar">
+                <div class="fg-panel">
+                    <div class="fg-canvas-wrapper">
+                        <canvas id="plant-canvas" width="200" height="200"></canvas>
+                    </div>
+                </div>
+                <div class="fg-panel">
+                    <div class="fg-label">WATER (5s)</div>
+                    <div class="fg-track">
+                        <div id="water-bar" class="fg-fill fg-water"></div>
+                    </div>
+                </div>
+                <div class="fg-panel">
+                    <div class="fg-label">GROWTH</div>
+                    <div class="fg-track">
+                        <div id="growth-bar" class="fg-fill fg-growth"></div>
+                    </div>
+                    <div style="text-align:center; font-size:10px; margin-top:2px;">
+                        <span id="progress-cur">0</span> / <span id="progress-max">0</span>
+                    </div>
+                </div>
+                <div class="fg-panel" style="margin-top:auto;">
+                    <div id="status-txt" style="text-align:center; color:blue; margin-bottom:5px; font-weight:bold;">READY</div>
+                    <button id="btn-harvest" class="win-btn" disabled onclick="game.harvest()">Harvest (Save)</button>
+                    <button class="win-btn" onclick="game.reset()">Reset</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const game = {
+            config: { maxTime: 5000, decay: 100 },
+            state: { 
+                active: false, dead: false, goalMet: false, 
+                timeLeft: 5000, timer: null, mode: 'words', 
+                target: 300, startTime: 0 
+            },
+
+            // Cache DOM elements
+            dom: {},
+
+            init: function() {
+                // 1. Grab all elements securely
+                this.dom = {
+                    setup: document.getElementById('fg-setup'),
+                    editor: document.getElementById('editor'),
+                    waterBar: document.getElementById('water-bar'),
+                    growthBar: document.getElementById('growth-bar'),
+                    currTxt: document.getElementById('progress-cur'),
+                    maxTxt: document.getElementById('progress-max'),
+                    status: document.getElementById('status-txt'),
+                    btnHarvest: document.getElementById('btn-harvest'),
+                    canvas: document.getElementById('plant-canvas')
+                };
+
+                // 2. Attach Input Listener
+                if (this.dom.editor) {
+                    // Update word count on typing
+                    this.dom.editor.addEventListener('input', () => this.update());
+                    
+                    // Prevent Backspace & Refill Water
+                    this.dom.editor.addEventListener('keydown', (e) => {
+                        if (this.state.dead) return;
+                        if (e.key === 'Backspace') { 
+                            e.preventDefault(); 
+                            return; 
+                        }
+                        this.state.timeLeft = this.config.maxTime; 
+                        if (!this.state.active) this.startLoop();
+                    });
+                } else {
+                    console.error("Critical Error: Editor element not found!");
+                }
+            },
+
+            start: function() {
+                // Get values
+                this.state.mode = document.getElementById('goal-type').value;
+                this.state.target = parseInt(document.getElementById('goal-val').value) || 300;
+                this.state.startTime = Date.now();
+                
+                // UI Reset
+                this.dom.setup.style.display = 'none';
+                this.dom.editor.disabled = false;
+                this.dom.editor.value = "";
+                this.dom.editor.focus();
+                
+                if(this.dom.maxTxt) this.dom.maxTxt.innerText = this.state.target;
+                if(this.dom.currTxt) this.dom.currTxt.innerText = "0";
+                
+                this.dom.status.innerText = "GROWING...";
+                this.dom.status.style.color = "blue";
+                this.dom.btnHarvest.disabled = true;
+                this.dom.btnHarvest.classList.remove('highlight');
+                this.dom.waterBar.style.width = "100%";
+                this.dom.growthBar.style.width = "0%";
+
+                this.state.active = true;
+                this.state.timeLeft = this.config.maxTime;
+                this.state.dead = false;
+                this.state.goalMet = false;
+
+                this.drawPlant(0);
+                this.startLoop();
+            },
+
+            startLoop: function() {
+                if (this.state.timer) clearInterval(this.state.timer);
+                this.state.timer = setInterval(() => {
+                    if (this.state.dead) return;
+
+                    this.state.timeLeft -= this.config.decay;
+                    const waterPct = (this.state.timeLeft / this.config.maxTime) * 100;
+                    if(this.dom.waterBar) this.dom.waterBar.style.width = Math.max(0, waterPct) + "%";
+
+                    if (waterPct < 25) this.dom.waterBar.classList.add('danger');
+                    else this.dom.waterBar.classList.remove('danger');
+
+                    if (this.state.timeLeft <= 0) this.kill();
+                    
+                    if (this.state.mode === 'minutes') this.update();
+
+                }, this.config.decay);
+            },
+
+            update: function() {
+                if (this.state.dead) return;
+
+                const text = this.dom.editor.value.trim();
+                const words = text ? text.split(/\s+/).length : 0;
+                
+                let progressPct = 0;
+                let displayVal = 0;
+
+                if (this.state.mode === 'words') {
+                    displayVal = words;
+                    progressPct = (words / this.state.target) * 100;
+                } else {
+                    const elapsedMins = (Date.now() - this.state.startTime) / 60000;
+                    displayVal = elapsedMins.toFixed(1);
+                    progressPct = (elapsedMins / this.state.target) * 100;
+                }
+
+                // Update UI safely
+                if (this.dom.growthBar) this.dom.growthBar.style.width = Math.min(100, progressPct) + "%";
+                if (this.dom.currTxt) this.dom.currTxt.innerText = Math.floor(displayVal);
+                
+                this.drawPlant(progressPct);
+
+                if (progressPct >= 100 && !this.state.goalMet) {
+                    this.state.goalMet = true;
+                    this.dom.status.innerText = "BLOOMING!";
+                    this.dom.status.style.color = "#008000";
+                    this.dom.btnHarvest.disabled = false;
+                    this.dom.btnHarvest.classList.add('highlight');
+                }
+            },
+
+            kill: function() {
+                this.state.dead = true;
+                clearInterval(this.state.timer);
+                this.dom.editor.disabled = true;
+                this.dom.status.innerText = "WITHERED";
+                this.dom.status.style.color = "red";
+                this.drawDeadPlant();
+            },
+
+            harvest: function() {
+                const blob = new Blob([this.dom.editor.value], {type: "text/plain"});
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement("a");
+                a.href = url;
+                a.download = `flowgarden-${Date.now()}.txt`;
+                a.click();
+            },
+
+            reset: function() {
+                if (this.state.timer) clearInterval(this.state.timer);
+                this.dom.setup.style.display = 'flex';
+                this.drawPlant(0);
+            },
+
+            // --- CANVAS GRAPHICS ---
+            drawPlant: function(pct) {
+                if (!this.dom.canvas) return;
+                const ctx = this.dom.canvas.getContext('2d');
+                ctx.clearRect(0,0,200,200);
+                
+                // Pot
+                ctx.fillStyle = "#8B4513"; ctx.beginPath();
+                ctx.moveTo(70,180); ctx.lineTo(130,180); ctx.lineTo(140,140); ctx.lineTo(60,140); ctx.fill();
+                ctx.fillStyle = "#3e1f08"; ctx.beginPath();
+                ctx.ellipse(100,140,40,10,0,0,Math.PI*2); ctx.fill();
+
+                if (pct < 1) return; // Seed stage
+
+                // Stem
+                ctx.strokeStyle = "#006400"; ctx.lineWidth=4; ctx.lineCap="round";
+                ctx.beginPath(); ctx.moveTo(100,140);
+                let h = 140 - (pct * 1.2); if (h < 40) h = 40;
+                ctx.quadraticCurveTo(100, 140, 100, h); ctx.stroke();
+
+                // Leaves
+                if (pct > 20) this.drawLeaf(ctx, 100, 120, -1);
+                if (pct > 40) this.drawLeaf(ctx, 100, 100, 1);
+                if (pct > 60) this.drawLeaf(ctx, 100, 80, -1);
+                
+                // Flower
+                if (pct >= 100) {
+                    ctx.fillStyle = "#FF69B4";
+                    for(let i=0; i<6; i++) {
+                        let a = (i*60)*(Math.PI/180);
+                        ctx.beginPath(); ctx.arc(100+Math.cos(a)*15, h+Math.sin(a)*15, 8, 0, Math.PI*2); ctx.fill();
+                    }
+                    ctx.fillStyle = "#FFD700"; ctx.beginPath(); ctx.arc(100,h,8,0,Math.PI*2); ctx.fill();
+                }
+            },
+
+            drawLeaf: function(ctx, x, y, dir) {
+                ctx.fillStyle = "#228B22"; ctx.beginPath();
+                ctx.ellipse(x+(15*dir), y-5, 15, 8, dir===1?-0.5:0.5, 0, Math.PI*2); ctx.fill();
+            },
+
+            drawDeadPlant: function() {
+                if (!this.dom.canvas) return;
+                const ctx = this.dom.canvas.getContext('2d');
+                ctx.clearRect(0,0,200,200);
+                // Grey Pot
+                ctx.fillStyle = "#555"; ctx.beginPath();
+                ctx.moveTo(70,180); ctx.lineTo(130,180); ctx.lineTo(140,140); ctx.lineTo(60,140); ctx.fill();
+                // Withered Stem
+                ctx.strokeStyle = "#555"; ctx.lineWidth=4;
+                ctx.beginPath(); ctx.moveTo(100,140); ctx.quadraticCurveTo(110,110,130,160); ctx.stroke();
+            }
+        };
+
+        // Initialize - run immediately if page already loaded, otherwise wait
+        (function() {
+            console.log("FlowGarden Initializing...");
+            game.init();
+            game.drawPlant(0);
+        })();
+    </script>
+</body>
+</html>

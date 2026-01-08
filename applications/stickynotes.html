@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Sticky Notes</title>
+    <style>
+        * { box-sizing: border-box; }
+
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'MS Sans Serif', 'Segoe UI', sans-serif;
+            height: 100%;
+            user-select: none;
+        }
+
+        .sn-container {
+            width: 100%;
+            height: 100%;
+            background: #c0c0c0;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .sn-toolbar {
+            padding: 6px;
+            border-bottom: 1px solid #808080;
+            display: flex;
+            gap: 6px;
+            align-items: center;
+        }
+
+        .sn-btn {
+            padding: 4px 12px;
+            background: #c0c0c0;
+            border: 1px solid;
+            border-color: #fff #000 #000 #fff;
+            cursor: pointer;
+            font-family: 'MS Sans Serif', sans-serif;
+            font-size: 11px;
+            font-weight: bold;
+        }
+        .sn-btn:active {
+            border-color: #000 #fff #fff #000;
+        }
+
+        .sn-board {
+            flex: 1;
+            position: relative;
+            overflow: hidden;
+            background:
+                linear-gradient(90deg, #b8b8b8 1px, transparent 1px),
+                linear-gradient(#b8b8b8 1px, transparent 1px),
+                #c0c0c0;
+            background-size: 20px 20px;
+        }
+
+        .sticky-note {
+            position: absolute;
+            width: 180px;
+            min-height: 140px;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 2px 2px 5px rgba(0,0,0,0.3);
+            cursor: move;
+        }
+
+        .sticky-note.yellow { background: #ffff88; }
+        .sticky-note.pink { background: #ff88cc; }
+        .sticky-note.blue { background: #88ccff; }
+        .sticky-note.green { background: #88ff88; }
+        .sticky-note.orange { background: #ffcc88; }
+
+        .note-header {
+            padding: 4px 6px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid rgba(0,0,0,0.1);
+        }
+
+        .note-colors {
+            display: flex;
+            gap: 3px;
+        }
+
+        .color-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            cursor: pointer;
+            border: 1px solid rgba(0,0,0,0.3);
+        }
+        .color-dot:hover { transform: scale(1.2); }
+        .color-dot.yellow { background: #ffff88; }
+        .color-dot.pink { background: #ff88cc; }
+        .color-dot.blue { background: #88ccff; }
+        .color-dot.green { background: #88ff88; }
+        .color-dot.orange { background: #ffcc88; }
+
+        .note-delete {
+            background: none;
+            border: none;
+            font-size: 14px;
+            cursor: pointer;
+            opacity: 0.5;
+            padding: 0 4px;
+        }
+        .note-delete:hover { opacity: 1; }
+
+        .note-content {
+            flex: 1;
+            padding: 8px;
+        }
+
+        .note-content textarea {
+            width: 100%;
+            height: 100%;
+            min-height: 100px;
+            border: none;
+            background: transparent;
+            resize: none;
+            font-family: 'Comic Sans MS', 'MS Sans Serif', sans-serif;
+            font-size: 12px;
+            line-height: 1.4;
+            outline: none;
+        }
+
+        .note-footer {
+            padding: 4px 8px;
+            font-size: 9px;
+            color: rgba(0,0,0,0.4);
+            text-align: right;
+        }
+
+        .sn-empty {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            color: #808080;
+            font-size: 12px;
+        }
+
+        .sn-count {
+            font-size: 11px;
+            color: #666;
+            margin-left: auto;
+        }
+    </style>
+</head>
+<body>
+    <div class="sn-container">
+        <div class="sn-toolbar">
+            <button class="sn-btn" onclick="notes.create()">+ New Note</button>
+            <button class="sn-btn" onclick="notes.clearAll()">Clear All</button>
+            <span class="sn-count"><span id="note-count">0</span> notes</span>
+        </div>
+        <div class="sn-board" id="sn-board">
+            <div class="sn-empty" id="sn-empty">No sticky notes yet.<br>Click "+ New Note" to create one!</div>
+        </div>
+    </div>
+
+    <script>
+        const notes = {
+            data: [],
+            board: null,
+            draggedNote: null,
+            dragOffset: { x: 0, y: 0 },
+
+            init: function() {
+                this.board = document.getElementById('sn-board');
+                this.load();
+                this.render();
+
+                // Global mouse events for dragging
+                document.addEventListener('mousemove', (e) => this.drag(e));
+                document.addEventListener('mouseup', () => this.dragEnd());
+            },
+
+            load: function() {
+                const saved = localStorage.getItem('stickyNotes');
+                if (saved) {
+                    this.data = JSON.parse(saved);
+                }
+            },
+
+            save: function() {
+                localStorage.setItem('stickyNotes', JSON.stringify(this.data));
+                this.updateCount();
+            },
+
+            updateCount: function() {
+                document.getElementById('note-count').textContent = this.data.length;
+                document.getElementById('sn-empty').style.display = this.data.length ? 'none' : 'block';
+            },
+
+            create: function() {
+                const note = {
+                    id: Date.now(),
+                    text: '',
+                    color: 'yellow',
+                    x: 20 + Math.random() * 150,
+                    y: 20 + Math.random() * 100,
+                    created: new Date().toLocaleDateString()
+                };
+                this.data.push(note);
+                this.save();
+                this.render();
+
+                // Focus the new note's textarea
+                setTimeout(() => {
+                    const textarea = document.querySelector(`[data-id="${note.id}"] textarea`);
+                    if (textarea) textarea.focus();
+                }, 10);
+            },
+
+            update: function(id, text) {
+                const note = this.data.find(n => n.id === id);
+                if (note) {
+                    note.text = text;
+                    this.save();
+                }
+            },
+
+            updatePosition: function(id, x, y) {
+                const note = this.data.find(n => n.id === id);
+                if (note) {
+                    note.x = x;
+                    note.y = y;
+                    this.save();
+                }
+            },
+
+            changeColor: function(id, color) {
+                const note = this.data.find(n => n.id === id);
+                if (note) {
+                    note.color = color;
+                    this.save();
+                    this.render();
+                }
+            },
+
+            delete: function(id) {
+                this.data = this.data.filter(n => n.id !== id);
+                this.save();
+                this.render();
+            },
+
+            clearAll: function() {
+                if (this.data.length === 0) return;
+                if (confirm('Delete all sticky notes?')) {
+                    this.data = [];
+                    this.save();
+                    this.render();
+                }
+            },
+
+            render: function() {
+                // Clear existing notes
+                this.board.querySelectorAll('.sticky-note').forEach(el => el.remove());
+
+                this.updateCount();
+
+                this.data.forEach(note => {
+                    const el = document.createElement('div');
+                    el.className = `sticky-note ${note.color}`;
+                    el.dataset.id = note.id;
+                    el.style.left = note.x + 'px';
+                    el.style.top = note.y + 'px';
+
+                    el.innerHTML = `
+                        <div class="note-header">
+                            <div class="note-colors">
+                                <div class="color-dot yellow" onclick="notes.changeColor(${note.id}, 'yellow')"></div>
+                                <div class="color-dot pink" onclick="notes.changeColor(${note.id}, 'pink')"></div>
+                                <div class="color-dot blue" onclick="notes.changeColor(${note.id}, 'blue')"></div>
+                                <div class="color-dot green" onclick="notes.changeColor(${note.id}, 'green')"></div>
+                                <div class="color-dot orange" onclick="notes.changeColor(${note.id}, 'orange')"></div>
+                            </div>
+                            <button class="note-delete" onclick="notes.delete(${note.id})">X</button>
+                        </div>
+                        <div class="note-content">
+                            <textarea placeholder="Write something...">${note.text}</textarea>
+                        </div>
+                        <div class="note-footer">${note.created}</div>
+                    `;
+
+                    // Text change handler
+                    const textarea = el.querySelector('textarea');
+                    textarea.addEventListener('input', (e) => {
+                        this.update(note.id, e.target.value);
+                    });
+                    textarea.addEventListener('mousedown', (e) => e.stopPropagation());
+
+                    // Drag handler
+                    el.addEventListener('mousedown', (e) => this.dragStart(e, el, note.id));
+
+                    this.board.appendChild(el);
+                });
+            },
+
+            dragStart: function(e, el, id) {
+                if (e.target.closest('.note-colors') || e.target.closest('.note-delete')) return;
+
+                this.draggedNote = { el, id };
+                const rect = el.getBoundingClientRect();
+                this.dragOffset.x = e.clientX - rect.left;
+                this.dragOffset.y = e.clientY - rect.top;
+
+                el.style.zIndex = 1000;
+            },
+
+            drag: function(e) {
+                if (!this.draggedNote) return;
+
+                const boardRect = this.board.getBoundingClientRect();
+                let x = e.clientX - boardRect.left - this.dragOffset.x;
+                let y = e.clientY - boardRect.top - this.dragOffset.y;
+
+                // Keep within bounds
+                x = Math.max(0, Math.min(x, boardRect.width - 180));
+                y = Math.max(0, Math.min(y, boardRect.height - 140));
+
+                this.draggedNote.el.style.left = x + 'px';
+                this.draggedNote.el.style.top = y + 'px';
+            },
+
+            dragEnd: function() {
+                if (!this.draggedNote) return;
+
+                const x = parseInt(this.draggedNote.el.style.left);
+                const y = parseInt(this.draggedNote.el.style.top);
+                this.updatePosition(this.draggedNote.id, x, y);
+
+                this.draggedNote.el.style.zIndex = '';
+                this.draggedNote = null;
+            }
+        };
+
+        // Initialize
+        (function() {
+            notes.init();
+        })();
+    </script>
+</body>
+</html>
