@@ -1,0 +1,106 @@
+SANTI.WTF - THE UNOFFICIAL GUIDE
+=================================
+
+Alright so here's the deal with your site.
+
+WHAT IT IS
+----------
+A personal website that looks like Windows 98. Everything runs in the browser - no backend, no database (except Firebase for the guestbook), no complicated stuff. Just HTML, CSS, and JavaScript in one big index.html file.
+
+
+THE FEATURES
+------------
+
+Desktop Icons:
+- Newsletter - opens subscribe dialog
+- Internet Explorer - your blog
+- Guestbook - Firebase-powered, people can leave messages
+- Winamp - music player with your tunes
+- Applications folder - Flow Garden, Sticky Notes
+
+The IE Window:
+- Acts like a mini browser inside your site
+- Has working back/forward/refresh buttons
+- Posts have their own URLs now (shareable links like santi.wtf/#posts/post-name.html)
+
+Winamp:
+- Plays songs from /vibes folder (Esperanza.mp3, Community.mp3)
+- Has a playlist, visualizer, volume control
+- Music stops when you close the window
+
+Guestbook:
+- Real-time comments via Firebase
+- Admin mode: triple-click the title bar, password is "wtf123"
+- Lets you delete spam
+
+Subscribe Dialogs (3 ways to capture emails):
+- Shut Down easter egg (Start menu → Shut Down)
+- Clippy assistant (pops up after 15 seconds, once per session)
+- Newsletter desktop icon
+All three open the same Beehiiv form, just with different messaging.
+
+
+THE FILES
+---------
+/index.html - the main site, everything lives here
+/posts/ - blog posts go here
+/icons/ - Windows 98 icons
+/vibes/ - music files
+/applications/ - Flow Garden, Sticky Notes
+
+
+HOW TO PUBLISH A NEW POST
+-------------------------
+1. Write in Evernote like you normally do
+2. Paste the text to Claude
+3. Claude creates the HTML and deploys it
+4. Done. Takes like 30 seconds.
+
+That's it. No formatting, no code, no dragging files around.
+
+
+HOW DEPLOYMENT WORKS
+--------------------
+Your site is on GitHub (github.com/sawnts/santi-wtf) and Netlify auto-deploys whenever you push changes.
+
+The magic commands:
+  git add .
+  git commit -m "what you changed"
+  git push
+
+Or just ask Claude to deploy for you.
+
+
+IMPORTANT LINKS
+---------------
+- Live site: https://santi.wtf
+- Netlify dashboard: https://app.netlify.com (manage deploys, domain)
+- GitHub repo: https://github.com/sawnts/santi-wtf (your code backup)
+- Firebase console: https://console.firebase.google.com (guestbook data)
+- Beehiiv: wherever you manage your newsletter
+
+
+PASSWORDS & SECRETS
+-------------------
+- Guestbook admin mode: triple-click title bar, password "wtf123"
+- Firebase config is in index.html (not secret, just identifies your project)
+
+
+THINGS TO REMEMBER
+------------------
+- Always test locally first: python3 -m http.server 8080, then open localhost:8080
+- The Beehiiv form won't load if you open index.html directly as a file (needs a server)
+- Posts need to be added to both homeContent AND archiveContent in index.html
+- If VS Code shows old code, close the file without saving and reopen it
+
+
+IF SOMETHING BREAKS
+-------------------
+- Check Netlify dashboard for deploy errors
+- git status shows what's changed
+- You can always roll back on Netlify (click any previous deploy → "Publish deploy")
+
+
+That's pretty much it. You've got a sick Windows 98 site that deploys automatically and you can publish posts just by pasting text. Not bad for someone who thought their MySpace HTML skills would be enough.
+
+Cheers.
