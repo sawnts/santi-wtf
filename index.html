@@ -1643,66 +1643,66 @@
 
         // Store the home content
         const homeContent = `
-            <h1>santi.wtf</h1>
-            <p style="text-align: center; margin-bottom: 20px;">
-                <a href="#" onclick="loadHome(); return false;">home</a> | <a href="#" onclick="loadArchive(); return false;">archive</a>
-            </p>
-            <h2>welcome, friend. please take off your shoes</h2>
-            <p>i built this site because i miss the internet — the one before the apps.</p>
-            <p>i miss all the weird little corners of the web where people shared their thoughts, art, and creativity freely. the times when social media was social and communities were built around shared passions and genuine connections. i miss the vast, chaotic, and human-made web.</p>
-            <p>i miss that internet.</p> 
-            <p>so i made a little corner of my own to share my thoughts, ideas, and projects with you. away from the noise of algorithms, influencers, and ads. just me, my words, and, now, you.</p>
-            <p>there's lots to see here, so take your time exploring. read my thoughts, check out my projects, and, if the spirit moves you, drop me a line in the guestbook.</p>
-            <p>and come back soon (and often). you might find something new.</p>
-            <p>btw, it took me a disgusting amount of time to make this site look and act like i wanted it to, so if you're viewing on anything other than a computer you're not getting the full experience.</p>
-            <p> <3 santi</p>
-            <h2>recent posts:</h2>
-            <ul>
-                <li><a href="#" onclick="loadPost('posts/first-post.html'); return false;">pls ignore</a></li>
-            </ul>
-            
-            <h2>about me:</h2>
-            <p>i'm a creative building <a href="https://mail.0ffbrand.com">0ffbrand</a>, selling software by day, and ideas by night. when i'm not working, i like to read, write, and play chess.</p>
-            
-            <p><b>location:</b> seattle, wa.</p>
-            
-            <p><b>exploring:</b> the intersection of creativity, philosophy, and business.</p>
-            
-            <h2>links:</h2>
-            <p>
-                <a href="https://mail.0ffbrand.com">0ffbrand</a> | 
-                <a href="https://www.threads.com/@yosawnts">Social</a> | 
-                <a href="mailto:yosawnts@gmail.com">Email</a>
-            </p>
+            <div class="post">
+                <h1>santi.wtf</h1>
+                <p style="text-align: center; margin-bottom: 20px;">
+                    <a href="#" onclick="loadHome(); return false;">home</a> | <a href="#" onclick="loadArchive(); return false;">archive</a>
+                </p>
+                <h2>welcome, friend. please take off your shoes</h2>
+                <p>i built this site because i miss the internet — the one before the apps.</p>
+                <p>i miss all the weird little corners of the web where people shared their thoughts, art, and creativity freely. the times when social media was social and communities were built around shared passions and genuine connections. i miss the vast, chaotic, and human-made web.</p>
+                <p>i miss that internet.</p>
+                <p>so i made a little corner of my own to share my thoughts, ideas, and projects with you. away from the noise of algorithms, influencers, and ads. just me, my words, and, now, you.</p>
+                <p>there's lots to see here, so take your time exploring. read my thoughts, check out my projects, and, if the spirit moves you, drop me a line in the guestbook.</p>
+                <p>and come back soon (and often). you might find something new.</p>
+                <p>btw, it took me a disgusting amount of time to make this site look and act like i wanted it to, so if you're viewing on anything other than a computer you're not getting the full experience.</p>
+                <p>&lt;3 santi</p>
+                <h2>recent posts:</h2>
+                <ul>
+                    <li><a href="#" onclick="loadPost('posts/first-post.html'); return false;">pls ignore</a></li>
+                </ul>
+
+                <h2>about me:</h2>
+                <p>i'm a creative building <a href="https://mail.0ffbrand.com">0ffbrand</a>, selling software by day, and ideas by night. when i'm not working, i like to read, write, and play chess.</p>
+
+                <p><strong>location:</strong> seattle, wa.</p>
+
+                <p><strong>exploring:</strong> the intersection of creativity, philosophy, and business.</p>
+
+                <h2>links:</h2>
+                <p>
+                    <a href="https://mail.0ffbrand.com">0ffbrand</a> |
+                    <a href="https://www.threads.com/@yosawnts">Social</a> |
+                    <a href="mailto:yosawnts@gmail.com">Email</a>
+                </p>
+            </div>
         `;
 
         // Archive content
         const archiveContent = `
-            <h1>santi.wtf</h1>
-            <p style="text-align: center; margin-bottom: 20px;">
-                <a href="#" onclick="loadHome(); return false;">home</a> | <a href="#" onclick="loadArchive(); return false;">archive</a>
-            </p>
-            
-            <h2>archive</h2>
-            <p>all posts, newest first.</p>
-            
-            <div style="margin-top: 30px;">
-                <h3 style="font-size: 16px; color: #666; margin-bottom: 15px;">2026</h3>
-                <ul style="list-style: none; padding: 0;">
-                    <li style="margin-bottom: 12px;">
-                        <span style="color: #666; font-size: 11px; font-family: monospace;">jan 02</span>
-                        <a href="#" onclick="loadPost('posts/first-post.html'); return false;">pls ignore</a>
-                    </li>
-                    <li style="margin-bottom: 12px;">
-                        <span style="color: #666; font-size: 11px; font-family: monospace;">jan 01</span> 
-                        <a href="#" onclick="alert('Post coming soon!'); return false;">link 2</a>
-                    </li>
-                </ul>
+            <div class="post">
+                <h1>santi.wtf</h1>
+                <p style="text-align: center; margin-bottom: 20px;">
+                    <a href="#" onclick="loadHome(); return false;">home</a> | <a href="#" onclick="loadArchive(); return false;">archive</a>
+                </p>
+
+                <h2>archive</h2>
+                <p>all posts, newest first.</p>
+
+                <div style="margin-top: 30px;">
+                    <h3 style="font-size: 16px; color: #666; margin-bottom: 15px;">2026</h3>
+                    <ul style="list-style: none; padding: 0 !important; margin-left: 0 !important;">
+                        <li style="margin-bottom: 12px;">
+                            <span style="color: #666; font-size: 11px; font-family: monospace;">jan 02</span>
+                            <a href="#" onclick="loadPost('posts/first-post.html'); return false;">pls ignore</a>
+                        </li>
+                    </ul>
+                </div>
+
+                <p style="margin-top: 40px; color: #666; font-size: 11px;">
+                    ${new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}
+                </p>
             </div>
-            
-            <p style="margin-top: 40px; color: #666; font-size: 11px;">
-                ${new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}
-            </p>
         `;
 
         // Load home content
