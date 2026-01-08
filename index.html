@@ -1714,7 +1714,7 @@
 
                 // Update URL hash
                 if (updateHash) {
-                    history.pushState(null, '', '#');
+                    history.pushState(null, '', window.location.pathname);
                     updateAddressBar('https://santi.wtf');
                 }
 
@@ -1910,7 +1910,7 @@
         // Update hash based on page type
         function updateHashForPage(pageUrl) {
             if (pageUrl === 'home') {
-                history.replaceState(null, '', '#');
+                history.replaceState(null, '', window.location.pathname);
                 updateAddressBar('https://santi.wtf');
             } else if (pageUrl === 'archive') {
                 history.replaceState(null, '', '#archive');
