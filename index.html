@@ -611,89 +611,135 @@
         }
 
         .player-window {
-            min-width: 275px !important;
-            min-height: 116px !important;
+            min-width: 290px !important;
+            min-height: 200px !important;
         }
 
         .player-window .window-content {
-            background: #232323;
+            background: linear-gradient(180deg, #d4d4d4 0%, #a8a8a8 50%, #c0c0c0 100%);
             padding: 0;
             height: calc(100% - 24px);
             display: flex;
             flex-direction: column;
         }
 
-        .winamp-main {
-            background: linear-gradient(180deg, #1a1a2e 0%, #16213e 50%, #1a1a2e 100%);
-            border: 1px solid #0a0a0a;
-            padding: 4px;
+        /* Cassette Player Styles */
+        .cassette-player {
+            background: linear-gradient(180deg, #2a2a2a 0%, #1a1a1a 100%);
+            border: 3px solid #3a3a3a;
+            border-radius: 8px;
+            margin: 8px;
+            padding: 10px;
+            box-shadow: inset 0 2px 4px rgba(255,255,255,0.1), 0 4px 8px rgba(0,0,0,0.5);
         }
 
-        .winamp-display {
-            background: #0a1628;
-            border: 2px solid;
-            border-color: #0a0a0a #3a3a4a #3a3a4a #0a0a0a;
-            padding: 6px 8px;
-            margin-bottom: 4px;
+        /* Cassette Window */
+        .cassette-window {
+            background: linear-gradient(180deg, #1a1a1a 0%, #0a0a0a 100%);
+            border: 2px solid #444;
+            border-radius: 4px;
+            padding: 8px;
+            margin-bottom: 8px;
+            position: relative;
+        }
+
+        .cassette-tape {
+            background: linear-gradient(180deg, #2a2a2a 0%, #1a1a1a 50%, #2a2a2a 100%);
+            border: 1px solid #444;
+            border-radius: 3px;
+            padding: 8px 12px;
             display: flex;
-            gap: 8px;
-        }
-
-        .winamp-visualizer {
-            width: 75px;
-            height: 32px;
-            background: #0a0a12;
-            display: flex;
-            align-items: flex-end;
-            justify-content: space-around;
-            padding: 2px;
-            gap: 1px;
-        }
-
-        .viz-bar {
-            width: 4px;
-            background: linear-gradient(to top, #00ff00 0%, #88ff00 40%, #ffff00 70%, #ff8800 90%, #ff0000 100%);
-            transition: height 0.1s ease;
-        }
-
-        .winamp-time-display {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
+            align-items: center;
             justify-content: space-between;
+            position: relative;
         }
 
-        .winamp-time {
-            font-family: 'Courier New', monospace;
-            font-size: 20px;
-            font-weight: bold;
-            color: #00ff00;
-            text-shadow: 0 0 8px #00ff00;
-            letter-spacing: 2px;
+        .cassette-label {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: #f5f5dc;
+            padding: 2px 8px;
+            font-size: 8px;
+            font-family: monospace;
+            color: #333;
+            border-radius: 2px;
+            text-align: center;
+            max-width: 80px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
         }
 
-        .winamp-bitrate {
-            font-family: 'Courier New', monospace;
-            font-size: 9px;
-            color: #00cc00;
+        .cassette-reel {
+            width: 50px;
+            height: 50px;
+            background: radial-gradient(circle, #1a1a1a 0%, #2a2a2a 30%, #1a1a1a 60%, #333 100%);
+            border-radius: 50%;
+            border: 2px solid #444;
+            position: relative;
             display: flex;
-            gap: 12px;
+            align-items: center;
+            justify-content: center;
         }
 
-        .winamp-track-info {
-            background: #0a0a12;
-            border: 1px solid #0a0a0a;
-            padding: 3px 6px;
-            margin-bottom: 4px;
+        .cassette-reel::before {
+            content: '';
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background: #111;
+            border-radius: 50%;
+            border: 1px solid #333;
+        }
+
+        .cassette-reel::after {
+            content: '';
+            position: absolute;
+            width: 44px;
+            height: 44px;
+            border: 2px dashed #444;
+            border-radius: 50%;
+            animation: none;
+        }
+
+        .cassette-reel.spinning::after {
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        /* LED Display */
+        .cassette-display {
+            background: #1a2a1a;
+            border: 2px inset #333;
+            padding: 6px 10px;
+            margin-bottom: 8px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .cassette-track-info {
+            flex: 1;
             overflow: hidden;
         }
 
-        .winamp-ticker {
-            color: #00ff88;
-            font-size: 10px;
-            font-family: 'MS Sans Serif', Arial, sans-serif;
+        .cassette-ticker {
+            color: #33ff33;
+            font-family: 'Courier New', monospace;
+            font-size: 11px;
+            text-shadow: 0 0 6px #33ff33;
             white-space: nowrap;
-            animation: ticker 10s linear infinite;
+            animation: ticker 8s linear infinite;
+        }
+
+        .cassette-ticker.paused {
+            animation-play-state: paused;
         }
 
         @keyframes ticker {
@@ -701,155 +747,192 @@
             100% { transform: translateX(-100%); }
         }
 
-        .winamp-ticker.paused {
-            animation-play-state: paused;
+        .cassette-time {
+            font-family: 'Courier New', monospace;
+            font-size: 16px;
+            font-weight: bold;
+            color: #ff3333;
+            text-shadow: 0 0 8px #ff3333;
+            letter-spacing: 1px;
+            margin-left: 10px;
         }
 
-        .winamp-seek-row {
+        /* VU Meters */
+        .vu-meters {
             display: flex;
-            align-items: center;
             gap: 4px;
-            margin-bottom: 4px;
-            padding: 0 2px;
+            margin-bottom: 8px;
+            justify-content: center;
         }
 
-        .winamp-seek {
-            flex: 1;
-            height: 10px;
-            background: #0a0a12;
-            border: 1px solid;
-            border-color: #0a0a0a #3a3a4a #3a3a4a #0a0a0a;
-            cursor: pointer;
-            position: relative;
+        .vu-meter {
+            display: flex;
+            gap: 1px;
+            align-items: flex-end;
+            height: 20px;
+            background: #111;
+            padding: 2px;
+            border: 1px inset #333;
         }
 
-        .winamp-seek-fill {
-            height: 100%;
-            background: linear-gradient(90deg, #446688 0%, #88aacc 100%);
-            width: 0%;
-            position: relative;
+        .vu-bar {
+            width: 4px;
+            background: #33ff33;
+            transition: height 0.1s ease;
         }
 
-        .winamp-seek-handle {
-            position: absolute;
-            right: -4px;
-            top: -2px;
-            width: 8px;
-            height: 14px;
-            background: #c0c0c0;
-            border: 1px solid;
-            border-color: #fff #666 #666 #fff;
+        .vu-bar:nth-child(n+6) {
+            background: #ffff33;
         }
 
-        .winamp-controls {
+        .vu-bar:nth-child(n+9) {
+            background: #ff3333;
+        }
+
+        /* Transport Controls */
+        .cassette-controls {
             display: flex;
             justify-content: center;
-            gap: 2px;
-            padding: 4px;
-            background: linear-gradient(180deg, #2a2a3e 0%, #1a1a2e 100%);
+            gap: 4px;
+            padding: 8px;
+            background: linear-gradient(180deg, #3a3a3a 0%, #2a2a2a 100%);
+            border-radius: 4px;
+            margin-bottom: 8px;
         }
 
-        .winamp-btn {
-            width: 23px;
-            height: 18px;
-            background: linear-gradient(180deg, #4a4a5a 0%, #3a3a4a 50%, #2a2a3a 100%);
-            border: 1px solid;
-            border-color: #5a5a6a #1a1a2a #1a1a2a #5a5a6a;
+        .cassette-btn {
+            width: 36px;
+            height: 28px;
+            background: linear-gradient(180deg, #666 0%, #444 50%, #333 100%);
+            border: 2px solid;
+            border-color: #888 #222 #222 #888;
+            border-radius: 4px;
             cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 8px;
+            font-size: 12px;
             color: #ccc;
+            transition: all 0.1s;
         }
 
-        .winamp-btn:hover {
-            background: linear-gradient(180deg, #5a5a6a 0%, #4a4a5a 50%, #3a3a4a 100%);
+        .cassette-btn:hover {
+            background: linear-gradient(180deg, #777 0%, #555 50%, #444 100%);
         }
 
-        .winamp-btn:active {
-            border-color: #1a1a2a #5a5a6a #5a5a6a #1a1a2a;
-            background: linear-gradient(180deg, #2a2a3a 0%, #3a3a4a 50%, #4a4a5a 100%);
+        .cassette-btn:active {
+            border-color: #222 #888 #888 #222;
+            transform: translateY(1px);
         }
 
-        .winamp-btn.playing {
-            color: #00ff00;
-            text-shadow: 0 0 4px #00ff00;
+        .cassette-btn.playing {
+            color: #33ff33;
+            text-shadow: 0 0 6px #33ff33;
         }
 
-        .winamp-volume-row {
+        /* Volume Slider */
+        .cassette-volume-row {
             display: flex;
             align-items: center;
-            gap: 4px;
-            padding: 2px 6px;
-            background: linear-gradient(180deg, #1a1a2e 0%, #16213e 100%);
+            gap: 8px;
+            padding: 4px 8px;
         }
 
-        .winamp-volume-label {
-            font-size: 8px;
+        .cassette-volume-label {
+            font-size: 9px;
             color: #888;
+            font-family: monospace;
         }
 
-        .winamp-volume {
+        .cassette-volume {
             flex: 1;
-            height: 8px;
-            background: #0a0a12;
-            border: 1px solid;
-            border-color: #0a0a0a #3a3a4a #3a3a4a #0a0a0a;
+            height: 6px;
+            background: #111;
+            border: 1px inset #333;
             cursor: pointer;
-            position: relative;
+            border-radius: 3px;
         }
 
-        .winamp-volume-fill {
+        .cassette-volume-fill {
             height: 100%;
-            background: linear-gradient(90deg, #448844 0%, #88cc88 100%);
+            background: linear-gradient(90deg, #33ff33 0%, #66ff66 100%);
             width: 80%;
+            border-radius: 3px;
         }
 
-        .winamp-playlist {
+        /* Seek Bar */
+        .cassette-seek-row {
+            padding: 4px 8px;
+            margin-bottom: 4px;
+        }
+
+        .cassette-seek {
+            width: 100%;
+            height: 8px;
+            background: #111;
+            border: 1px inset #333;
+            cursor: pointer;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .cassette-seek-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #ff6633 0%, #ff9966 100%);
+            width: 0%;
+            transition: width 0.1s linear;
+        }
+
+        /* Playlist */
+        .cassette-playlist {
             flex: 1;
-            background: #0a1218;
-            border-top: 2px solid #0a0a0a;
+            background: #1a1a1a;
+            border-top: 2px solid #333;
             overflow-y: auto;
             min-height: 40px;
         }
 
-        .winamp-playlist-header {
-            background: linear-gradient(90deg, #000080, #1084d0);
-            color: #fff;
+        .cassette-playlist-header {
+            background: linear-gradient(90deg, #333 0%, #444 100%);
+            color: #33ff33;
             font-size: 9px;
-            padding: 2px 6px;
-            font-weight: bold;
+            padding: 3px 8px;
+            font-family: monospace;
+            text-transform: uppercase;
+            letter-spacing: 1px;
         }
 
-        .winamp-playlist-item {
-            padding: 2px 6px;
+        .cassette-playlist-item {
+            padding: 4px 8px;
             font-size: 10px;
-            color: #00cc66;
+            color: #33ff33;
             cursor: pointer;
             display: flex;
             gap: 6px;
+            font-family: monospace;
+            border-bottom: 1px solid #222;
         }
 
-        .winamp-playlist-item:hover {
-            background: #1a2a3a;
+        .cassette-playlist-item:hover {
+            background: #2a2a2a;
         }
 
-        .winamp-playlist-item.active {
-            background: #0a4488;
-            color: #fff;
+        .cassette-playlist-item.active {
+            background: #333;
+            color: #66ff66;
         }
 
-        .winamp-playlist-num {
+        .cassette-playlist-num {
             color: #666;
             min-width: 18px;
         }
 
-        .winamp-playlist-duration {
+        .cassette-playlist-duration {
             margin-left: auto;
-            color: #668866;
+            color: #666;
         }
-        @media (max-width: 768px) {
+
+                @media (max-width: 768px) {
             body {
                 font-size: 14px;
             }
@@ -1189,54 +1272,82 @@
             </div>
         </div>
         <div class="window-content">
-            <div class="winamp-main">
-                <div class="winamp-display">
-                    <div class="winamp-visualizer" id="visualizer">
-                        <div class="viz-bar" style="height: 20%"></div>
-                        <div class="viz-bar" style="height: 40%"></div>
-                        <div class="viz-bar" style="height: 60%"></div>
-                        <div class="viz-bar" style="height: 30%"></div>
-                        <div class="viz-bar" style="height: 80%"></div>
-                        <div class="viz-bar" style="height: 50%"></div>
-                        <div class="viz-bar" style="height: 35%"></div>
-                        <div class="viz-bar" style="height: 65%"></div>
-                        <div class="viz-bar" style="height: 25%"></div>
-                        <div class="viz-bar" style="height: 45%"></div>
-                    </div>
-                    <div class="winamp-time-display">
-                        <div class="winamp-time" id="winamp-time">0:00</div>
-                        <div class="winamp-bitrate">
-                            <span>128</span><span>kbps</span><span>44</span><span>kHz</span>
-                        </div>
+            <div class="cassette-player">
+                <!-- Cassette Tape Window -->
+                <div class="cassette-window">
+                    <div class="cassette-tape">
+                        <div class="cassette-reel" id="reel-left"></div>
+                        <div class="cassette-label" id="cassette-label">VIBES</div>
+                        <div class="cassette-reel" id="reel-right"></div>
                     </div>
                 </div>
-                <div class="winamp-track-info">
-                    <div class="winamp-ticker paused" id="winamp-ticker">Esperanza - vibes</div>
+
+                <!-- LED Display -->
+                <div class="cassette-display">
+                    <div class="cassette-track-info">
+                        <div class="cassette-ticker paused" id="cassette-ticker">Esperanza - Hermanos Gutiérrez</div>
+                    </div>
+                    <div class="cassette-time" id="cassette-time">0:00</div>
                 </div>
-                <div class="winamp-seek-row">
-                    <div class="winamp-seek" id="winamp-seek" onclick="seekTo(event)">
-                        <div class="winamp-seek-fill" id="winamp-seek-fill">
-                            <div class="winamp-seek-handle"></div>
-                        </div>
+
+                <!-- VU Meters -->
+                <div class="vu-meters">
+                    <div class="vu-meter" id="vu-left">
+                        <div class="vu-bar" style="height: 20%"></div>
+                        <div class="vu-bar" style="height: 35%"></div>
+                        <div class="vu-bar" style="height: 50%"></div>
+                        <div class="vu-bar" style="height: 40%"></div>
+                        <div class="vu-bar" style="height: 60%"></div>
+                        <div class="vu-bar" style="height: 45%"></div>
+                        <div class="vu-bar" style="height: 30%"></div>
+                        <div class="vu-bar" style="height: 20%"></div>
+                        <div class="vu-bar" style="height: 10%"></div>
+                        <div class="vu-bar" style="height: 5%"></div>
+                    </div>
+                    <div class="vu-meter" id="vu-right">
+                        <div class="vu-bar" style="height: 25%"></div>
+                        <div class="vu-bar" style="height: 40%"></div>
+                        <div class="vu-bar" style="height: 55%"></div>
+                        <div class="vu-bar" style="height: 45%"></div>
+                        <div class="vu-bar" style="height: 65%"></div>
+                        <div class="vu-bar" style="height: 50%"></div>
+                        <div class="vu-bar" style="height: 35%"></div>
+                        <div class="vu-bar" style="height: 25%"></div>
+                        <div class="vu-bar" style="height: 15%"></div>
+                        <div class="vu-bar" style="height: 8%"></div>
                     </div>
                 </div>
-                <div class="winamp-controls">
-                    <div class="winamp-btn" onclick="prevTrack()" title="Previous">⏮</div>
-                    <div class="winamp-btn" id="playBtn" onclick="winampPlay()" title="Play">▶</div>
-                    <div class="winamp-btn" onclick="winampPause()" title="Pause">⏸</div>
-                    <div class="winamp-btn" onclick="winampStop()" title="Stop">⏹</div>
-                    <div class="winamp-btn" onclick="nextTrack()" title="Next">⏭</div>
+
+                <!-- Seek Bar -->
+                <div class="cassette-seek-row">
+                    <div class="cassette-seek" id="cassette-seek" onclick="seekTo(event)">
+                        <div class="cassette-seek-fill" id="cassette-seek-fill"></div>
+                    </div>
                 </div>
-                <div class="winamp-volume-row">
-                    <span class="winamp-volume-label">VOL</span>
-                    <div class="winamp-volume" onclick="setVolume(event)">
-                        <div class="winamp-volume-fill" id="winamp-volume-fill"></div>
+
+                <!-- Transport Controls -->
+                <div class="cassette-controls">
+                    <div class="cassette-btn" onclick="prevTrack()" title="Previous">⏮</div>
+                    <div class="cassette-btn" id="playBtn" onclick="cassettePlay()" title="Play">▶</div>
+                    <div class="cassette-btn" onclick="cassettePause()" title="Pause">⏸</div>
+                    <div class="cassette-btn" onclick="cassetteStop()" title="Stop">⏹</div>
+                    <div class="cassette-btn" onclick="nextTrack()" title="Next">⏭</div>
+                </div>
+
+                <!-- Volume -->
+                <div class="cassette-volume-row">
+                    <span class="cassette-volume-label">VOL</span>
+                    <div class="cassette-volume" onclick="setVolume(event)">
+                        <div class="cassette-volume-fill" id="cassette-volume-fill"></div>
                     </div>
                 </div>
             </div>
-            <div class="winamp-playlist" id="winamp-playlist">
-                <div class="winamp-playlist-header">Playlist</div>
+
+            <!-- Playlist -->
+            <div class="cassette-playlist" id="cassette-playlist">
+                <div class="cassette-playlist-header">► Playlist</div>
             </div>
+
             <audio id="audioPlayer">
                 <source src="vibes/Esperanza.mp3" type="audio/mpeg">
             </audio>
@@ -1994,7 +2105,7 @@
         }
 
         // ==========================================
-        // WINAMP PLAYER
+        // CASSETTE PLAYER
         // ==========================================
 
         const playlist = [
@@ -2005,20 +2116,24 @@
 
         let currentTrack = 0;
         let isPlaying = false;
-        let visualizerInterval = null;
+        let vuInterval = null;
 
         const audio = document.getElementById('audioPlayer');
         const playBtn = document.getElementById('playBtn');
-        const winampTime = document.getElementById('winamp-time');
-        const winampSeekFill = document.getElementById('winamp-seek-fill');
-        const winampTicker = document.getElementById('winamp-ticker');
-        const winampVolumeFill = document.getElementById('winamp-volume-fill');
-        const visualizer = document.getElementById('visualizer');
-        const playlistContainer = document.getElementById('winamp-playlist');
+        const cassetteTime = document.getElementById('cassette-time');
+        const cassetteSeekFill = document.getElementById('cassette-seek-fill');
+        const cassetteTicker = document.getElementById('cassette-ticker');
+        const cassetteVolumeFill = document.getElementById('cassette-volume-fill');
+        const cassetteLabel = document.getElementById('cassette-label');
+        const reelLeft = document.getElementById('reel-left');
+        const reelRight = document.getElementById('reel-right');
+        const vuLeft = document.getElementById('vu-left');
+        const vuRight = document.getElementById('vu-right');
+        const playlistContainer = document.getElementById('cassette-playlist');
 
-        function initWinamp() {
+        function initCassette() {
             audio.volume = 0.8;
-            winampVolumeFill.style.width = '80%';
+            cassetteVolumeFill.style.width = '80%';
             renderPlaylist();
             loadTrack(0);
             audio.addEventListener('timeupdate', updateTimeDisplay);
@@ -2027,18 +2142,18 @@
         }
 
         function renderPlaylist() {
-            const header = playlistContainer.querySelector('.winamp-playlist-header');
+            const header = playlistContainer.querySelector('.cassette-playlist-header');
             playlistContainer.innerHTML = '';
             playlistContainer.appendChild(header);
             playlist.forEach((track, index) => {
                 const item = document.createElement('div');
-                item.className = 'winamp-playlist-item' + (index === currentTrack ? ' active' : '');
+                item.className = 'cassette-playlist-item' + (index === currentTrack ? ' active' : '');
                 item.innerHTML = `
-                    <span class="winamp-playlist-num">${index + 1}.</span>
-                    <span class="winamp-playlist-title">${track.artist} - ${track.title}</span>
-                    <span class="winamp-playlist-duration" id="duration-${index}">--:--</span>
+                    <span class="cassette-playlist-num">${index + 1}.</span>
+                    <span class="cassette-playlist-title">${track.artist} - ${track.title}</span>
+                    <span class="cassette-playlist-duration" id="duration-${index}">--:--</span>
                 `;
-                item.onclick = () => { loadTrack(index); winampPlay(); };
+                item.onclick = () => { loadTrack(index); cassettePlay(); };
                 playlistContainer.appendChild(item);
             });
         }
@@ -2048,12 +2163,13 @@
             currentTrack = index;
             const track = playlist[currentTrack];
             audio.src = track.src;
-            winampTicker.textContent = `${track.artist} - ${track.title}`;
-            document.querySelectorAll('.winamp-playlist-item').forEach((item, i) => {
+            cassetteTicker.textContent = `${track.artist} - ${track.title}`;
+            cassetteLabel.textContent = track.title.toUpperCase();
+            document.querySelectorAll('.cassette-playlist-item').forEach((item, i) => {
                 item.classList.toggle('active', i === currentTrack);
             });
-            winampTime.textContent = '0:00';
-            winampSeekFill.style.width = '0%';
+            cassetteTime.textContent = '0:00';
+            cassetteSeekFill.style.width = '0%';
         }
 
         function updatePlaylistDurations() {
@@ -2063,32 +2179,69 @@
             }
         }
 
-        function winampPlay() {
+        function cassettePlay() {
             audio.play().then(() => {
                 isPlaying = true;
                 playBtn.classList.add('playing');
-                winampTicker.classList.remove('paused');
-                startVisualizer();
+                cassetteTicker.classList.remove('paused');
+                startReels();
+                startVU();
             }).catch(err => console.log('Playback failed:', err));
         }
 
-        function winampPause() {
+        function cassettePause() {
             audio.pause();
             isPlaying = false;
             playBtn.classList.remove('playing');
-            winampTicker.classList.add('paused');
-            stopVisualizer();
+            cassetteTicker.classList.add('paused');
+            stopReels();
+            stopVU();
         }
 
-        function winampStop() {
+        function cassetteStop() {
             audio.pause();
             audio.currentTime = 0;
             isPlaying = false;
             playBtn.classList.remove('playing');
-            winampTicker.classList.add('paused');
-            winampTime.textContent = '0:00';
-            winampSeekFill.style.width = '0%';
-            stopVisualizer();
+            cassetteTicker.classList.add('paused');
+            cassetteTime.textContent = '0:00';
+            cassetteSeekFill.style.width = '0%';
+            stopReels();
+            stopVU();
+        }
+
+        function startReels() {
+            reelLeft.classList.add('spinning');
+            reelRight.classList.add('spinning');
+        }
+
+        function stopReels() {
+            reelLeft.classList.remove('spinning');
+            reelRight.classList.remove('spinning');
+        }
+
+        function startVU() {
+            if (vuInterval) return;
+            const barsLeft = vuLeft.querySelectorAll('.vu-bar');
+            const barsRight = vuRight.querySelectorAll('.vu-bar');
+            vuInterval = setInterval(() => {
+                barsLeft.forEach((bar, i) => {
+                    const height = Math.max(5, Math.random() * (100 - i * 8));
+                    bar.style.height = height + '%';
+                });
+                barsRight.forEach((bar, i) => {
+                    const height = Math.max(5, Math.random() * (100 - i * 8));
+                    bar.style.height = height + '%';
+                });
+            }, 100);
+        }
+
+        function stopVU() {
+            if (vuInterval) { clearInterval(vuInterval); vuInterval = null; }
+            const barsLeft = vuLeft.querySelectorAll('.vu-bar');
+            const barsRight = vuRight.querySelectorAll('.vu-bar');
+            barsLeft.forEach((bar, i) => { bar.style.height = (20 - i * 2) + '%'; });
+            barsRight.forEach((bar, i) => { bar.style.height = (20 - i * 2) + '%'; });
         }
 
         function prevTrack() {
@@ -2097,20 +2250,20 @@
             } else {
                 const newIndex = (currentTrack - 1 + playlist.length) % playlist.length;
                 loadTrack(newIndex);
-                if (isPlaying) winampPlay();
+                if (isPlaying) cassettePlay();
             }
         }
 
         function nextTrack() {
             const newIndex = (currentTrack + 1) % playlist.length;
             loadTrack(newIndex);
-            if (isPlaying) winampPlay();
+            if (isPlaying) cassettePlay();
         }
 
         function updateTimeDisplay() {
             if (!audio.duration) return;
-            winampTime.textContent = formatTime(audio.currentTime);
-            winampSeekFill.style.width = (audio.currentTime / audio.duration) * 100 + '%';
+            cassetteTime.textContent = formatTime(audio.currentTime);
+            cassetteSeekFill.style.width = (audio.currentTime / audio.duration) * 100 + '%';
         }
 
         function formatTime(seconds) {
@@ -2120,7 +2273,7 @@
         }
 
         function seekTo(event) {
-            const seekBar = document.getElementById('winamp-seek');
+            const seekBar = document.getElementById('cassette-seek');
             const rect = seekBar.getBoundingClientRect();
             const percent = (event.clientX - rect.left) / rect.width;
             audio.currentTime = percent * audio.duration;
@@ -2131,28 +2284,14 @@
             const rect = volumeBar.getBoundingClientRect();
             const percent = Math.max(0, Math.min(1, (event.clientX - rect.left) / rect.width));
             audio.volume = percent;
-            winampVolumeFill.style.width = (percent * 100) + '%';
+            cassetteVolumeFill.style.width = (percent * 100) + '%';
         }
 
-        function startVisualizer() {
-            if (visualizerInterval) return;
-            const bars = visualizer.querySelectorAll('.viz-bar');
-            visualizerInterval = setInterval(() => {
-                bars.forEach(bar => { bar.style.height = (Math.random() * 80 + 10) + '%'; });
-            }, 100);
-        }
+        function togglePlay() { isPlaying ? cassettePause() : cassettePlay(); }
+        function pauseMusic() { cassettePause(); }
+        function stopMusic() { cassetteStop(); }
 
-        function stopVisualizer() {
-            if (visualizerInterval) { clearInterval(visualizerInterval); visualizerInterval = null; }
-            const bars = visualizer.querySelectorAll('.viz-bar');
-            bars.forEach((bar, i) => { bar.style.height = (10 + (i % 3) * 10) + '%'; });
-        }
-
-        function togglePlay() { isPlaying ? winampPause() : winampPlay(); }
-        function pauseMusic() { winampPause(); }
-        function stopMusic() { winampStop(); }
-
-        document.addEventListener('DOMContentLoaded', initWinamp);
+        document.addEventListener('DOMContentLoaded', initCassette);
 
         // ==========================================
         // FIREBASE GUESTBOOK
