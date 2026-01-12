@@ -6,9 +6,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Santi's Desktop</title>
     <link rel="icon" type="image/png" href="icons/computer_2_cool-0.png">
-    <!-- Firebase SDK -->
-    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-database-compat.js"></script>
+    <!-- Preconnect to external domains -->
+    <link rel="preconnect" href="https://www.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://santi-guestbook-default-rtdb.firebaseio.com" crossorigin>
+    <link rel="dns-prefetch" href="https://subscribe-forms.beehiiv.com">
+    <!-- Preload critical icons -->
+    <link rel="preload" href="icons/html-0.png" as="image">
+    <link rel="preload" href="icons/html-1.png" as="image">
+    <!-- Firebase SDK - deferred to not block rendering -->
+    <script defer src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+    <script defer src="https://www.gstatic.com/firebasejs/10.7.1/firebase-database-compat.js"></script>
     <!-- Beehiiv -->
     <script async src="https://subscribe-forms.beehiiv.com/embed.js"></script>
     <style>
