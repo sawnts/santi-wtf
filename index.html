@@ -611,158 +611,67 @@
         }
 
         .player-window {
-            min-width: 290px !important;
-            min-height: 200px !important;
+            min-width: 260px !important;
+            min-height: 180px !important;
         }
 
         .player-window .window-content {
-            background: linear-gradient(180deg, #0a0a1a 0%, #1a0a2a 50%, #2a1a3a 100%);
+            background: #c0c0c0;
             padding: 0;
             height: calc(100% - 24px);
             display: flex;
             flex-direction: column;
         }
 
-        /* Synthwave Player Styles */
-        .cassette-player {
-            background: linear-gradient(180deg, #1a0a2a 0%, #0a0a1a 50%, #1a0a2a 100%);
-            border: 2px solid #ff00ff;
-            border-radius: 8px;
-            margin: 8px;
-            padding: 12px;
-            box-shadow: 0 0 20px rgba(255, 0, 255, 0.3), inset 0 0 30px rgba(0, 255, 255, 0.1);
+        /* Windows 98 Media Player */
+        .media-player {
+            background: #c0c0c0;
+            padding: 4px;
         }
 
-        /* Visualizer Window */
-        .cassette-window {
-            background: linear-gradient(180deg, #000 0%, #0a0a1a 100%);
-            border: 2px solid #00ffff;
-            border-radius: 4px;
-            padding: 10px;
-            margin-bottom: 10px;
-            box-shadow: 0 0 10px rgba(0, 255, 255, 0.3), inset 0 0 20px rgba(0, 255, 255, 0.1);
-            position: relative;
-            overflow: hidden;
+        .media-display {
+            background: #000;
+            border: 2px inset #808080;
+            padding: 8px;
+            margin-bottom: 4px;
         }
 
-        /* Grid overlay */
-        .cassette-window::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background:
-                linear-gradient(rgba(0, 255, 255, 0.03) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(0, 255, 255, 0.03) 1px, transparent 1px);
-            background-size: 10px 10px;
-            pointer-events: none;
-        }
-
-        .cassette-tape {
+        .media-visualizer {
             display: flex;
-            align-items: center;
-            justify-content: space-between;
-            position: relative;
-            padding: 5px 0;
-        }
-
-        .cassette-label {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background: transparent;
-            padding: 4px 12px;
-            font-size: 10px;
-            font-family: monospace;
-            color: #00ffff;
-            text-shadow: 0 0 10px #00ffff;
-            text-align: center;
-            max-width: 100px;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-        }
-
-        .cassette-reel {
-            width: 45px;
-            height: 45px;
-            background: radial-gradient(circle, #ff00ff 0%, #aa00aa 30%, #550055 60%, #220022 100%);
-            border-radius: 50%;
-            border: 2px solid #ff00ff;
-            position: relative;
-            display: flex;
-            align-items: center;
+            align-items: flex-end;
             justify-content: center;
-            box-shadow: 0 0 15px rgba(255, 0, 255, 0.5);
+            gap: 2px;
+            height: 35px;
+            margin-bottom: 6px;
         }
 
-        .cassette-reel::before {
-            content: '';
-            position: absolute;
-            width: 15px;
-            height: 15px;
-            background: #0a0a1a;
-            border-radius: 50%;
-            border: 2px solid #ff00ff;
+        .viz-bar {
+            width: 8px;
+            background: linear-gradient(to top, #00aa00 0%, #00ff00 50%, #aaff00 75%, #ffff00 90%, #ff0000 100%);
+            transition: height 0.1s ease;
         }
 
-        .cassette-reel::after {
-            content: '';
-            position: absolute;
-            width: 38px;
-            height: 38px;
-            border: 2px solid rgba(255, 0, 255, 0.5);
-            border-radius: 50%;
-            border-style: dashed;
-            animation: none;
-        }
-
-        .cassette-reel.spinning::after {
-            animation: spin 0.8s linear infinite;
-        }
-
-        .cassette-reel.spinning {
-            box-shadow: 0 0 25px rgba(255, 0, 255, 0.8);
-        }
-
-        @keyframes spin {
-            from { transform: rotate(0deg); }
-            to { transform: rotate(360deg); }
-        }
-
-        /* LED Display */
-        .cassette-display {
-            background: linear-gradient(180deg, #0a0a1a 0%, #1a0a2a 100%);
-            border: 2px solid #ff00ff;
-            border-radius: 4px;
-            padding: 8px 12px;
-            margin-bottom: 10px;
+        .media-info {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            box-shadow: 0 0 10px rgba(255, 0, 255, 0.3), inset 0 0 15px rgba(255, 0, 255, 0.1);
         }
 
-        .cassette-track-info {
-            flex: 1;
-            overflow: hidden;
-        }
-
-        .cassette-ticker {
-            color: #00ffff;
+        .media-ticker {
+            color: #00ff00;
             font-family: 'Courier New', monospace;
             font-size: 11px;
-            text-shadow: 0 0 10px #00ffff, 0 0 20px #00ffff;
+            flex: 1;
+            overflow: hidden;
             white-space: nowrap;
-            animation: ticker 8s linear infinite;
         }
 
-        .cassette-ticker.paused {
+        .media-ticker-text {
+            display: inline-block;
+            animation: ticker 10s linear infinite;
+        }
+
+        .media-ticker-text.paused {
             animation-play-state: paused;
         }
 
@@ -771,213 +680,147 @@
             100% { transform: translateX(-100%); }
         }
 
-        .cassette-time {
+        .media-time {
             font-family: 'Courier New', monospace;
-            font-size: 18px;
-            font-weight: bold;
-            color: #ff00ff;
-            text-shadow: 0 0 10px #ff00ff, 0 0 20px #ff00ff;
-            letter-spacing: 2px;
-            margin-left: 12px;
+            font-size: 12px;
+            color: #00ff00;
+            margin-left: 10px;
         }
 
-        /* VU Meters */
-        .vu-meters {
-            display: flex;
-            gap: 8px;
-            margin-bottom: 10px;
-            justify-content: center;
+        .media-seek-row {
+            padding: 4px 0;
         }
 
-        .vu-meter {
-            display: flex;
-            gap: 2px;
-            align-items: flex-end;
-            height: 25px;
-            background: #0a0a1a;
-            padding: 3px;
-            border: 1px solid #ff00ff;
-            border-radius: 3px;
-            box-shadow: 0 0 5px rgba(255, 0, 255, 0.3);
-        }
-
-        .vu-bar {
-            width: 5px;
-            background: #00ffff;
-            transition: height 0.1s ease;
-            box-shadow: 0 0 5px #00ffff;
-        }
-
-        .vu-bar:nth-child(n+5) {
-            background: #ff00ff;
-            box-shadow: 0 0 5px #ff00ff;
-        }
-
-        .vu-bar:nth-child(n+8) {
-            background: #ff0066;
-            box-shadow: 0 0 5px #ff0066;
-        }
-
-        /* Transport Controls */
-        .cassette-controls {
-            display: flex;
-            justify-content: center;
-            gap: 6px;
-            padding: 10px;
-            background: linear-gradient(180deg, #1a0a2a 0%, #0a0a1a 100%);
-            border-radius: 6px;
-            margin-bottom: 10px;
-            border: 1px solid #ff00ff;
-            box-shadow: inset 0 0 10px rgba(255, 0, 255, 0.2);
-        }
-
-        .cassette-btn {
-            width: 40px;
-            height: 32px;
-            background: linear-gradient(180deg, #2a1a3a 0%, #1a0a2a 50%, #0a0a1a 100%);
-            border: 2px solid #00ffff;
-            border-radius: 6px;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 14px;
-            color: #00ffff;
-            text-shadow: 0 0 5px #00ffff;
-            transition: all 0.2s;
-            box-shadow: 0 0 5px rgba(0, 255, 255, 0.3);
-        }
-
-        .cassette-btn:hover {
-            background: linear-gradient(180deg, #3a2a4a 0%, #2a1a3a 50%, #1a0a2a 100%);
-            box-shadow: 0 0 15px rgba(0, 255, 255, 0.5);
-            transform: translateY(-1px);
-        }
-
-        .cassette-btn:active {
-            transform: translateY(1px);
-            box-shadow: 0 0 5px rgba(0, 255, 255, 0.3);
-        }
-
-        .cassette-btn.playing {
-            color: #ff00ff;
-            border-color: #ff00ff;
-            text-shadow: 0 0 10px #ff00ff;
-            box-shadow: 0 0 15px rgba(255, 0, 255, 0.5);
-        }
-
-        /* Volume Slider */
-        .cassette-volume-row {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            padding: 6px 10px;
-        }
-
-        .cassette-volume-label {
-            font-size: 10px;
-            color: #00ffff;
-            font-family: monospace;
-            text-shadow: 0 0 5px #00ffff;
-        }
-
-        .cassette-volume {
-            flex: 1;
-            height: 8px;
-            background: #0a0a1a;
-            border: 1px solid #ff00ff;
-            cursor: pointer;
-            border-radius: 4px;
-            box-shadow: 0 0 5px rgba(255, 0, 255, 0.3);
-        }
-
-        .cassette-volume-fill {
-            height: 100%;
-            background: linear-gradient(90deg, #00ffff 0%, #ff00ff 100%);
-            width: 80%;
-            border-radius: 4px;
-            box-shadow: 0 0 10px rgba(0, 255, 255, 0.5);
-        }
-
-        /* Seek Bar */
-        .cassette-seek-row {
-            padding: 6px 10px;
-            margin-bottom: 6px;
-        }
-
-        .cassette-seek {
+        .media-seek {
             width: 100%;
-            height: 10px;
-            background: #0a0a1a;
-            border: 1px solid #00ffff;
+            height: 18px;
+            background: #fff;
+            border: 2px inset #808080;
             cursor: pointer;
-            border-radius: 5px;
-            overflow: hidden;
-            box-shadow: 0 0 5px rgba(0, 255, 255, 0.3);
+            position: relative;
         }
 
-        .cassette-seek-fill {
+        .media-seek-fill {
             height: 100%;
-            background: linear-gradient(90deg, #ff00ff 0%, #ff0066 50%, #ff6600 100%);
+            background: #000080;
             width: 0%;
-            transition: width 0.1s linear;
-            box-shadow: 0 0 10px rgba(255, 0, 255, 0.5);
         }
 
-        /* Playlist */
-        .cassette-playlist {
-            flex: 1;
-            background: linear-gradient(180deg, #0a0a1a 0%, #1a0a2a 100%);
-            border-top: 2px solid #ff00ff;
-            overflow-y: auto;
-            min-height: 40px;
+        .media-controls {
+            display: flex;
+            justify-content: center;
+            gap: 2px;
+            padding: 4px 0;
         }
 
-        .cassette-playlist-header {
-            background: linear-gradient(90deg, #ff00ff 0%, #aa00aa 50%, #ff00ff 100%);
-            color: #fff;
-            font-size: 9px;
-            padding: 4px 10px;
-            font-family: monospace;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            text-shadow: 0 0 5px #fff;
-        }
-
-        .cassette-playlist-item {
-            padding: 5px 10px;
-            font-size: 10px;
-            color: #00ffff;
+        .media-btn {
+            width: 28px;
+            height: 24px;
+            background: #c0c0c0;
+            border: 2px outset #fff;
             cursor: pointer;
             display: flex;
-            gap: 8px;
-            font-family: monospace;
-            border-bottom: 1px solid rgba(255, 0, 255, 0.2);
-            transition: all 0.2s;
+            align-items: center;
+            justify-content: center;
+            font-size: 10px;
+            color: #000;
         }
 
-        .cassette-playlist-item:hover {
-            background: rgba(255, 0, 255, 0.1);
-            text-shadow: 0 0 5px #00ffff;
+        .media-btn:hover {
+            background: #d4d4d4;
         }
 
-        .cassette-playlist-item.active {
-            background: linear-gradient(90deg, rgba(255, 0, 255, 0.2) 0%, rgba(0, 255, 255, 0.1) 100%);
-            color: #ff00ff;
-            text-shadow: 0 0 10px #ff00ff;
+        .media-btn:active {
+            border-style: inset;
         }
 
-        .cassette-playlist-num {
-            color: #ff00ff;
+        .media-btn.playing {
+            border-style: inset;
+            background: #a0a0a0;
+        }
+
+        .media-volume-row {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding: 4px 0;
+        }
+
+        .media-volume-label {
+            font-size: 11px;
+            color: #000;
+        }
+
+        .media-volume {
+            flex: 1;
+            height: 18px;
+            background: #fff;
+            border: 2px inset #808080;
+            cursor: pointer;
+        }
+
+        .media-volume-fill {
+            height: 100%;
+            background: #000080;
+            width: 80%;
+        }
+
+        .media-playlist {
+            flex: 1;
+            background: #fff;
+            border: 2px inset #808080;
+            overflow-y: auto;
+            min-height: 50px;
+            margin-top: 4px;
+        }
+
+        .media-playlist-header {
+            background: #000080;
+            color: #fff;
+            font-size: 11px;
+            padding: 2px 6px;
+        }
+
+        .media-playlist-item {
+            padding: 2px 6px;
+            font-size: 11px;
+            color: #000;
+            cursor: pointer;
+            display: flex;
+            gap: 6px;
+        }
+
+        .media-playlist-item:hover {
+            background: #000080;
+            color: #fff;
+        }
+
+        .media-playlist-item.active {
+            background: #000080;
+            color: #fff;
+        }
+
+        .media-playlist-num {
+            color: #808080;
             min-width: 18px;
         }
 
-        .cassette-playlist-duration {
-            margin-left: auto;
-            color: #666;
+        .media-playlist-item.active .media-playlist-num,
+        .media-playlist-item:hover .media-playlist-num {
+            color: #c0c0c0;
         }
 
-                @media (max-width: 768px) {
+        .media-playlist-duration {
+            margin-left: auto;
+            color: #808080;
+        }
+
+        .media-playlist-item.active .media-playlist-duration,
+        .media-playlist-item:hover .media-playlist-duration {
+            color: #c0c0c0;
+        }
+
+        @media (max-width: 768px) {
             body {
                 font-size: 14px;
             }
@@ -1304,7 +1147,7 @@
     </div>
 
     <!-- Winamp Player Window -->
-    <div class="window player-window" id="player" style="width: 275px; height: 240px; left: 200px; top: 200px;">
+    <div class="window player-window" id="player" style="width: 280px; height: 300px; left: 200px; top: 200px;">
         <div class="title-bar" onmousedown="dragStart(event, 'player')">
             <div class="title-text">
                 <div class="title-icon"><img src="icons/loudspeaker_rays-1.png" alt=""></div>
@@ -1317,80 +1160,62 @@
             </div>
         </div>
         <div class="window-content">
-            <div class="cassette-player">
-                <!-- Cassette Tape Window -->
-                <div class="cassette-window">
-                    <div class="cassette-tape">
-                        <div class="cassette-reel" id="reel-left"></div>
-                        <div class="cassette-label" id="cassette-label">VIBES</div>
-                        <div class="cassette-reel" id="reel-right"></div>
+            <div class="media-player">
+                <!-- Display with visualizer -->
+                <div class="media-display">
+                    <div class="media-visualizer" id="media-visualizer">
+                        <div class="viz-bar" style="height: 20%"></div>
+                        <div class="viz-bar" style="height: 35%"></div>
+                        <div class="viz-bar" style="height: 50%"></div>
+                        <div class="viz-bar" style="height: 40%"></div>
+                        <div class="viz-bar" style="height: 60%"></div>
+                        <div class="viz-bar" style="height: 45%"></div>
+                        <div class="viz-bar" style="height: 30%"></div>
+                        <div class="viz-bar" style="height: 55%"></div>
+                        <div class="viz-bar" style="height: 25%"></div>
+                        <div class="viz-bar" style="height: 15%"></div>
+                        <div class="viz-bar" style="height: 40%"></div>
+                        <div class="viz-bar" style="height: 50%"></div>
+                        <div class="viz-bar" style="height: 35%"></div>
+                        <div class="viz-bar" style="height: 45%"></div>
+                        <div class="viz-bar" style="height: 20%"></div>
                     </div>
-                </div>
-
-                <!-- LED Display -->
-                <div class="cassette-display">
-                    <div class="cassette-track-info">
-                        <div class="cassette-ticker paused" id="cassette-ticker">Esperanza - Hermanos Gutiérrez</div>
-                    </div>
-                    <div class="cassette-time" id="cassette-time">0:00</div>
-                </div>
-
-                <!-- VU Meters -->
-                <div class="vu-meters">
-                    <div class="vu-meter" id="vu-left">
-                        <div class="vu-bar" style="height: 20%"></div>
-                        <div class="vu-bar" style="height: 35%"></div>
-                        <div class="vu-bar" style="height: 50%"></div>
-                        <div class="vu-bar" style="height: 40%"></div>
-                        <div class="vu-bar" style="height: 60%"></div>
-                        <div class="vu-bar" style="height: 45%"></div>
-                        <div class="vu-bar" style="height: 30%"></div>
-                        <div class="vu-bar" style="height: 20%"></div>
-                        <div class="vu-bar" style="height: 10%"></div>
-                        <div class="vu-bar" style="height: 5%"></div>
-                    </div>
-                    <div class="vu-meter" id="vu-right">
-                        <div class="vu-bar" style="height: 25%"></div>
-                        <div class="vu-bar" style="height: 40%"></div>
-                        <div class="vu-bar" style="height: 55%"></div>
-                        <div class="vu-bar" style="height: 45%"></div>
-                        <div class="vu-bar" style="height: 65%"></div>
-                        <div class="vu-bar" style="height: 50%"></div>
-                        <div class="vu-bar" style="height: 35%"></div>
-                        <div class="vu-bar" style="height: 25%"></div>
-                        <div class="vu-bar" style="height: 15%"></div>
-                        <div class="vu-bar" style="height: 8%"></div>
+                    <div class="media-info">
+                        <div class="media-ticker">
+                            <span class="media-ticker-text paused" id="media-ticker">Esperanza - Hermanos Gutiérrez</span>
+                        </div>
+                        <div class="media-time" id="media-time">0:00</div>
                     </div>
                 </div>
 
                 <!-- Seek Bar -->
-                <div class="cassette-seek-row">
-                    <div class="cassette-seek" id="cassette-seek" onclick="seekTo(event)">
-                        <div class="cassette-seek-fill" id="cassette-seek-fill"></div>
+                <div class="media-seek-row">
+                    <div class="media-seek" id="media-seek" onclick="seekTo(event)">
+                        <div class="media-seek-fill" id="media-seek-fill"></div>
                     </div>
                 </div>
 
                 <!-- Transport Controls -->
-                <div class="cassette-controls">
-                    <div class="cassette-btn" onclick="prevTrack()" title="Previous">⏮</div>
-                    <div class="cassette-btn" id="playBtn" onclick="cassettePlay()" title="Play">▶</div>
-                    <div class="cassette-btn" onclick="cassettePause()" title="Pause">⏸</div>
-                    <div class="cassette-btn" onclick="cassetteStop()" title="Stop">⏹</div>
-                    <div class="cassette-btn" onclick="nextTrack()" title="Next">⏭</div>
+                <div class="media-controls">
+                    <div class="media-btn" onclick="prevTrack()" title="Previous">⏮</div>
+                    <div class="media-btn" id="playBtn" onclick="mediaPlay()" title="Play">▶</div>
+                    <div class="media-btn" onclick="mediaPause()" title="Pause">⏸</div>
+                    <div class="media-btn" onclick="mediaStop()" title="Stop">⏹</div>
+                    <div class="media-btn" onclick="nextTrack()" title="Next">⏭</div>
                 </div>
 
                 <!-- Volume -->
-                <div class="cassette-volume-row">
-                    <span class="cassette-volume-label">VOL</span>
-                    <div class="cassette-volume" onclick="setVolume(event)">
-                        <div class="cassette-volume-fill" id="cassette-volume-fill"></div>
+                <div class="media-volume-row">
+                    <span class="media-volume-label">VOL</span>
+                    <div class="media-volume" onclick="setVolume(event)">
+                        <div class="media-volume-fill" id="media-volume-fill"></div>
                     </div>
                 </div>
             </div>
 
             <!-- Playlist -->
-            <div class="cassette-playlist" id="cassette-playlist">
-                <div class="cassette-playlist-header">► Playlist</div>
+            <div class="media-playlist" id="media-playlist">
+                <div class="media-playlist-header">Playlist</div>
             </div>
 
             <audio id="audioPlayer">
@@ -2150,7 +1975,7 @@
         }
 
         // ==========================================
-        // CASSETTE PLAYER
+        // MEDIA PLAYER
         // ==========================================
 
         const playlist = [
@@ -2161,24 +1986,20 @@
 
         let currentTrack = 0;
         let isPlaying = false;
-        let vuInterval = null;
+        let vizInterval = null;
 
         const audio = document.getElementById('audioPlayer');
         const playBtn = document.getElementById('playBtn');
-        const cassetteTime = document.getElementById('cassette-time');
-        const cassetteSeekFill = document.getElementById('cassette-seek-fill');
-        const cassetteTicker = document.getElementById('cassette-ticker');
-        const cassetteVolumeFill = document.getElementById('cassette-volume-fill');
-        const cassetteLabel = document.getElementById('cassette-label');
-        const reelLeft = document.getElementById('reel-left');
-        const reelRight = document.getElementById('reel-right');
-        const vuLeft = document.getElementById('vu-left');
-        const vuRight = document.getElementById('vu-right');
-        const playlistContainer = document.getElementById('cassette-playlist');
+        const mediaTime = document.getElementById('media-time');
+        const mediaSeekFill = document.getElementById('media-seek-fill');
+        const mediaTicker = document.getElementById('media-ticker');
+        const mediaVolumeFill = document.getElementById('media-volume-fill');
+        const mediaVisualizer = document.getElementById('media-visualizer');
+        const playlistContainer = document.getElementById('media-playlist');
 
-        function initCassette() {
+        function initMediaPlayer() {
             audio.volume = 0.8;
-            cassetteVolumeFill.style.width = '80%';
+            mediaVolumeFill.style.width = '80%';
             renderPlaylist();
             loadTrack(0);
             audio.addEventListener('timeupdate', updateTimeDisplay);
@@ -2187,18 +2008,18 @@
         }
 
         function renderPlaylist() {
-            const header = playlistContainer.querySelector('.cassette-playlist-header');
+            const header = playlistContainer.querySelector('.media-playlist-header');
             playlistContainer.innerHTML = '';
             playlistContainer.appendChild(header);
             playlist.forEach((track, index) => {
                 const item = document.createElement('div');
-                item.className = 'cassette-playlist-item' + (index === currentTrack ? ' active' : '');
+                item.className = 'media-playlist-item' + (index === currentTrack ? ' active' : '');
                 item.innerHTML = `
-                    <span class="cassette-playlist-num">${index + 1}.</span>
-                    <span class="cassette-playlist-title">${track.artist} - ${track.title}</span>
-                    <span class="cassette-playlist-duration" id="duration-${index}">--:--</span>
+                    <span class="media-playlist-num">${index + 1}.</span>
+                    <span class="media-playlist-title">${track.artist} - ${track.title}</span>
+                    <span class="media-playlist-duration" id="duration-${index}">--:--</span>
                 `;
-                item.onclick = () => { loadTrack(index); cassettePlay(); };
+                item.onclick = () => { loadTrack(index); mediaPlay(); };
                 playlistContainer.appendChild(item);
             });
         }
@@ -2208,13 +2029,12 @@
             currentTrack = index;
             const track = playlist[currentTrack];
             audio.src = track.src;
-            cassetteTicker.textContent = `${track.artist} - ${track.title}`;
-            cassetteLabel.textContent = track.title.toUpperCase();
-            document.querySelectorAll('.cassette-playlist-item').forEach((item, i) => {
+            mediaTicker.textContent = `${track.artist} - ${track.title}`;
+            document.querySelectorAll('.media-playlist-item').forEach((item, i) => {
                 item.classList.toggle('active', i === currentTrack);
             });
-            cassetteTime.textContent = '0:00';
-            cassetteSeekFill.style.width = '0%';
+            mediaTime.textContent = '0:00';
+            mediaSeekFill.style.width = '0%';
         }
 
         function updatePlaylistDurations() {
@@ -2224,69 +2044,51 @@
             }
         }
 
-        function cassettePlay() {
+        function mediaPlay() {
             audio.play().then(() => {
                 isPlaying = true;
                 playBtn.classList.add('playing');
-                cassetteTicker.classList.remove('paused');
-                startReels();
-                startVU();
+                mediaTicker.classList.remove('paused');
+                startVisualizer();
             }).catch(err => console.log('Playback failed:', err));
         }
 
-        function cassettePause() {
+        function mediaPause() {
             audio.pause();
             isPlaying = false;
             playBtn.classList.remove('playing');
-            cassetteTicker.classList.add('paused');
-            stopReels();
-            stopVU();
+            mediaTicker.classList.add('paused');
+            stopVisualizer();
         }
 
-        function cassetteStop() {
+        function mediaStop() {
             audio.pause();
             audio.currentTime = 0;
             isPlaying = false;
             playBtn.classList.remove('playing');
-            cassetteTicker.classList.add('paused');
-            cassetteTime.textContent = '0:00';
-            cassetteSeekFill.style.width = '0%';
-            stopReels();
-            stopVU();
+            mediaTicker.classList.add('paused');
+            mediaTime.textContent = '0:00';
+            mediaSeekFill.style.width = '0%';
+            stopVisualizer();
         }
 
-        function startReels() {
-            reelLeft.classList.add('spinning');
-            reelRight.classList.add('spinning');
-        }
-
-        function stopReels() {
-            reelLeft.classList.remove('spinning');
-            reelRight.classList.remove('spinning');
-        }
-
-        function startVU() {
-            if (vuInterval) return;
-            const barsLeft = vuLeft.querySelectorAll('.vu-bar');
-            const barsRight = vuRight.querySelectorAll('.vu-bar');
-            vuInterval = setInterval(() => {
-                barsLeft.forEach((bar, i) => {
-                    const height = Math.max(5, Math.random() * (100 - i * 8));
-                    bar.style.height = height + '%';
-                });
-                barsRight.forEach((bar, i) => {
-                    const height = Math.max(5, Math.random() * (100 - i * 8));
+        function startVisualizer() {
+            if (vizInterval) return;
+            const bars = mediaVisualizer.querySelectorAll('.viz-bar');
+            vizInterval = setInterval(() => {
+                bars.forEach((bar) => {
+                    const height = Math.max(10, Math.random() * 100);
                     bar.style.height = height + '%';
                 });
             }, 100);
         }
 
-        function stopVU() {
-            if (vuInterval) { clearInterval(vuInterval); vuInterval = null; }
-            const barsLeft = vuLeft.querySelectorAll('.vu-bar');
-            const barsRight = vuRight.querySelectorAll('.vu-bar');
-            barsLeft.forEach((bar, i) => { bar.style.height = (20 - i * 2) + '%'; });
-            barsRight.forEach((bar, i) => { bar.style.height = (20 - i * 2) + '%'; });
+        function stopVisualizer() {
+            if (vizInterval) { clearInterval(vizInterval); vizInterval = null; }
+            const bars = mediaVisualizer.querySelectorAll('.viz-bar');
+            bars.forEach((bar, i) => {
+                bar.style.height = (20 + Math.sin(i * 0.5) * 15) + '%';
+            });
         }
 
         function prevTrack() {
@@ -2295,20 +2097,20 @@
             } else {
                 const newIndex = (currentTrack - 1 + playlist.length) % playlist.length;
                 loadTrack(newIndex);
-                if (isPlaying) cassettePlay();
+                if (isPlaying) mediaPlay();
             }
         }
 
         function nextTrack() {
             const newIndex = (currentTrack + 1) % playlist.length;
             loadTrack(newIndex);
-            if (isPlaying) cassettePlay();
+            if (isPlaying) mediaPlay();
         }
 
         function updateTimeDisplay() {
             if (!audio.duration) return;
-            cassetteTime.textContent = formatTime(audio.currentTime);
-            cassetteSeekFill.style.width = (audio.currentTime / audio.duration) * 100 + '%';
+            mediaTime.textContent = formatTime(audio.currentTime);
+            mediaSeekFill.style.width = (audio.currentTime / audio.duration) * 100 + '%';
         }
 
         function formatTime(seconds) {
@@ -2318,7 +2120,7 @@
         }
 
         function seekTo(event) {
-            const seekBar = document.getElementById('cassette-seek');
+            const seekBar = document.getElementById('media-seek');
             const rect = seekBar.getBoundingClientRect();
             const percent = (event.clientX - rect.left) / rect.width;
             audio.currentTime = percent * audio.duration;
@@ -2329,14 +2131,14 @@
             const rect = volumeBar.getBoundingClientRect();
             const percent = Math.max(0, Math.min(1, (event.clientX - rect.left) / rect.width));
             audio.volume = percent;
-            cassetteVolumeFill.style.width = (percent * 100) + '%';
+            mediaVolumeFill.style.width = (percent * 100) + '%';
         }
 
-        function togglePlay() { isPlaying ? cassettePause() : cassettePlay(); }
-        function pauseMusic() { cassettePause(); }
-        function stopMusic() { cassetteStop(); }
+        function togglePlay() { isPlaying ? mediaPause() : mediaPlay(); }
+        function pauseMusic() { mediaPause(); }
+        function stopMusic() { mediaStop(); }
 
-        document.addEventListener('DOMContentLoaded', initCassette);
+        document.addEventListener('DOMContentLoaded', initMediaPlayer);
 
         // ==========================================
         // FIREBASE GUESTBOOK
