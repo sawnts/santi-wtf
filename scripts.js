@@ -514,7 +514,7 @@
         function stopLoading() {
             // In a real browser this would stop page loading
             // For now, just a visual feedback
-            console.log('Stop loading');
+            // Stop loading (no-op, page already loaded)
         }
 
         // Refresh current page
@@ -674,7 +674,7 @@
                 playBtn.classList.add('playing');
                 mediaTicker.classList.remove('paused');
                 startVisualizer();
-            }).catch(err => console.log('Playback failed:', err));
+            }).catch(() => { /* Playback failed - user interaction required */ });
         }
 
         function mediaPause() {
@@ -792,9 +792,8 @@
                 firebase.initializeApp(firebaseConfig);
                 window.db = firebase.database();
                 initChatRoom();
-                console.log('Firebase initialized, db:', window.db);
             } catch (e) {
-                console.log('Firebase init error:', e);
+                console.error('Firebase init failed:', e);
                 document.getElementById('chat-messages').innerHTML =
                     '<div style="text-align: center; color: #666; padding: 20px;">chat coming soon!</div>';
             }
