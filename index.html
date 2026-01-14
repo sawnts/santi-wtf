@@ -20,6 +20,8 @@
     <meta name="twitter:card" content="summary">
     <meta name="twitter:title" content="santi.wtf - a corner of the old internet">
     <meta name="twitter:description" content="a personal website styled like Windows 98. thoughts on creativity, philosophy, business, and life.">
+    <meta name="twitter:image" content="https://santi.wtf/icons/computer_2_cool-0.png">
+    <meta name="twitter:image:alt" content="a cool retro computer icon">
 
     <link rel="icon" type="image/png" href="icons/computer_2_cool-0.png">
     <link rel="canonical" href="https://santi.wtf/">
@@ -190,6 +192,14 @@
             justify-content: center;
             cursor: pointer;
             font-weight: bold;
+            font-family: inherit;
+            padding: 0;
+            margin: 0;
+            color: inherit;
+        }
+        .title-btn:disabled {
+            cursor: default;
+            opacity: 0.7;
         }
 
         .title-btn:active {
@@ -233,6 +243,10 @@
             align-items: center;
             justify-content: center;
             font-size: 10px;
+            font-family: inherit;
+            padding: 0;
+            margin: 0;
+            color: inherit;
         }
 
         .toolbar-btn:active {
@@ -1412,9 +1426,64 @@
         .post-footer a {
             color: #0066cc;
         }
+
+        /* Accessibility: Screen reader only class */
+        .sr-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border: 0;
+        }
+
+        /* Accessibility: Skip link */
+        .skip-link {
+            position: absolute;
+            top: -40px;
+            left: 0;
+            background: #000080;
+            color: #fff;
+            padding: 8px 16px;
+            z-index: 100000;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        .skip-link:focus {
+            top: 0;
+        }
+
+        /* Accessibility: Focus styles */
+        *:focus {
+            outline: 2px solid #000080;
+            outline-offset: 2px;
+        }
+        *:focus:not(:focus-visible) {
+            outline: none;
+        }
+        *:focus-visible {
+            outline: 2px solid #000080;
+            outline-offset: 2px;
+        }
+        .title-btn:focus-visible,
+        .toolbar-btn:focus-visible {
+            outline: 2px solid #fff;
+            outline-offset: 1px;
+            background: #000080;
+        }
+        input:focus,
+        select:focus,
+        button:focus-visible {
+            outline: 2px solid #000080;
+            outline-offset: 1px;
+        }
     </style>
 </head>
 <body>
+    <a href="#blog-content" class="skip-link">Skip to main content</a>
     <div class="desktop" id="desktop">
         <div class="icon" style="left: 10px; top: 10px;" onclick="openSubscribeDialog()">
             <div class="icon-img"><img src="icons/envelope_closed-0.png" alt="Newsletter"></div>
@@ -1443,13 +1512,13 @@
     <div class="window" id="internet" style="width: 620px; height: 750px; left: 380px; top: 15px;">
         <div class="title-bar" onmousedown="dragStart(event, 'internet')">
             <div class="title-text">
-                <div class="title-icon"><img src="icons/html-1.png" alt=""></div>
+                <div class="title-icon"><img src="icons/html-1.png" alt="Internet Explorer"></div>
                 <span>Santi's Blog - Internet Explorer</span>
             </div>
             <div class="title-buttons">
-                <div class="title-btn" onclick="minimizeWindow('internet')">_</div>
-                <div class="title-btn">□</div>
-                <div class="title-btn" onclick="closeWindow('internet')">✕</div>
+                <button type="button" class="title-btn" onclick="minimizeWindow('internet')" aria-label="Minimize window">_</button>
+                <button type="button" class="title-btn" aria-label="Maximize window (disabled)" disabled>□</button>
+                <button type="button" class="title-btn" onclick="closeWindow('internet')" aria-label="Close window">✕</button>
             </div>
         </div>
         <div class="menu-bar">
@@ -1461,11 +1530,11 @@
             <span class="menu-item">Help</span>
         </div>
         <div class="toolbar">
-            <div class="toolbar-btn" onclick="goBack()">←</div>
-            <div class="toolbar-btn" onclick="goForward()">→</div>
-            <div class="toolbar-btn" onclick="stopLoading()">✕</div>
-            <div class="toolbar-btn" onclick="refreshPage()">↻</div>
-            <div class="toolbar-btn" onclick="loadHome()">🏠</div>
+            <button type="button" class="toolbar-btn" onclick="goBack()" aria-label="Go back">←</button>
+            <button type="button" class="toolbar-btn" onclick="goForward()" aria-label="Go forward">→</button>
+            <button type="button" class="toolbar-btn" onclick="stopLoading()" aria-label="Stop loading">✕</button>
+            <button type="button" class="toolbar-btn" onclick="refreshPage()" aria-label="Refresh page">↻</button>
+            <button type="button" class="toolbar-btn" onclick="loadHome()" aria-label="Go to home page">🏠</button>
         </div>
         <div class="address-bar">Address: https://santi.wtf</div>
         <div class="window-content" id="blog-content">
@@ -1478,13 +1547,13 @@
     <div class="window chat-window" id="chat" style="width: 380px; height: 500px; left: 450px; top: 100px;">
         <div class="title-bar" onmousedown="dragStart(event, 'chat')">
             <div class="title-text">
-                <div class="title-icon"><img src="icons/users-1.png" alt=""></div>
+                <div class="title-icon"><img src="icons/users-1.png" alt="Chat"></div>
                 <span>santi's chat room</span>
             </div>
             <div class="title-buttons">
-                <div class="title-btn" onclick="minimizeWindow('chat')">_</div>
-                <div class="title-btn">□</div>
-                <div class="title-btn" onclick="closeWindow('chat')">✕</div>
+                <button type="button" class="title-btn" onclick="minimizeWindow('chat')" aria-label="Minimize window">_</button>
+                <button type="button" class="title-btn" aria-label="Maximize window (disabled)" disabled>□</button>
+                <button type="button" class="title-btn" onclick="closeWindow('chat')" aria-label="Close window">✕</button>
             </div>
         </div>
         <div class="window-content">
@@ -1492,14 +1561,17 @@
             <div class="chat-admin-panel">
                 <div class="chat-admin-title">admin controls</div>
                 <div class="chat-admin-row chat-admin-status-row">
+                    <label for="admin-status-type" class="sr-only">Status type</label>
                     <select id="admin-status-type" class="chat-admin-status-select">
                         <option value="online">online</option>
                         <option value="away">away</option>
                     </select>
+                    <label for="admin-status-message" class="sr-only">Status message</label>
                     <input type="text" id="admin-status-message" class="chat-admin-input" placeholder="status message...">
                     <button type="button" class="chat-admin-btn" onclick="updateStatus()">set</button>
                 </div>
                 <div class="chat-admin-row">
+                    <label for="admin-chat-message" class="sr-only">Post message as owner</label>
                     <input type="text" id="admin-chat-message" class="chat-admin-input" placeholder="post as santi...">
                     <button type="button" class="chat-admin-btn" onclick="postAsOwner()">send</button>
                 </div>
@@ -1523,7 +1595,9 @@
             <!-- Chat Input -->
             <div class="chat-input-area">
                 <form class="chat-input-form" id="chat-form" onsubmit="return false;">
+                    <label for="chat-name" class="sr-only">Your name</label>
                     <input type="text" class="chat-input-name" id="chat-name" placeholder="name">
+                    <label for="chat-message" class="sr-only">Your message</label>
                     <input type="text" class="chat-input-message" id="chat-message" placeholder="say something..." onkeypress="if(event.key==='Enter'){submitChat();return false;}">
                     <button type="button" class="chat-input-send" onclick="submitChat()">send</button>
                 </form>
@@ -1536,13 +1610,13 @@
     <div class="window player-window" id="player" style="width: 280px; height: 300px; left: 200px; top: 200px;">
         <div class="title-bar" onmousedown="dragStart(event, 'player')">
             <div class="title-text">
-                <div class="title-icon"><img src="icons/loudspeaker_rays-1.png" alt=""></div>
+                <div class="title-icon"><img src="icons/loudspeaker_rays-1.png" alt="Winamp"></div>
                 <span>Winamp</span>
             </div>
             <div class="title-buttons">
-                <div class="title-btn" onclick="minimizeWindow('player')">_</div>
-                <div class="title-btn">□</div>
-                <div class="title-btn" onclick="closeWindow('player')">✕</div>
+                <button type="button" class="title-btn" onclick="minimizeWindow('player')" aria-label="Minimize window">_</button>
+                <button type="button" class="title-btn" aria-label="Maximize window (disabled)" disabled>□</button>
+                <button type="button" class="title-btn" onclick="closeWindow('player')" aria-label="Close window">✕</button>
             </div>
         </div>
         <div class="window-content">
@@ -1617,13 +1691,13 @@
     <div class="window" id="mycomputer" style="width: 400px; height: 350px; left: 100px; top: 80px;">
         <div class="title-bar" onmousedown="dragStart(event, 'mycomputer')">
             <div class="title-text">
-                <div class="title-icon"><img src="icons/computer_explorer-1.png" alt=""></div>
+                <div class="title-icon"><img src="icons/computer_explorer-1.png" alt="My Computer"></div>
                 <span>My Computer</span>
             </div>
             <div class="title-buttons">
-                <div class="title-btn" onclick="minimizeWindow('mycomputer')">_</div>
-                <div class="title-btn">□</div>
-                <div class="title-btn" onclick="closeWindow('mycomputer')">✕</div>
+                <button type="button" class="title-btn" onclick="minimizeWindow('mycomputer')" aria-label="Minimize window">_</button>
+                <button type="button" class="title-btn" aria-label="Maximize window (disabled)" disabled>□</button>
+                <button type="button" class="title-btn" onclick="closeWindow('mycomputer')" aria-label="Close window">✕</button>
             </div>
         </div>
         <div class="window-content" style="display: flex; flex-wrap: wrap; gap: 20px; padding: 20px; background: #fff;">
@@ -1655,13 +1729,13 @@
     <div class="window" id="applications" style="width: 400px; height: 300px; left: 150px; top: 120px;">
         <div class="title-bar" onmousedown="dragStart(event, 'applications')">
             <div class="title-text">
-                <div class="title-icon"><img src="icons/directory_closed-1.png" alt=""></div>
+                <div class="title-icon"><img src="icons/directory_closed-1.png" alt="Applications"></div>
                 <span>Applications</span>
             </div>
             <div class="title-buttons">
-                <div class="title-btn" onclick="minimizeWindow('applications')">_</div>
-                <div class="title-btn">□</div>
-                <div class="title-btn" onclick="closeWindow('applications')">✕</div>
+                <button type="button" class="title-btn" onclick="minimizeWindow('applications')" aria-label="Minimize window">_</button>
+                <button type="button" class="title-btn" aria-label="Maximize window (disabled)" disabled>□</button>
+                <button type="button" class="title-btn" onclick="closeWindow('applications')" aria-label="Close window">✕</button>
             </div>
         </div>
         <div class="window-content" style="height: calc(100% - 24px); display: flex; flex-wrap: wrap; gap: 20px; padding: 20px; align-content: flex-start;">
@@ -1681,13 +1755,13 @@
     <div class="window" id="stickynotes" style="width: 550px; height: 420px; left: 200px; top: 80px;">
         <div class="title-bar" onmousedown="dragStart(event, 'stickynotes')">
             <div class="title-text">
-                <div class="title-icon"><img src="icons/note-1.png" alt=""></div>
+                <div class="title-icon"><img src="icons/note-1.png" alt="Sticky Notes"></div>
                 <span>Sticky Notes</span>
             </div>
             <div class="title-buttons">
-                <div class="title-btn" onclick="minimizeWindow('stickynotes')">_</div>
-                <div class="title-btn">□</div>
-                <div class="title-btn" onclick="closeWindow('stickynotes')">✕</div>
+                <button type="button" class="title-btn" onclick="minimizeWindow('stickynotes')" aria-label="Minimize window">_</button>
+                <button type="button" class="title-btn" aria-label="Maximize window (disabled)" disabled>□</button>
+                <button type="button" class="title-btn" onclick="closeWindow('stickynotes')" aria-label="Close window">✕</button>
             </div>
         </div>
         <div class="window-content" id="stickynotes-content" style="height: calc(100% - 24px); padding: 0; overflow: hidden;">
@@ -1700,13 +1774,13 @@
     <div class="window" id="flowgarden" style="width: 720px; height: 520px; left: 120px; top: 50px;">
         <div class="title-bar" onmousedown="dragStart(event, 'flowgarden')">
             <div class="title-text">
-                <div class="title-icon"><img src="icons/tree-1.png" alt=""></div>
+                <div class="title-icon"><img src="icons/tree-1.png" alt="Flow Garden"></div>
                 <span>Flow Garden</span>
             </div>
             <div class="title-buttons">
-                <div class="title-btn" onclick="minimizeWindow('flowgarden')">_</div>
-                <div class="title-btn">□</div>
-                <div class="title-btn" onclick="closeWindow('flowgarden')">✕</div>
+                <button type="button" class="title-btn" onclick="minimizeWindow('flowgarden')" aria-label="Minimize window">_</button>
+                <button type="button" class="title-btn" aria-label="Maximize window (disabled)" disabled>□</button>
+                <button type="button" class="title-btn" onclick="closeWindow('flowgarden')" aria-label="Close window">✕</button>
             </div>
         </div>
         <div class="window-content" id="flowgarden-content" style="height: calc(100% - 24px);">
@@ -1757,11 +1831,11 @@
         <div class="shutdown-dialog" onclick="event.stopPropagation()">
             <div class="title-bar">
                 <div class="title-text">
-                    <div class="title-icon" id="subscribe-dialog-icon"><img src="icons/shut_down_normal-1.png" alt=""></div>
+                    <div class="title-icon" id="subscribe-dialog-icon"><img src="icons/shut_down_normal-1.png" alt="Shut Down"></div>
                     <span id="subscribe-dialog-title">Shut Down</span>
                 </div>
                 <div class="title-buttons">
-                    <div class="title-btn" onclick="closeShutdownDialog()">✕</div>
+                    <button type="button" class="title-btn" onclick="closeShutdownDialog()" aria-label="Close dialog">✕</button>
                 </div>
             </div>
             <div class="shutdown-content">
@@ -1770,6 +1844,7 @@
                     src="https://subscribe-forms.beehiiv.com/31d4bffd-241f-42e3-82b3-6d084ef26221"
                     class="beehiiv-embed"
                     data-test-id="beehiiv-embed"
+                    title="Newsletter subscription form"
                     frameborder="0"
                     scrolling="no"
                     style="height: 40px;">
