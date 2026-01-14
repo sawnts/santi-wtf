@@ -2530,16 +2530,25 @@
             appId: "1:456705609062:web:2a0feac46c2692bff9cca7"
         };
 
-        let db;
-        try {
-            firebase.initializeApp(firebaseConfig);
-            db = firebase.database();
-            initChatRoom();
-        } catch (e) {
-            console.log('Firebase not configured yet');
-            document.getElementById('chat-messages').innerHTML =
-                '<div style="text-align: center; color: #666; padding: 20px;">chat coming soon!</div>';
+        let db = null;
+
+        function initFirebase() {
+            if (typeof firebase === 'undefined') {
+                setTimeout(initFirebase, 100);
+                return;
+            }
+            try {
+                firebase.initializeApp(firebaseConfig);
+                db = firebase.database();
+                initChatRoom();
+            } catch (e) {
+                console.log('Firebase init error:', e);
+                document.getElementById('chat-messages').innerHTML =
+                    '<div style="text-align: center; color: #666; padding: 20px;">chat coming soon!</div>';
+            }
         }
+
+        initFirebase();
 
         function initChatRoom() {
             // Listen for status updates
@@ -2662,51 +2671,63 @@
             }
         }
 
+        function getDb() {
+            if (!db) {
+                alert('firebase not ready yet, try again');
+                return null;
+            }
+            return db;
+        }
+
         function updateStatus() {
             if (!isAdminMode) {
                 alert('not in admin mode');
                 return;
             }
+            const database = getDb();
+            if (!database) return;
+
             const type = document.getElementById('admin-status-type').value;
             const message = document.getElementById('admin-status-message').value.trim();
 
-            console.log('updating status:', type, message);
-
-            db.ref('status').set({
+            database.ref('status').set({
                 type: type,
                 message: message || 'welcome to my corner of the internet',
                 lastSeen: firebase.database.ServerValue.TIMESTAMP
             }).then(() => {
-                console.log('status updated successfully');
                 document.getElementById('admin-status-message').value = '';
             }).catch(err => {
-                console.error('status update failed:', err);
                 alert('failed to update status: ' + err.message);
             });
         }
 
         function postAsOwner() {
             if (!isAdminMode) return;
+            const database = getDb();
+            if (!database) return;
+
             const messageInput = document.getElementById('admin-chat-message');
             const message = messageInput.value.trim();
             if (!message) return;
 
-            db.ref('guestbook').push({
+            database.ref('guestbook').push({
                 name: 'santi',
                 message: message,
                 timestamp: firebase.database.ServerValue.TIMESTAMP,
                 isOwner: true
             }).then(() => {
                 messageInput.value = '';
-                // Also update lastSeen
-                db.ref('status/lastSeen').set(firebase.database.ServerValue.TIMESTAMP);
+                database.ref('status/lastSeen').set(firebase.database.ServerValue.TIMESTAMP);
             }).catch(err => alert('failed to post: ' + err.message));
         }
 
         function deleteMessage(messageId) {
             if (!isAdminMode) return;
+            const database = getDb();
+            if (!database) return;
+
             if (confirm('delete this message?')) {
-                db.ref('guestbook/' + messageId).remove()
+                database.ref('guestbook/' + messageId).remove()
                     .catch(err => alert('failed to delete: ' + err.message));
             }
         }
