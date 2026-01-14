@@ -6,11 +6,26 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 This is a static personal blog/website styled to look like Windows 98. The site runs entirely in the browser with no build process or dependencies. Firebase is used for the real-time chat feature.
 
+## File Structure
+
+```
+wtf/
+├── index.html          # Main HTML (~420 lines) - window markup, desktop layout
+├── styles.css          # All CSS (~1440 lines) - Windows 98 styling
+├── scripts.js          # All JavaScript (~980 lines) - window management, navigation, chat
+├── 404.html            # GitHub Pages SPA redirect handler
+├── now.html            # "Now" page content
+├── posts/              # Blog post HTML files
+├── applications/       # Standalone apps (FlowGarden, Sticky Notes)
+└── icons/              # Windows 98 style icons
+```
+
 ## Architecture
 
-**Single-page application in `index.html`:**
-- All CSS is embedded in `<style>` tags
-- All JavaScript is embedded in `<script>` tags (after the HTML)
+**Single-page application structure:**
+- `index.html` - Window markup and desktop layout only
+- `styles.css` - All Windows 98 styling (external file)
+- `scripts.js` - All JavaScript logic (external file)
 - Simulates a desktop environment with draggable, resizable, and minimizable windows
 - Contains an "Internet Explorer" window that acts as an in-page browser for blog posts
 - Implements browser-like navigation (back/forward/refresh) with a JavaScript history system
@@ -32,7 +47,7 @@ This is a static personal blog/website styled to look like Windows 98. The site 
 - Interactive apps that run in their own desktop windows (e.g., FlowGarden)
 - Each app is a standalone HTML file with embedded CSS and JS
 
-## Key Functions (in index.html)
+## Key Functions (in scripts.js)
 
 **Window management:**
 - `openWindow(id)` / `closeWindow(id)` - Show/hide window elements
@@ -69,8 +84,8 @@ This is a static personal blog/website styled to look like Windows 98. The site 
 
 1. Create new HTML file in `posts/` (all lowercase content)
 2. Include the signature before the date
-3. Add link in `homeContent` template string
-4. Add link in `archiveContent` template string (called "notes" in UI)
+3. Add link in `homeContent` template string (in scripts.js)
+4. Add link in `archiveContent` template string (in scripts.js, called "notes" in UI)
 
 **Post template:**
 ```html
