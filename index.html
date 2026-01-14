@@ -1480,11 +1480,11 @@
                         <option value="away">away</option>
                     </select>
                     <input type="text" id="admin-status-message" class="chat-admin-input" placeholder="status message...">
-                    <button class="chat-admin-btn" onclick="updateStatus()">set</button>
+                    <button type="button" class="chat-admin-btn" onclick="updateStatus()">set</button>
                 </div>
                 <div class="chat-admin-row">
                     <input type="text" id="admin-chat-message" class="chat-admin-input" placeholder="post as santi...">
-                    <button class="chat-admin-btn" onclick="postAsOwner()">send</button>
+                    <button type="button" class="chat-admin-btn" onclick="postAsOwner()">send</button>
                 </div>
             </div>
 
@@ -1505,10 +1505,10 @@
 
             <!-- Chat Input -->
             <div class="chat-input-area">
-                <form class="chat-input-form" id="chat-form">
+                <form class="chat-input-form" id="chat-form" onsubmit="return false;">
                     <input type="text" class="chat-input-name" id="chat-name" placeholder="name">
-                    <input type="text" class="chat-input-message" id="chat-message" placeholder="say something..." required>
-                    <button type="submit" class="chat-input-send">send</button>
+                    <input type="text" class="chat-input-message" id="chat-message" placeholder="say something..." onkeypress="if(event.key==='Enter'){submitChat();return false;}">
+                    <button type="button" class="chat-input-send" onclick="submitChat()">send</button>
                 </form>
             </div>
         </div>
@@ -2586,25 +2586,23 @@
                 messagesContainer.scrollTop = messagesContainer.scrollHeight;
             });
 
-            // Chat form submission
-            document.getElementById('chat-form').addEventListener('submit', async (e) => {
-                e.preventDefault();
-                const nameInput = document.getElementById('chat-name');
-                const messageInput = document.getElementById('chat-message');
-                const message = messageInput.value.trim();
-                if (!message) return;
+        }
 
-                try {
-                    await db.ref('guestbook').push({
-                        name: nameInput.value.trim() || 'anon',
-                        message: message,
-                        timestamp: firebase.database.ServerValue.TIMESTAMP,
-                        isOwner: false
-                    });
-                    messageInput.value = '';
-                } catch (error) {
-                    console.error('Error posting message:', error);
-                }
+        function submitChat() {
+            const nameInput = document.getElementById('chat-name');
+            const messageInput = document.getElementById('chat-message');
+            const message = messageInput.value.trim();
+            if (!message) return;
+
+            db.ref('guestbook').push({
+                name: nameInput.value.trim() || 'anon',
+                message: message,
+                timestamp: firebase.database.ServerValue.TIMESTAMP,
+                isOwner: false
+            }).then(() => {
+                messageInput.value = '';
+            }).catch(error => {
+                console.error('Error posting message:', error);
             });
         }
 
