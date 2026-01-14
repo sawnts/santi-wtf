@@ -41,6 +41,7 @@
 </head>
 <body>
     <a href="#blog-content" class="skip-link">Skip to main content</a>
+    <main>
     <div class="desktop" id="desktop">
         <div class="icon" style="left: 10px; top: 10px;" onclick="openSubscribeDialog()">
             <div class="icon-img"><img src="icons/envelope_closed-0.png" alt="Newsletter"></div>
@@ -237,9 +238,7 @@
                 <div class="media-playlist-header">Playlist</div>
             </div>
 
-            <audio id="audioPlayer">
-                <source src="vibes/Esperanza.mp3" type="audio/mpeg">
-            </audio>
+            <audio id="audioPlayer" preload="none"></audio>
         </div>
         <div class="resize-handle" onmousedown="resizeStart(event, 'player')"></div>
     </div>
@@ -412,7 +411,7 @@
             </div>
         </div>
     </div>
-
+    </main>
 
     <script src="scripts.js"></script>
 </body>

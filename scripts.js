@@ -618,7 +618,9 @@
             audio.volume = 0.8;
             mediaVolumeThumb.style.left = '80%';
             renderPlaylist();
-            loadTrack(0);
+            // Don't load audio on init - just show first track info
+            const firstTrack = playlist[0];
+            mediaTicker.textContent = `${firstTrack.artist} - ${firstTrack.title}`;
             audio.addEventListener('timeupdate', updateTimeDisplay);
             audio.addEventListener('ended', nextTrack);
             audio.addEventListener('loadedmetadata', updatePlaylistDurations);
@@ -662,6 +664,11 @@
         }
 
         function mediaPlay() {
+            // Lazy-load: if no audio src yet, load the current track first
+            if (!audio.src) {
+                const track = playlist[currentTrack];
+                audio.src = track.src;
+            }
             audio.play().then(() => {
                 isPlaying = true;
                 playBtn.classList.add('playing');
