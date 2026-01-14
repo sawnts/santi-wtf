@@ -2663,17 +2663,26 @@
         }
 
         function updateStatus() {
-            if (!isAdminMode) return;
+            if (!isAdminMode) {
+                alert('not in admin mode');
+                return;
+            }
             const type = document.getElementById('admin-status-type').value;
             const message = document.getElementById('admin-status-message').value.trim();
+
+            console.log('updating status:', type, message);
 
             db.ref('status').set({
                 type: type,
                 message: message || 'welcome to my corner of the internet',
                 lastSeen: firebase.database.ServerValue.TIMESTAMP
             }).then(() => {
+                console.log('status updated successfully');
                 document.getElementById('admin-status-message').value = '';
-            }).catch(err => alert('failed to update status: ' + err.message));
+            }).catch(err => {
+                console.error('status update failed:', err);
+                alert('failed to update status: ' + err.message);
+            });
         }
 
         function postAsOwner() {
