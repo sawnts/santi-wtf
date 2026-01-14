@@ -559,8 +559,11 @@
         }
 
         .chat-window .window-content {
-            padding: 10px;
+            padding: 0;
             height: calc(100% - 24px);
+            display: flex;
+            flex-direction: column;
+            font-family: 'MS Sans Serif', Tahoma, sans-serif;
         }
 
         #mycomputer .window-content {
@@ -573,41 +576,261 @@
             overflow: hidden;
         }
 
-        .chat-message {
-            background: #f0f0f0;
-            border: 1px solid #808080;
-            padding: 8px;
-            margin-bottom: 8px;
-            font-size: 11px;
+        /* Status Box - AIM Style */
+        .chat-status-box {
+            background: linear-gradient(180deg, #f5f5f5 0%, #e0e0e0 100%);
+            border-bottom: 2px solid #808080;
+            padding: 8px 10px;
+            display: flex;
+            align-items: flex-start;
+            gap: 8px;
         }
 
-        .chat-author {
+        .chat-status-indicator {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            margin-top: 2px;
+            flex-shrink: 0;
+            border: 1px solid #404040;
+        }
+
+        .chat-status-indicator.online {
+            background: radial-gradient(circle at 30% 30%, #44ff44, #00aa00);
+            box-shadow: 0 0 4px #00ff00;
+        }
+
+        .chat-status-indicator.away {
+            background: radial-gradient(circle at 30% 30%, #ffdd44, #cc9900);
+            box-shadow: 0 0 4px #ffcc00;
+        }
+
+        .chat-status-content {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .chat-status-name {
             font-weight: bold;
-            margin-bottom: 4px;
+            font-size: 12px;
+            color: #000080;
+            margin-bottom: 2px;
         }
 
-        .chat-number {
-            color: #666;
+        .chat-status-message {
+            font-size: 11px;
+            color: #333;
+            font-style: italic;
+            word-wrap: break-word;
+        }
+
+        .chat-status-lastseen {
+            font-size: 9px;
+            color: #808080;
+            margin-top: 3px;
+        }
+
+        /* Chat Messages Area */
+        .chat-messages {
+            flex: 1;
+            overflow-y: auto;
+            padding: 10px;
+            background: #fff;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .chat-bubble {
+            max-width: 85%;
+            padding: 8px 12px;
+            border-radius: 12px;
+            font-size: 11px;
+            position: relative;
+            word-wrap: break-word;
+        }
+
+        .chat-bubble.visitor {
+            background: #e8e8e8;
+            border: 1px solid #c0c0c0;
+            align-self: flex-start;
+            border-bottom-left-radius: 4px;
+        }
+
+        .chat-bubble.owner {
+            background: #000080;
+            color: #fff;
+            align-self: flex-end;
+            border-bottom-right-radius: 4px;
+        }
+
+        .chat-bubble-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 4px;
+            gap: 8px;
+        }
+
+        .chat-bubble-name {
+            font-weight: bold;
             font-size: 10px;
         }
 
-        .chat-delete {
-            float: right;
-            background: #c0c0c0;
-            border: 1px solid;
-            border-color: #fff #000 #000 #fff;
+        .chat-bubble.visitor .chat-bubble-name {
+            color: #333;
+        }
+
+        .chat-bubble.owner .chat-bubble-name {
+            color: #aaccff;
+        }
+
+        .chat-bubble-time {
             font-size: 9px;
-            padding: 1px 4px;
+            opacity: 0.7;
+            flex-shrink: 0;
+        }
+
+        .chat-bubble-text {
+            line-height: 1.4;
+        }
+
+        .chat-bubble .chat-delete {
+            position: absolute;
+            top: -6px;
+            right: -6px;
+            background: #ff4444;
+            color: #fff;
+            border: 1px solid #aa0000;
+            border-radius: 50%;
+            width: 16px;
+            height: 16px;
+            font-size: 10px;
+            padding: 0;
             cursor: pointer;
+            display: none;
+            line-height: 14px;
+            text-align: center;
+        }
+
+        .chat-bubble .chat-delete:hover {
+            background: #ff0000;
+        }
+
+        .admin-mode .chat-bubble .chat-delete {
+            display: block;
+        }
+
+        /* Chat Input Area */
+        .chat-input-area {
+            background: #c0c0c0;
+            border-top: 2px solid #808080;
+            padding: 8px;
+        }
+
+        .chat-input-form {
+            display: flex;
+            gap: 6px;
+        }
+
+        .chat-input-name {
+            width: 80px;
+            padding: 4px 6px;
+            border: 2px inset #808080;
+            font-size: 11px;
+            font-family: 'MS Sans Serif', Tahoma, sans-serif;
+        }
+
+        .chat-input-message {
+            flex: 1;
+            padding: 4px 6px;
+            border: 2px inset #808080;
+            font-size: 11px;
+            font-family: 'MS Sans Serif', Tahoma, sans-serif;
+            resize: none;
+        }
+
+        .chat-input-send {
+            padding: 4px 12px;
+            background: #c0c0c0;
+            border-top: 2px solid #fff;
+            border-left: 2px solid #fff;
+            border-bottom: 2px solid #808080;
+            border-right: 2px solid #808080;
+            cursor: pointer;
+            font-size: 11px;
+            font-family: 'MS Sans Serif', Tahoma, sans-serif;
+            font-weight: bold;
+        }
+
+        .chat-input-send:active {
+            border-top: 2px solid #808080;
+            border-left: 2px solid #808080;
+            border-bottom: 2px solid #fff;
+            border-right: 2px solid #fff;
+        }
+
+        /* Admin Panel */
+        .chat-admin-panel {
+            background: #ffffcc;
+            border-bottom: 2px solid #808080;
+            padding: 8px;
             display: none;
         }
 
-        .chat-delete:hover {
-            background: #d0d0d0;
+        .admin-mode .chat-admin-panel {
+            display: block;
         }
 
-        .admin-mode .chat-delete {
-            display: inline-block;
+        .chat-admin-title {
+            font-size: 10px;
+            font-weight: bold;
+            color: #804000;
+            margin-bottom: 6px;
+        }
+
+        .chat-admin-row {
+            display: flex;
+            gap: 6px;
+            margin-bottom: 6px;
+        }
+
+        .chat-admin-row:last-child {
+            margin-bottom: 0;
+        }
+
+        .chat-admin-input {
+            flex: 1;
+            padding: 3px 6px;
+            border: 1px solid #808080;
+            font-size: 10px;
+            font-family: 'MS Sans Serif', Tahoma, sans-serif;
+        }
+
+        .chat-admin-btn {
+            padding: 3px 8px;
+            background: #c0c0c0;
+            border: 1px solid;
+            border-color: #fff #404040 #404040 #fff;
+            cursor: pointer;
+            font-size: 10px;
+            font-family: 'MS Sans Serif', Tahoma, sans-serif;
+        }
+
+        .chat-admin-btn:active {
+            border-color: #404040 #fff #fff #404040;
+        }
+
+        .chat-admin-status-row {
+            display: flex;
+            gap: 6px;
+            align-items: center;
+        }
+
+        .chat-admin-status-select {
+            padding: 2px 4px;
+            font-size: 10px;
+            font-family: 'MS Sans Serif', Tahoma, sans-serif;
         }
 
         .player-window {
@@ -1185,8 +1408,8 @@
             <div class="icon-label">Internet Explorer</div>
         </div>
         <div class="icon" style="left: 10px; top: 190px;" onclick="openWindow('chat')">
-            <div class="icon-img"><img src="icons/message_tack-0.png" alt="Guestbook"></div>
-            <div class="icon-label">Guestbook</div>
+            <div class="icon-img"><img src="icons/message_tack-0.png" alt="Chat"></div>
+            <div class="icon-label">Chat</div>
         </div>
         <div class="icon" style="left: 10px; top: 280px;" onclick="openWindow('player')">
             <div class="icon-img"><img src="icons/loudspeaker_rays-0.png" alt="Winamp"></div>
@@ -1234,12 +1457,12 @@
         <div class="resize-handle" onmousedown="resizeStart(event, 'internet')"></div>
     </div>
 
-    <!-- Guestbook Window -->
-    <div class="window chat-window" id="chat" style="width: 350px; height: 450px; left: 450px; top: 120px;">
+    <!-- Chat Room Window -->
+    <div class="window chat-window" id="chat" style="width: 380px; height: 500px; left: 450px; top: 100px;">
         <div class="title-bar" onmousedown="dragStart(event, 'chat')">
             <div class="title-text">
                 <div class="title-icon"><img src="icons/message_tack-1.png" alt=""></div>
-                <span>Guestbook</span>
+                <span>santi's chat room</span>
             </div>
             <div class="title-buttons">
                 <div class="title-btn" onclick="minimizeWindow('chat')">_</div>
@@ -1248,17 +1471,44 @@
             </div>
         </div>
         <div class="window-content">
-            <!-- Comments loaded dynamically from Firebase -->
-            <div id="guestbook-comments">
-                <div style="text-align: center; color: #666; padding: 20px;">Loading comments...</div>
+            <!-- Admin Panel (hidden until admin mode) -->
+            <div class="chat-admin-panel">
+                <div class="chat-admin-title">admin controls</div>
+                <div class="chat-admin-row chat-admin-status-row">
+                    <select id="admin-status-type" class="chat-admin-status-select">
+                        <option value="online">online</option>
+                        <option value="away">away</option>
+                    </select>
+                    <input type="text" id="admin-status-message" class="chat-admin-input" placeholder="status message...">
+                    <button class="chat-admin-btn" onclick="updateStatus()">set</button>
+                </div>
+                <div class="chat-admin-row">
+                    <input type="text" id="admin-chat-message" class="chat-admin-input" placeholder="post as santi...">
+                    <button class="chat-admin-btn" onclick="postAsOwner()">send</button>
+                </div>
             </div>
 
-            <div style="margin-top: 20px; padding-top: 10px; border-top: 1px solid #808080;">
-                <div style="font-weight: bold; margin-bottom: 10px; font-size: 11px;">Leave a comment:</div>
-                <form id="guestbook-form" style="display: flex; flex-direction: column; gap: 8px;">
-                    <input type="text" id="guestbook-name" placeholder="Name (optional)" style="padding: 4px; border: 1px solid #808080; font-size: 11px; font-family: 'MS Sans Serif', Arial, sans-serif;">
-                    <textarea id="guestbook-message" rows="3" placeholder="Leave a comment..." required style="padding: 4px; border: 1px solid #808080; font-size: 11px; font-family: 'MS Sans Serif', Arial, sans-serif; resize: vertical;"></textarea>
-                    <button type="submit" id="guestbook-submit" style="padding: 4px 12px; background: #c0c0c0; border: 1px solid; border-color: #fff #000 #000 #fff; cursor: pointer; font-size: 11px; font-family: 'MS Sans Serif', Arial, sans-serif; align-self: flex-start;">Post</button>
+            <!-- Status Box -->
+            <div class="chat-status-box">
+                <div class="chat-status-indicator online" id="status-indicator"></div>
+                <div class="chat-status-content">
+                    <div class="chat-status-name">santi</div>
+                    <div class="chat-status-message" id="status-message">welcome to my corner of the internet</div>
+                    <div class="chat-status-lastseen" id="status-lastseen">last seen: just now</div>
+                </div>
+            </div>
+
+            <!-- Chat Messages -->
+            <div class="chat-messages" id="chat-messages">
+                <div style="text-align: center; color: #666; padding: 20px;">loading messages...</div>
+            </div>
+
+            <!-- Chat Input -->
+            <div class="chat-input-area">
+                <form class="chat-input-form" id="chat-form">
+                    <input type="text" class="chat-input-name" id="chat-name" placeholder="name">
+                    <input type="text" class="chat-input-message" id="chat-message" placeholder="say something..." required>
+                    <button type="submit" class="chat-input-send">send</button>
                 </form>
             </div>
         </div>
@@ -1465,7 +1715,7 @@
     <div class="start-menu" id="start-menu">
         <div class="start-menu-header">santi.wtf</div>
         <div class="start-menu-item" onclick="openWindow('internet')"><img src="icons/html-1.png" alt="">Internet Explorer</div>
-        <div class="start-menu-item" onclick="openWindow('chat')"><img src="icons/message_tack-1.png" alt="">Guestbook</div>
+        <div class="start-menu-item" onclick="openWindow('chat')"><img src="icons/message_tack-1.png" alt="">Chat</div>
         <div class="start-menu-item" onclick="openWindow('player')"><img src="icons/loudspeaker_rays-1.png" alt="">Winamp</div>
         <div class="start-menu-item" onclick="openWindow('applications')"><img src="icons/directory_closed-1.png" alt="">Applications</div>
         <div style="border-top: 1px solid #808080; margin: 2px 0;"></div>
@@ -1777,7 +2027,7 @@
                 <p>i miss that internet.</p>
                 <p>so i made a little corner of my own to share my thoughts, feelings, and projects. away from all the noise. away from algorithms, gurus, and ads. just me, my words, and now, you.</p>
                 <p>a little bit about me: i'm santi — i study the greatest creative minds, run a <a href="https://mail.0ffbrand.com" target="_blank">weekly letter</a> about them, and spend my days slinging software. when i'm not working, you'll find me reading, <a href="#" onclick="loadArchive(); return false;">writing</a>, or <a href="https://link.chess.com/friend/tVW5eb" target="_blank">pushing pawns</a>.</p>
-                <p>enjoy your stay, and come back soon — and as often as you'd like. don't forget to drop me a note in the <a href="#" onclick="openWindow('chat'); return false;">guestbook</a> on your way out.</p>
+                <p>enjoy your stay, and come back soon — and as often as you'd like. don't forget to say hi in the <a href="#" onclick="openWindow('chat'); return false;">chat</a> on your way out.</p>
                 <p>p.s. even though the site works pretty well on mobile, you'll have a lot more fun viewing it on your computer.</p>
                 <p style="font-family: monospace; margin-top: 1.5em;">&lt;3 <a href="mailto:yosawnts@gmail.com">santi</a></p>
             </div>
@@ -2267,7 +2517,7 @@
         document.addEventListener('DOMContentLoaded', initMediaPlayer);
 
         // ==========================================
-        // FIREBASE GUESTBOOK
+        // FIREBASE CHAT ROOM
         // ==========================================
 
         const firebaseConfig = {
@@ -2284,58 +2534,94 @@
         try {
             firebase.initializeApp(firebaseConfig);
             db = firebase.database();
-            initGuestbook();
+            initChatRoom();
         } catch (e) {
             console.log('Firebase not configured yet');
-            document.getElementById('guestbook-comments').innerHTML =
-                '<div style="text-align: center; color: #666; padding: 20px;">Guestbook coming soon!</div>';
+            document.getElementById('chat-messages').innerHTML =
+                '<div style="text-align: center; color: #666; padding: 20px;">chat coming soon!</div>';
         }
 
-        function initGuestbook() {
-            const commentsRef = db.ref('guestbook').orderByChild('timestamp').limitToLast(50);
-            commentsRef.on('value', (snapshot) => {
-                const commentsContainer = document.getElementById('guestbook-comments');
-                const comments = [];
-                snapshot.forEach((child) => { comments.push({ id: child.key, ...child.val() }); });
-                comments.reverse();
-                if (comments.length === 0) {
-                    commentsContainer.innerHTML = '<div style="text-align: center; color: #666; padding: 20px;">Be the first to leave a comment!</div>';
-                    return;
-                }
-                commentsContainer.innerHTML = comments.map((comment, index) => `
-                    <div class="chat-message">
-                        <button class="chat-delete" onclick="deleteComment('${comment.id}')">X</button>
-                        <div class="chat-author">${escapeHtml(comment.name || 'Anonymous')} <span class="chat-number">#${comments.length - index}</span></div>
-                        <div>${escapeHtml(comment.message)}</div>
-                    </div>
-                `).join('');
+        function initChatRoom() {
+            // Listen for status updates
+            db.ref('status').on('value', (snapshot) => {
+                const status = snapshot.val() || { type: 'online', message: 'welcome to my corner of the internet', lastSeen: Date.now() };
+                const indicator = document.getElementById('status-indicator');
+                const messageEl = document.getElementById('status-message');
+                const lastSeenEl = document.getElementById('status-lastseen');
+
+                indicator.className = 'chat-status-indicator ' + (status.type || 'online');
+                messageEl.textContent = status.message || 'welcome to my corner of the internet';
+                lastSeenEl.textContent = 'last seen: ' + getRelativeTime(status.lastSeen || Date.now());
             });
 
-            document.getElementById('guestbook-form').addEventListener('submit', async (e) => {
+            // Listen for chat messages
+            const messagesRef = db.ref('guestbook').orderByChild('timestamp').limitToLast(100);
+            messagesRef.on('value', (snapshot) => {
+                const messagesContainer = document.getElementById('chat-messages');
+                const messages = [];
+                snapshot.forEach((child) => { messages.push({ id: child.key, ...child.val() }); });
+
+                if (messages.length === 0) {
+                    messagesContainer.innerHTML = '<div style="text-align: center; color: #666; padding: 20px;">be the first to say something!</div>';
+                    return;
+                }
+
+                messagesContainer.innerHTML = messages.map(msg => {
+                    const isOwner = msg.isOwner === true;
+                    const bubbleClass = isOwner ? 'owner' : 'visitor';
+                    const name = isOwner ? 'santi' : escapeHtml(msg.name || 'anon');
+                    return `
+                        <div class="chat-bubble ${bubbleClass}">
+                            <button class="chat-delete" onclick="deleteMessage('${msg.id}')">×</button>
+                            <div class="chat-bubble-header">
+                                <span class="chat-bubble-name">${name}</span>
+                                <span class="chat-bubble-time">${getRelativeTime(msg.timestamp)}</span>
+                            </div>
+                            <div class="chat-bubble-text">${escapeHtml(msg.message)}</div>
+                        </div>
+                    `;
+                }).join('');
+
+                // Scroll to bottom
+                messagesContainer.scrollTop = messagesContainer.scrollHeight;
+            });
+
+            // Chat form submission
+            document.getElementById('chat-form').addEventListener('submit', async (e) => {
                 e.preventDefault();
-                const nameInput = document.getElementById('guestbook-name');
-                const messageInput = document.getElementById('guestbook-message');
-                const submitBtn = document.getElementById('guestbook-submit');
-                const name = nameInput.value.trim();
+                const nameInput = document.getElementById('chat-name');
+                const messageInput = document.getElementById('chat-message');
                 const message = messageInput.value.trim();
                 if (!message) return;
-                submitBtn.disabled = true;
-                submitBtn.textContent = 'Posting...';
+
                 try {
                     await db.ref('guestbook').push({
-                        name: name || 'Anonymous',
+                        name: nameInput.value.trim() || 'anon',
                         message: message,
-                        timestamp: firebase.database.ServerValue.TIMESTAMP
+                        timestamp: firebase.database.ServerValue.TIMESTAMP,
+                        isOwner: false
                     });
-                    nameInput.value = '';
                     messageInput.value = '';
                 } catch (error) {
-                    console.error('Error posting comment:', error);
-                    alert('Failed to post comment. Please try again.');
+                    console.error('Error posting message:', error);
                 }
-                submitBtn.disabled = false;
-                submitBtn.textContent = 'Post';
             });
+        }
+
+        function getRelativeTime(timestamp) {
+            if (!timestamp) return 'just now';
+            const now = Date.now();
+            const diff = now - timestamp;
+            const seconds = Math.floor(diff / 1000);
+            const minutes = Math.floor(seconds / 60);
+            const hours = Math.floor(minutes / 60);
+            const days = Math.floor(hours / 24);
+
+            if (seconds < 60) return 'just now';
+            if (minutes < 60) return minutes + 'm ago';
+            if (hours < 24) return hours + 'h ago';
+            if (days < 7) return days + 'd ago';
+            return new Date(timestamp).toLocaleDateString();
         }
 
         function escapeHtml(text) {
@@ -2345,7 +2631,7 @@
         }
 
         // ==========================================
-        // GUESTBOOK ADMIN MODE
+        // CHAT ADMIN MODE
         // ==========================================
 
         const ADMIN_PASSWORD = 'wtf123';
@@ -2367,11 +2653,10 @@
 
         function toggleAdminMode() {
             if (!isAdminMode) {
-                const password = prompt('Enter admin password:');
+                const password = prompt('enter admin password:');
                 if (password === ADMIN_PASSWORD) {
                     isAdminMode = true;
                     document.getElementById('chat').classList.add('admin-mode');
-                    alert('Admin mode enabled. You can now delete comments.');
                 }
             } else {
                 isAdminMode = false;
@@ -2379,11 +2664,43 @@
             }
         }
 
-        function deleteComment(commentId) {
+        function updateStatus() {
             if (!isAdminMode) return;
-            if (confirm('Delete this comment?')) {
-                db.ref('guestbook/' + commentId).remove()
-                    .catch(err => alert('Failed to delete: ' + err.message));
+            const type = document.getElementById('admin-status-type').value;
+            const message = document.getElementById('admin-status-message').value.trim();
+
+            db.ref('status').set({
+                type: type,
+                message: message || 'welcome to my corner of the internet',
+                lastSeen: firebase.database.ServerValue.TIMESTAMP
+            }).then(() => {
+                document.getElementById('admin-status-message').value = '';
+            }).catch(err => alert('failed to update status: ' + err.message));
+        }
+
+        function postAsOwner() {
+            if (!isAdminMode) return;
+            const messageInput = document.getElementById('admin-chat-message');
+            const message = messageInput.value.trim();
+            if (!message) return;
+
+            db.ref('guestbook').push({
+                name: 'santi',
+                message: message,
+                timestamp: firebase.database.ServerValue.TIMESTAMP,
+                isOwner: true
+            }).then(() => {
+                messageInput.value = '';
+                // Also update lastSeen
+                db.ref('status/lastSeen').set(firebase.database.ServerValue.TIMESTAMP);
+            }).catch(err => alert('failed to post: ' + err.message));
+        }
+
+        function deleteMessage(messageId) {
+            if (!isAdminMode) return;
+            if (confirm('delete this message?')) {
+                db.ref('guestbook/' + messageId).remove()
+                    .catch(err => alert('failed to delete: ' + err.message));
             }
         }
     </script>
