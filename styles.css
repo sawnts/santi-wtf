@@ -1,7 +1,18 @@
+        /* Windows 98 Cursors */
+        :root {
+            --cursor-arrow: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="16" height="24" viewBox="0 0 16 24"><path fill="%23000" d="M0 0v21l5-5h7L0 0z"/><path fill="%23fff" d="M1 3v14l3.5-3.5h5L1 3z"/></svg>') 0 0, default;
+            --cursor-pointer: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="16" height="24" viewBox="0 0 16 24"><path fill="%23000" d="M5 0v8H3v3H1v2h2v2h2v2h2v2h2v2h2v-2h-2v-2H7v-2H5v-2h6v-2H9V9h2V7H9V5H7V3h2V1H7v2H5V0z"/><path fill="%23fff" d="M6 2v6H4v2H2v2h2v2h2v2h2v2h2v-2h-2v-2H6v-2h4v-2H8V8h2V6H8V4H6V2z"/></svg>') 6 0, pointer;
+            --cursor-text: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="8" height="18" viewBox="0 0 8 18"><path fill="%23000" d="M0 0h3v1h2v1h3V0H5V1H3V0H0zm3 2v14H1v2h3v-1h2v1h2v-2H5V2H3zm0 14v1H0v1h3v-1h2v1h3v-1H5v-1H3z"/><path fill="%23fff" d="M3 3h2v12H3z"/></svg>') 4 9, text;
+            --cursor-move: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20"><path fill="%23000" d="M9 0h2v5h4l-5 5-5-5h4V0zm0 20h2v-5h4l-5-5-5 5h4v5zM0 9v2h5v4l5-5-5-5v4H0zm20 0v2h-5v4l-5-5 5-5v4h5z"/><path fill="%23fff" d="M9 2h2v4h2l-3 3-3-3h2V2zm0 16h2v-4h2l-3-3-3 3h2v4zM2 9v2h4v2l3-3-3-3v2H2zm16 0v2h-4v2l-3-3 3-3v2h4z"/></svg>') 10 10, move;
+            --cursor-wait: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="16" height="24" viewBox="0 0 16 24"><path fill="%23000" d="M1 2h14v2H1zm0 18h14v2H1zM3 4v3l3 5-3 5v3h10v-3l-3-5 3-5V4H3z"/><path fill="%23fff" d="M4 5h8v2l-3 5 3 5v2H4v-2l3-5-3-5V5z"/><path fill="%23008080" d="M5 7h6l-2 3h-2l-2-3zm0 10h6l-2-3h-2l-2 3z"/></svg>') 8 12, wait;
+            --cursor-nwse: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16"><path fill="%23000" d="M0 0v6l2-2 4 4 2-2-4-4 2-2H0zm16 16v-6l-2 2-4-4-2 2 4 4-2 2h6z"/><path fill="%23fff" d="M1 1v3l1-1 5 5 1-1-5-5 1-1H1zm14 14v-3l-1 1-5-5-1 1 5 5-1 1h3z"/></svg>') 8 8, nwse-resize;
+        }
+
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+            cursor: var(--cursor-arrow);
         }
 
         body {
@@ -11,7 +22,7 @@
                         linear-gradient(180deg, #1084d0 0%, #0f6bb5 50%, #0e5a9e 100%);
             background-size: 200px, 100%;
             height: 100vh;
-            cursor: default;
+            cursor: var(--cursor-arrow);
             user-select: none;
         }
 
@@ -36,7 +47,7 @@
             width: 70px;
             text-align: center;
             margin-bottom: 20px;
-            cursor: pointer;
+            cursor: var(--cursor-pointer);
             position: absolute;
         }
 
@@ -93,7 +104,7 @@
             right: 0;
             width: 16px;
             height: 16px;
-            cursor: nwse-resize;
+            cursor: var(--cursor-nwse);
             background: linear-gradient(135deg, 
                 transparent 0%, transparent 40%, 
                 #808080 40%, #808080 45%, 
@@ -114,7 +125,7 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            cursor: move;
+            cursor: var(--cursor-move);
         }
 
         .window:not(.active) .title-bar {
@@ -150,7 +161,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            cursor: pointer;
+            cursor: var(--cursor-pointer);
             font-weight: bold;
             font-family: inherit;
             padding: 0;
@@ -158,7 +169,7 @@
             color: inherit;
         }
         .title-btn:disabled {
-            cursor: default;
+            cursor: var(--cursor-arrow);
             opacity: 0.7;
         }
 
@@ -176,7 +187,7 @@
         .menu-item {
             display: inline-block;
             padding: 2px 6px;
-            cursor: pointer;
+            cursor: var(--cursor-pointer);
         }
 
         .menu-item:hover {
@@ -198,7 +209,7 @@
             background: #c0c0c0;
             border: 1px solid;
             border-color: #fff #000 #000 #fff;
-            cursor: pointer;
+            cursor: var(--cursor-pointer);
             display: flex;
             align-items: center;
             justify-content: center;
@@ -230,7 +241,7 @@
             font-size: 12px;
             line-height: 1.4;
             user-select: text;
-            cursor: text;
+            cursor: var(--cursor-text);
         }
 
         .window-content p {
@@ -280,7 +291,7 @@
             display: flex;
             align-items: center;
             gap: 4px;
-            cursor: pointer;
+            cursor: var(--cursor-pointer);
             font-weight: bold;
             font-size: 11px;
         }
@@ -309,7 +320,7 @@
             display: flex;
             align-items: center;
             gap: 4px;
-            cursor: pointer;
+            cursor: var(--cursor-pointer);
             font-size: 11px;
             max-width: 150px;
         }
@@ -354,7 +365,7 @@
 
         .start-menu-item {
             padding: 4px 8px 4px 8px;
-            cursor: pointer;
+            cursor: var(--cursor-pointer);
             font-size: 11px;
             display: flex;
             align-items: center;
@@ -401,7 +412,7 @@
         }
 
         .shutdown-dialog .title-bar {
-            cursor: default;
+            cursor: var(--cursor-arrow);
         }
 
         .shutdown-content {
@@ -436,7 +447,7 @@
             border-color: #fff #000 #000 #fff;
             font-size: 11px;
             font-family: 'MS Sans Serif', Arial, sans-serif;
-            cursor: pointer;
+            cursor: var(--cursor-pointer);
         }
 
         .shutdown-btn:active {
@@ -512,7 +523,7 @@
             background: #c0c0c0;
             border: 2px solid;
             border-color: #fff #000 #000 #fff;
-            cursor: pointer;
+            cursor: var(--cursor-pointer);
             font-family: 'MS Sans Serif', Arial, sans-serif;
         }
 
@@ -527,7 +538,7 @@
 
         .clippy-character {
             font-size: 48px;
-            cursor: pointer;
+            cursor: var(--cursor-pointer);
             filter: drop-shadow(2px 2px 0 rgba(0,0,0,0.3));
             transition: transform 0.2s;
         }
@@ -541,7 +552,7 @@
             top: 4px;
             right: 6px;
             font-size: 14px;
-            cursor: pointer;
+            cursor: var(--cursor-pointer);
             color: #666;
         }
 
@@ -698,7 +709,7 @@
             height: 16px;
             font-size: 10px;
             padding: 0;
-            cursor: pointer;
+            cursor: var(--cursor-pointer);
             display: none;
             line-height: 14px;
             text-align: center;
@@ -748,7 +759,7 @@
             border-left: 2px solid #fff;
             border-bottom: 2px solid #808080;
             border-right: 2px solid #808080;
-            cursor: pointer;
+            cursor: var(--cursor-pointer);
             font-size: 11px;
             font-family: 'MS Sans Serif', Tahoma, sans-serif;
             font-weight: bold;
@@ -803,7 +814,7 @@
             background: #c0c0c0;
             border: 1px solid;
             border-color: #fff #404040 #404040 #fff;
-            cursor: pointer;
+            cursor: var(--cursor-pointer);
             font-size: 10px;
             font-family: 'MS Sans Serif', Tahoma, sans-serif;
         }
@@ -918,7 +929,7 @@
             border-left: 2px solid #808080;
             border-bottom: 2px solid #ffffff;
             border-right: 2px solid #ffffff;
-            cursor: pointer;
+            cursor: var(--cursor-pointer);
             position: relative;
         }
 
@@ -947,7 +958,7 @@
             border-left: 2px solid #ffffff;
             border-bottom: 2px solid #808080;
             border-right: 2px solid #808080;
-            cursor: pointer;
+            cursor: var(--cursor-pointer);
         }
 
         .media-controls {
@@ -965,7 +976,7 @@
             border-left: 2px solid #ffffff;
             border-bottom: 2px solid #808080;
             border-right: 2px solid #808080;
-            cursor: pointer;
+            cursor: var(--cursor-pointer);
             display: flex;
             align-items: center;
             justify-content: center;
@@ -1015,7 +1026,7 @@
             border-left: 2px solid #808080;
             border-bottom: 2px solid #ffffff;
             border-right: 2px solid #ffffff;
-            cursor: pointer;
+            cursor: var(--cursor-pointer);
             position: relative;
         }
 
@@ -1044,7 +1055,7 @@
             border-left: 2px solid #ffffff;
             border-bottom: 2px solid #808080;
             border-right: 2px solid #808080;
-            cursor: pointer;
+            cursor: var(--cursor-pointer);
         }
 
         .media-playlist {
@@ -1069,7 +1080,7 @@
             padding: 2px 6px;
             font-size: 11px;
             color: #000;
-            cursor: pointer;
+            cursor: var(--cursor-pointer);
             display: flex;
             gap: 6px;
             background: #ffffff;
@@ -1259,7 +1270,7 @@
 
             /* Hide window drag on mobile (not useful on touch) */
             .title-bar {
-                cursor: default;
+                cursor: var(--cursor-arrow);
             }
 
             /* Make toolbar buttons touch-friendly */
