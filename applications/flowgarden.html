@@ -344,6 +344,7 @@
             kill: function() {
                 this.state.dead = true;
                 clearInterval(this.state.timer);
+                this.dom.editor.value = "";
                 this.dom.editor.disabled = true;
                 this.dom.status.innerText = "WITHERED";
                 this.dom.status.style.color = "red";
