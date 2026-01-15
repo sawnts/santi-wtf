@@ -123,7 +123,7 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            cursor: var(--cursor-move);
+            cursor: var(--cursor-arrow);
         }
 
         .window:not(.active) .title-bar {
