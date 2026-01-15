@@ -241,6 +241,15 @@
             user-select: text;
         }
 
+        .window-content,
+        .window-content * {
+            cursor: var(--cursor-arrow) !important;
+        }
+
+        .window-content a {
+            cursor: var(--cursor-pointer) !important;
+        }
+
         .window-content p {
             margin-bottom: 16px;
         }
