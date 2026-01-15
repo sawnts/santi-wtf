@@ -5,7 +5,6 @@
             --cursor-text: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="8" height="18" viewBox="0 0 8 18"><path fill="%23000" d="M0 0h3v1h2v1h3V0H5V1H3V0H0zm3 2v14H1v2h3v-1h2v1h2v-2H5V2H3zm0 14v1H0v1h3v-1h2v1h3v-1H5v-1H3z"/><path fill="%23fff" d="M3 3h2v12H3z"/></svg>') 4 9, text;
             --cursor-move: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20"><path fill="%23000" d="M9 0h2v5h4l-5 5-5-5h4V0zm0 20h2v-5h4l-5-5-5 5h4v5zM0 9v2h5v4l5-5-5-5v4H0zm20 0v2h-5v4l-5-5 5-5v4h5z"/><path fill="%23fff" d="M9 2h2v4h2l-3 3-3-3h2V2zm0 16h2v-4h2l-3-3-3 3h2v4zM2 9v2h4v2l3-3-3-3v2H2zm16 0v2h-4v2l-3-3 3-3v2h4z"/></svg>') 10 10, move;
             --cursor-wait: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="16" height="24" viewBox="0 0 16 24"><path fill="%23000" d="M1 2h14v2H1zm0 18h14v2H1zM3 4v3l3 5-3 5v3h10v-3l-3-5 3-5V4H3z"/><path fill="%23fff" d="M4 5h8v2l-3 5 3 5v2H4v-2l3-5-3-5V5z"/><path fill="%23008080" d="M5 7h6l-2 3h-2l-2-3zm0 10h6l-2-3h-2l-2 3z"/></svg>') 8 12, wait;
-            --cursor-nwse: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16"><path fill="%23000" d="M0 0v6l2-2 4 4 2-2-4-4 2-2H0zm16 16v-6l-2 2-4-4-2 2 4 4-2 2h6z"/><path fill="%23fff" d="M1 1v3l1-1 5 5 1-1-5-5 1-1H1zm14 14v-3l-1 1-5-5-1 1 5 5-1 1h3z"/></svg>') 8 8, nwse-resize;
         }
 
         * {
@@ -104,7 +103,7 @@
             right: 0;
             width: 16px;
             height: 16px;
-            cursor: var(--cursor-nwse);
+            cursor: nwse-resize;
             background: linear-gradient(135deg, 
                 transparent 0%, transparent 40%, 
                 #808080 40%, #808080 45%, 
