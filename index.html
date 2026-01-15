@@ -303,6 +303,10 @@
                 <div class="icon-img"><img src="icons/note-0.png" alt=""></div>
                 <div class="icon-label" style="color: #000; text-shadow: none;">Sticky Notes</div>
             </div>
+            <div class="icon" style="position: static;" onclick="openWindow('pomodoro')">
+                <div class="icon-img"><img src="icons/clock-0.png" alt=""></div>
+                <div class="icon-label" style="color: #000; text-shadow: none;">Pomodoro</div>
+            </div>
         </div>
         <div class="resize-handle" onmousedown="resizeStart(event, 'applications')"></div>
     </div>
@@ -343,6 +347,25 @@
             <!-- Content loads here dynamically -->
         </div>
         <div class="resize-handle" onmousedown="resizeStart(event, 'flowgarden')"></div>
+    </div>
+
+    <!-- Pomodoro Timer Window -->
+    <div class="window" id="pomodoro" style="width: 400px; height: 420px; left: 180px; top: 60px;">
+        <div class="title-bar" onmousedown="dragStart(event, 'pomodoro')">
+            <div class="title-text">
+                <div class="title-icon"><img src="icons/clock-1.png" alt="Pomodoro"></div>
+                <span>Pomodoro Timer</span>
+            </div>
+            <div class="title-buttons">
+                <button type="button" class="title-btn" onclick="minimizeWindow('pomodoro')" aria-label="Minimize window">_</button>
+                <button type="button" class="title-btn" aria-label="Maximize window (disabled)" disabled>□</button>
+                <button type="button" class="title-btn" onclick="closeWindow('pomodoro')" aria-label="Close window">✕</button>
+            </div>
+        </div>
+        <div class="window-content" id="pomodoro-content" style="height: calc(100% - 24px); padding: 0; overflow: hidden;">
+            <!-- Content loads here dynamically -->
+        </div>
+        <div class="resize-handle" onmousedown="resizeStart(event, 'pomodoro')"></div>
     </div>
 
     <!-- Taskbar -->

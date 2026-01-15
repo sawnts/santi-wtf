@@ -28,6 +28,8 @@
                 loadFlowGarden();
             } else if (id === 'stickynotes') {
                 loadStickyNotes();
+            } else if (id === 'pomodoro') {
+                loadPomodoro();
             }
         }
 
@@ -396,6 +398,40 @@
             } catch (error) {
                 content.innerHTML = '<p>Error loading Sticky Notes.</p>';
                 console.error('Error loading Sticky Notes:', error);
+            }
+        }
+
+        // Load Pomodoro Timer content
+        async function loadPomodoro() {
+            const content = document.getElementById('pomodoro-content');
+            if (!content || content.dataset.loaded === 'true') return;
+
+            try {
+                const response = await fetch('applications/pomodoro.html');
+                const html = await response.text();
+
+                const parser = new DOMParser();
+                const doc = parser.parseFromString(html, 'text/html');
+                const body = doc.querySelector('body');
+                const styles = doc.querySelectorAll('style');
+                const scripts = doc.querySelectorAll('script');
+
+                if (body) {
+                    let styleHTML = '';
+                    styles.forEach(style => { styleHTML += style.outerHTML; });
+                    content.innerHTML = styleHTML + body.innerHTML;
+
+                    scripts.forEach(oldScript => {
+                        const newScript = document.createElement('script');
+                        newScript.textContent = oldScript.textContent;
+                        content.appendChild(newScript);
+                    });
+
+                    content.dataset.loaded = 'true';
+                }
+            } catch (error) {
+                content.innerHTML = '<p>Error loading Pomodoro Timer.</p>';
+                console.error('Error loading Pomodoro Timer:', error);
             }
         }
 

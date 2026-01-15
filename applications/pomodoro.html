@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Pomodoro Timer</title>
+    <style>
+        * { box-sizing: border-box; }
+
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'MS Sans Serif', 'Segoe UI', sans-serif;
+            height: 100%;
+            user-select: none;
+        }
+
+        .pomo-container {
+            width: 100%;
+            height: 100%;
+            background: #c0c0c0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .timer-display {
+            background: #000;
+            color: #0f0;
+            font-family: 'Courier New', monospace;
+            font-size: 64px;
+            font-weight: bold;
+            padding: 20px 40px;
+            border: 2px solid;
+            border-color: #808080 #fff #fff #808080;
+            margin-bottom: 8px;
+            letter-spacing: 4px;
+        }
+
+        .timer-label {
+            font-size: 14px;
+            font-weight: bold;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+        }
+
+        .timer-label.work { color: #000080; }
+        .timer-label.break { color: #008000; }
+
+        .controls {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 24px;
+        }
+
+        .pomo-btn {
+            padding: 8px 20px;
+            background: #c0c0c0;
+            border: 2px solid;
+            border-color: #fff #000 #000 #fff;
+            cursor: pointer;
+            font-family: 'MS Sans Serif', sans-serif;
+            font-size: 12px;
+            font-weight: bold;
+        }
+        .pomo-btn:active {
+            border-color: #000 #fff #fff #000;
+        }
+        .pomo-btn:disabled {
+            color: #808080;
+            cursor: default;
+        }
+        .pomo-btn.primary {
+            background: #000080;
+            color: #fff;
+        }
+
+        .settings-panel {
+            background: #c0c0c0;
+            border: 2px solid;
+            border-color: #fff #808080 #808080 #fff;
+            padding: 16px;
+            width: 100%;
+            max-width: 320px;
+        }
+
+        .settings-row {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 12px;
+            gap: 6px;
+        }
+
+        .settings-row:last-child {
+            margin-bottom: 0;
+        }
+
+        .settings-label {
+            font-size: 11px;
+        }
+
+        .settings-input {
+            width: 60px;
+            padding: 4px;
+            border: 2px solid;
+            border-color: #808080 #fff #fff #808080;
+            font-family: inherit;
+            font-size: 11px;
+            text-align: center;
+        }
+
+        .settings-unit {
+            font-size: 11px;
+            color: #444;
+        }
+
+        .checkbox-row {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 11px;
+        }
+
+        .checkbox-row input {
+            margin: 0;
+        }
+
+        .sessions-display {
+            margin-top: 20px;
+            font-size: 12px;
+            text-align: center;
+        }
+
+        .sessions-count {
+            font-weight: bold;
+            font-size: 18px;
+            color: #000080;
+        }
+
+        .tomato-icons {
+            margin-top: 6px;
+            font-size: 16px;
+            letter-spacing: 2px;
+        }
+    </style>
+</head>
+<body>
+    <div class="pomo-container">
+        <div class="timer-display" id="timer-display">25:00</div>
+        <div class="timer-label work" id="timer-label">work time</div>
+
+        <div class="controls">
+            <button class="pomo-btn primary" id="btn-start" onclick="pomo.toggle()">Start</button>
+            <button class="pomo-btn" onclick="pomo.reset()">Reset</button>
+            <button class="pomo-btn" onclick="pomo.skip()">Skip</button>
+        </div>
+
+        <div class="settings-panel">
+            <div class="settings-row">
+                <span class="settings-label">work:</span>
+                <input type="number" class="settings-input" id="work-duration" value="25" min="1" max="120" onchange="pomo.updateSettings()">
+                <span class="settings-unit">min</span>
+                <span class="settings-label">break:</span>
+                <input type="number" class="settings-input" id="break-duration" value="5" min="1" max="60" onchange="pomo.updateSettings()">
+                <span class="settings-unit">min</span>
+            </div>
+
+            <div class="settings-row">
+                <label class="checkbox-row">
+                    <input type="checkbox" id="auto-start" onchange="pomo.updateSettings()">
+                    auto-start breaks
+                </label>
+            </div>
+
+            <div class="settings-row">
+                <label class="checkbox-row">
+                    <input type="checkbox" id="sound-enabled" checked onchange="pomo.updateSettings()">
+                    sound
+                </label>
+            </div>
+        </div>
+
+        <div class="sessions-display">
+            sessions completed: <span class="sessions-count" id="session-count">0</span>
+            <div class="tomato-icons" id="tomato-icons"></div>
+        </div>
+    </div>
+
+    <script>
+        const pomo = {
+            state: {
+                isRunning: false,
+                isWork: true,
+                timeLeft: 25 * 60,
+                sessions: 0,
+                timer: null
+            },
+
+            settings: {
+                workDuration: 25,
+                breakDuration: 5,
+                autoStart: false,
+                soundEnabled: true
+            },
+
+            dom: {},
+
+            init: function() {
+                this.dom = {
+                    display: document.getElementById('timer-display'),
+                    label: document.getElementById('timer-label'),
+                    btnStart: document.getElementById('btn-start'),
+                    workInput: document.getElementById('work-duration'),
+                    breakInput: document.getElementById('break-duration'),
+                    autoStart: document.getElementById('auto-start'),
+                    soundEnabled: document.getElementById('sound-enabled'),
+                    sessionCount: document.getElementById('session-count'),
+                    tomatoIcons: document.getElementById('tomato-icons')
+                };
+
+                this.loadSettings();
+                this.applySettings();
+                this.updateDisplay();
+            },
+
+            loadSettings: function() {
+                const saved = localStorage.getItem('pomoSettings');
+                if (saved) {
+                    const parsed = JSON.parse(saved);
+                    this.settings = { ...this.settings, ...parsed };
+                    this.state.sessions = parsed.sessions || 0;
+                }
+            },
+
+            saveSettings: function() {
+                localStorage.setItem('pomoSettings', JSON.stringify({
+                    ...this.settings,
+                    sessions: this.state.sessions
+                }));
+            },
+
+            applySettings: function() {
+                this.dom.workInput.value = this.settings.workDuration;
+                this.dom.breakInput.value = this.settings.breakDuration;
+                this.dom.autoStart.checked = this.settings.autoStart;
+                this.dom.soundEnabled.checked = this.settings.soundEnabled;
+                this.dom.sessionCount.textContent = this.state.sessions;
+                this.updateTomatoes();
+
+                if (!this.state.isRunning) {
+                    this.state.timeLeft = this.settings.workDuration * 60;
+                    this.updateDisplay();
+                }
+            },
+
+            updateSettings: function() {
+                this.settings.workDuration = parseInt(this.dom.workInput.value) || 25;
+                this.settings.breakDuration = parseInt(this.dom.breakInput.value) || 5;
+                this.settings.autoStart = this.dom.autoStart.checked;
+                this.settings.soundEnabled = this.dom.soundEnabled.checked;
+                this.saveSettings();
+
+                if (!this.state.isRunning) {
+                    this.state.timeLeft = (this.state.isWork ? this.settings.workDuration : this.settings.breakDuration) * 60;
+                    this.updateDisplay();
+                }
+            },
+
+            toggle: function() {
+                if (this.state.isRunning) {
+                    this.pause();
+                } else {
+                    this.start();
+                }
+            },
+
+            start: function() {
+                this.state.isRunning = true;
+                this.dom.btnStart.textContent = 'Pause';
+
+                this.state.timer = setInterval(() => {
+                    this.state.timeLeft--;
+                    this.updateDisplay();
+
+                    if (this.state.timeLeft <= 0) {
+                        this.complete();
+                    }
+                }, 1000);
+            },
+
+            pause: function() {
+                this.state.isRunning = false;
+                this.dom.btnStart.textContent = 'Start';
+                clearInterval(this.state.timer);
+            },
+
+            reset: function() {
+                this.pause();
+                this.state.timeLeft = (this.state.isWork ? this.settings.workDuration : this.settings.breakDuration) * 60;
+                this.updateDisplay();
+            },
+
+            skip: function() {
+                this.pause();
+                this.switchMode();
+            },
+
+            complete: function() {
+                this.pause();
+                this.playSound();
+
+                if (this.state.isWork) {
+                    this.state.sessions++;
+                    this.dom.sessionCount.textContent = this.state.sessions;
+                    this.updateTomatoes();
+                    this.saveSettings();
+                }
+
+                this.switchMode();
+
+                if (this.settings.autoStart) {
+                    this.start();
+                }
+            },
+
+            switchMode: function() {
+                this.state.isWork = !this.state.isWork;
+                this.state.timeLeft = (this.state.isWork ? this.settings.workDuration : this.settings.breakDuration) * 60;
+
+                this.dom.label.textContent = this.state.isWork ? 'work time' : 'break time';
+                this.dom.label.className = 'timer-label ' + (this.state.isWork ? 'work' : 'break');
+
+                this.updateDisplay();
+            },
+
+            updateDisplay: function() {
+                const mins = Math.floor(this.state.timeLeft / 60);
+                const secs = this.state.timeLeft % 60;
+                this.dom.display.textContent =
+                    String(mins).padStart(2, '0') + ':' + String(secs).padStart(2, '0');
+            },
+
+            updateTomatoes: function() {
+                const count = Math.min(this.state.sessions, 12);
+                this.dom.tomatoIcons.textContent = '🍅'.repeat(count);
+                if (this.state.sessions > 12) {
+                    this.dom.tomatoIcons.textContent += ' +' + (this.state.sessions - 12);
+                }
+            },
+
+            playSound: function() {
+                if (!this.settings.soundEnabled) return;
+
+                try {
+                    const ctx = new (window.AudioContext || window.webkitAudioContext)();
+
+                    // Play a pleasant chime
+                    const playTone = (freq, start, duration) => {
+                        const osc = ctx.createOscillator();
+                        const gain = ctx.createGain();
+                        osc.connect(gain);
+                        gain.connect(ctx.destination);
+                        osc.frequency.value = freq;
+                        osc.type = 'sine';
+                        gain.gain.setValueAtTime(0.3, ctx.currentTime + start);
+                        gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + start + duration);
+                        osc.start(ctx.currentTime + start);
+                        osc.stop(ctx.currentTime + start + duration);
+                    };
+
+                    // Three-note chime
+                    playTone(523.25, 0, 0.3);      // C5
+                    playTone(659.25, 0.15, 0.3);   // E5
+                    playTone(783.99, 0.3, 0.4);    // G5
+                } catch (e) {
+                    console.log('Audio not supported');
+                }
+            }
+        };
+
+        // Initialize
+        (function() {
+            pomo.init();
+        })();
+    </script>
+</body>
+</html>
