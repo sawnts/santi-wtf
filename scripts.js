@@ -84,7 +84,8 @@
                     if (win.classList.contains('active')) item.classList.add('active');
 
                     // Get icon and title
-                    const icon = win.querySelector('.title-icon').textContent;
+                    const iconImg = win.querySelector('.title-icon img');
+                    const iconSrc = iconImg ? iconImg.src : '';
                     let title = win.querySelector('.title-text span').textContent;
 
                     // Truncate long titles
@@ -93,7 +94,7 @@
                         title = title.substring(0, maxLength) + '...';
                     }
 
-                    item.innerHTML = `<span style="margin-right: 4px;">${icon}</span>${title}`;
+                    item.innerHTML = `<img src="${iconSrc}" alt="" class="taskbar-icon">${title}`;
 
                     item.onclick = () => {
                         if (minimizedWindows.has(win.id)) {

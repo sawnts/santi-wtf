@@ -317,6 +317,12 @@
             border-color: #000 #fff #fff #000;
         }
 
+        .taskbar-icon {
+            width: 16px;
+            height: 16px;
+            flex-shrink: 0;
+        }
+
         .system-tray {
             height: 22px;
             padding: 0 6px;
