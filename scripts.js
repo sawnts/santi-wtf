@@ -275,7 +275,7 @@
                 </p>
 
                 <h2>notes</h2>
-                <p>on creativity, philosophy, business, and life.</p>
+                <p>on creativity, philosophy, business, life, and so on.</p>
 
                 <h3 style="margin-top: 30px;">2026</h3>
                 <ul>
