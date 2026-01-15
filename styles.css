@@ -2,7 +2,6 @@
         :root {
             --cursor-arrow: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="16" height="24" viewBox="0 0 16 24"><path fill="%23000" d="M0 0v21l5-5h7L0 0z"/><path fill="%23fff" d="M1 3v14l3.5-3.5h5L1 3z"/></svg>') 0 0, default;
             --cursor-pointer: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="16" height="24" viewBox="0 0 16 24"><path fill="%23000" d="M5 0v8H3v3H1v2h2v2h2v2h2v2h2v2h2v-2h-2v-2H7v-2H5v-2h6v-2H9V9h2V7H9V5H7V3h2V1H7v2H5V0z"/><path fill="%23fff" d="M6 2v6H4v2H2v2h2v2h2v2h2v2h2v-2h-2v-2H6v-2h4v-2H8V8h2V6H8V4H6V2z"/></svg>') 6 0, pointer;
-            --cursor-text: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="8" height="18" viewBox="0 0 8 18"><path fill="%23000" d="M0 0h3v1h2v1h3V0H5V1H3V0H0zm3 2v14H1v2h3v-1h2v1h2v-2H5V2H3zm0 14v1H0v1h3v-1h2v1h3v-1H5v-1H3z"/><path fill="%23fff" d="M3 3h2v12H3z"/></svg>') 4 9, text;
             --cursor-move: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20"><path fill="%23000" d="M9 0h2v5h4l-5 5-5-5h4V0zm0 20h2v-5h4l-5-5-5 5h4v5zM0 9v2h5v4l5-5-5-5v4H0zm20 0v2h-5v4l-5-5 5-5v4h5z"/><path fill="%23fff" d="M9 2h2v4h2l-3 3-3-3h2V2zm0 16h2v-4h2l-3-3-3 3h2v4zM2 9v2h4v2l3-3-3-3v2H2zm16 0v2h-4v2l-3-3 3-3v2h4z"/></svg>') 10 10, move;
             --cursor-wait: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="16" height="24" viewBox="0 0 16 24"><path fill="%23000" d="M1 2h14v2H1zm0 18h14v2H1zM3 4v3l3 5-3 5v3h10v-3l-3-5 3-5V4H3z"/><path fill="%23fff" d="M4 5h8v2l-3 5 3 5v2H4v-2l3-5-3-5V5z"/><path fill="%23008080" d="M5 7h6l-2 3h-2l-2-3zm0 10h6l-2-3h-2l-2 3z"/></svg>') 8 12, wait;
         }
@@ -240,7 +239,7 @@
             font-size: 12px;
             line-height: 1.4;
             user-select: text;
-            cursor: var(--cursor-text);
+            cursor: text;
         }
 
         .window-content p {
