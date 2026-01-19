@@ -67,6 +67,10 @@
             <div class="icon-img"><img src="icons/notepad-0.png" alt="Updates"></div>
             <div class="icon-label">Updates</div>
         </div>
+        <div class="icon" style="left: 10px; top: 550px;" onclick="openWindow('habits')">
+            <div class="icon-img"><img src="icons/calendar-0.png" alt="Habits"></div>
+            <div class="icon-label">Habits</div>
+        </div>
         <div class="desktop-watermark">made with <span style="color: #ff0000;">♥</span> in seattle</div>
     </div>
 
@@ -340,6 +344,25 @@
         <div class="resize-handle" onmousedown="resizeStart(event, 'updates')"></div>
     </div>
 
+    <!-- Habits Tracker Window -->
+    <div class="window habits-window" id="habits" style="width: 340px; height: 490px; left: 160px; top: 30px;">
+        <div class="title-bar" onmousedown="dragStart(event, 'habits')">
+            <div class="title-text">
+                <div class="title-icon"><img src="icons/calendar-1.png" alt="Habits"></div>
+                <span>habits</span>
+            </div>
+            <div class="title-buttons">
+                <button type="button" class="title-btn" onclick="minimizeWindow('habits')" aria-label="Minimize window">_</button>
+                <button type="button" class="title-btn" aria-label="Maximize window (disabled)" disabled>□</button>
+                <button type="button" class="title-btn" onclick="closeWindow('habits')" aria-label="Close window">✕</button>
+            </div>
+        </div>
+        <div class="window-content" id="habits-content" style="height: calc(100% - 24px); overflow-y: auto;">
+            <!-- Content renders here dynamically -->
+        </div>
+        <div class="resize-handle" onmousedown="resizeStart(event, 'habits')"></div>
+    </div>
+
     <!-- Taskbar -->
     <div class="taskbar">
         <div class="start-btn" onclick="toggleStartMenu()">
@@ -361,6 +384,7 @@
         <div class="start-menu-item" onclick="openWindow('player')"><img src="icons/Spotify_23464.png" alt="">Spotify</div>
         <div class="start-menu-item" onclick="openWindow('applications')"><img src="icons/directory_closed-1.png" alt="">Applications</div>
         <div class="start-menu-item" onclick="openWindow('updates')"><img src="icons/notepad-1.png" alt="">Updates</div>
+        <div class="start-menu-item" onclick="openWindow('habits')"><img src="icons/calendar-1.png" alt="">Habits</div>
         <div style="border-top: 1px solid #808080; margin: 2px 0;"></div>
         <div class="start-menu-item" onclick="openShutdownDialog()"><img src="icons/shut_down_normal-1.png" alt="">Shut Down...</div>
     </div>

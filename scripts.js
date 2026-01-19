@@ -15,17 +15,160 @@
         const openWindows = new Set();
 
         // ==========================================
-        // SITE UPDATES - Add new entries at the top
+        // SITE UPDATES (Firebase-backed)
         // ==========================================
-        const siteUpdates = [
+        const defaultSiteUpdates = [
+            { date: "january 19, 2026", text: "added habit tracker to the desktop" },
             { date: "january 18, 2026", text: "added updates window to the desktop" },
             { date: "january 14, 2026", text: "added pomodoro timer application" },
             { date: "january 10, 2026", text: "new blog post: 10 reasons why you should start writing online" },
             { date: "january 7, 2026", text: "launched chat" },
             { date: "january 5, 2026", text: "added flow garden and sticky notes applications" },
             { date: "january 1, 2026", text: "launched this website 🥂" },
-            // add new entries above this line
         ];
+        let siteUpdates = [...defaultSiteUpdates];
+
+        function initUpdates() {
+            if (!window.db) {
+                setTimeout(initUpdates, 100);
+                return;
+            }
+            window.db.ref('updates').on('value', (snapshot) => {
+                const data = snapshot.val();
+                console.log('Firebase updates data:', data);
+                if (data) {
+                    // Convert from Firebase object to array if needed
+                    siteUpdates = Array.isArray(data) ? data : Object.values(data);
+                    console.log('Loaded updates:', siteUpdates);
+                } else {
+                    console.log('No data, initializing with defaults');
+                    // Initialize Firebase with defaults
+                    window.db.ref('updates').set(defaultSiteUpdates);
+                }
+                if (document.getElementById('updates').style.display === 'block') {
+                    renderUpdates();
+                }
+            });
+        }
+
+        function saveUpdates() {
+            console.log('Saving updates:', JSON.stringify(siteUpdates));
+            return window.db.ref('updates').set(siteUpdates).then(() => {
+                console.log('Updates saved successfully');
+            }).catch(err => {
+                console.error('Save failed:', err);
+                alert('failed to save: ' + err.message);
+            });
+        }
+
+        function addUpdate(text) {
+            if (!isAdminMode || !text.trim()) return;
+            const today = new Date();
+            const monthNames = ['january', 'february', 'march', 'april', 'may', 'june',
+                               'july', 'august', 'september', 'october', 'november', 'december'];
+            const date = `${monthNames[today.getMonth()]} ${today.getDate()}, ${today.getFullYear()}`;
+            siteUpdates.unshift({ date, text: text.trim() });
+            saveUpdates();
+        }
+
+        function deleteUpdate(index) {
+            if (!isAdminMode) return;
+            if (!confirm('delete this update?')) return;
+            siteUpdates.splice(index, 1);
+            saveUpdates();
+        }
+
+        function editUpdate(index) {
+            if (!isAdminMode) return;
+            const newText = prompt('edit update:', siteUpdates[index].text);
+            if (newText === null) return;
+            if (!newText.trim()) {
+                deleteUpdate(index);
+                return;
+            }
+            siteUpdates[index].text = newText.trim();
+            saveUpdates();
+        }
+
+        // ==========================================
+        // HABIT TRACKER DATA (Firebase-backed)
+        // ==========================================
+        const defaultHabitData = [
+            { name: "meditation", completed: [1,2,3,4,5,6,7,8,9,10,11,12,13,14] },
+            { name: "sleep", completed: [1,2,3,4,5,6,7,8,9,10,11,12,13] },
+            { name: "movement", completed: [1,2,3,4,5,6,7,8,9,10,11,12,13,14] },
+            { name: "reading", completed: [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19] },
+            { name: "writing", completed: [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19] },
+        ];
+        let habitData = [...defaultHabitData];
+
+        function initHabits() {
+            if (!window.db) {
+                setTimeout(initHabits, 100);
+                return;
+            }
+            window.db.ref('habits').on('value', (snapshot) => {
+                const data = snapshot.val();
+                if (data) {
+                    // Convert from Firebase object to array if needed
+                    habitData = Array.isArray(data) ? data : Object.values(data);
+                    // Also convert completed arrays within each habit
+                    habitData = habitData.map(h => ({
+                        ...h,
+                        completed: Array.isArray(h.completed) ? h.completed : (h.completed ? Object.values(h.completed) : [])
+                    }));
+                } else {
+                    // Initialize Firebase with defaults
+                    window.db.ref('habits').set(defaultHabitData);
+                }
+                if (document.getElementById('habits').style.display === 'block') {
+                    renderHabitTracker();
+                }
+            });
+        }
+
+        function saveHabits() {
+            return window.db.ref('habits').set(habitData).catch(err => {
+                alert('failed to save: ' + err.message);
+            });
+        }
+
+        function toggleHabitDay(habitIndex, dayOfYear) {
+            if (!isAdminMode) return;
+            const habit = habitData[habitIndex];
+            const idx = habit.completed.indexOf(dayOfYear);
+            if (idx === -1) {
+                habit.completed.push(dayOfYear);
+            } else {
+                habit.completed.splice(idx, 1);
+            }
+            saveHabits();
+        }
+
+        function addHabit(name) {
+            if (!isAdminMode || !name.trim()) return;
+            habitData.push({ name: name.trim().toLowerCase(), completed: [] });
+            saveHabits();
+        }
+
+        function editHabit(index) {
+            if (!isAdminMode) return;
+            const newName = prompt('edit habit name:', habitData[index].name);
+            if (newName === null) return;
+            if (!newName.trim()) {
+                deleteHabit(index);
+                return;
+            }
+            habitData[index].name = newName.trim().toLowerCase();
+            saveHabits();
+        }
+
+        function deleteHabit(index) {
+            if (!isAdminMode) return;
+            if (!confirm('delete this habit?')) return;
+            habitData.splice(index, 1);
+            saveHabits();
+        }
 
         function openWindow(id) {
             const win = document.getElementById(id);
@@ -45,6 +188,8 @@
                 loadPomodoro();
             } else if (id === 'updates') {
                 renderUpdates();
+            } else if (id === 'habits') {
+                renderHabitTracker();
             }
         }
 
@@ -452,14 +597,153 @@
             const content = document.getElementById('updates-content');
             if (!content) return;
 
-            const updatesHTML = siteUpdates.map(update => `
-                <div class="update-entry">
-                    <div class="update-date">${update.date}</div>
-                    <div class="update-text">${update.text}</div>
+            const adminForm = isAdminMode ? `
+                <div class="update-admin-form">
+                    <input type="text" id="new-update-text" class="update-admin-input" placeholder="new update...">
+                    <button class="update-admin-btn" onclick="addUpdate(document.getElementById('new-update-text').value); document.getElementById('new-update-text').value = '';">post</button>
                 </div>
-            `).join('');
+            ` : '';
 
-            content.innerHTML = updatesHTML;
+            const updatesHTML = siteUpdates.map((update, index) => {
+                const adminButtons = isAdminMode ? `
+                    <span class="update-admin-actions">
+                        <button class="update-edit-btn" onclick="editUpdate(${index})">edit</button>
+                        <button class="update-delete-btn" onclick="deleteUpdate(${index})">×</button>
+                    </span>
+                ` : '';
+                return `
+                    <div class="update-entry">
+                        <div class="update-date">${update.date}${adminButtons}</div>
+                        <div class="update-text">${update.text}</div>
+                    </div>
+                `;
+            }).join('');
+
+            content.innerHTML = adminForm + updatesHTML;
+        }
+
+        function renderHabitTracker() {
+            const content = document.getElementById('habits-content');
+            if (!content) return;
+
+            const habits = habitData;
+            const today = new Date();
+            const currentYear = today.getFullYear();
+            const currentMonth = today.getMonth();
+            const startOfYear = new Date(currentYear, 0, 1);
+            const todayDayOfYear = Math.floor((today - startOfYear) / (1000 * 60 * 60 * 24)) + 1;
+            const todayDate = today.getDate();
+
+            // Calculate streak
+            function getStreak(completed) {
+                let streak = 0;
+                let checkDay = todayDayOfYear;
+
+                // If today isn't completed, start checking from yesterday
+                if (!completed.includes(todayDayOfYear)) {
+                    checkDay = todayDayOfYear - 1;
+                }
+
+                while (checkDay > 0 && completed.includes(checkDay)) {
+                    streak++;
+                    checkDay--;
+                }
+                return streak;
+            }
+
+            // Build HTML for each habit
+            const habitsHTML = habits.map((habit, habitIndex) => {
+                // Count completed days this year
+                const completedThisYear = habit.completed.filter(d => d <= todayDayOfYear).length;
+                const percentage = Math.round((completedThisYear / 365) * 100);
+                const streak = getStreak(habit.completed);
+                const isTodayDone = habit.completed.includes(todayDayOfYear);
+
+                const adminButton = isAdminMode ? `
+                    <a href="#" class="habit-today-link ${isTodayDone ? 'done' : ''}" onclick="toggleHabitDay(${habitIndex}, ${todayDayOfYear}); return false;">
+                        ${isTodayDone ? '✓ done' : 'mark today'}
+                    </a>
+                ` : '';
+
+                const adminActions = isAdminMode ? `
+                    <span class="habit-admin-actions">
+                        <button class="habit-edit-btn" onclick="editHabit(${habitIndex})">edit</button>
+                        <button class="habit-delete-btn" onclick="deleteHabit(${habitIndex})">×</button>
+                    </span>
+                ` : '';
+
+                const streakEmoji = streak > 0 ? ' 🔥' : '';
+
+                return `
+                    <div class="habit-section">
+                        <div class="habit-header">
+                            <span class="habit-name">${habit.name}${streakEmoji}${adminActions}</span>
+                            <span class="habit-streak">${streak > 0 ? streak + ' day streak' : ''}</span>
+                        </div>
+                        <div class="habit-progress-row">
+                            <div class="habit-progress-bar">
+                                <div class="habit-progress-fill" style="width: ${percentage}%;"></div>
+                            </div>
+                            <span class="habit-percentage">${percentage}%</span>
+                        </div>
+                        <div class="habit-stats">
+                            <span class="habit-month-stat">${completedThisYear}/365 in ${currentYear}</span>
+                            ${adminButton}
+                        </div>
+                    </div>
+                `;
+            }).join('');
+
+            const adminForm = isAdminMode ? `
+                <div class="habit-admin-form">
+                    <input type="text" id="new-habit-name" class="habit-admin-input" placeholder="new habit...">
+                    <a href="#" class="habit-admin-link" onclick="addHabit(document.getElementById('new-habit-name').value); document.getElementById('new-habit-name').value = ''; return false;">add</a>
+                </div>
+            ` : '';
+
+            // Build yearly heat map - 365 squares vertical
+            const totalHabits = habits.length;
+            let heatmapDots = '';
+            for (let day = 1; day <= 365; day++) {
+                if (day > todayDayOfYear) {
+                    heatmapDots += `<div class="heatmap-dot future" title="day ${day}"></div>`;
+                } else {
+                    let completedCount = 0;
+                    habits.forEach(h => {
+                        if (h.completed.includes(day)) completedCount++;
+                    });
+                    const intensity = totalHabits > 0 ? Math.round((completedCount / totalHabits) * 4) : 0;
+                    heatmapDots += `<div class="heatmap-dot level-${intensity}" title="day ${day}: ${completedCount}/${totalHabits}"></div>`;
+                }
+            }
+
+            const currentTab = window.habitTab || 'habits';
+
+            const tabsHTML = `
+                <div class="habit-tabs">
+                    <a href="#" class="habit-tab ${currentTab === 'habits' ? 'active' : ''}" onclick="window.habitTab='habits'; renderHabitTracker(); return false;">habits</a>
+                    <span class="habit-tab-sep">|</span>
+                    <a href="#" class="habit-tab ${currentTab === 'year' ? 'active' : ''}" onclick="window.habitTab='year'; renderHabitTracker(); return false;">year</a>
+                </div>
+            `;
+
+            const yearViewHTML = `
+                <div class="habit-year-view">
+                    <div class="heatmap-grid-vertical">${heatmapDots}</div>
+                    <div class="heatmap-legend">
+                        <span>less</span>
+                        <div class="heatmap-dot level-0"></div>
+                        <div class="heatmap-dot level-1"></div>
+                        <div class="heatmap-dot level-2"></div>
+                        <div class="heatmap-dot level-3"></div>
+                        <div class="heatmap-dot level-4"></div>
+                        <span>more</span>
+                    </div>
+                </div>
+            `;
+
+            const contentHTML = currentTab === 'year' ? yearViewHTML : (adminForm + habitsHTML);
+            content.innerHTML = tabsHTML + contentHTML;
         }
 
         // Load a blog post
@@ -678,6 +962,8 @@
                 firebase.initializeApp(firebaseConfig);
                 window.db = firebase.database();
                 initChatRoom();
+                initHabits();
+                initUpdates();
             } catch (e) {
                 console.error('Firebase init failed:', e);
                 document.getElementById('chat-messages').innerHTML =
@@ -783,7 +1069,7 @@
         let clickCount = 0;
         let clickTimer = null;
 
-        document.querySelector('#chat .title-bar').addEventListener('click', (e) => {
+        document.querySelector('#updates .title-bar').addEventListener('click', (e) => {
             clickCount++;
             if (clickCount === 3) {
                 clickCount = 0;
@@ -800,11 +1086,21 @@
                 const password = prompt('enter admin password:');
                 if (password === ADMIN_PASSWORD) {
                     isAdminMode = true;
+                    document.getElementById('updates').classList.add('admin-mode');
                     document.getElementById('chat').classList.add('admin-mode');
+                    renderUpdates();
+                    if (document.getElementById('habits').style.display === 'block') {
+                        renderHabitTracker();
+                    }
                 }
             } else {
                 isAdminMode = false;
+                document.getElementById('updates').classList.remove('admin-mode');
                 document.getElementById('chat').classList.remove('admin-mode');
+                renderUpdates();
+                if (document.getElementById('habits').style.display === 'block') {
+                    renderHabitTracker();
+                }
             }
         }
 
