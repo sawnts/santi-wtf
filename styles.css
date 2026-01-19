@@ -1445,3 +1445,36 @@
             outline: 2px solid #000080;
             outline-offset: 1px;
         }
+
+        /* Updates Window */
+        .updates-window {
+            min-width: 280px !important;
+        }
+
+        .updates-window .window-content {
+            background: #fff;
+            font-family: 'MS Sans Serif', Tahoma, sans-serif;
+            font-size: 11px;
+        }
+
+        .update-entry {
+            padding: 8px 0;
+            border-bottom: 1px dotted #c0c0c0;
+        }
+
+        .update-entry:last-child {
+            border-bottom: none;
+        }
+
+        .update-date {
+            color: #000080;
+            font-weight: bold;
+            font-size: 11px;
+            margin-bottom: 3px;
+        }
+
+        .update-text {
+            color: #333;
+            line-height: 1.4;
+        }
+

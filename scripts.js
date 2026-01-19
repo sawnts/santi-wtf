@@ -14,6 +14,17 @@
         const minimizedWindows = new Set();
         const openWindows = new Set();
 
+        // ==========================================
+        // SITE UPDATES - Add new entries at the top
+        // ==========================================
+        const siteUpdates = [
+            { date: "january 18, 2026", text: "added updates window to the desktop" },
+            { date: "january 14, 2026", text: "added pomodoro timer application" },
+            { date: "january 10, 2026", text: "new blog post: 10 reasons why you should start writing online" },
+            { date: "january 5, 2026", text: "added flow garden and sticky notes applications" },
+            // add new entries above this line
+        ];
+
         function openWindow(id) {
             const win = document.getElementById(id);
             win.style.display = 'block';
@@ -30,6 +41,8 @@
                 loadStickyNotes();
             } else if (id === 'pomodoro') {
                 loadPomodoro();
+            } else if (id === 'updates') {
+                renderUpdates();
             }
         }
 
@@ -434,6 +447,21 @@
                 content.innerHTML = '<p>Error loading Pomodoro Timer.</p>';
                 console.error('Error loading Pomodoro Timer:', error);
             }
+        }
+
+        // Render Updates window content
+        function renderUpdates() {
+            const content = document.getElementById('updates-content');
+            if (!content) return;
+
+            const updatesHTML = siteUpdates.map(update => `
+                <div class="update-entry">
+                    <div class="update-date">${update.date}</div>
+                    <div class="update-text">${update.text}</div>
+                </div>
+            `).join('');
+
+            content.innerHTML = updatesHTML;
         }
 
         // Load a blog post

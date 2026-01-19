@@ -63,6 +63,10 @@
             <div class="icon-img"><img src="icons/directory_closed-0.png" alt="Applications"></div>
             <div class="icon-label">Applications</div>
         </div>
+        <div class="icon" style="left: 10px; top: 460px;" onclick="openWindow('updates')">
+            <div class="icon-img"><img src="icons/notepad-0.png" alt="Updates"></div>
+            <div class="icon-label">Updates</div>
+        </div>
         <div class="desktop-watermark">made with <span style="color: #ff0000;">♥</span> in seattle</div>
     </div>
 
@@ -368,6 +372,25 @@
         <div class="resize-handle" onmousedown="resizeStart(event, 'pomodoro')"></div>
     </div>
 
+    <!-- Updates Window -->
+    <div class="window updates-window" id="updates" style="width: 340px; height: 400px; left: 140px; top: 80px;">
+        <div class="title-bar" onmousedown="dragStart(event, 'updates')">
+            <div class="title-text">
+                <div class="title-icon"><img src="icons/notepad-1.png" alt="Updates"></div>
+                <span>updates</span>
+            </div>
+            <div class="title-buttons">
+                <button type="button" class="title-btn" onclick="minimizeWindow('updates')" aria-label="Minimize window">_</button>
+                <button type="button" class="title-btn" aria-label="Maximize window (disabled)" disabled>□</button>
+                <button type="button" class="title-btn" onclick="closeWindow('updates')" aria-label="Close window">✕</button>
+            </div>
+        </div>
+        <div class="window-content" id="updates-content" style="height: calc(100% - 24px); padding: 12px; overflow-y: auto;">
+            <!-- Content renders here dynamically -->
+        </div>
+        <div class="resize-handle" onmousedown="resizeStart(event, 'updates')"></div>
+    </div>
+
     <!-- Taskbar -->
     <div class="taskbar">
         <div class="start-btn" onclick="toggleStartMenu()">
@@ -388,6 +411,7 @@
         <div class="start-menu-item" onclick="openWindow('chat')"><img src="icons/users-1.png" alt="">Chat</div>
         <div class="start-menu-item" onclick="openWindow('player')"><img src="icons/loudspeaker_rays-1.png" alt="">Winamp</div>
         <div class="start-menu-item" onclick="openWindow('applications')"><img src="icons/directory_closed-1.png" alt="">Applications</div>
+        <div class="start-menu-item" onclick="openWindow('updates')"><img src="icons/notepad-1.png" alt="">Updates</div>
         <div style="border-top: 1px solid #808080; margin: 2px 0;"></div>
         <div class="start-menu-item" onclick="openShutdownDialog()"><img src="icons/shut_down_normal-1.png" alt="">Shut Down...</div>
     </div>
