@@ -56,8 +56,8 @@
             <div class="icon-label">Chat</div>
         </div>
         <div class="icon" style="left: 10px; top: 280px;" onclick="openWindow('player')">
-            <div class="icon-img"><img src="icons/loudspeaker_rays-0.png" alt="Winamp"></div>
-            <div class="icon-label">Winamp</div>
+            <div class="icon-img"><img src="icons/loudspeaker_rays-0.png" alt="Music"></div>
+            <div class="icon-label">Music</div>
         </div>
         <div class="icon" style="left: 10px; top: 370px;" onclick="openWindow('applications')">
             <div class="icon-img"><img src="icons/directory_closed-0.png" alt="Applications"></div>
@@ -168,12 +168,12 @@
         <div class="resize-handle" onmousedown="resizeStart(event, 'chat')"></div>
     </div>
 
-    <!-- Winamp Player Window -->
-    <div class="window player-window" id="player" style="width: 280px; height: 300px; left: 200px; top: 200px;">
+    <!-- Music Player Window -->
+    <div class="window player-window" id="player" style="width: 320px; height: 420px; left: 200px; top: 150px;">
         <div class="title-bar" onmousedown="dragStart(event, 'player')">
             <div class="title-text">
-                <div class="title-icon"><img src="icons/loudspeaker_rays-1.png" alt="Winamp"></div>
-                <span>Winamp</span>
+                <div class="title-icon"><img src="icons/loudspeaker_rays-1.png" alt="Music"></div>
+                <span>Music</span>
             </div>
             <div class="title-buttons">
                 <button type="button" class="title-btn" onclick="minimizeWindow('player')" aria-label="Minimize window">_</button>
@@ -181,68 +181,17 @@
                 <button type="button" class="title-btn" onclick="closeWindow('player')" aria-label="Close window">✕</button>
             </div>
         </div>
-        <div class="window-content">
-            <div class="media-player">
-                <!-- Display with visualizer -->
-                <div class="media-display">
-                    <div class="media-visualizer" id="media-visualizer">
-                        <div class="viz-bar" style="height: 20%"></div>
-                        <div class="viz-bar" style="height: 35%"></div>
-                        <div class="viz-bar" style="height: 50%"></div>
-                        <div class="viz-bar" style="height: 40%"></div>
-                        <div class="viz-bar" style="height: 60%"></div>
-                        <div class="viz-bar" style="height: 45%"></div>
-                        <div class="viz-bar" style="height: 30%"></div>
-                        <div class="viz-bar" style="height: 55%"></div>
-                        <div class="viz-bar" style="height: 25%"></div>
-                        <div class="viz-bar" style="height: 15%"></div>
-                        <div class="viz-bar" style="height: 40%"></div>
-                        <div class="viz-bar" style="height: 50%"></div>
-                        <div class="viz-bar" style="height: 35%"></div>
-                        <div class="viz-bar" style="height: 45%"></div>
-                        <div class="viz-bar" style="height: 20%"></div>
-                    </div>
-                    <div class="media-info">
-                        <div class="media-ticker">
-                            <span class="media-ticker-text paused" id="media-ticker">Esperanza - Hermanos Gutiérrez</span>
-                        </div>
-                        <div class="media-time" id="media-time">0:00</div>
-                    </div>
-                </div>
-
-                <!-- Seek Bar -->
-                <div class="media-seek-row">
-                    <div class="media-seek" id="media-seek" onclick="seekTo(event)">
-                        <div class="media-seek-track"></div>
-                        <div class="media-seek-thumb" id="media-seek-thumb" style="left: 4px;"></div>
-                    </div>
-                </div>
-
-                <!-- Transport Controls -->
-                <div class="media-controls">
-                    <div class="media-btn" onclick="prevTrack()" title="Previous">⏮</div>
-                    <div class="media-btn" id="playBtn" onclick="mediaPlay()" title="Play">▶</div>
-                    <div class="media-btn" onclick="mediaPause()" title="Pause">⏸</div>
-                    <div class="media-btn" onclick="mediaStop()" title="Stop">⏹</div>
-                    <div class="media-btn" onclick="nextTrack()" title="Next">⏭</div>
-                </div>
-
-                <!-- Volume -->
-                <div class="media-volume-row">
-                    <span class="media-volume-label">VOL</span>
-                    <div class="media-volume" onclick="setVolume(event)">
-                        <div class="media-volume-track"></div>
-                        <div class="media-volume-thumb" id="media-volume-thumb" style="left: 80%;"></div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Playlist -->
-            <div class="media-playlist" id="media-playlist">
-                <div class="media-playlist-header">Playlist</div>
-            </div>
-
-            <audio id="audioPlayer" preload="none"></audio>
+        <div class="window-content" style="padding: 0; height: calc(100% - 24px); background: #121212;">
+            <iframe
+                style="border-radius: 0;"
+                src="https://open.spotify.com/embed/playlist/4QgbDjc5VUTliinoWtBTci?utm_source=generator&theme=0"
+                width="100%"
+                height="100%"
+                frameBorder="0"
+                allowfullscreen=""
+                allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+                loading="lazy">
+            </iframe>
         </div>
         <div class="resize-handle" onmousedown="resizeStart(event, 'player')"></div>
     </div>
@@ -409,7 +358,7 @@
         <div class="start-menu-header">santi.wtf</div>
         <div class="start-menu-item" onclick="openWindow('internet')"><img src="icons/html-1.png" alt="">Internet Explorer</div>
         <div class="start-menu-item" onclick="openWindow('chat')"><img src="icons/users-1.png" alt="">Chat</div>
-        <div class="start-menu-item" onclick="openWindow('player')"><img src="icons/loudspeaker_rays-1.png" alt="">Winamp</div>
+        <div class="start-menu-item" onclick="openWindow('player')"><img src="icons/loudspeaker_rays-1.png" alt="">Music</div>
         <div class="start-menu-item" onclick="openWindow('applications')"><img src="icons/directory_closed-1.png" alt="">Applications</div>
         <div class="start-menu-item" onclick="openWindow('updates')"><img src="icons/notepad-1.png" alt="">Updates</div>
         <div style="border-top: 1px solid #808080; margin: 2px 0;"></div>
