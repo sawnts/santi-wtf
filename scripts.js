@@ -22,6 +22,8 @@
             { date: "january 14, 2026", text: "added pomodoro timer application" },
             { date: "january 10, 2026", text: "new blog post: 10 reasons why you should start writing online" },
             { date: "january 5, 2026", text: "added flow garden and sticky notes applications" },
+            { date: "january 12, 2026", text: "launched chat" },
+            { date: "january 1, 2026", text: "launched this website 🥂" },
             // add new entries above this line
         ];
 
