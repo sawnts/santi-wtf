@@ -20,8 +20,8 @@
         const siteUpdates = [
             { date: "january 18, 2026", text: "added updates window to the desktop" },
             { date: "january 14, 2026", text: "added pomodoro timer application" },
-            { date: "january 12, 2026", text: "launched chat" },
             { date: "january 10, 2026", text: "new blog post: 10 reasons why you should start writing online" },
+            { date: "january 7, 2026", text: "launched chat" },
             { date: "january 5, 2026", text: "added flow garden and sticky notes applications" },
             { date: "january 1, 2026", text: "launched this website 🥂" },
             // add new entries above this line
