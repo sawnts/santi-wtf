@@ -665,6 +665,23 @@
                     </a>
                 ` : '';
 
+                // Build last 14 days grid for backdating (admin only)
+                let recentDaysHTML = '';
+                if (isAdminMode) {
+                    const days = [];
+                    for (let i = 13; i >= 0; i--) {
+                        const dayNum = todayDayOfYear - i;
+                        if (dayNum > 0) {
+                            const isDone = habit.completed.includes(dayNum);
+                            const isToday = dayNum === todayDayOfYear;
+                            const date = new Date(currentYear, 0, dayNum);
+                            const label = date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+                            days.push(`<div class="habit-day-cell ${isDone ? 'done' : ''} ${isToday ? 'today' : ''}" onclick="toggleHabitDay(${habitIndex}, ${dayNum})" title="${label}">${date.getDate()}</div>`);
+                        }
+                    }
+                    recentDaysHTML = `<div class="habit-recent-days">${days.join('')}</div>`;
+                }
+
                 const adminActions = isAdminMode ? `
                     <span class="habit-admin-actions">
                         <button class="habit-edit-btn" onclick="editHabit(${habitIndex})">edit</button>
@@ -690,6 +707,7 @@
                             <span class="habit-month-stat">${completedThisYear}/365 in ${currentYear}</span>
                             ${adminButton}
                         </div>
+                        ${recentDaysHTML}
                     </div>
                 `;
             }).join('');
