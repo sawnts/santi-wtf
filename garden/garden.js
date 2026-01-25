@@ -646,10 +646,13 @@ function initGraph() {
 
     // create nodes with random positions
     notes.forEach(([id, note], i) => {
+        // count backlinks (incoming connections)
+        const backlinkCount = (note.backlinks || []).length;
         const node = {
             id,
             title: note.title,
             stage: note.stage,
+            backlinkCount,
             x: Math.random() * (canvas.width - 100) + 50,
             y: Math.random() * (canvas.height - 100) + 50,
             vx: 0,
@@ -691,7 +694,8 @@ function initGraph() {
         for (const node of graphNodes) {
             const dx = x - node.x;
             const dy = y - node.y;
-            if (dx * dx + dy * dy < 400) {
+            const nodeRadius = Math.min(6 + node.backlinkCount * 2, 20);
+            if (dx * dx + dy * dy < nodeRadius * nodeRadius + 100) {
                 graphDragging = node;
                 break;
             }
@@ -719,7 +723,8 @@ function initGraph() {
         for (const node of graphNodes) {
             const dx = x - node.x;
             const dy = y - node.y;
-            if (dx * dx + dy * dy < 400) {
+            const nodeRadius = Math.min(6 + node.backlinkCount * 2, 20);
+            if (dx * dx + dy * dy < nodeRadius * nodeRadius + 100) {
                 graphHovering = node;
                 canvas.style.cursor = 'pointer';
                 break;
@@ -806,10 +811,12 @@ function animateGraph(canvas, ctx) {
         ctx.stroke();
     });
 
-    // draw nodes
+    // draw nodes (size based on backlink count, like Obsidian)
     graphNodes.forEach(node => {
         const isHovered = node === graphHovering;
-        const radius = isHovered ? 12 : 8;
+        // base radius 6, +2 per backlink, max 20
+        const baseRadius = Math.min(6 + node.backlinkCount * 2, 20);
+        const radius = isHovered ? baseRadius + 4 : baseRadius;
 
         // node circle
         ctx.fillStyle = getStageColor(node.stage);
@@ -830,17 +837,18 @@ function animateGraph(canvas, ctx) {
         ctx.fillStyle = isHovered ? '#fff' : '#e0e0e0';
         ctx.font = isHovered ? 'bold 11px sans-serif' : '10px sans-serif';
         ctx.textAlign = 'center';
-        ctx.fillText(node.title, node.x, node.y + (isHovered ? 26 : 20));
+        ctx.fillText(node.title, node.x, node.y + radius + 12);
     });
 
     // highlight current note
     if (currentNote && !graphHovering) {
         const currentNode = graphNodes.find(n => n.id === currentNote);
         if (currentNode) {
+            const currentRadius = Math.min(6 + currentNode.backlinkCount * 2, 20);
             ctx.strokeStyle = '#ffcc00';
             ctx.lineWidth = 2;
             ctx.beginPath();
-            ctx.arc(currentNode.x, currentNode.y, 12, 0, Math.PI * 2);
+            ctx.arc(currentNode.x, currentNode.y, currentRadius + 4, 0, Math.PI * 2);
             ctx.stroke();
         }
     }
