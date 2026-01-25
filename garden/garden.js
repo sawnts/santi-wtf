@@ -275,6 +275,7 @@ function renderNoteWithMeta(html, note, noteId) {
 }
 
 function setupWikilinkHandlers(container) {
+    // Handle wikilinks (internal garden links)
     container.querySelectorAll('.wikilink').forEach(link => {
         link.addEventListener('click', (e) => {
             e.preventDefault();
@@ -284,6 +285,12 @@ function setupWikilinkHandlers(container) {
                 loadNote(noteId);
             }
         });
+    });
+
+    // Handle external links - open in new tab
+    container.querySelectorAll('a[href^="http"]').forEach(link => {
+        link.setAttribute('target', '_blank');
+        link.setAttribute('rel', 'noopener noreferrer');
     });
 }
 
