@@ -115,6 +115,13 @@
                 loadPomodoro();
             } else if (id === 'updates') {
                 renderUpdates();
+            } else if (id === 'garden') {
+                // Reset garden to welcome page when reopening
+                const iframe = win.querySelector('iframe');
+                if (iframe) {
+                    iframe.src = '/garden/garden.html';
+                    history.replaceState(null, '', '/garden');
+                }
             }
         }
 
@@ -365,24 +372,30 @@
 
                 const parser = new DOMParser();
                 const doc = parser.parseFromString(html, 'text/html');
-                const body = doc.querySelector('body');
-                const styles = doc.querySelectorAll('style');
-                const scripts = doc.querySelectorAll('script');
+                const body = doc.body;
+
+                // Get styles from both head and body
+                const headStyles = doc.querySelectorAll('head style');
+                const bodyStyles = doc.querySelectorAll('body style');
 
                 if (body) {
                     let styleHTML = '';
-                    styles.forEach(style => { styleHTML += style.outerHTML; });
+                    headStyles.forEach(style => { styleHTML += style.outerHTML; });
+                    bodyStyles.forEach(style => { styleHTML += style.outerHTML; });
                     content.innerHTML = styleHTML + body.innerHTML;
 
+                    // Execute scripts
+                    const scripts = doc.querySelectorAll('script');
                     scripts.forEach(oldScript => {
                         const newScript = document.createElement('script');
                         newScript.textContent = oldScript.textContent;
-                        content.appendChild(newScript);
+                        document.body.appendChild(newScript);
                     });
 
                     content.dataset.loaded = 'true';
                 }
             } catch (error) {
+                console.error('Error loading application:', error);
                 content.innerHTML = `<p>Error loading ${appName}.</p>`;
             }
         }
