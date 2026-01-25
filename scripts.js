@@ -388,15 +388,15 @@
         }
 
         function loadFlowGarden() {
-            loadApplication('flowgarden-content', 'applications/flowgarden.html', 'Flow Garden');
+            loadApplication('flowgarden-content', '/applications/flowgarden.html', 'Flow Garden');
         }
 
         function loadStickyNotes() {
-            loadApplication('stickynotes-content', 'applications/stickynotes.html', 'Sticky Notes');
+            loadApplication('stickynotes-content', '/applications/stickynotes.html', 'Sticky Notes');
         }
 
         function loadPomodoro() {
-            loadApplication('pomodoro-content', 'applications/pomodoro.html', 'Pomodoro Timer');
+            loadApplication('pomodoro-content', '/applications/pomodoro.html', 'Pomodoro Timer');
         }
 
         // Render Updates window content
@@ -637,10 +637,28 @@
         }
 
         // ==========================================
-        // ADMIN MODE (disabled for security - manage via Firebase console)
+        // ADMIN MODE
         // ==========================================
 
         let isAdminMode = false;
+
+        // Secret code to enable admin mode: type "santi" anywhere
+        let adminBuffer = '';
+        document.addEventListener('keypress', (e) => {
+            adminBuffer += e.key.toLowerCase();
+            if (adminBuffer.length > 5) adminBuffer = adminBuffer.slice(-5);
+            if (adminBuffer === 'santi') {
+                isAdminMode = !isAdminMode;
+                document.body.classList.toggle('admin-mode', isAdminMode);
+                adminBuffer = '';
+                if (isAdminMode) {
+                    alert('admin mode enabled');
+                } else {
+                    alert('admin mode disabled');
+                }
+                renderUpdates();
+            }
+        });
 
         function getDb() {
             if (!window.db) {

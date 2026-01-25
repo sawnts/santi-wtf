@@ -223,6 +223,8 @@ function toUrlSlug(noteId) {
         // Remove "1. " prefix and replace spaces with dashes in folder name
         parts[0] = parts[0].replace(/^\d+\.\s*/, '').replace(/ /g, '-');
     }
+    // Replace spaces with dashes in the note name (last part)
+    parts[parts.length - 1] = parts[parts.length - 1].replace(/ /g, '-');
     return parts.join('/');
 }
 
@@ -237,6 +239,8 @@ function fromUrlSlug(slug) {
         const match = folders.find(f => f.replace(/^\d+\.\s*/, '') === folderSlug);
         if (match) parts[0] = match;
     }
+    // Convert dashes back to spaces in note name (last part)
+    parts[parts.length - 1] = parts[parts.length - 1].replace(/-/g, ' ');
     return parts.join('/');
 }
 
