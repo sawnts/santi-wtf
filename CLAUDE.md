@@ -14,8 +14,8 @@ wtf/
 ├── styles.css          # All CSS - Windows 98 styling
 ├── scripts.js          # All JavaScript - window management, navigation, chat
 ├── 404.html            # GitHub Pages SPA redirect handler
-├── now.html            # "Now" page content
-├── posts/              # Blog post HTML files
+├── now.html            # Legacy "Now" page (redirects to garden)
+├── posts/              # Legacy blog posts (redirects to garden)
 ├── applications/       # Standalone apps (FlowGarden, Sticky Notes, Pomodoro)
 ├── icons/              # Windows 98 style icons
 └── garden/             # Digital garden (synced from Obsidian)
@@ -72,7 +72,8 @@ wtf/
 - `updateStatus()` - Updates online/away status (admin mode only)
 
 **Admin Mode (Firebase Auth):**
-- Press Ctrl+Shift+L to login/logout with Google
+- Press Ctrl+Shift+L (Windows) or Cmd+Shift+L (Mac) to login/logout with Google
+- Or call `adminLogin()` / `adminLogout()` in browser console
 - Only the configured ADMIN_UID can access admin features
 - Enables: posting as owner in chat, updating status, editing/deleting updates
 
