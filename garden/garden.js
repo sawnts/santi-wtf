@@ -48,9 +48,35 @@ function renderTree() {
     const treeView = document.getElementById('tree-view');
     treeView.innerHTML = '';
 
-    // create root folder
-    const rootHtml = createFolderHtml('garden', gardenIndex.folders || {}, '');
-    treeView.innerHTML = rootHtml;
+    // render folder contents directly (no wrapper folder)
+    const folder = gardenIndex.folders || { folders: {}, notes: [] };
+    let html = '';
+
+    // root-level notes first (like index)
+    if (folder.notes) {
+        const sortedNotes = folder.notes
+            .map(noteId => ({ id: noteId, note: gardenIndex.notes[noteId] }))
+            .filter(item => item.note)
+            .sort((a, b) => a.note.title.localeCompare(b.note.title));
+
+        for (const { id: noteId, note } of sortedNotes) {
+            html += `<div class="tree-item" data-note="${noteId}">`;
+            html += `<span class="tree-toggle"></span>`;
+            html += `<span class="tree-icon"><img src="/icons/notepad_file-0.png" alt=""></span>`;
+            html += `<span class="tree-label">${note.title}</span>`;
+            html += `</div>`;
+        }
+    }
+
+    // then subfolders
+    if (folder.folders) {
+        const sortedFolders = Object.entries(folder.folders).sort((a, b) => a[0].localeCompare(b[0]));
+        for (const [name, subFolder] of sortedFolders) {
+            html += createFolderHtml(name, subFolder, '');
+        }
+    }
+
+    treeView.innerHTML = html;
 
     // add click handlers
     treeView.querySelectorAll('.tree-toggle').forEach(toggle => {
