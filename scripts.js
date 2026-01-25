@@ -85,86 +85,6 @@
             saveUpdates();
         }
 
-        // ==========================================
-        // HABIT TRACKER DATA (Firebase-backed)
-        // ==========================================
-        const defaultHabitData = [
-            { name: "meditation", completed: [1,2,3,4,5,6,7,8,9,10,11,12,13,14] },
-            { name: "sleep", completed: [1,2,3,4,5,6,7,8,9,10,11,12,13] },
-            { name: "movement", completed: [1,2,3,4,5,6,7,8,9,10,11,12,13,14] },
-            { name: "reading", completed: [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19] },
-            { name: "writing", completed: [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19] },
-        ];
-        let habitData = [...defaultHabitData];
-
-        function initHabits() {
-            if (!window.db) {
-                setTimeout(initHabits, 100);
-                return;
-            }
-            window.db.ref('habits').on('value', (snapshot) => {
-                const data = snapshot.val();
-                if (data) {
-                    // Convert from Firebase object to array if needed
-                    habitData = Array.isArray(data) ? data : Object.values(data);
-                    // Also convert completed arrays within each habit
-                    habitData = habitData.map(h => ({
-                        ...h,
-                        completed: Array.isArray(h.completed) ? h.completed : (h.completed ? Object.values(h.completed) : [])
-                    }));
-                } else {
-                    // Initialize Firebase with defaults
-                    window.db.ref('habits').set(defaultHabitData);
-                }
-                if (document.getElementById('habits').style.display === 'block') {
-                    renderHabitTracker();
-                }
-            });
-        }
-
-        function saveHabits() {
-            return window.db.ref('habits').set(habitData).catch(err => {
-                alert('failed to save: ' + err.message);
-            });
-        }
-
-        function toggleHabitDay(habitIndex, dayOfYear) {
-            if (!isAdminMode) return;
-            const habit = habitData[habitIndex];
-            const idx = habit.completed.indexOf(dayOfYear);
-            if (idx === -1) {
-                habit.completed.push(dayOfYear);
-            } else {
-                habit.completed.splice(idx, 1);
-            }
-            saveHabits();
-        }
-
-        function addHabit(name) {
-            if (!isAdminMode || !name.trim()) return;
-            habitData.push({ name: name.trim().toLowerCase(), completed: [] });
-            saveHabits();
-        }
-
-        function editHabit(index) {
-            if (!isAdminMode) return;
-            const newName = prompt('edit habit name:', habitData[index].name);
-            if (newName === null) return;
-            if (!newName.trim()) {
-                deleteHabit(index);
-                return;
-            }
-            habitData[index].name = newName.trim().toLowerCase();
-            saveHabits();
-        }
-
-        function deleteHabit(index) {
-            if (!isAdminMode) return;
-            if (!confirm('delete this habit?')) return;
-            habitData.splice(index, 1);
-            saveHabits();
-        }
-
         function openWindow(id) {
             const win = document.getElementById(id);
             win.style.display = 'block';
@@ -183,8 +103,6 @@
                 loadPomodoro();
             } else if (id === 'updates') {
                 renderUpdates();
-            } else if (id === 'habits') {
-                renderHabitTracker();
             }
         }
 
@@ -559,148 +477,6 @@
             content.innerHTML = adminForm + updatesHTML;
         }
 
-        function renderHabitTracker() {
-            const content = document.getElementById('habits-content');
-            if (!content) return;
-
-            const habits = habitData;
-            const today = new Date();
-            const currentYear = today.getFullYear();
-            const currentMonth = today.getMonth();
-            const startOfYear = new Date(currentYear, 0, 1);
-            const todayDayOfYear = Math.floor((today - startOfYear) / (1000 * 60 * 60 * 24)) + 1;
-            const todayDate = today.getDate();
-
-            // Calculate streak
-            function getStreak(completed) {
-                let streak = 0;
-                let checkDay = todayDayOfYear;
-
-                // If today isn't completed, start checking from yesterday
-                if (!completed.includes(todayDayOfYear)) {
-                    checkDay = todayDayOfYear - 1;
-                }
-
-                while (checkDay > 0 && completed.includes(checkDay)) {
-                    streak++;
-                    checkDay--;
-                }
-                return streak;
-            }
-
-            // Build HTML for each habit
-            const habitsHTML = habits.map((habit, habitIndex) => {
-                // Count completed days this year
-                const completedThisYear = habit.completed.filter(d => d <= todayDayOfYear).length;
-                const percentage = Math.round((completedThisYear / 365) * 100);
-                const streak = getStreak(habit.completed);
-                const isTodayDone = habit.completed.includes(todayDayOfYear);
-
-                const adminButton = isAdminMode ? `
-                    <a href="#" class="habit-today-link ${isTodayDone ? 'done' : ''}" onclick="toggleHabitDay(${habitIndex}, ${todayDayOfYear}); return false;">
-                        ${isTodayDone ? '✓ done' : 'mark today'}
-                    </a>
-                ` : '';
-
-                // Build last 14 days grid for backdating (admin only)
-                let recentDaysHTML = '';
-                if (isAdminMode) {
-                    const days = [];
-                    for (let i = 13; i >= 0; i--) {
-                        const dayNum = todayDayOfYear - i;
-                        if (dayNum > 0) {
-                            const isDone = habit.completed.includes(dayNum);
-                            const isToday = dayNum === todayDayOfYear;
-                            const date = new Date(currentYear, 0, dayNum);
-                            const label = date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
-                            days.push(`<div class="habit-day-cell ${isDone ? 'done' : ''} ${isToday ? 'today' : ''}" onclick="toggleHabitDay(${habitIndex}, ${dayNum})" title="${label}">${date.getDate()}</div>`);
-                        }
-                    }
-                    recentDaysHTML = `<div class="habit-recent-days">${days.join('')}</div>`;
-                }
-
-                const adminActions = isAdminMode ? `
-                    <span class="habit-admin-actions">
-                        <button class="habit-edit-btn" onclick="editHabit(${habitIndex})">edit</button>
-                        <button class="habit-delete-btn" onclick="deleteHabit(${habitIndex})">×</button>
-                    </span>
-                ` : '';
-
-                const streakEmoji = streak > 0 ? ' 🔥' : '';
-
-                return `
-                    <div class="habit-section">
-                        <div class="habit-header">
-                            <span class="habit-name">${habit.name}${streakEmoji}${adminActions}</span>
-                            <span class="habit-streak">${streak > 0 ? streak + ' day streak' : ''}</span>
-                        </div>
-                        <div class="habit-progress-row">
-                            <div class="habit-progress-bar">
-                                <div class="habit-progress-fill" style="width: ${percentage}%;"></div>
-                            </div>
-                            <span class="habit-percentage">${percentage}%</span>
-                        </div>
-                        <div class="habit-stats">
-                            <span class="habit-month-stat">${completedThisYear}/365 in ${currentYear}</span>
-                            ${adminButton}
-                        </div>
-                        ${recentDaysHTML}
-                    </div>
-                `;
-            }).join('');
-
-            const adminForm = isAdminMode ? `
-                <div class="habit-admin-form">
-                    <input type="text" id="new-habit-name" class="habit-admin-input" placeholder="new habit...">
-                    <a href="#" class="habit-admin-link" onclick="addHabit(document.getElementById('new-habit-name').value); document.getElementById('new-habit-name').value = ''; return false;">add</a>
-                </div>
-            ` : '';
-
-            // Build yearly heat map - 365 squares vertical
-            const totalHabits = habits.length;
-            let heatmapDots = '';
-            for (let day = 1; day <= 365; day++) {
-                if (day > todayDayOfYear) {
-                    heatmapDots += `<div class="heatmap-dot future" title="day ${day}"></div>`;
-                } else {
-                    let completedCount = 0;
-                    habits.forEach(h => {
-                        if (h.completed.includes(day)) completedCount++;
-                    });
-                    const intensity = totalHabits > 0 ? Math.round((completedCount / totalHabits) * 4) : 0;
-                    heatmapDots += `<div class="heatmap-dot level-${intensity}" title="day ${day}: ${completedCount}/${totalHabits}"></div>`;
-                }
-            }
-
-            const currentTab = window.habitTab || 'habits';
-
-            const tabsHTML = `
-                <div class="habit-tabs">
-                    <a href="#" class="habit-tab ${currentTab === 'habits' ? 'active' : ''}" onclick="window.habitTab='habits'; renderHabitTracker(); return false;">habits</a>
-                    <span class="habit-tab-sep">|</span>
-                    <a href="#" class="habit-tab ${currentTab === 'year' ? 'active' : ''}" onclick="window.habitTab='year'; renderHabitTracker(); return false;">year</a>
-                </div>
-            `;
-
-            const yearViewHTML = `
-                <div class="habit-year-view">
-                    <div class="heatmap-grid-vertical">${heatmapDots}</div>
-                    <div class="heatmap-legend">
-                        <span>less</span>
-                        <div class="heatmap-dot level-0"></div>
-                        <div class="heatmap-dot level-1"></div>
-                        <div class="heatmap-dot level-2"></div>
-                        <div class="heatmap-dot level-3"></div>
-                        <div class="heatmap-dot level-4"></div>
-                        <span>more</span>
-                    </div>
-                </div>
-            `;
-
-            const contentHTML = currentTab === 'year' ? yearViewHTML : (adminForm + habitsHTML);
-            content.innerHTML = tabsHTML + contentHTML;
-        }
-
         // Load a blog post
         async function loadPost(url, updateUrl = true) {
             const content = document.getElementById('blog-content');
@@ -924,7 +700,6 @@
                 firebase.initializeApp(firebaseConfig);
                 window.db = firebase.database();
                 initChatRoom();
-                initHabits();
                 initUpdates();
             } catch (e) {
                 document.getElementById('chat-messages').innerHTML =
