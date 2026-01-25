@@ -35,13 +35,10 @@
             }
             window.db.ref('updates').on('value', (snapshot) => {
                 const data = snapshot.val();
-                console.log('Firebase updates data:', data);
                 if (data) {
                     // Convert from Firebase object to array if needed
                     siteUpdates = Array.isArray(data) ? data : Object.values(data);
-                    console.log('Loaded updates:', siteUpdates);
                 } else {
-                    console.log('No data, initializing with defaults');
                     // Initialize Firebase with defaults
                     window.db.ref('updates').set(defaultSiteUpdates);
                 }
@@ -52,9 +49,7 @@
         }
 
         function saveUpdates() {
-            console.log('Saving updates:', JSON.stringify(siteUpdates));
             return window.db.ref('updates').set(siteUpdates).then(() => {
-                console.log('Updates saved successfully');
             }).catch(err => {
                 console.error('Save failed:', err);
                 alert('failed to save: ' + err.message);
@@ -488,13 +483,14 @@
             }
         }
 
-        // Load Flow Garden content
-        async function loadFlowGarden() {
-            const content = document.getElementById('flowgarden-content');
+        // Generic application loader
+        async function loadApplication(contentId, filePath, appName) {
+            const content = document.getElementById(contentId);
             if (!content || content.dataset.loaded === 'true') return;
 
             try {
-                const response = await fetch('applications/flowgarden.html');
+                const response = await fetch(filePath);
+                if (!response.ok) throw new Error('Failed to load');
                 const html = await response.text();
 
                 const parser = new DOMParser();
@@ -504,12 +500,10 @@
                 const scripts = doc.querySelectorAll('script');
 
                 if (body) {
-                    // Inject styles first, then body content
                     let styleHTML = '';
                     styles.forEach(style => { styleHTML += style.outerHTML; });
                     content.innerHTML = styleHTML + body.innerHTML;
 
-                    // Execute scripts manually (innerHTML doesn't execute scripts)
                     scripts.forEach(oldScript => {
                         const newScript = document.createElement('script');
                         newScript.textContent = oldScript.textContent;
@@ -519,77 +513,20 @@
                     content.dataset.loaded = 'true';
                 }
             } catch (error) {
-                content.innerHTML = '<p>Error loading Flow Garden.</p>';
-                console.error('Error loading Flow Garden:', error);
+                content.innerHTML = `<p>Error loading ${appName}.</p>`;
             }
         }
 
-        // Load Sticky Notes content
-        async function loadStickyNotes() {
-            const content = document.getElementById('stickynotes-content');
-            if (!content || content.dataset.loaded === 'true') return;
-
-            try {
-                const response = await fetch('applications/stickynotes.html');
-                const html = await response.text();
-
-                const parser = new DOMParser();
-                const doc = parser.parseFromString(html, 'text/html');
-                const body = doc.querySelector('body');
-                const styles = doc.querySelectorAll('style');
-                const scripts = doc.querySelectorAll('script');
-
-                if (body) {
-                    let styleHTML = '';
-                    styles.forEach(style => { styleHTML += style.outerHTML; });
-                    content.innerHTML = styleHTML + body.innerHTML;
-
-                    scripts.forEach(oldScript => {
-                        const newScript = document.createElement('script');
-                        newScript.textContent = oldScript.textContent;
-                        content.appendChild(newScript);
-                    });
-
-                    content.dataset.loaded = 'true';
-                }
-            } catch (error) {
-                content.innerHTML = '<p>Error loading Sticky Notes.</p>';
-                console.error('Error loading Sticky Notes:', error);
-            }
+        function loadFlowGarden() {
+            loadApplication('flowgarden-content', 'applications/flowgarden.html', 'Flow Garden');
         }
 
-        // Load Pomodoro Timer content
-        async function loadPomodoro() {
-            const content = document.getElementById('pomodoro-content');
-            if (!content || content.dataset.loaded === 'true') return;
+        function loadStickyNotes() {
+            loadApplication('stickynotes-content', 'applications/stickynotes.html', 'Sticky Notes');
+        }
 
-            try {
-                const response = await fetch('applications/pomodoro.html');
-                const html = await response.text();
-
-                const parser = new DOMParser();
-                const doc = parser.parseFromString(html, 'text/html');
-                const body = doc.querySelector('body');
-                const styles = doc.querySelectorAll('style');
-                const scripts = doc.querySelectorAll('script');
-
-                if (body) {
-                    let styleHTML = '';
-                    styles.forEach(style => { styleHTML += style.outerHTML; });
-                    content.innerHTML = styleHTML + body.innerHTML;
-
-                    scripts.forEach(oldScript => {
-                        const newScript = document.createElement('script');
-                        newScript.textContent = oldScript.textContent;
-                        content.appendChild(newScript);
-                    });
-
-                    content.dataset.loaded = 'true';
-                }
-            } catch (error) {
-                content.innerHTML = '<p>Error loading Pomodoro Timer.</p>';
-                console.error('Error loading Pomodoro Timer:', error);
-            }
+        function loadPomodoro() {
+            loadApplication('pomodoro-content', 'applications/pomodoro.html', 'Pomodoro Timer');
         }
 
         // Render Updates window content
@@ -771,6 +708,7 @@
 
             try {
                 const response = await fetch(url);
+                if (!response.ok) throw new Error('Post not found');
                 const html = await response.text();
 
                 // Extract styles and body content from the post
@@ -971,9 +909,15 @@
 
         window.db = null;
 
+        let firebaseRetries = 0;
+        const MAX_FIREBASE_RETRIES = 50;
+
         function initFirebase() {
             if (typeof firebase === 'undefined') {
-                setTimeout(initFirebase, 100);
+                firebaseRetries++;
+                if (firebaseRetries < MAX_FIREBASE_RETRIES) {
+                    setTimeout(initFirebase, 100);
+                }
                 return;
             }
             try {
@@ -983,7 +927,6 @@
                 initHabits();
                 initUpdates();
             } catch (e) {
-                console.error('Firebase init failed:', e);
                 document.getElementById('chat-messages').innerHTML =
                     '<div style="text-align: center; color: #666; padding: 20px;">chat coming soon!</div>';
             }
@@ -1041,11 +984,12 @@
         function submitChat() {
             const nameInput = document.getElementById('chat-name');
             const messageInput = document.getElementById('chat-message');
-            const message = messageInput.value.trim();
+            const message = messageInput.value.trim().slice(0, 500); // max 500 chars
+            const name = (nameInput.value.trim() || 'anon').slice(0, 50); // max 50 chars
             if (!message) return;
 
             window.db.ref('guestbook').push({
-                name: nameInput.value.trim() || 'anon',
+                name: name,
                 message: message,
                 timestamp: firebase.database.ServerValue.TIMESTAMP,
                 isOwner: false
@@ -1079,48 +1023,10 @@
         }
 
         // ==========================================
-        // CHAT ADMIN MODE
+        // ADMIN MODE (disabled for security - manage via Firebase console)
         // ==========================================
 
-        const ADMIN_PASSWORD = 'wtf123';
         let isAdminMode = false;
-        let clickCount = 0;
-        let clickTimer = null;
-
-        document.querySelector('#updates .title-bar').addEventListener('click', (e) => {
-            clickCount++;
-            if (clickCount === 3) {
-                clickCount = 0;
-                clearTimeout(clickTimer);
-                toggleAdminMode();
-            } else {
-                clearTimeout(clickTimer);
-                clickTimer = setTimeout(() => { clickCount = 0; }, 500);
-            }
-        });
-
-        function toggleAdminMode() {
-            if (!isAdminMode) {
-                const password = prompt('enter admin password:');
-                if (password === ADMIN_PASSWORD) {
-                    isAdminMode = true;
-                    document.getElementById('updates').classList.add('admin-mode');
-                    document.getElementById('chat').classList.add('admin-mode');
-                    renderUpdates();
-                    if (document.getElementById('habits').style.display === 'block') {
-                        renderHabitTracker();
-                    }
-                }
-            } else {
-                isAdminMode = false;
-                document.getElementById('updates').classList.remove('admin-mode');
-                document.getElementById('chat').classList.remove('admin-mode');
-                renderUpdates();
-                if (document.getElementById('habits').style.display === 'block') {
-                    renderHabitTracker();
-                }
-            }
-        }
 
         function getDb() {
             if (!window.db) {
