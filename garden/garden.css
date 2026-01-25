@@ -1361,8 +1361,32 @@ body {
     }
 }
 
-/* Hide hamburger on desktop */
+/* Hamburger menu - always visible */
 .menu-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 22px;
+    background: #c0c0c0;
+    border: 1px solid;
+    border-color: #fff #000 #000 #fff;
+    cursor: pointer;
+    font-size: 12px;
+    margin-right: 4px;
+    flex-shrink: 0;
+}
+
+.menu-toggle:active {
+    border-color: #000 #fff #fff #000;
+}
+
+/* Desktop: left pane toggles visibility */
+.left-pane.hidden {
+    display: none;
+}
+
+.left-pane.hidden + .pane-divider {
     display: none;
 }
 

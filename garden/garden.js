@@ -8,14 +8,22 @@ let historyIndex = -1;
 let leftPaneWidth = 200;
 let drawerOpen = false;
 
-// Mobile drawer functions
+// Drawer/pane toggle functions
 function toggleDrawer() {
-    drawerOpen ? closeDrawer() : openDrawer();
+    const isMobile = window.innerWidth <= 768;
+    if (isMobile) {
+        drawerOpen ? closeDrawer() : openDrawer();
+    } else {
+        // Desktop: toggle left pane visibility
+        document.getElementById('left-pane').classList.toggle('hidden');
+    }
 }
 
 function openDrawer() {
     drawerOpen = true;
-    document.getElementById('left-pane').classList.add('open');
+    const leftPane = document.getElementById('left-pane');
+    leftPane.classList.remove('hidden');
+    leftPane.classList.add('open');
     document.getElementById('drawer-overlay').classList.add('open');
     document.body.style.overflow = 'hidden';
 }
