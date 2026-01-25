@@ -96,6 +96,18 @@
       "backlinks": [],
       "excerpt": "what does it mean to stop performing and just be?"
     },
+    "2. being/now": {
+      "title": "now",
+      "stage": "evergreen",
+      "planted": "2026-01-01T00:00:00.000Z",
+      "tended": "2026-01-24T00:00:00.000Z",
+      "tags": [
+        "personal"
+      ],
+      "links": [],
+      "backlinks": [],
+      "excerpt": "what i'm up to recently:"
+    },
     "1. thinking/splitting": {
       "title": "splitting",
       "stage": "growing",
@@ -165,7 +177,8 @@
       "2. being": {
         "folders": {},
         "notes": [
-          "2. being/soft guy era"
+          "2. being/soft guy era",
+          "2. being/now"
         ]
       },
       "1. thinking": {
@@ -181,10 +194,10 @@
     ]
   },
   "stats": {
-    "total": 8,
+    "total": 9,
     "links": 20,
     "seedling": 1,
     "growing": 4,
-    "evergreen": 3
+    "evergreen": 4
   }
 }
