@@ -1,0 +1,73 @@
+<h1>publishing workflow</h1>
+<p>how notes go from my brain to the internet. for a broader overview of the site, see <a href="#" class="wikilink" data-note="_system/how this site works">how this site works</a>.</p>
+<h2>the journey of a note</h2>
+<pre><code>obsidian → build script → github → live site
+</code></pre>
+<h2>step by step</h2>
+<h3>1. write in obsidian</h3>
+<p>i write and edit notes in obsidian, a note-taking app on my computer. obsidian stores everything as plain text files (markdown) in a folder on my computer.</p>
+<p>the public garden lives in a folder called <code>public</code>. anything in there can potentially be published. anything starting with <code>_</code> (like this <code>_system</code> folder) stays private.</p>
+<h3>2. run the sync</h3>
+<p>when i&#39;m ready to publish, i run a command:</p>
+<pre><code>cd garden &amp;&amp; npm run sync
+</code></pre>
+<p>this runs a script called <code>build.js</code> that:</p>
+<ul>
+<li>reads all the markdown files in my obsidian <code>public</code> folder</li>
+<li>converts them to html (web pages)</li>
+<li>processes <span class="wikilink-private" title="private note">wikilinks 🔒</span> into clickable links</li>
+<li>figures out backlinks (what links to what)</li>
+<li>generates an index of all notes with their metadata</li>
+<li>skips anything starting with <code>_</code></li>
+</ul>
+<h3>3. push to github</h3>
+<p>after the sync, i push the changes to github:</p>
+<pre><code>git add .
+git commit -m &quot;update garden&quot;
+git push
+</code></pre>
+<p>github is like a cloud backup for code. it stores all the files and tracks every change i&#39;ve ever made.</p>
+<h3>4. github pages deploys</h3>
+<p>github pages automatically takes whatever is in the repository and makes it available on the internet. within a minute or two of pushing, the changes are live at santi.wtf.</p>
+<h2>the files involved</h2>
+<ul>
+<li><strong>obsidian vault</strong> — <code>/Users/santi/Desktop/Areas/Jots/santi.wtf/public/</code></li>
+<li><strong>build script</strong> — <code>garden/build.js</code></li>
+<li><strong>generated html</strong> — <code>garden/content/</code></li>
+<li><strong>note index</strong> — <code>garden/data/index.json</code></li>
+</ul>
+<h2>what the build script creates</h2>
+<p>for each note, the script generates:</p>
+<ul>
+<li>an html file with the content</li>
+<li>metadata (title, stage, dates, tags)</li>
+<li>a list of outgoing links</li>
+<li>a list of backlinks (incoming links)</li>
+</ul>
+<p>all this gets bundled into <code>index.json</code>, which the garden uses to render the folder tree, search, graph view, and backlinks section.</p>
+<h2>making changes</h2>
+<p><strong>to add a new note:</strong></p>
+<ol>
+<li>create a new <code>.md</code> file in obsidian</li>
+<li>add frontmatter (title, stage, planted date, tags)</li>
+<li>write the content</li>
+<li>run sync and push</li>
+</ol>
+<p><strong>to edit a note:</strong></p>
+<ol>
+<li>edit in obsidian</li>
+<li>update the <code>tended</code> date in frontmatter</li>
+<li>run sync and push</li>
+</ol>
+<p><strong>to delete a note:</strong></p>
+<ol>
+<li>delete or move the file out of <code>public</code></li>
+<li>run sync and push</li>
+</ol>
+<h2>tips</h2>
+<ul>
+<li>always run sync before pushing — the html files need to be regenerated</li>
+<li>use <code><span class="wikilink-private" title="private note">wikilinks 🔒</span></code> to connect notes — they become clickable links</li>
+<li>the <code>stage</code> field (seedling/growing/evergreen) helps readers know how developed an idea is</li>
+<li>files starting with <code>_</code> are ignored — use this for templates and private reference notes</li>
+</ul>

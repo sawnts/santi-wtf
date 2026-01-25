@@ -1,0 +1,41 @@
+<h1>how this site works</h1>
+<p>a peek behind the curtain for the curious.</p>
+<h2>the big picture</h2>
+<p>this site is like a digital treehouse — it looks like an old windows 98 computer, but it&#39;s actually a website that runs entirely in your browser. no apps to download, no accounts to create. just visit and explore.</p>
+<h2>the pieces</h2>
+<h3>the desktop</h3>
+<p>when you arrive, you see a desktop with icons, windows, and a taskbar — just like the computers from the late 90s. but it&#39;s all an illusion created with html (the structure), css (the styling), and javascript (the behavior). clicking an icon doesn&#39;t open a real program; it just shows and hides different parts of the webpage.</p>
+<h3>the garden</h3>
+<p>the garden (where you&#39;re reading this, if you found this note) is like a wiki for my thoughts. it&#39;s a collection of interconnected notes that link to each other. i write these notes in an app called obsidian on my computer, then a script converts them to web pages. see <a href="#" class="wikilink" data-note="_system/publishing workflow">publishing workflow</a> for the full process.</p>
+<p>the garden has:</p>
+<ul>
+<li><strong>folders</strong> to organize topics</li>
+<li><strong>wikilinks</strong> — those clickable connections between notes</li>
+<li><strong>backlinks</strong> — shows you what other notes link to this one</li>
+<li><strong>a graph view</strong> — a visual map of how everything connects</li>
+<li><strong>growth stages</strong> — 🌱 seedling (new), 🌿 growing (developing), 🌲 evergreen (mature)</li>
+</ul>
+<p><strong>navigation — back, forward, up:</strong></p>
+<ul>
+<li><strong>back (←)</strong> — goes to the previous note you were reading, like the back button in a web browser. if you went from note A → note B → note C, pressing back takes you to note B.</li>
+<li><strong>forward (→)</strong> — the opposite of back. if you pressed back and want to go forward again, this takes you there. only works after you&#39;ve used back.</li>
+<li><strong>up (↑)</strong> — goes to the garden welcome/home page. a quick way to get back to the starting point.</li>
+</ul>
+<p>think of it this way: <strong>back</strong> and <strong>forward</strong> move through your history, <strong>up</strong> goes home.</p>
+<h3>the chat</h3>
+<p>the chat room lets visitors leave messages in real-time. it uses firebase, which is like a shared notebook in the cloud that everyone can write to and read from instantly. when you send a message, it goes to firebase, and everyone&#39;s browser gets notified to show the new message.</p>
+<h3>the applications</h3>
+<p>flow garden, sticky notes, and pomodoro are mini-apps that live inside the site. they&#39;re self-contained — each one is its own little webpage that gets loaded into a &quot;window&quot; when you open it.</p>
+<h2>where it lives</h2>
+<p>the site is hosted on github pages, which is a free service that takes files from a folder and makes them available on the internet. when i make changes, i &quot;push&quot; the new files to github, and within a minute or two, the live site updates.</p>
+<h2>no build process</h2>
+<p>unlike most modern websites, this one has no complicated build step. there&#39;s no webpack, no react, no npm install. just plain html, css, and javascript files that your browser reads directly. it&#39;s refreshingly simple — like websites used to be.</p>
+<h2>the magic</h2>
+<p>the &quot;magic&quot; is really just clever use of basic web technologies:</p>
+<ul>
+<li><strong>css</strong> makes things look like windows 98 (the gray backgrounds, beveled edges, pixel fonts)</li>
+<li><strong>javascript</strong> handles dragging windows, minimizing to the taskbar, loading content</li>
+<li><strong>firebase</strong> powers the real-time chat</li>
+<li><strong>github pages</strong> hosts everything for free</li>
+</ul>
+<p>that&#39;s it. no frameworks, no servers to maintain, no monthly bills. just files on the internet, like it&#39;s 1999.</p>

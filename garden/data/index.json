@@ -19,7 +19,60 @@
       "backlinks": [],
       "excerpt": "i built this site because i miss the internet. the one before the apps. i miss the weird little corners of the web where people shared their thoughts,"
     },
-    "4. loving/ogilvy": {
+    "_system/publishing workflow": {
+      "title": "publishing workflow",
+      "stage": "evergreen",
+      "planted": "2026-01-25T00:00:00.000Z",
+      "tended": "2026-01-25T00:00:00.000Z",
+      "tags": [
+        "meta",
+        "workflow"
+      ],
+      "links": [
+        "_system/how this site works",
+        "wikilinks",
+        "wikilinks"
+      ],
+      "backlinks": [
+        "_system/how this site works"
+      ],
+      "excerpt": "how notes go from my brain to the internet. for a broader overview of the site, see how this site works."
+    },
+    "_system/how this site works": {
+      "title": "how this site works",
+      "stage": "evergreen",
+      "planted": "2026-01-25T00:00:00.000Z",
+      "tended": "2026-01-25T00:00:00.000Z",
+      "tags": [
+        "meta",
+        "tech"
+      ],
+      "links": [
+        "_system/publishing workflow"
+      ],
+      "backlinks": [
+        "_system/publishing workflow"
+      ],
+      "excerpt": "a peek behind the curtain for the curious."
+    },
+    "4. loving/miles davis": {
+      "title": "miles davis",
+      "stage": "growing",
+      "planted": "2024-12-01T00:00:00.000Z",
+      "tended": "2026-01-08T00:00:00.000Z",
+      "tags": [
+        "influences",
+        "music"
+      ],
+      "links": [
+        "1. thinking/integration"
+      ],
+      "backlinks": [
+        "1. thinking/integration"
+      ],
+      "excerpt": "kept reinventing what jazz could be. cool jazz → hard bop → modal → fusion."
+    },
+    "4. loving/david ogilvy": {
       "title": "david ogilvy",
       "stage": "growing",
       "planted": "2024-10-01T00:00:00.000Z",
@@ -37,23 +90,6 @@
         "1. thinking/integration"
       ],
       "excerpt": "the father of advertising. insisted on research before creativity."
-    },
-    "4. loving/miles-davis": {
-      "title": "miles davis",
-      "stage": "growing",
-      "planted": "2024-12-01T00:00:00.000Z",
-      "tended": "2026-01-08T00:00:00.000Z",
-      "tags": [
-        "influences",
-        "music"
-      ],
-      "links": [
-        "1. thinking/integration"
-      ],
-      "backlinks": [
-        "1. thinking/integration"
-      ],
-      "excerpt": "kept reinventing what jazz could be. cool jazz → hard bop → modal → fusion."
     },
     "3. doing/habit-tracker": {
       "title": "habit tracker",
@@ -145,6 +181,44 @@
       ],
       "excerpt": "the first one is 70 pages long. number two will get anybody out of a reading slump. the third one is its sequel. the fourth one is the only personal d"
     },
+    "2. being/2026 lessons": {
+      "title": "2026 lessons",
+      "stage": "growing",
+      "planted": "2026-01-17T00:00:00.000Z",
+      "tended": "2026-01-25T00:00:00.000Z",
+      "tags": [
+        "personal",
+        "lessons"
+      ],
+      "links": [
+        "1. thinking/the map is not the territory",
+        "why-i-use-obsidian",
+        "1. thinking/power-of-writing-online"
+      ],
+      "backlinks": [
+        "1. thinking/the map is not the territory"
+      ],
+      "excerpt": "a running list of things i'm learning this year. updated as life teaches me."
+    },
+    "1. thinking/the map is not the territory": {
+      "title": "the map is not the territory",
+      "stage": "growing",
+      "planted": "2026-01-25T00:00:00.000Z",
+      "tended": "2026-01-25T00:00:00.000Z",
+      "tags": [
+        "mental-models",
+        "creativity"
+      ],
+      "links": [
+        "2. being/2026 lessons",
+        "2. being/2026 lessons",
+        "why-i-use-obsidian"
+      ],
+      "backlinks": [
+        "2. being/2026 lessons"
+      ],
+      "excerpt": "a mental model from Alfred Korzybski (1931): our representations of reality — maps, models, frameworks, other people's systems — are always abstractio"
+    },
     "1. thinking/splitting": {
       "title": "splitting",
       "stage": "growing",
@@ -152,17 +226,17 @@
       "tended": "2026-01-10T00:00:00.000Z",
       "tags": [
         "creativity",
-        "thinking-modes"
+        "mental-models"
       ],
       "links": [
         "1. thinking/integration",
-        "4. loving/ogilvy",
+        "4. loving/david ogilvy",
         "1. thinking/integration",
-        "4. loving/ogilvy"
+        "4. loving/david ogilvy"
       ],
       "backlinks": [
         "index",
-        "4. loving/ogilvy",
+        "4. loving/david ogilvy",
         "3. doing/digital-garden",
         "1. thinking/integration"
       ],
@@ -203,7 +277,8 @@
         "index",
         "3. doing/habit-tracker",
         "3. doing/digital-garden",
-        "2. being/soft guy era"
+        "2. being/soft guy era",
+        "2. being/2026 lessons"
       ],
       "excerpt": "the person who can string together words that evoke emotion, facilitate insight, and entertain readers has a huge competitive advantage in today's dig"
     },
@@ -252,20 +327,20 @@
       "tended": "2026-01-18T00:00:00.000Z",
       "tags": [
         "creativity",
-        "thinking-modes"
+        "mental-models"
       ],
       "links": [
-        "4. loving/ogilvy",
+        "4. loving/david ogilvy",
         "1. thinking/splitting",
-        "4. loving/miles-davis",
+        "4. loving/miles davis",
         "1. thinking/splitting",
-        "4. loving/ogilvy",
-        "4. loving/miles-davis"
+        "4. loving/david ogilvy",
+        "4. loving/miles davis"
       ],
       "backlinks": [
         "index",
-        "4. loving/ogilvy",
-        "4. loving/miles-davis",
+        "4. loving/miles davis",
+        "4. loving/david ogilvy",
         "3. doing/digital-garden",
         "1. thinking/splitting"
       ],
@@ -293,11 +368,18 @@
   },
   "folders": {
     "folders": {
+      "_system": {
+        "folders": {},
+        "notes": [
+          "_system/publishing workflow",
+          "_system/how this site works"
+        ]
+      },
       "4. loving": {
         "folders": {},
         "notes": [
-          "4. loving/ogilvy",
-          "4. loving/miles-davis"
+          "4. loving/miles davis",
+          "4. loving/david ogilvy"
         ]
       },
       "3. doing": {
@@ -312,12 +394,14 @@
         "notes": [
           "2. being/soft guy era",
           "2. being/now",
-          "2. being/my-favorite-reads-2025"
+          "2. being/my-favorite-reads-2025",
+          "2. being/2026 lessons"
         ]
       },
       "1. thinking": {
         "folders": {},
         "notes": [
+          "1. thinking/the map is not the territory",
           "1. thinking/splitting",
           "1. thinking/read old notes",
           "1. thinking/power-of-writing-online",
@@ -333,10 +417,10 @@
     ]
   },
   "stats": {
-    "total": 15,
-    "links": 39,
+    "total": 19,
+    "links": 49,
     "seedling": 1,
-    "growing": 8,
-    "evergreen": 6
+    "growing": 10,
+    "evergreen": 8
   }
 }
