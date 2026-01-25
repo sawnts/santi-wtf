@@ -346,13 +346,21 @@ body {
 
 .note-content {
     flex: 1;
-    padding: 20px;
+    padding: 30px 40px;
     overflow: auto;
     font-family: Tahoma, 'MS Sans Serif', sans-serif;
     font-size: 14px;
     line-height: 1.7;
     color: #222;
     user-select: text;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.note-content > * {
+    max-width: 560px;
+    width: 100%;
 }
 
 .note-content h1 {

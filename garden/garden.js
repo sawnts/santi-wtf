@@ -13,6 +13,7 @@ document.addEventListener('DOMContentLoaded', init);
 async function init() {
     await loadIndex();
     renderTree();
+    collapseAllFolders(); // Start with folders collapsed
     setupPaneResize();
     setupHoverPreviews();
 
