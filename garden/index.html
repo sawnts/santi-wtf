@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>garden - windows explorer</title>
+    <link rel="stylesheet" href="garden.css">
+    <link rel="icon" type="image/x-icon" href="/icons/favicon.ico">
+</head>
+<body>
+    <div class="explorer-window">
+        <!-- Title Bar -->
+        <div class="title-bar">
+            <div class="title-bar-text">
+                <img src="/icons/tree-0.png" alt="" class="title-icon"> garden - windows explorer
+            </div>
+            <div class="title-bar-controls">
+                <button aria-label="Minimize">_</button>
+                <button aria-label="Maximize">□</button>
+                <button aria-label="Close" onclick="window.location.href='/'">×</button>
+            </div>
+        </div>
+
+        <!-- Menu Bar -->
+        <div class="menu-bar">
+            <span class="menu-item">file</span>
+            <span class="menu-item">edit</span>
+            <span class="menu-item">view</span>
+            <span class="menu-item">go</span>
+            <span class="menu-item">favorites</span>
+            <span class="menu-item">help</span>
+        </div>
+
+        <!-- Toolbar -->
+        <div class="toolbar">
+            <button id="btn-back" onclick="goBack()" disabled>
+                <span class="toolbar-icon">←</span> back
+            </button>
+            <button id="btn-forward" onclick="goForward()" disabled>
+                <span class="toolbar-icon">→</span> forward
+            </button>
+            <button id="btn-up" onclick="goUp()">
+                <span class="toolbar-icon">↑</span> up
+            </button>
+            <div class="toolbar-separator"></div>
+            <button onclick="openSearch()">
+                <span class="toolbar-icon">🔍</span> find
+            </button>
+            <button onclick="openGraph()">
+                <span class="toolbar-icon">🕸️</span> graph
+            </button>
+            <button onclick="loadRandom()">
+                <span class="toolbar-icon">🎲</span> random
+            </button>
+        </div>
+
+        <!-- Address Bar -->
+        <div class="address-bar">
+            <label for="address">address:</label>
+            <input type="text" id="address" value="C:\garden\" readonly>
+            <button onclick="goToAddress()">go</button>
+        </div>
+
+        <!-- Main Content Area -->
+        <div class="main-content">
+            <!-- Left Pane - Folder Tree -->
+            <div class="left-pane">
+                <div class="pane-header">
+                    <span>folders</span>
+                    <span class="pane-header-buttons">
+                        <button onclick="expandAllFolders()" title="expand all">+</button>
+                        <button onclick="collapseAllFolders()" title="collapse all">−</button>
+                    </span>
+                </div>
+                <div class="tree-view" id="tree-view">
+                    <!-- Tree will be populated by JS -->
+                </div>
+            </div>
+
+            <!-- Resize Handle -->
+            <div class="pane-divider" id="pane-divider"></div>
+
+            <!-- Right Pane - Note Content -->
+            <div class="right-pane">
+                <div class="note-content" id="note-content">
+                    <!-- Note content will be loaded here -->
+                    <div class="loading">loading garden...</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Status Bar -->
+        <div class="status-bar">
+            <div class="status-section" id="status-notes">0 notes</div>
+            <div class="status-section" id="status-links">0 links</div>
+            <div class="status-section" id="status-growth">🌱 0 | 🌿 0 | 🌲 0</div>
+        </div>
+    </div>
+
+    <!-- Search Dialog -->
+    <div class="dialog-overlay" id="search-overlay" style="display: none;">
+        <div class="window search-dialog">
+            <div class="title-bar">
+                <div class="title-bar-text">find in garden</div>
+                <div class="title-bar-controls">
+                    <button aria-label="Close" onclick="closeSearch()">×</button>
+                </div>
+            </div>
+            <div class="window-body">
+                <div class="search-input-row">
+                    <label for="search-input">find what:</label>
+                    <input type="text" id="search-input" onkeyup="handleSearchKey(event)">
+                </div>
+                <div class="search-results" id="search-results">
+                    <!-- Search results will appear here -->
+                </div>
+                <div class="search-buttons">
+                    <button onclick="performSearch()">find now</button>
+                    <button onclick="closeSearch()">cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Graph Dialog -->
+    <div class="dialog-overlay" id="graph-overlay" style="display: none;">
+        <div class="window graph-dialog">
+            <div class="title-bar">
+                <div class="title-bar-text">garden graph</div>
+                <div class="title-bar-controls">
+                    <button aria-label="Close" onclick="closeGraph()">×</button>
+                </div>
+            </div>
+            <div class="window-body">
+                <canvas id="graph-canvas"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <!-- Filter Dialog -->
+    <div class="dialog-overlay" id="filter-overlay" style="display: none;">
+        <div class="window filter-dialog">
+            <div class="title-bar">
+                <div class="title-bar-text">filter notes</div>
+                <div class="title-bar-controls">
+                    <button aria-label="Close" onclick="closeFilter()">×</button>
+                </div>
+            </div>
+            <div class="window-body">
+                <div class="filter-header" id="filter-header">
+                    <!-- Filter title will appear here -->
+                </div>
+                <div class="filter-options">
+                    <label>filter by tag:</label>
+                    <select id="filter-tag" onchange="applyFilter()">
+                        <option value="">all tags</option>
+                    </select>
+                </div>
+                <div class="filter-results" id="filter-results">
+                    <!-- Filtered results will appear here -->
+                </div>
+                <div class="filter-buttons">
+                    <button onclick="closeFilter()">close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Hover Preview Tooltip -->
+    <div class="hover-preview" id="hover-preview" style="display: none;">
+        <div class="preview-title" id="preview-title"></div>
+        <div class="preview-excerpt" id="preview-excerpt"></div>
+    </div>
+
+    <script src="garden.js"></script>
+</body>
+</html>

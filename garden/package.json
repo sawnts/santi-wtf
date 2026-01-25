@@ -1,0 +1,17 @@
+{
+  "name": "garden",
+  "version": "1.0.0",
+  "description": "digital garden build tools",
+  "scripts": {
+    "sync": "node build.js \"/Users/santi/Desktop/Areas/Jots/santi.wtf/public\""
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "dependencies": {
+    "glob": "^13.0.0",
+    "gray-matter": "^4.0.3",
+    "marked": "^17.0.1"
+  }
+}

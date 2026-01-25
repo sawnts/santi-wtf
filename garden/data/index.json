@@ -1,0 +1,190 @@
+{
+  "notes": {
+    "index": {
+      "title": "welcome to the garden",
+      "stage": "evergreen",
+      "planted": "2026-01-24T00:00:00.000Z",
+      "tended": "2026-01-24T00:00:00.000Z",
+      "tags": [
+        "meta"
+      ],
+      "links": [
+        "1. thinking/integration",
+        "1. thinking/integration",
+        "1. thinking/splitting",
+        "4. loving/ogilvy"
+      ],
+      "backlinks": [],
+      "excerpt": "this is a digital garden — a collection of interconnected notes, ideas, and thoughts that grow over time. unlike a blog with finished posts, a garden"
+    },
+    "4. loving/ogilvy": {
+      "title": "david ogilvy",
+      "stage": "growing",
+      "planted": "2024-10-01T00:00:00.000Z",
+      "tended": "2026-01-12T00:00:00.000Z",
+      "tags": [
+        "influences",
+        "advertising"
+      ],
+      "links": [
+        "1. thinking/integration",
+        "1. thinking/splitting"
+      ],
+      "backlinks": [
+        "index",
+        "1. thinking/splitting",
+        "1. thinking/integration"
+      ],
+      "excerpt": "the father of advertising. insisted on research before creativity."
+    },
+    "4. loving/miles-davis": {
+      "title": "miles davis",
+      "stage": "growing",
+      "planted": "2024-12-01T00:00:00.000Z",
+      "tended": "2026-01-08T00:00:00.000Z",
+      "tags": [
+        "influences",
+        "music"
+      ],
+      "links": [
+        "1. thinking/integration"
+      ],
+      "backlinks": [
+        "1. thinking/integration"
+      ],
+      "excerpt": "kept reinventing what jazz could be. cool jazz → hard bop → modal → fusion."
+    },
+    "3. doing/habit-tracker": {
+      "title": "habit tracker",
+      "stage": "evergreen",
+      "planted": "2026-01-01T00:00:00.000Z",
+      "tended": "2026-01-24T00:00:00.000Z",
+      "tags": [
+        "projects",
+        "habits"
+      ],
+      "links": [],
+      "backlinks": [],
+      "excerpt": "a garden grows one day at a time."
+    },
+    "3. doing/digital-garden": {
+      "title": "building this garden",
+      "stage": "growing",
+      "planted": "2026-01-24T00:00:00.000Z",
+      "tended": "2026-01-24T00:00:00.000Z",
+      "tags": [
+        "projects",
+        "meta"
+      ],
+      "links": [
+        "1. thinking/integration",
+        "1. thinking/integration",
+        "1. thinking/splitting"
+      ],
+      "backlinks": [],
+      "excerpt": "this is a digital garden — a place for ideas to grow over time. here's how it works."
+    },
+    "2. being/soft guy era": {
+      "title": "soft guy era",
+      "stage": "seedling",
+      "planted": "2026-01-20T00:00:00.000Z",
+      "tended": "2026-01-20T00:00:00.000Z",
+      "tags": [
+        "personal"
+      ],
+      "links": [],
+      "backlinks": [],
+      "excerpt": "what does it mean to stop performing and just be?"
+    },
+    "1. thinking/splitting": {
+      "title": "splitting",
+      "stage": "growing",
+      "planted": "2024-11-15T00:00:00.000Z",
+      "tended": "2026-01-10T00:00:00.000Z",
+      "tags": [
+        "creativity",
+        "thinking-modes"
+      ],
+      "links": [
+        "1. thinking/integration",
+        "4. loving/ogilvy",
+        "1. thinking/integration",
+        "4. loving/ogilvy"
+      ],
+      "backlinks": [
+        "index",
+        "4. loving/ogilvy",
+        "3. doing/digital-garden",
+        "1. thinking/integration"
+      ],
+      "excerpt": "before you can understand something, you often need to break it apart. this is splitting — the analytical complement to integrationintegration."
+    },
+    "1. thinking/integration": {
+      "title": "integration",
+      "stage": "evergreen",
+      "planted": "2024-11-12T00:00:00.000Z",
+      "tended": "2026-01-18T00:00:00.000Z",
+      "tags": [
+        "creativity",
+        "thinking-modes"
+      ],
+      "links": [
+        "4. loving/ogilvy",
+        "1. thinking/splitting",
+        "4. loving/miles-davis",
+        "1. thinking/splitting",
+        "4. loving/ogilvy",
+        "4. loving/miles-davis"
+      ],
+      "backlinks": [
+        "index",
+        "4. loving/ogilvy",
+        "4. loving/miles-davis",
+        "3. doing/digital-garden",
+        "1. thinking/splitting"
+      ],
+      "excerpt": "the best ideas often come from combining concepts that don't obviously belong together. ogilvyogilvy called this \"creative cross-pollination.\""
+    }
+  },
+  "folders": {
+    "folders": {
+      "4. loving": {
+        "folders": {},
+        "notes": [
+          "4. loving/ogilvy",
+          "4. loving/miles-davis"
+        ]
+      },
+      "3. doing": {
+        "folders": {},
+        "notes": [
+          "3. doing/habit-tracker",
+          "3. doing/digital-garden"
+        ]
+      },
+      "2. being": {
+        "folders": {},
+        "notes": [
+          "2. being/soft guy era"
+        ]
+      },
+      "1. thinking": {
+        "folders": {},
+        "notes": [
+          "1. thinking/splitting",
+          "1. thinking/integration"
+        ]
+      }
+    },
+    "notes": [
+      "index"
+    ]
+  },
+  "stats": {
+    "total": 8,
+    "links": 20,
+    "seedling": 1,
+    "growing": 4,
+    "evergreen": 3
+  }
+}
