@@ -645,15 +645,18 @@ function openGraph() {
     graphState.exitProgress = 0;
     graphState.isClosing = false;
     graphState.alpha = 1;
+    graphState.hovering = null;
+    graphState.dragging = null;
+    graphState.panning = false;
+    graphState.clickFeedback = null;
     graphState.startTime = performance.now();
 
-    // Fade in overlay
+    // Wait a frame for layout, then init and fade in
     requestAnimationFrame(() => {
+        initGraph();
         overlay.style.transition = 'opacity 200ms ease-out';
         overlay.style.opacity = '1';
     });
-
-    initGraph();
 }
 
 function closeGraph() {
@@ -678,12 +681,14 @@ function initGraph() {
     // set canvas size with device pixel ratio for crisp rendering
     const dpr = window.devicePixelRatio || 1;
     const rect = canvas.getBoundingClientRect();
-    canvas.width = rect.width * dpr;
-    canvas.height = rect.height * dpr;
-    ctx.scale(dpr, dpr);
 
-    const width = rect.width;
-    const height = rect.height;
+    // Ensure we have valid dimensions
+    const width = rect.width || 800;
+    const height = rect.height || 600;
+
+    canvas.width = width * dpr;
+    canvas.height = height * dpr;
+    ctx.scale(dpr, dpr);
 
     // create nodes from notes
     graphNodes = [];
@@ -1049,13 +1054,12 @@ function animateGraph(canvas, ctx, width, height) {
         const opacity = shouldFade ? 0.3 : 1;
 
         // Node glow
-        if (!shouldFade) {
+        if (!shouldFade && radius > 0) {
             const gradient = ctx.createRadialGradient(
                 node.x, node.y, radius * 0.5,
                 node.x, node.y, radius * 2
             );
-            const color = getStageColor(node.stage);
-            gradient.addColorStop(0, color.replace(')', `, ${0.3 * opacity})`).replace('rgb', 'rgba'));
+            gradient.addColorStop(0, adjustColorOpacity(getStageColor(node.stage), 0.3));
             gradient.addColorStop(1, 'rgba(0, 0, 0, 0)');
             ctx.fillStyle = gradient;
             ctx.beginPath();
