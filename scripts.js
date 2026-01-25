@@ -39,6 +39,16 @@
                 if (data) {
                     // Convert from Firebase object to array if needed
                     siteUpdates = Array.isArray(data) ? data : Object.values(data);
+
+                    // Merge any new defaults that don't exist in Firebase
+                    const existingKeys = new Set(siteUpdates.map(u => u.date + '|' + u.text));
+                    const newDefaults = defaultSiteUpdates.filter(d => !existingKeys.has(d.date + '|' + d.text));
+                    if (newDefaults.length > 0) {
+                        siteUpdates = [...newDefaults, ...siteUpdates];
+                        // Sort by date descending (newer first)
+                        siteUpdates.sort((a, b) => new Date(b.date) - new Date(a.date));
+                        window.db.ref('updates').set(siteUpdates);
+                    }
                 } else {
                     // Initialize Firebase with defaults
                     window.db.ref('updates').set(defaultSiteUpdates);
