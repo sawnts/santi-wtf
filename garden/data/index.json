@@ -9,42 +9,14 @@
         "meta"
       ],
       "links": [
-        "5. writing/power-of-writing-online",
+        "1. thinking/power-of-writing-online",
         "1. thinking/integration",
         "1. thinking/integration",
         "1. thinking/splitting",
-        "5. writing/power-of-writing-online"
+        "1. thinking/power-of-writing-online"
       ],
       "backlinks": [],
       "excerpt": "i built this site because i miss the internet. the one before the apps. i miss the weird little corners of the web where people shared their thoughts,"
-    },
-    "5. writing/power-of-writing-online": {
-      "title": "10 reasons why you should start writing online",
-      "stage": "evergreen",
-      "planted": "2026-01-12T00:00:00.000Z",
-      "tended": "2026-01-12T00:00:00.000Z",
-      "tags": [
-        "writing",
-        "creativity"
-      ],
-      "links": [],
-      "backlinks": [
-        "index"
-      ],
-      "excerpt": "i've been [yapping nonstop](https://mail.0ffbrand.com/p/the-future-of-social-media-is-email) about the benefits of building your email list — ownershi"
-    },
-    "5. writing/my-favorite-reads-2025": {
-      "title": "my favorite reads of 2025",
-      "stage": "evergreen",
-      "planted": "2026-01-01T00:00:00.000Z",
-      "tended": "2026-01-01T00:00:00.000Z",
-      "tags": [
-        "writing",
-        "books"
-      ],
-      "links": [],
-      "backlinks": [],
-      "excerpt": "the first one is 70 pages long. number two will get anybody out of a reading slump. the third one is its sequel. the fourth one is the only personal d"
     },
     "4. loving/ogilvy": {
       "title": "david ogilvy",
@@ -136,6 +108,19 @@
       "backlinks": [],
       "excerpt": "what i'm up to recently:"
     },
+    "2. being/my-favorite-reads-2025": {
+      "title": "my favorite reads of 2025",
+      "stage": "evergreen",
+      "planted": "2026-01-01T00:00:00.000Z",
+      "tended": "2026-01-01T00:00:00.000Z",
+      "tags": [
+        "writing",
+        "books"
+      ],
+      "links": [],
+      "backlinks": [],
+      "excerpt": "the first one is 70 pages long. number two will get anybody out of a reading slump. the third one is its sequel. the fourth one is the only personal d"
+    },
     "1. thinking/splitting": {
       "title": "splitting",
       "stage": "growing",
@@ -158,6 +143,21 @@
         "1. thinking/integration"
       ],
       "excerpt": "before you can understand something, you often need to break it apart. this is splitting — the analytical complement to integration."
+    },
+    "1. thinking/power-of-writing-online": {
+      "title": "the power of writing online",
+      "stage": "evergreen",
+      "planted": "2026-01-12T00:00:00.000Z",
+      "tended": "2026-01-12T00:00:00.000Z",
+      "tags": [
+        "writing",
+        "creativity"
+      ],
+      "links": [],
+      "backlinks": [
+        "index"
+      ],
+      "excerpt": "the person who can string together words that evoke emotion, facilitate insight, and entertain readers has a huge competitive advantage in today's dig"
     },
     "1. thinking/integration": {
       "title": "integration",
@@ -188,13 +188,6 @@
   },
   "folders": {
     "folders": {
-      "5. writing": {
-        "folders": {},
-        "notes": [
-          "5. writing/power-of-writing-online",
-          "5. writing/my-favorite-reads-2025"
-        ]
-      },
       "4. loving": {
         "folders": {},
         "notes": [
@@ -213,13 +206,15 @@
         "folders": {},
         "notes": [
           "2. being/soft guy era",
-          "2. being/now"
+          "2. being/now",
+          "2. being/my-favorite-reads-2025"
         ]
       },
       "1. thinking": {
         "folders": {},
         "notes": [
           "1. thinking/splitting",
+          "1. thinking/power-of-writing-online",
           "1. thinking/integration"
         ]
       }
