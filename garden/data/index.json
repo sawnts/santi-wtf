@@ -19,42 +19,6 @@
       "backlinks": [],
       "excerpt": "i built this site because i miss the internet. the one before the apps. i miss the weird little corners of the web where people shared their thoughts,"
     },
-    "_system/publishing workflow": {
-      "title": "publishing workflow",
-      "stage": "evergreen",
-      "planted": "2026-01-25T00:00:00.000Z",
-      "tended": "2026-01-25T00:00:00.000Z",
-      "tags": [
-        "meta",
-        "workflow"
-      ],
-      "links": [
-        "_system/how this site works",
-        "wikilinks",
-        "wikilinks"
-      ],
-      "backlinks": [
-        "_system/how this site works"
-      ],
-      "excerpt": "how notes go from my brain to the internet. for a broader overview of the site, see how this site works."
-    },
-    "_system/how this site works": {
-      "title": "how this site works",
-      "stage": "evergreen",
-      "planted": "2026-01-25T00:00:00.000Z",
-      "tended": "2026-01-25T00:00:00.000Z",
-      "tags": [
-        "meta",
-        "tech"
-      ],
-      "links": [
-        "_system/publishing workflow"
-      ],
-      "backlinks": [
-        "_system/publishing workflow"
-      ],
-      "excerpt": "a peek behind the curtain for the curious."
-    },
     "4. loving/miles davis": {
       "title": "miles davis",
       "stage": "growing",
@@ -368,13 +332,6 @@
   },
   "folders": {
     "folders": {
-      "_system": {
-        "folders": {},
-        "notes": [
-          "_system/publishing workflow",
-          "_system/how this site works"
-        ]
-      },
       "4. loving": {
         "folders": {},
         "notes": [
@@ -417,10 +374,10 @@
     ]
   },
   "stats": {
-    "total": 19,
-    "links": 49,
+    "total": 17,
+    "links": 45,
     "seedling": 1,
     "growing": 10,
-    "evergreen": 8
+    "evergreen": 6
   }
 }
