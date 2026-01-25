@@ -4,6 +4,17 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>garden - windows explorer</title>
+    <script>
+        // If loaded directly (not in iframe), redirect to main site
+        if (window.self === window.top) {
+            const path = window.location.pathname;
+            // Store the garden path and redirect to main page
+            if (path && path !== '/garden/garden.html') {
+                sessionStorage.setItem('redirect', path);
+            }
+            window.location.replace('/');
+        }
+    </script>
     <link rel="stylesheet" href="garden.css">
     <link rel="icon" type="image/x-icon" href="/icons/favicon.ico">
 </head>

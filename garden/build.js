@@ -175,6 +175,23 @@ Object.entries(rawContent).forEach(([noteId, markdown]) => {
         }
     });
 
+    // convert plain markdown links to internal notes (href without http/https/mailto)
+    html = html.replace(/<a href="([^"]+)"(?![^>]*class=)>([^<]+)<\/a>/g, (match, href, text) => {
+        // Skip external links and anchors
+        if (href.startsWith('http') || href.startsWith('mailto:') || href.startsWith('#') || href.startsWith('/')) {
+            return match;
+        }
+        // Try to resolve as internal note
+        const linkId = href.toLowerCase().replace(/\s+/g, '-');
+        const resolvedId = findNoteId(linkId);
+        if (resolvedId) {
+            return `<a href="#" class="wikilink" data-note="${resolvedId}">${text}</a>`;
+        } else {
+            // Private/unresolved link
+            return `<span class="wikilink-private" title="private note">${text} 🔒</span>`;
+        }
+    });
+
     // ensure output directory exists
     const outputPath = path.join(OUTPUT_DIR, noteId + '.html');
     const outputDir = path.dirname(outputPath);
