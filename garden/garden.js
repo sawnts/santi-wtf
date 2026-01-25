@@ -17,15 +17,24 @@ async function init() {
     setupPaneResize();
     setupHoverPreviews();
 
-    // check for path in url
-    const path = window.location.pathname.replace('/garden', '').replace(/^\//, '');
-    if (path && path !== '/' && path !== 'index.html') {
-        const noteId = path.replace('.html', '').replace(/\//g, '/');
-        if (gardenIndex.notes[noteId]) {
-            loadNote(noteId);
-        } else {
-            loadWelcome();
+    // Check for path from parent window (via sessionStorage)
+    let notePath = null;
+    try {
+        notePath = window.parent !== window ? sessionStorage.getItem('gardenPath') : null;
+        if (notePath) sessionStorage.removeItem('gardenPath');
+    } catch (e) {}
+
+    // Fallback to URL path
+    if (!notePath) {
+        const urlPath = window.location.pathname.replace('/garden', '').replace(/^\//, '');
+        if (urlPath && urlPath !== '/' && urlPath !== 'index.html') {
+            notePath = fromUrlSlug(urlPath.replace('.html', ''));
         }
+    }
+
+    // Load the note or welcome page
+    if (notePath && gardenIndex.notes[notePath]) {
+        loadNote(notePath);
     } else {
         loadWelcome();
     }
@@ -165,6 +174,45 @@ function createFolderHtml(name, folder, path) {
     return html;
 }
 
+// Convert noteId to URL-friendly slug
+function toUrlSlug(noteId) {
+    if (!noteId) return '';
+    const parts = noteId.split('/');
+    if (parts.length > 1) {
+        // Remove "1. " prefix and replace spaces with dashes in folder name
+        parts[0] = parts[0].replace(/^\d+\.\s*/, '').replace(/ /g, '-');
+    }
+    return parts.join('/');
+}
+
+// Convert URL slug back to noteId
+function fromUrlSlug(slug) {
+    if (!slug) return '';
+    const parts = slug.split('/');
+    if (parts.length > 1) {
+        // Try to find matching folder with number prefix
+        const folderSlug = parts[0].replace(/-/g, ' ');
+        const folders = ['1. thinking', '2. being', '3. doing', '4. loving', '5. writing'];
+        const match = folders.find(f => f.replace(/^\d+\.\s*/, '') === folderSlug);
+        if (match) parts[0] = match;
+    }
+    return parts.join('/');
+}
+
+// Update URL and notify parent window
+function updateUrl(noteId) {
+    const slug = toUrlSlug(noteId);
+    const newUrl = slug ? `/garden/${slug}` : '/garden';
+    window.history.pushState({ noteId }, '', newUrl);
+
+    // Notify parent window to update its URL
+    try {
+        if (window.parent !== window) {
+            window.parent.postMessage({ type: 'gardenNavigate', path: slug }, '*');
+        }
+    } catch (e) {}
+}
+
 function getStageIcon(stage) {
     switch (stage) {
         case 'seedling': return '🌱';
@@ -213,8 +261,7 @@ async function loadNote(noteId) {
     // Check if this is the habit tracker note
     if (isHabitTrackerNote(noteId)) {
         await renderHabitTracker();
-        const newUrl = `/garden/${noteId}`;
-        window.history.pushState({ noteId }, '', newUrl);
+        updateUrl(noteId);
         return;
     }
 
@@ -233,9 +280,8 @@ async function loadNote(noteId) {
         contentArea.innerHTML = html;
         setupWikilinkHandlers(contentArea);
 
-        // update url without reload
-        const newUrl = `/garden/${noteId}`;
-        window.history.pushState({ noteId }, '', newUrl);
+        // update url and notify parent
+        updateUrl(noteId);
 
     } catch (e) {
         contentArea.innerHTML = `<div class="no-results">note not found: ${noteId}</div>`;
@@ -376,6 +422,7 @@ async function loadWelcome() {
 
     setupWikilinkHandlers(contentArea);
     updateAddressBar('');
+    updateUrl(null);
     currentNote = null;
 }
 
@@ -426,8 +473,15 @@ async function loadNoteWithoutHistory(noteId) {
         contentArea.innerHTML = html;
         setupWikilinkHandlers(contentArea);
 
-        const newUrl = `/garden/${noteId}`;
+        // Update URL and notify parent
+        const slug = toUrlSlug(noteId);
+        const newUrl = `/garden/${slug}`;
         window.history.replaceState({ noteId }, '', newUrl);
+        try {
+            if (window.parent !== window) {
+                window.parent.postMessage({ type: 'gardenNavigate', path: slug }, '*');
+            }
+        } catch (e) {}
 
     } catch (e) {
         contentArea.innerHTML = `<div class="no-results">note not found: ${noteId}</div>`;

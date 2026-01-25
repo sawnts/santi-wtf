@@ -137,6 +137,7 @@
             const win = document.getElementById(id);
             win.classList.add('active');
             activeWindow = id;
+            updateTaskbar();
         }
 
         function updateTaskbar() {
@@ -410,8 +411,8 @@
             content.innerHTML = adminForm + updatesHTML;
         }
 
-        // Handle legacy URLs by redirecting to garden
-        function handleLegacyRoutes() {
+        // Handle URLs and pass garden paths to iframe
+        function handleRoutes() {
             // Check for 404 redirect from sessionStorage
             let path = sessionStorage.getItem('redirect');
             if (path) {
@@ -425,27 +426,54 @@
 
             // Map old blog URLs to garden paths
             const legacyRedirects = {
-                'favorite-reads-2025': '/garden/5. writing/my-favorite-reads-2025',
-                'power-of-writing-online': '/garden/5. writing/power-of-writing-online',
+                'favorite-reads-2025': '/garden/being/my-favorite-reads-2025',
+                'power-of-writing-online': '/garden/thinking/power-of-writing-online',
                 'notes': '/garden',
                 'archive': '/garden',
-                'now': '/garden/2. being/now'
+                'now': '/garden/being/now'
             };
 
-            if (path && legacyRedirects[path]) {
-                window.location.href = legacyRedirects[path];
+            if (legacyRedirects[path]) {
+                path = legacyRedirects[path].replace(/^\//, '');
+            }
+
+            // Handle garden paths
+            if (path.startsWith('garden/') || path === 'garden') {
+                const slugPath = path.replace(/^garden\/?/, '');
+                if (slugPath) {
+                    // Convert slug to noteId (map folder names back to numbered versions)
+                    const parts = slugPath.split('/');
+                    if (parts.length > 1) {
+                        const folderMap = {
+                            'thinking': '1. thinking',
+                            'being': '2. being',
+                            'doing': '3. doing',
+                            'loving': '4. loving',
+                            'writing': '5. writing'
+                        };
+                        parts[0] = folderMap[parts[0]] || parts[0];
+                    }
+                    sessionStorage.setItem('gardenPath', parts.join('/'));
+                }
             } else if (path === 'player') {
                 openWindow('player');
             }
-            // Garden routes are handled by garden itself
         }
 
-        // Open garden on load and handle legacy URL redirects
+        // Listen for URL updates from garden iframe
+        window.addEventListener('message', (e) => {
+            if (e.data && e.data.type === 'gardenNavigate') {
+                const newPath = e.data.path ? `/garden/${e.data.path}` : '/garden';
+                history.replaceState(null, '', newPath);
+            }
+        });
+
+        // Open garden on load and handle URL routes
         window.onload = () => {
             openWindow('garden');
-            handleLegacyRoutes(); // Redirect old blog URLs to garden
-            updateClock(); // Set initial time
-            setInterval(updateClock, 1000); // Update every second
+            handleRoutes();
+            updateClock();
+            setInterval(updateClock, 1000);
         };
 
         // Update the clock
