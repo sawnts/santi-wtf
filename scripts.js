@@ -702,9 +702,9 @@
                 .catch((error) => console.error('Logout failed:', error));
         }
 
-        // Keyboard shortcut: Ctrl+Shift+L to trigger login
+        // Keyboard shortcut: Ctrl+Shift+L or Cmd+Shift+L to trigger login
         document.addEventListener('keydown', (e) => {
-            if (e.ctrlKey && e.shiftKey && e.key === 'L') {
+            if ((e.ctrlKey || e.metaKey) && e.shiftKey && (e.key === 'L' || e.key === 'l')) {
                 e.preventDefault();
                 if (currentUser) {
                     adminLogout();
