@@ -6,6 +6,26 @@ let currentNote = null;
 let history = [];
 let historyIndex = -1;
 let leftPaneWidth = 200;
+let drawerOpen = false;
+
+// Mobile drawer functions
+function toggleDrawer() {
+    drawerOpen ? closeDrawer() : openDrawer();
+}
+
+function openDrawer() {
+    drawerOpen = true;
+    document.getElementById('left-pane').classList.add('open');
+    document.getElementById('drawer-overlay').classList.add('open');
+    document.body.style.overflow = 'hidden';
+}
+
+function closeDrawer() {
+    drawerOpen = false;
+    document.getElementById('left-pane').classList.remove('open');
+    document.getElementById('drawer-overlay').classList.remove('open');
+    document.body.style.overflow = '';
+}
 
 // initialize on load
 document.addEventListener('DOMContentLoaded', init);
@@ -104,6 +124,7 @@ function renderTree() {
     treeView.querySelectorAll('.tree-item[data-note]').forEach(item => {
         item.addEventListener('click', () => {
             loadNote(item.dataset.note);
+            closeDrawer(); // Close drawer on mobile after selection
         });
     });
 }

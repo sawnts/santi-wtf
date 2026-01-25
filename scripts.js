@@ -258,6 +258,9 @@
         document.addEventListener('DOMContentLoaded', initClippy);
 
         function dragStart(e, id) {
+            // Disable drag on mobile
+            if (window.innerWidth <= 768) return;
+
             e.preventDefault();
             draggedWindow = document.getElementById(id);
             setActiveWindow(id);
@@ -296,6 +299,9 @@
 
         // Window resize functions
         function resizeStart(e, id) {
+            // Disable resize on mobile
+            if (window.innerWidth <= 768) return;
+
             e.preventDefault();
             e.stopPropagation();
             resizedWindow = document.getElementById(id);

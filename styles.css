@@ -845,62 +845,110 @@
                 font-size: 14px;
             }
 
+            /* Hide desktop icons - use menu only */
             .desktop {
-                height: calc(100vh - 40px);
+                height: calc(100vh - 44px);
             }
 
-            .icon {
-                width: 60px;
+            .desktop .icon {
+                display: none;
             }
 
-            .icon-img {
-                font-size: 28px;
-            }
-
-            .icon-label {
-                font-size: 10px;
+            /* Clippy hidden on mobile */
+            .clippy-container {
+                display: none;
             }
 
             /* Make windows full screen on mobile */
             .window {
                 width: 100% !important;
-                height: calc(100vh - 40px) !important;
+                height: calc(100vh - 44px) !important;
                 left: 0 !important;
                 top: 0 !important;
                 min-width: 100%;
+                border: none;
+                box-shadow: none;
+            }
+
+            /* Hide resize handles */
+            .resize-handle {
+                display: none;
+            }
+
+            /* Simplified title bar */
+            .title-bar {
+                cursor: default;
+                padding: 6px 8px;
+            }
+
+            .title-btn {
+                width: 28px;
+                height: 24px;
+                font-size: 14px;
             }
 
             .window-content {
                 padding: 15px;
-                font-size: 14px;
+                font-size: 15px;
+                line-height: 1.6;
             }
 
             .window-content h1 {
-                font-size: 20px;
+                font-size: 22px;
             }
 
             .window-content h2 {
-                font-size: 16px;
+                font-size: 18px;
             }
 
-            /* Taskbar adjustments */
+            /* Taskbar - simplified */
             .taskbar {
-                height: 40px;
+                height: 44px;
             }
 
             .start-btn {
-                height: 36px;
+                height: 38px;
                 font-size: 14px;
+                padding: 0 12px;
             }
 
-            .taskbar-item {
-                height: 34px;
-                font-size: 12px;
+            .start-icon img {
+                width: 20px;
+                height: 20px;
+            }
+
+            /* Hide taskbar items on mobile - use start menu */
+            .taskbar-items {
+                display: none;
             }
 
             .system-tray {
-                height: 34px;
-                font-size: 12px;
+                height: 38px;
+                font-size: 13px;
+                padding: 0 12px;
+            }
+
+            /* Start menu - full width, larger items */
+            .start-menu {
+                width: 100%;
+                left: 0;
+                bottom: 44px;
+                max-height: calc(100vh - 88px);
+                overflow-y: auto;
+            }
+
+            .start-menu-item {
+                padding: 14px 16px;
+                font-size: 15px;
+            }
+
+            .start-menu-item img {
+                width: 24px;
+                height: 24px;
+            }
+
+            .start-menu-separator {
+                margin: 8px 0;
             }
 
             /* Chat window */
@@ -909,51 +957,73 @@
             }
 
             .chat-message {
+                font-size: 13px;
+                padding: 8px;
+            }
+
+            .chat-input input {
+                font-size: 16px; /* Prevent iOS zoom */
+                padding: 10px;
+            }
+
+            .chat-input button {
+                padding: 10px 16px;
+                font-size: 14px;
+            }
+
+            /* My Computer - larger items */
+            .mycomputer-item {
+                width: 90px;
+                padding: 12px;
+            }
+
+            .mycomputer-item .icon-img img {
+                width: 40px;
+                height: 40px;
+            }
+
+            .mycomputer-label {
                 font-size: 12px;
-                padding: 6px;
             }
 
-            /* Start menu */
-            .start-menu {
-                width: 100%;
-                left: 0;
+            /* Garden window - no padding since iframe handles it */
+            .garden-window .window-content {
+                padding: 0;
             }
 
-            /* Hide window drag on mobile (not useful on touch) */
-            .title-bar {
-                cursor: default;
+            /* Player window */
+            .player-window .window-content {
+                height: calc(100% - 32px);
             }
 
-            /* Make toolbar buttons touch-friendly */
-            .toolbar-btn {
-                width: 32px;
-                height: 30px;
+            /* Shutdown dialog */
+            .shutdown-dialog {
+                width: 90%;
+                max-width: 320px;
             }
 
-            /* Address bar */
-            .address-bar {
-                font-size: 12px;
+            .shutdown-option {
+                padding: 12px;
+                font-size: 14px;
             }
         }
 
         @media (max-width: 480px) {
             /* Extra small phones */
             .window-content {
-                padding: 10px;
-                font-size: 13px;
+                padding: 12px;
+                font-size: 14px;
             }
 
-            .menu-bar {
-                font-size: 10px;
+            .start-btn span {
+                display: none;
             }
 
-            .toolbar {
-                padding: 2px;
+            .start-btn {
+                padding: 0 10px;
             }
 
-            .toolbar-btn {
-                width: 28px;
-                height: 26px;
+            .title-text span {
                 font-size: 12px;
             }
         }

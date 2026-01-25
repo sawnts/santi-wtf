@@ -44,24 +44,25 @@
 
         <!-- Toolbar -->
         <div class="toolbar">
+            <button class="menu-toggle" onclick="toggleDrawer()" aria-label="Menu">☰</button>
             <button id="btn-back" onclick="goBack()" disabled>
-                <span class="toolbar-icon">←</span> back
+                <span class="toolbar-icon">←</span> <span>back</span>
             </button>
             <button id="btn-forward" onclick="goForward()" disabled>
-                <span class="toolbar-icon">→</span> forward
+                <span class="toolbar-icon">→</span> <span>forward</span>
             </button>
             <button id="btn-up" onclick="goUp()">
-                <span class="toolbar-icon">↑</span> up
+                <span class="toolbar-icon">↑</span> <span>up</span>
             </button>
             <div class="toolbar-separator"></div>
             <button onclick="openSearch()">
-                <span class="toolbar-icon">🔍</span> find
+                <span class="toolbar-icon">🔍</span> <span>find</span>
             </button>
             <button onclick="openGraph()">
-                <span class="toolbar-icon">🕸️</span> graph
+                <span class="toolbar-icon">🕸️</span> <span>graph</span>
             </button>
             <button onclick="loadRandom()">
-                <span class="toolbar-icon">🎲</span> random
+                <span class="toolbar-icon">🎲</span> <span>random</span>
             </button>
         </div>
 
@@ -72,10 +73,13 @@
             <button onclick="goToAddress()">go</button>
         </div>
 
+        <!-- Drawer Overlay (mobile) -->
+        <div class="drawer-overlay" id="drawer-overlay" onclick="closeDrawer()"></div>
+
         <!-- Main Content Area -->
         <div class="main-content">
             <!-- Left Pane - Folder Tree -->
-            <div class="left-pane">
+            <div class="left-pane" id="left-pane">
                 <div class="pane-header">
                     <span>folders</span>
                     <span class="pane-header-buttons">
