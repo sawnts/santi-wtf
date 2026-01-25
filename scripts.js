@@ -684,15 +684,9 @@
             firebase.auth().signInWithPopup(provider)
                 .then((result) => {
                     console.log('Logged in as:', result.user.email);
-                    console.log('Your UID is:', result.user.uid);
-                    // First time: copy the UID from console and set it as ADMIN_UID
-                    if (result.user.uid !== ADMIN_UID) {
-                        alert('UID: ' + result.user.uid + '\n\nCopy this to ADMIN_UID in scripts.js');
-                    }
                 })
                 .catch((error) => {
                     console.error('Login failed:', error);
-                    alert('Login failed: ' + error.message);
                 });
         }
 
