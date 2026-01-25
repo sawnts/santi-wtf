@@ -246,54 +246,69 @@
         document.addEventListener('DOMContentLoaded', initClippy);
 
         function dragStart(e, id) {
+            e.preventDefault();
             draggedWindow = document.getElementById(id);
             setActiveWindow(id);
-            
+
             const rect = draggedWindow.getBoundingClientRect();
             offsetX = e.clientX - rect.left;
             offsetY = e.clientY - rect.top;
-            
+
+            // Disable pointer events on iframes during drag to prevent capture
+            document.querySelectorAll('iframe').forEach(f => f.style.pointerEvents = 'none');
+            document.body.style.userSelect = 'none';
+
             document.addEventListener('mousemove', drag);
             document.addEventListener('mouseup', dragEnd);
         }
 
         function drag(e) {
             if (!draggedWindow) return;
-            
+            e.preventDefault();
+
             const x = e.clientX - offsetX;
             const y = e.clientY - offsetY;
-            
+
             draggedWindow.style.left = Math.max(0, x) + 'px';
             draggedWindow.style.top = Math.max(0, y) + 'px';
         }
 
         function dragEnd() {
             draggedWindow = null;
+            // Re-enable pointer events on iframes
+            document.querySelectorAll('iframe').forEach(f => f.style.pointerEvents = '');
+            document.body.style.userSelect = '';
             document.removeEventListener('mousemove', drag);
             document.removeEventListener('mouseup', dragEnd);
         }
 
         // Window resize functions
         function resizeStart(e, id) {
+            e.preventDefault();
             e.stopPropagation();
             resizedWindow = document.getElementById(id);
             setActiveWindow(id);
-            
+
             startX = e.clientX;
             startY = e.clientY;
             startWidth = resizedWindow.offsetWidth;
             startHeight = resizedWindow.offsetHeight;
-            
+
+            // Disable pointer events on iframes during resize
+            document.querySelectorAll('iframe').forEach(f => f.style.pointerEvents = 'none');
+            document.body.style.userSelect = 'none';
+
             document.addEventListener('mousemove', resize);
             document.addEventListener('mouseup', resizeEnd);
         }
 
         function resize(e) {
             if (!resizedWindow) return;
-            
+            e.preventDefault();
+
             const width = startWidth + (e.clientX - startX);
             const height = startHeight + (e.clientY - startY);
-            
+
             // Enforce minimum sizes
             if (width >= 400) {
                 resizedWindow.style.width = width + 'px';
@@ -305,6 +320,9 @@
 
         function resizeEnd() {
             resizedWindow = null;
+            // Re-enable pointer events on iframes
+            document.querySelectorAll('iframe').forEach(f => f.style.pointerEvents = '');
+            document.body.style.userSelect = '';
             document.removeEventListener('mousemove', resize);
             document.removeEventListener('mouseup', resizeEnd);
         }
