@@ -9,13 +9,24 @@ let leftPaneWidth = 200;
 let drawerOpen = false;
 
 // Drawer/pane toggle functions
+let leftPaneHidden = false;
+
 function toggleDrawer() {
     const isMobile = window.innerWidth <= 768;
     if (isMobile) {
         drawerOpen ? closeDrawer() : openDrawer();
     } else {
         // Desktop: toggle left pane visibility
-        document.getElementById('left-pane').classList.toggle('hidden');
+        leftPaneHidden = !leftPaneHidden;
+        const leftPane = document.getElementById('left-pane');
+        const divider = document.getElementById('pane-divider');
+        if (leftPaneHidden) {
+            leftPane.style.display = 'none';
+            divider.style.display = 'none';
+        } else {
+            leftPane.style.display = '';
+            divider.style.display = '';
+        }
     }
 }
 

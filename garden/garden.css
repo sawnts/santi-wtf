@@ -1383,11 +1383,11 @@ body {
 
 /* Desktop: left pane toggles visibility */
 .left-pane.hidden {
-    display: none;
+    display: none !important;
 }
 
 .left-pane.hidden + .pane-divider {
-    display: none;
+    display: none !important;
 }
 
 .drawer-overlay {
