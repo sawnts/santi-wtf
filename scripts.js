@@ -21,7 +21,7 @@
             { date: "january 25, 2026", text: "garden is now mobile friendly + polished graph view" },
             { date: "january 24, 2026", text: "launched the digital garden — now the heart of the site" },
             { date: "january 19, 2026", text: "added habit tracker to the desktop" },
-            { date: "january 18, 2026", text: "added updates window to the desktop" },
+            { date: "january 18, 2026", text: "added updates window to the <s>desktop</s> digital garden" },
             { date: "january 14, 2026", text: "added pomodoro timer application" },
             { date: "january 10, 2026", text: "new blog post: 10 reasons why you should start writing online" },
             { date: "january 7, 2026", text: "launched chat" },
