@@ -186,13 +186,13 @@
         "digital-garden"
       ],
       "links": [
-        "perfectionism-kills-creativity",
-        "creativity",
-        "_effective-connections",
+        "1. thinking/effective connections",
         "1. thinking/read old notes",
-        "_evergreen-notes-are-for-thinking"
+        "1. thinking/evergreen notes are for thinking"
       ],
-      "backlinks": [],
+      "backlinks": [
+        "1. thinking/evergreen notes are for thinking"
+      ],
       "excerpt": "good ideas don't live in isolation. they live in relationship."
     },
     "1. thinking/integration": {
@@ -220,6 +220,40 @@
         "1. thinking/splitting"
       ],
       "excerpt": "the best ideas often come from combining concepts that don't obviously belong together. ogilvy called this \"creative cross-pollination.\""
+    },
+    "1. thinking/evergreen notes are for thinking": {
+      "title": "splitting",
+      "stage": "growing",
+      "planted": "2025-10-10T00:00:00.000Z",
+      "tended": "2026-01-10T00:00:00.000Z",
+      "tags": [
+        "creativity",
+        "digital-garden"
+      ],
+      "links": [
+        "1. thinking/linking is thinking",
+        "1. thinking/effective connections"
+      ],
+      "backlinks": [
+        "1. thinking/linking is thinking"
+      ],
+      "excerpt": "evergreen notes aren't content. they're tools for thought."
+    },
+    "1. thinking/effective connections": {
+      "title": "splitting",
+      "stage": "growing",
+      "planted": "2025-05-15T00:00:00.000Z",
+      "tended": "2026-01-10T00:00:00.000Z",
+      "tags": [
+        "creativity",
+        "thinking-modes"
+      ],
+      "links": [],
+      "backlinks": [
+        "1. thinking/linking is thinking",
+        "1. thinking/evergreen notes are for thinking"
+      ],
+      "excerpt": "good links are like good friendships — they need shared context to mean something."
     }
   },
   "folders": {
@@ -253,7 +287,9 @@
           "1. thinking/read old notes",
           "1. thinking/power-of-writing-online",
           "1. thinking/linking is thinking",
-          "1. thinking/integration"
+          "1. thinking/integration",
+          "1. thinking/evergreen notes are for thinking",
+          "1. thinking/effective connections"
         ]
       }
     },
@@ -262,10 +298,10 @@
     ]
   },
   "stats": {
-    "total": 13,
+    "total": 15,
     "links": 27,
     "seedling": 1,
-    "growing": 6,
+    "growing": 8,
     "evergreen": 6
   }
 }
