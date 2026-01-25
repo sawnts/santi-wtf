@@ -137,7 +137,7 @@ mdFiles.forEach(filePath => {
     // create excerpt (first paragraph, stripped of html)
     const excerptMatch = markdown.match(/^[^#\n][^\n]+/m);
     const excerpt = excerptMatch
-        ? excerptMatch[0].replace(/\[\[([^\]|]+)(?:\|([^\]]+))?\]\]/g, '$2$1').substring(0, 150)
+        ? excerptMatch[0].replace(/\[\[([^\]|]+)(?:\|([^\]]+))?\]\]/g, (m, link, display) => display || link).substring(0, 150)
         : '';
 
     // build note metadata

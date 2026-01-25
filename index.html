@@ -49,9 +49,9 @@
             <div class="icon-img"><img src="icons/envelope_closed-0.png" alt="Newsletter"></div>
             <div class="icon-label">Newsletter</div>
         </div>
-        <div class="icon" style="left: 10px; top: 100px;" onclick="openWindow('internet')">
-            <div class="icon-img"><img src="icons/html-0.png" alt="Internet Explorer"></div>
-            <div class="icon-label">Internet Explorer</div>
+        <div class="icon" style="left: 10px; top: 100px;" onclick="openWindow('mycomputer')">
+            <div class="icon-img"><img src="icons/computer_explorer-0.png" alt="My Computer"></div>
+            <div class="icon-label">My Computer</div>
         </div>
         <div class="icon" style="left: 10px; top: 190px;" onclick="openWindow('chat')">
             <div class="icon-img"><img src="icons/users-0.png" alt="Chat"></div>
@@ -74,41 +74,6 @@
             <div class="icon-label">Garden</div>
         </div>
         <div class="desktop-watermark">made with <span style="color: #ff0000;">♥</span> in seattle</div>
-    </div>
-
-    <!-- Internet Explorer Window -->
-    <div class="window" id="internet" style="width: 620px; height: 750px; left: 380px; top: 15px;">
-        <div class="title-bar" onmousedown="dragStart(event, 'internet')">
-            <div class="title-text">
-                <div class="title-icon"><img src="icons/html-1.png" alt="Internet Explorer"></div>
-                <span>Santi's Blog - Internet Explorer</span>
-            </div>
-            <div class="title-buttons">
-                <button type="button" class="title-btn" onclick="minimizeWindow('internet')" aria-label="Minimize window">_</button>
-                <button type="button" class="title-btn" aria-label="Maximize window (disabled)" disabled>□</button>
-                <button type="button" class="title-btn" onclick="closeWindow('internet')" aria-label="Close window">✕</button>
-            </div>
-        </div>
-        <div class="menu-bar">
-            <span class="menu-item">File</span>
-            <span class="menu-item">Edit</span>
-            <span class="menu-item">View</span>
-            <span class="menu-item">Favorites</span>
-            <span class="menu-item">Tools</span>
-            <span class="menu-item">Help</span>
-        </div>
-        <div class="toolbar">
-            <button type="button" class="toolbar-btn" onclick="goBack()" aria-label="Go back">←</button>
-            <button type="button" class="toolbar-btn" onclick="goForward()" aria-label="Go forward">→</button>
-            <button type="button" class="toolbar-btn" onclick="stopLoading()" aria-label="Stop loading">✕</button>
-            <button type="button" class="toolbar-btn" onclick="refreshPage()" aria-label="Refresh page">↻</button>
-            <button type="button" class="toolbar-btn" onclick="loadHome()" aria-label="Go to home page">🏠</button>
-        </div>
-        <div class="address-bar">Address: https://santi.wtf</div>
-        <div class="window-content" id="blog-content">
-            <!-- Content loads here dynamically -->
-        </div>
-        <div class="resize-handle" onmousedown="resizeStart(event, 'internet')"></div>
     </div>
 
     <!-- Chat Room Window -->
@@ -203,7 +168,7 @@
     </div>
 
     <!-- My Computer Window -->
-    <div class="window" id="mycomputer" style="width: 400px; height: 350px; left: 100px; top: 80px;">
+    <div class="window" id="mycomputer" style="width: 450px; height: 380px; left: 100px; top: 80px;">
         <div class="title-bar" onmousedown="dragStart(event, 'mycomputer')">
             <div class="title-text">
                 <div class="title-icon"><img src="icons/computer_explorer-1.png" alt="My Computer"></div>
@@ -215,26 +180,30 @@
                 <button type="button" class="title-btn" onclick="closeWindow('mycomputer')" aria-label="Close window">✕</button>
             </div>
         </div>
-        <div class="window-content" style="display: flex; flex-wrap: wrap; gap: 20px; padding: 20px; background: #fff;">
-            <div style="text-align: center; width: 70px; cursor: pointer;">
-                <div class="icon-img"><img src="icons/floppy_drive_3_5-0.png" alt=""></div>
-                <div style="font-size: 11px; margin-top: 4px;">3½ Floppy (A:)</div>
-            </div>
-            <div style="text-align: center; width: 70px; cursor: pointer;">
+        <div class="window-content" style="display: flex; flex-wrap: wrap; gap: 20px; padding: 20px; background: #fff; align-content: flex-start;">
+            <div class="mycomputer-item" onclick="openWindow('garden')">
                 <div class="icon-img"><img src="icons/hard_disk_drive-0.png" alt=""></div>
-                <div style="font-size: 11px; margin-top: 4px;">(C:)</div>
+                <div class="mycomputer-label">garden (C:)</div>
             </div>
-            <div style="text-align: center; width: 70px; cursor: pointer;">
-                <div class="icon-img"><img src="icons/cd_drive-0.png" alt=""></div>
-                <div style="font-size: 11px; margin-top: 4px;">(D:)</div>
+            <div class="mycomputer-item" onclick="window.open('https://github.com/sawnts', '_blank')">
+                <div class="icon-img"><img src="icons/directory_open_file_mydocs-0.png" alt=""></div>
+                <div class="mycomputer-label">github</div>
             </div>
-            <div style="text-align: center; width: 70px; cursor: pointer;">
-                <div class="icon-img"><img src="icons/printer-0.png" alt=""></div>
-                <div style="font-size: 11px; margin-top: 4px;">Printers</div>
+            <div class="mycomputer-item" onclick="window.open('https://x.com/yosawnts', '_blank')">
+                <div class="icon-img"><img src="icons/world-0.png" alt=""></div>
+                <div class="mycomputer-label">twitter</div>
             </div>
-            <div style="text-align: center; width: 70px; cursor: pointer;">
-                <div class="icon-img"><img src="icons/directory_control_panel-0.png" alt=""></div>
-                <div style="font-size: 11px; margin-top: 4px;">Control Panel</div>
+            <div class="mycomputer-item" onclick="window.open('https://linkedin.com/in/yosawnts', '_blank')">
+                <div class="icon-img"><img src="icons/address_book-0.png" alt=""></div>
+                <div class="mycomputer-label">linkedin</div>
+            </div>
+            <div class="mycomputer-item" onclick="window.location='mailto:yosawnts@gmail.com'">
+                <div class="icon-img"><img src="icons/envelope_closed-0.png" alt=""></div>
+                <div class="mycomputer-label">email</div>
+            </div>
+            <div class="mycomputer-item" onclick="openSubscribeDialog()">
+                <div class="icon-img"><img src="icons/mailbox-0.png" alt=""></div>
+                <div class="mycomputer-label">newsletter</div>
             </div>
         </div>
         <div class="resize-handle" onmousedown="resizeStart(event, 'mycomputer')"></div>
@@ -385,12 +354,12 @@
     <!-- Start Menu -->
     <div class="start-menu" id="start-menu">
         <div class="start-menu-header">santi.wtf</div>
-        <div class="start-menu-item" onclick="openWindow('internet')"><img src="icons/html-1.png" alt="">Internet Explorer</div>
+        <div class="start-menu-item" onclick="openWindow('garden')"><img src="icons/tree-1.png" alt="">Garden</div>
+        <div class="start-menu-item" onclick="openWindow('mycomputer')"><img src="icons/computer_explorer-1.png" alt="">My Computer</div>
         <div class="start-menu-item" onclick="openWindow('chat')"><img src="icons/users-1.png" alt="">Chat</div>
         <div class="start-menu-item" onclick="openWindow('player')"><img src="icons/Spotify_23464.png" alt="">Spotify</div>
         <div class="start-menu-item" onclick="openWindow('applications')"><img src="icons/directory_closed-1.png" alt="">Applications</div>
         <div class="start-menu-item" onclick="openWindow('updates')"><img src="icons/notepad-1.png" alt="">Updates</div>
-        <div class="start-menu-item" onclick="openWindow('garden')"><img src="icons/tree-1.png" alt="">Garden</div>
         <div style="border-top: 1px solid #808080; margin: 2px 0;"></div>
         <div class="start-menu-item" onclick="openShutdownDialog()"><img src="icons/shut_down_normal-1.png" alt="">Shut Down...</div>
     </div>

@@ -1193,6 +1193,28 @@
             color: #800000;
         }
 
+        /* My Computer Window */
+        .mycomputer-item {
+            text-align: center;
+            width: 70px;
+            cursor: pointer;
+            padding: 4px;
+        }
+
+        .mycomputer-item:hover {
+            background: #000080;
+        }
+
+        .mycomputer-item:hover .mycomputer-label {
+            color: #fff;
+        }
+
+        .mycomputer-label {
+            font-size: 11px;
+            margin-top: 4px;
+            color: #000;
+        }
+
         /* Garden Window */
         .garden-window {
             min-width: 500px !important;

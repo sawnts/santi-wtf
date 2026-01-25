@@ -316,91 +316,6 @@
             }
         });
 
-        // Browser history for navigation
-        let browserHistory = [];
-        let historyPosition = -1;
-
-        // Store the home content
-        const homeContent = `
-            <div class="post">
-                <h1>santi.wtf</h1>
-                <p style="text-align: center; margin-bottom: 20px;">
-                    <a href="/now" onclick="loadPost('now.html'); return false;">now</a> | <a href="/notes" onclick="loadArchive(); return false;">notes</a> | <a href="https://mail.0ffbrand.com" target="_blank">newsletter</a>
-                </p>
-                <h2>welcome, friend. shoes off, please.</h2>
-                <p>i built this site because i miss the internet. the one before the apps. i miss the weird little corners of the web where people shared their thoughts, art, and creativity freely. the internet before social media algorithms.</p>
-                <p>i miss that internet.</p>
-                <p>so i made a little corner of my own to share my thoughts, feelings, and projects. away from all the noise. away from algorithms, gurus, and ads. just me, my words, and now, you.</p>
-                <p>a little bit about me: i'm santi — i study the greatest creative minds, run a <a href="https://mail.0ffbrand.com" target="_blank">weekly letter</a> about them, and spend my days slinging software. when i'm not working, you'll find me reading, <a href="/notes" onclick="loadArchive(); return false;">writing</a>, or <a href="https://www.chess.com/member/sawnts" target="_blank">pushing pawns</a>.</p>
-                <p>enjoy your stay, and come back soon — and as often as you'd like. don't forget to say hi in the <a href="#" onclick="openWindow('chat'); return false;">chat</a> on your way out.</p>
-                <p>p.s. even though the site works pretty well on mobile, you'll have a lot more fun viewing it on your computer.</p>
-                <p style="font-family: monospace; margin-top: 1.5em;">&lt;3 <a href="mailto:yosawnts@gmail.com">santi</a></p>
-            </div>
-        `;
-
-        // Archive content
-        const archiveContent = `
-            <div class="post">
-                <h1>santi.wtf</h1>
-                <p style="text-align: center; margin-bottom: 20px;">
-                    <a href="/now" onclick="loadPost('now.html'); return false;">now</a> | <a href="/notes" onclick="loadArchive(); return false;">notes</a> | <a href="https://mail.0ffbrand.com" target="_blank">newsletter</a>
-                </p>
-
-                <h2>notes</h2>
-                <p>on creativity, philosophy, business, life, and so on.</p>
-
-                <h3 style="margin-top: 30px;">2026</h3>
-                <ul>
-                    <li><a href="/power-of-writing-online" onclick="loadPost('posts/power-of-writing-online.html'); return false;">10 reasons why you should start writing online</a></li>
-                    <li><a href="/favorite-reads-2025" onclick="loadPost('posts/favorite-reads-2025.html'); return false;">my favorite reads of 2025</a></li>
-                </ul>
-            </div>
-        `;
-
-        // Load home content
-        function loadHome(updateUrl = true) {
-            const content = document.getElementById('blog-content');
-            if (content) {
-                content.innerHTML = homeContent;
-                content.scrollTop = 0;
-
-                // Update URL
-                if (updateUrl) {
-                    history.pushState(null, '', '/');
-                    updateAddressBar('https://santi.wtf');
-                }
-
-                // Add to history
-                addToHistory('home', homeContent);
-            }
-        }
-
-        // Load archive page
-        function loadArchive(updateUrl = true) {
-            const content = document.getElementById('blog-content');
-            if (content) {
-                content.innerHTML = archiveContent;
-                content.scrollTop = 0;
-
-                // Update URL
-                if (updateUrl) {
-                    history.pushState(null, '', '/notes');
-                    updateAddressBar('https://santi.wtf/notes');
-                }
-
-                // Add to history
-                addToHistory('archive', archiveContent);
-            }
-        }
-
-        // Update address bar display
-        function updateAddressBar(url) {
-            const addressBar = document.querySelector('.address-bar');
-            if (addressBar) {
-                addressBar.textContent = 'Address: ' + url;
-            }
-        }
-
         // Generic application loader
         async function loadApplication(contentId, filePath, appName) {
             const content = document.getElementById(contentId);
@@ -477,146 +392,8 @@
             content.innerHTML = adminForm + updatesHTML;
         }
 
-        // Load a blog post
-        async function loadPost(url, updateUrl = true) {
-            const content = document.getElementById('blog-content');
-            if (!content) return;
-
-            try {
-                const response = await fetch(url);
-                if (!response.ok) throw new Error('Post not found');
-                const html = await response.text();
-
-                // Extract styles and body content from the post
-                const parser = new DOMParser();
-                const doc = parser.parseFromString(html, 'text/html');
-                const styles = doc.querySelectorAll('style');
-                const body = doc.querySelector('body');
-
-                if (body) {
-                    // Replace "back to desktop" links with "back to home" that works in-window
-                    let postContent = '';
-
-                    // Add styles first
-                    styles.forEach(style => { postContent += style.outerHTML; });
-
-                    // Add body content
-                    postContent += body.innerHTML;
-                    postContent = postContent.replace(/← back to desktop/g, '← back to home');
-                    postContent = postContent.replace(/href="\.\.\/index\.html"/g, 'href="/" onclick="loadHome(); return false;"');
-
-                    content.innerHTML = postContent;
-                    content.scrollTop = 0;
-
-                    // Update URL
-                    if (updateUrl) {
-                        // Handle root-level pages vs posts
-                        if (url === 'now.html') {
-                            history.pushState(null, '', '/now');
-                            updateAddressBar('https://santi.wtf/now');
-                        } else {
-                            const postName = url.replace('posts/', '').replace('.html', '');
-                            history.pushState(null, '', '/' + postName);
-                            updateAddressBar('https://santi.wtf/' + postName);
-                        }
-                    }
-
-                    // Add to history
-                    addToHistory(url, postContent);
-                } else {
-                    content.innerHTML = '<p>Error loading post.</p>';
-                }
-            } catch (error) {
-                content.innerHTML = '<p>Error loading post. Make sure the file exists in the posts folder.</p>';
-                console.error('Error loading post:', error);
-            }
-        }
-
-        // Add page to browser history
-        function addToHistory(url, content) {
-            // If we're not at the end of history, remove everything after current position
-            if (historyPosition < browserHistory.length - 1) {
-                browserHistory = browserHistory.slice(0, historyPosition + 1);
-            }
-            
-            browserHistory.push({ url, content });
-            historyPosition = browserHistory.length - 1;
-        }
-
-        // Navigate back
-        function goBack() {
-            if (historyPosition > 0) {
-                historyPosition--;
-                const page = browserHistory[historyPosition];
-                const content = document.getElementById('blog-content');
-                if (content) {
-                    content.innerHTML = page.content;
-                    content.scrollTop = 0;
-                    updateUrlForPage(page.url);
-                }
-            }
-        }
-
-        // Navigate forward
-        function goForward() {
-            if (historyPosition < browserHistory.length - 1) {
-                historyPosition++;
-                const page = browserHistory[historyPosition];
-                const content = document.getElementById('blog-content');
-                if (content) {
-                    content.innerHTML = page.content;
-                    content.scrollTop = 0;
-                    updateUrlForPage(page.url);
-                }
-            }
-        }
-
-        // Update URL based on page type
-        function updateUrlForPage(pageUrl) {
-            if (pageUrl === 'home') {
-                history.replaceState(null, '', '/');
-                updateAddressBar('https://santi.wtf');
-            } else if (pageUrl === 'archive') {
-                history.replaceState(null, '', '/notes');
-                updateAddressBar('https://santi.wtf/notes');
-            } else if (pageUrl === 'now.html') {
-                history.replaceState(null, '', '/now');
-                updateAddressBar('https://santi.wtf/now');
-            } else {
-                const postName = pageUrl.replace('posts/', '').replace('.html', '');
-                history.replaceState(null, '', '/' + postName);
-                updateAddressBar('https://santi.wtf/' + postName);
-            }
-        }
-
-        // Stop loading (placeholder for now)
-        function stopLoading() {
-            // In a real browser this would stop page loading
-            // For now, just a visual feedback
-            // Stop loading (no-op, page already loaded)
-        }
-
-        // Refresh current page
-        function refreshPage() {
-            if (historyPosition >= 0 && browserHistory[historyPosition]) {
-                const page = browserHistory[historyPosition];
-                if (page.url === 'home') {
-                    loadHome();
-                    historyPosition--; // loadHome adds to history, so adjust
-                } else if (page.url === 'archive') {
-                    loadArchive();
-                    historyPosition--;
-                } else {
-                    loadPost(page.url);
-                    historyPosition--;
-                }
-            } else {
-                loadHome();
-            }
-        }
-
-        // Handle pathname-based routing
-        function handleRoute() {
+        // Handle legacy URLs by redirecting to garden
+        function handleLegacyRoutes() {
             // Check for 404 redirect from sessionStorage
             let path = sessionStorage.getItem('redirect');
             if (path) {
@@ -628,29 +405,27 @@
             // Remove leading slash
             path = path.replace(/^\//, '');
 
-            if (!path || path === '' || path === 'index.html') {
-                loadHome(false);
-            } else if (path === 'notes' || path === 'archive') {
-                loadArchive(false);
-            } else if (path === 'now') {
-                loadPost('now.html', false);
+            // Map old blog URLs to garden paths
+            const legacyRedirects = {
+                'favorite-reads-2025': '/garden/5. writing/my-favorite-reads-2025',
+                'power-of-writing-online': '/garden/5. writing/power-of-writing-online',
+                'notes': '/garden',
+                'archive': '/garden',
+                'now': '/garden/2. being/now'
+            };
+
+            if (path && legacyRedirects[path]) {
+                window.location.href = legacyRedirects[path];
             } else if (path === 'player') {
-                // Direct link to player
-                loadHome(false);
                 openWindow('player');
-            } else {
-                // Assume it's a post slug
-                loadPost('posts/' + path + '.html', false);
             }
+            // Garden routes are handled by garden itself
         }
 
-        // Listen for browser back/forward navigation
-        window.addEventListener('popstate', handleRoute);
-
-        // Open IE on load and route based on URL
+        // Open garden on load and handle legacy URL redirects
         window.onload = () => {
-            openWindow('internet');
-            handleRoute(); // Load page based on URL
+            openWindow('garden');
+            handleLegacyRoutes(); // Redirect old blog URLs to garden
             updateClock(); // Set initial time
             setInterval(updateClock, 1000); // Update every second
         };
