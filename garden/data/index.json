@@ -58,7 +58,7 @@
       "title": "habit tracker",
       "stage": "evergreen",
       "planted": "2026-01-01T00:00:00.000Z",
-      "tended": "2026-01-24T00:00:00.000Z",
+      "tended": "2026-01-25T00:00:00.000Z",
       "tags": [
         "projects",
         "habits"
@@ -176,6 +176,22 @@
       ],
       "excerpt": "the person who can string together words that evoke emotion, facilitate insight, and entertain readers has a huge competitive advantage in today's dig"
     },
+    "1. thinking/making effective connections": {
+      "title": "making effective connections",
+      "stage": "growing",
+      "planted": "2025-05-15T00:00:00.000Z",
+      "tended": "2026-01-10T00:00:00.000Z",
+      "tags": [
+        "creativity",
+        "thinking-modes"
+      ],
+      "links": [],
+      "backlinks": [
+        "1. thinking/linking is thinking",
+        "1. thinking/evergreen notes are for thinking"
+      ],
+      "excerpt": "good links are like good friendships — they need shared context to mean something."
+    },
     "1. thinking/linking is thinking": {
       "title": "linking is thinking",
       "stage": "growing",
@@ -186,7 +202,7 @@
         "digital-garden"
       ],
       "links": [
-        "1. thinking/effective connections",
+        "1. thinking/making effective connections",
         "1. thinking/read old notes",
         "1. thinking/evergreen notes are for thinking"
       ],
@@ -222,7 +238,7 @@
       "excerpt": "the best ideas often come from combining concepts that don't obviously belong together. ogilvy called this \"creative cross-pollination.\""
     },
     "1. thinking/evergreen notes are for thinking": {
-      "title": "splitting",
+      "title": "evergreen notes are for thinking",
       "stage": "growing",
       "planted": "2025-10-10T00:00:00.000Z",
       "tended": "2026-01-10T00:00:00.000Z",
@@ -232,28 +248,12 @@
       ],
       "links": [
         "1. thinking/linking is thinking",
-        "1. thinking/effective connections"
+        "1. thinking/making effective connections"
       ],
       "backlinks": [
         "1. thinking/linking is thinking"
       ],
       "excerpt": "evergreen notes aren't content. they're tools for thought."
-    },
-    "1. thinking/effective connections": {
-      "title": "splitting",
-      "stage": "growing",
-      "planted": "2025-05-15T00:00:00.000Z",
-      "tended": "2026-01-10T00:00:00.000Z",
-      "tags": [
-        "creativity",
-        "thinking-modes"
-      ],
-      "links": [],
-      "backlinks": [
-        "1. thinking/linking is thinking",
-        "1. thinking/evergreen notes are for thinking"
-      ],
-      "excerpt": "good links are like good friendships — they need shared context to mean something."
     }
   },
   "folders": {
@@ -286,10 +286,10 @@
           "1. thinking/splitting",
           "1. thinking/read old notes",
           "1. thinking/power-of-writing-online",
+          "1. thinking/making effective connections",
           "1. thinking/linking is thinking",
           "1. thinking/integration",
-          "1. thinking/evergreen notes are for thinking",
-          "1. thinking/effective connections"
+          "1. thinking/evergreen notes are for thinking"
         ]
       }
     },
