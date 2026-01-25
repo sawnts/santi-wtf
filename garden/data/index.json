@@ -9,13 +9,42 @@
         "meta"
       ],
       "links": [
+        "5. writing/power-of-writing-online",
         "1. thinking/integration",
         "1. thinking/integration",
         "1. thinking/splitting",
-        "4. loving/ogilvy"
+        "5. writing/power-of-writing-online"
       ],
       "backlinks": [],
-      "excerpt": "this is a digital garden — a collection of interconnected notes, ideas, and thoughts that grow over time. unlike a blog with finished posts, a garden"
+      "excerpt": "i built this site because i miss the internet. the one before the apps. i miss the weird little corners of the web where people shared their thoughts,"
+    },
+    "5. writing/power-of-writing-online": {
+      "title": "10 reasons why you should start writing online",
+      "stage": "evergreen",
+      "planted": "2026-01-12T00:00:00.000Z",
+      "tended": "2026-01-12T00:00:00.000Z",
+      "tags": [
+        "writing",
+        "creativity"
+      ],
+      "links": [],
+      "backlinks": [
+        "index"
+      ],
+      "excerpt": "i've been [yapping nonstop](https://mail.0ffbrand.com/p/the-future-of-social-media-is-email) about the benefits of building your email list — ownershi"
+    },
+    "5. writing/my-favorite-reads-2025": {
+      "title": "my favorite reads of 2025",
+      "stage": "evergreen",
+      "planted": "2026-01-01T00:00:00.000Z",
+      "tended": "2026-01-01T00:00:00.000Z",
+      "tags": [
+        "writing",
+        "books"
+      ],
+      "links": [],
+      "backlinks": [],
+      "excerpt": "the first one is 70 pages long. number two will get anybody out of a reading slump. the third one is its sequel. the fourth one is the only personal d"
     },
     "4. loving/ogilvy": {
       "title": "david ogilvy",
@@ -31,7 +60,6 @@
         "1. thinking/splitting"
       ],
       "backlinks": [
-        "index",
         "1. thinking/splitting",
         "1. thinking/integration"
       ],
@@ -160,6 +188,13 @@
   },
   "folders": {
     "folders": {
+      "5. writing": {
+        "folders": {},
+        "notes": [
+          "5. writing/power-of-writing-online",
+          "5. writing/my-favorite-reads-2025"
+        ]
+      },
       "4. loving": {
         "folders": {},
         "notes": [
@@ -194,10 +229,10 @@
     ]
   },
   "stats": {
-    "total": 9,
-    "links": 20,
+    "total": 11,
+    "links": 21,
     "seedling": 1,
     "growing": 4,
-    "evergreen": 4
+    "evergreen": 6
   }
 }
