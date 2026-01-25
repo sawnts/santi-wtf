@@ -16,10 +16,10 @@ wtf/
 ├── 404.html            # GitHub Pages SPA redirect handler
 ├── now.html            # "Now" page content
 ├── posts/              # Blog post HTML files
-├── applications/       # Standalone apps (FlowGarden, Sticky Notes)
+├── applications/       # Standalone apps (FlowGarden, Sticky Notes, Pomodoro)
 ├── icons/              # Windows 98 style icons
 └── garden/             # Digital garden (synced from Obsidian)
-    ├── index.html      # Garden UI (Windows Explorer style)
+    ├── garden.html     # Garden UI (Windows Explorer style)
     ├── garden.css      # Garden-specific styles
     ├── garden.js       # Garden functionality
     ├── build.js        # Build script to sync from Obsidian
@@ -34,21 +34,13 @@ wtf/
 - `styles.css` - All Windows 98 styling (external file)
 - `scripts.js` - All JavaScript logic (external file)
 - Simulates a desktop environment with draggable, resizable, and minimizable windows
-- Contains an "Internet Explorer" window that acts as an in-page browser for blog posts
-- Implements browser-like navigation (back/forward/refresh) with a JavaScript history system
+- The digital garden is the main content area, running as an iframe
 
 **URL Routing:**
-- Uses pathname-based routing (`/notes`, `/now`, `/player`, `/post-name`)
+- Uses pathname-based routing (`/garden`, `/garden/folder/note-name`, `/player`)
 - `404.html` handles GitHub Pages SPA redirects by storing path in sessionStorage and redirecting to `/`
-- `handleRoute()` reads the path and loads appropriate content
-
-**Blog posts in `posts/` directory:**
-- Standalone HTML files with embedded styles
-- Loaded dynamically via `fetch()` and injected into the IE window's content area
-- Post links use `loadPost('posts/filename.html')` with real href for SEO
-
-**Other pages:**
-- `now.html` - "Now" page at root level, loaded via `loadPost('now.html')`
+- `handleRoutes()` reads the path and navigates to appropriate garden note
+- Garden URLs use dashes instead of spaces (e.g., `/garden/being/my-note-name`)
 
 **Applications in `applications/` directory:**
 - Interactive apps that run in their own desktop windows (e.g., FlowGarden)
@@ -59,6 +51,7 @@ wtf/
 - Runs as an iframe inside a draggable desktop window
 - Content synced from Obsidian vault via build script
 - Features: folder tree, wikilinks, backlinks, search, graph view, hover previews
+- Resets to welcome page when window is closed and reopened
 
 ## Key Functions (in scripts.js)
 
@@ -68,20 +61,19 @@ wtf/
 - `setActiveWindow(id)` - Bring window to front and mark as active
 - `dragStart()` / `resizeStart()` - Handle window drag and resize interactions
 
-**Navigation (IE window):**
-- `loadHome()` / `loadArchive()` - Navigate to main pages (content defined as `homeContent` and `archiveContent` template strings)
-- `loadPost(url)` - Fetch and display a post file
-- `goBack()` / `goForward()` - Browser history navigation
-- `handleRoute()` - Parse URL and load appropriate content on page load
-
 **State tracking:**
 - `minimizedWindows` (Set) - Tracks which windows are minimized
 - `openWindows` (Set) - Tracks which windows are open
-- `browserHistory` (Array) - Stores navigation history for back/forward
 
 **Chat (Firebase):**
 - `initChatRoom()` - Sets up Firebase listeners for messages and status
 - `submitChat()` - Posts visitor messages (max 500 chars, name max 50 chars)
+- `postAsOwner()` - Posts as santi with blue bubble (admin mode only)
+- `updateStatus()` - Updates online/away status (admin mode only)
+
+**Admin Mode:**
+- Type "santi" anywhere on the page to toggle admin mode
+- Enables: posting as owner in chat, updating status, editing/deleting updates
 
 **Applications:**
 - `loadApplication(contentId, filePath, appName)` - Generic loader for apps in applications/
@@ -104,35 +96,6 @@ const siteUpdates = [
     { date: "january 18, 2026", text: "added updates window to the desktop" },
     // add new entries above existing ones
 ];
-```
-
-## Adding New Posts
-
-1. Create new HTML file in `posts/` (all lowercase content)
-2. Include the signature before the date
-3. Add link in `homeContent` template string (in scripts.js)
-4. Add link in `archiveContent` template string (in scripts.js, called "notes" in UI)
-
-**Post template:**
-```html
-<div class="post">
-    <h1>post title here</h1>
-
-    <p>content here...</p>
-
-    <p style="font-family: monospace; margin-top: 1.5em;">&lt;3 <a href="mailto:yosawnts@gmail.com">santi</a></p>
-
-    <div class="date">january 1, 2026</div>
-
-    <div class="post-footer">
-        enjoyed this? <a href="#" onclick="window.parent.openShutdownDialog('newsletter'); return false;">subscribe</a> for more.
-    </div>
-</div>
-```
-
-**Link format for SEO (in homeContent/archiveContent):**
-```html
-<a href="/post-name" onclick="loadPost('posts/post-name.html'); return false;">post title</a>
 ```
 
 ## Digital Garden
@@ -216,7 +179,7 @@ git push
 ## Security Notes
 
 - Firebase credentials are in client-side code (expected for web Firebase, security comes from Firebase Rules)
-- Admin mode has been removed from client-side (manage data via Firebase console)
+- Admin mode uses a secret code ("santi") - not high security, but sufficient for personal site
 - All fetch calls check `response.ok` before processing
 - Garden uses `escapeAttr()` for dynamic values in onclick handlers
 - Chat input is limited to 500 chars (message) and 50 chars (name)
