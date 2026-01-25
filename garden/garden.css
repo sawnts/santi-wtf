@@ -265,6 +265,7 @@ body {
     padding: 2px 4px;
     cursor: pointer;
     white-space: nowrap;
+    position: relative;
 }
 
 .tree-item:hover {
@@ -282,11 +283,30 @@ body {
 }
 
 .tree-children {
-    padding-left: 16px;
+    padding-left: 8px;
+    margin-left: 7px;
+    border-left: 1px dotted #808080;
 }
 
 .tree-children.collapsed {
     display: none;
+}
+
+/* Horizontal connector line for tree items */
+.tree-children > .tree-item::before,
+.tree-children > .tree-folder > .tree-item::before {
+    content: '';
+    position: absolute;
+    left: -8px;
+    top: 50%;
+    width: 8px;
+    height: 0;
+    border-top: 1px dotted #808080;
+}
+
+/* Hide connector for folder toggle area */
+.tree-children > .tree-folder > .tree-item::before {
+    left: -8px;
 }
 
 .tree-toggle {
@@ -298,6 +318,7 @@ body {
     font-family: monospace;
     font-size: 10px;
     cursor: pointer;
+    flex-shrink: 0;
 }
 
 .tree-toggle:empty {
@@ -308,6 +329,7 @@ body {
     margin-right: 4px;
     display: inline-flex;
     align-items: center;
+    flex-shrink: 0;
 }
 
 .tree-icon img {
@@ -319,6 +341,9 @@ body {
 
 .tree-label {
     flex: 1;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    min-width: 0;
 }
 
 /* Growth Stage Icons */
