@@ -657,7 +657,7 @@
         let currentUser = null;
 
         // Your Firebase Auth UID - set this after first login
-        const ADMIN_UID = 'SET_YOUR_UID_HERE';
+        const ADMIN_UID = 'bGPBOS3bRLShDyiXDxU8CulVQqF3';
 
         function initAuth() {
             if (typeof firebase === 'undefined' || !firebase.auth) {
