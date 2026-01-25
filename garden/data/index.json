@@ -13,7 +13,8 @@
         "1. thinking/integration",
         "1. thinking/integration",
         "1. thinking/splitting",
-        "1. thinking/power-of-writing-online"
+        "1. thinking/power-of-writing-online",
+        "2. being/now"
       ],
       "backlinks": [],
       "excerpt": "i built this site because i miss the internet. the one before the apps. i miss the weird little corners of the web where people shared their thoughts,"
@@ -63,8 +64,13 @@
         "projects",
         "habits"
       ],
-      "links": [],
-      "backlinks": [],
+      "links": [
+        "1. thinking/power-of-writing-online",
+        "3. doing/digital-garden"
+      ],
+      "backlinks": [
+        "2. being/my-favorite-reads-2025"
+      ],
       "excerpt": "a garden grows one day at a time."
     },
     "3. doing/digital-garden": {
@@ -79,9 +85,16 @@
       "links": [
         "1. thinking/integration",
         "1. thinking/integration",
-        "1. thinking/splitting"
+        "1. thinking/splitting",
+        "1. thinking/linking is thinking",
+        "1. thinking/power-of-writing-online"
       ],
-      "backlinks": [],
+      "backlinks": [
+        "3. doing/habit-tracker",
+        "2. being/now",
+        "1. thinking/read old notes",
+        "1. thinking/power-of-writing-online"
+      ],
       "excerpt": "this is a digital garden — a place for ideas to grow over time. here's how it works."
     },
     "2. being/soft guy era": {
@@ -92,7 +105,9 @@
       "tags": [
         "personal"
       ],
-      "links": [],
+      "links": [
+        "1. thinking/power-of-writing-online"
+      ],
       "backlinks": [],
       "excerpt": "what does it mean to stop performing and just be?"
     },
@@ -104,8 +119,13 @@
       "tags": [
         "personal"
       ],
-      "links": [],
-      "backlinks": [],
+      "links": [
+        "3. doing/digital-garden",
+        "2. being/my-favorite-reads-2025"
+      ],
+      "backlinks": [
+        "index"
+      ],
       "excerpt": "what i'm up to recently:"
     },
     "2. being/my-favorite-reads-2025": {
@@ -117,8 +137,12 @@
         "writing",
         "books"
       ],
-      "links": [],
-      "backlinks": [],
+      "links": [
+        "3. doing/habit-tracker"
+      ],
+      "backlinks": [
+        "2. being/now"
+      ],
       "excerpt": "the first one is 70 pages long. number two will get anybody out of a reading slump. the third one is its sequel. the fourth one is the only personal d"
     },
     "1. thinking/splitting": {
@@ -154,9 +178,10 @@
         "digital-garden"
       ],
       "links": [
-        "five-lessons-on-the-creative-life"
+        "3. doing/digital-garden"
       ],
       "backlinks": [
+        "1. thinking/making effective connections",
         "1. thinking/linking is thinking"
       ],
       "excerpt": "your past self had ideas your current self forgot. rereading is how you bring them back — under a new light, with fresh eyes, and a heavy dose of curi"
@@ -170,9 +195,15 @@
         "writing",
         "creativity"
       ],
-      "links": [],
+      "links": [
+        "1. thinking/evergreen notes are for thinking",
+        "3. doing/digital-garden"
+      ],
       "backlinks": [
-        "index"
+        "index",
+        "3. doing/habit-tracker",
+        "3. doing/digital-garden",
+        "2. being/soft guy era"
       ],
       "excerpt": "the person who can string together words that evoke emotion, facilitate insight, and entertain readers has a huge competitive advantage in today's dig"
     },
@@ -185,7 +216,9 @@
         "creativity",
         "thinking-modes"
       ],
-      "links": [],
+      "links": [
+        "1. thinking/read old notes"
+      ],
       "backlinks": [
         "1. thinking/linking is thinking",
         "1. thinking/evergreen notes are for thinking"
@@ -207,6 +240,7 @@
         "1. thinking/evergreen notes are for thinking"
       ],
       "backlinks": [
+        "3. doing/digital-garden",
         "1. thinking/evergreen notes are for thinking"
       ],
       "excerpt": "good ideas don't live in isolation. they live in relationship."
@@ -251,6 +285,7 @@
         "1. thinking/making effective connections"
       ],
       "backlinks": [
+        "1. thinking/power-of-writing-online",
         "1. thinking/linking is thinking"
       ],
       "excerpt": "evergreen notes aren't content. they're tools for thought."
@@ -299,7 +334,7 @@
   },
   "stats": {
     "total": 15,
-    "links": 27,
+    "links": 39,
     "seedling": 1,
     "growing": 8,
     "evergreen": 6
