@@ -144,6 +144,24 @@
       ],
       "excerpt": "before you can understand something, you often need to break it apart. this is splitting — the analytical complement to integration."
     },
+    "1. thinking/rereading old notes": {
+      "title": "read old notes",
+      "stage": "growing",
+      "planted": "2026-01-06T00:00:00.000Z",
+      "tended": "2026-01-24T00:00:00.000Z",
+      "tags": [
+        "writing",
+        "digital-garden"
+      ],
+      "links": [
+        "five-lessons-on-the-creative-life",
+        "1. thinking/linking is thinking"
+      ],
+      "backlinks": [
+        "1. thinking/linking is thinking"
+      ],
+      "excerpt": "your past self had ideas your current self forgot. rereading is how you bring them back — under a new light, with fresh eyes, and a heavy dose of curi"
+    },
     "1. thinking/power-of-writing-online": {
       "title": "the power of writing online",
       "stage": "evergreen",
@@ -158,6 +176,27 @@
         "index"
       ],
       "excerpt": "the person who can string together words that evoke emotion, facilitate insight, and entertain readers has a huge competitive advantage in today's dig"
+    },
+    "1. thinking/linking is thinking": {
+      "title": "linking is thinking",
+      "stage": "growing",
+      "planted": "2026-01-06T00:00:00.000Z",
+      "tended": "2026-01-24T00:00:00.000Z",
+      "tags": [
+        "writing",
+        "digital-garden"
+      ],
+      "links": [
+        "perfectionism-kills-creativity",
+        "creativity",
+        "_effective-connections",
+        "1. thinking/rereading old notes",
+        "_evergreen-notes-are-for-thinking"
+      ],
+      "backlinks": [
+        "1. thinking/rereading old notes"
+      ],
+      "excerpt": "good ideas don't live in isolation. they live in relationship."
     },
     "1. thinking/integration": {
       "title": "integration",
@@ -214,7 +253,9 @@
         "folders": {},
         "notes": [
           "1. thinking/splitting",
+          "1. thinking/rereading old notes",
           "1. thinking/power-of-writing-online",
+          "1. thinking/linking is thinking",
           "1. thinking/integration"
         ]
       }
@@ -224,10 +265,10 @@
     ]
   },
   "stats": {
-    "total": 11,
-    "links": 21,
+    "total": 13,
+    "links": 28,
     "seedling": 1,
-    "growing": 4,
+    "growing": 6,
     "evergreen": 6
   }
 }
