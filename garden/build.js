@@ -67,8 +67,8 @@ mdFiles.forEach(filePath => {
     const relativePath = path.relative(sourcePath, filePath);
     const noteId = relativePath.replace(/\.md$/, '').replace(/\\/g, '/');
 
-    // skip files starting with underscore (private reference files)
-    if (path.basename(filePath).startsWith('_')) {
+    // skip files or folders starting with underscore (private)
+    if (relativePath.split('/').some(part => part.startsWith('_'))) {
         return;
     }
     const filename = path.basename(noteId).toLowerCase().replace(/\s+/g, '-');
