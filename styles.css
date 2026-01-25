@@ -1470,3 +1470,13 @@
             height: 12px;
         }
 
+        /* Garden Window */
+        .garden-window {
+            min-width: 500px !important;
+            min-height: 400px !important;
+        }
+
+        .garden-window .window-content {
+            background: #c0c0c0;
+        }
+
