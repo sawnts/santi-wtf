@@ -18,7 +18,7 @@
         // SITE UPDATES (Firebase-backed)
         // ==========================================
         const defaultSiteUpdates = [
-            { date: "january 25, 2026", text: "launched the digital garden — now the heart of the site" },
+            { date: "january 24, 2026", text: "launched the digital garden — now the heart of the site" },
             { date: "january 19, 2026", text: "added habit tracker to the desktop" },
             { date: "january 18, 2026", text: "added updates window to the desktop" },
             { date: "january 14, 2026", text: "added pomodoro timer application" },
