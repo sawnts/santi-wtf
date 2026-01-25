@@ -27,7 +27,8 @@ async function init() {
     // Fallback to URL path
     if (!notePath) {
         const urlPath = window.location.pathname.replace('/garden', '').replace(/^\//, '');
-        if (urlPath && urlPath !== '/' && urlPath !== 'index.html') {
+        // Ignore the iframe's own file (garden.html) and index paths
+        if (urlPath && urlPath !== '/' && urlPath !== 'index.html' && urlPath !== 'garden.html') {
             notePath = fromUrlSlug(urlPath.replace('.html', ''));
         }
     }
