@@ -1,0 +1,1115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>santi.wtf - garden mockup</title>
+  <link rel="stylesheet" href="https://unpkg.com/98.css">
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+    
+    body {
+      margin: 0;
+      padding: 0;
+      background: #008080;
+      min-height: 100vh;
+      font-family: "Pixelated MS Sans Serif", Arial, sans-serif;
+      overflow: hidden;
+    }
+    
+    /* Desktop icons */
+    .desktop {
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      position: absolute;
+      top: 0;
+      left: 0;
+    }
+    
+    .desktop-icon {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      width: 70px;
+      padding: 4px;
+      cursor: pointer;
+      text-align: center;
+    }
+    
+    .desktop-icon:hover {
+      background: rgba(0, 0, 128, 0.3);
+    }
+    
+    .desktop-icon.selected {
+      background: rgba(0, 0, 128, 0.5);
+    }
+    
+    .desktop-icon-img {
+      font-size: 32px;
+      margin-bottom: 4px;
+    }
+    
+    .desktop-icon-label {
+      color: white;
+      font-size: 11px;
+      text-shadow: 1px 1px 1px black;
+      word-wrap: break-word;
+    }
+    
+    /* Windows */
+    .window {
+      position: absolute;
+      box-shadow: 2px 2px 8px rgba(0,0,0,0.3);
+    }
+    
+    .window.draggable {
+      cursor: default;
+    }
+    
+    /* Explorer Window */
+    .explorer-window {
+      width: 850px;
+      top: 30px;
+      left: 120px;
+    }
+    
+    .title-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      cursor: move;
+    }
+    
+    .title-bar-text {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+    
+    /* Menu bar */
+    .menu-bar {
+      display: flex;
+      padding: 2px 0;
+      border-bottom: 1px solid #808080;
+      background: #c0c0c0;
+    }
+    
+    .menu-bar button {
+      background: none;
+      border: none;
+      padding: 2px 8px;
+      font-size: 11px;
+      font-family: inherit;
+      cursor: pointer;
+    }
+    
+    .menu-bar button:hover {
+      background: #000080;
+      color: white;
+    }
+    
+    /* Toolbar */
+    .toolbar {
+      display: flex;
+      align-items: center;
+      gap: 2px;
+      padding: 4px;
+      border-bottom: 1px solid #808080;
+      background: #c0c0c0;
+    }
+    
+    .toolbar-btn {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 2px 6px;
+      font-size: 10px;
+      background: none;
+      border: 1px solid transparent;
+      min-width: 45px;
+      cursor: pointer;
+      font-family: inherit;
+    }
+    
+    .toolbar-btn:hover {
+      border: 1px solid #808080;
+      border-style: outset;
+    }
+    
+    .toolbar-btn:active {
+      border-style: inset;
+    }
+    
+    .toolbar-icon {
+      font-size: 16px;
+      margin-bottom: 1px;
+    }
+    
+    .toolbar-separator {
+      width: 1px;
+      height: 24px;
+      background: linear-gradient(to right, #808080, #ffffff);
+      margin: 0 4px;
+    }
+    
+    /* Address bar */
+    .address-bar {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      padding: 4px 8px;
+      border-bottom: 1px solid #808080;
+      background: #c0c0c0;
+      font-size: 11px;
+    }
+    
+    .address-bar label {
+      font-weight: normal;
+    }
+    
+    .address-bar input {
+      flex: 1;
+      font-family: inherit;
+      font-size: 11px;
+    }
+    
+    /* Main content area */
+    .explorer-content {
+      display: flex;
+      height: 380px;
+      background: white;
+    }
+    
+    /* Folder tree (left pane) */
+    .folder-pane {
+      width: 180px;
+      min-width: 180px;
+      border-right: 2px solid #808080;
+      overflow-y: auto;
+      background: white;
+      padding: 4px;
+    }
+    
+    .tree-view {
+      font-size: 11px;
+      line-height: 1.5;
+    }
+    
+    .tree-item {
+      display: flex;
+      align-items: center;
+      gap: 3px;
+      padding: 1px 4px;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+    
+    .tree-item:hover {
+      background: #000080;
+      color: white;
+    }
+    
+    .tree-item.selected {
+      background: #000080;
+      color: white;
+    }
+    
+    .tree-icon {
+      font-size: 12px;
+      flex-shrink: 0;
+    }
+    
+    .tree-children {
+      padding-left: 14px;
+    }
+    
+    .tree-expander {
+      width: 9px;
+      height: 9px;
+      border: 1px solid #808080;
+      background: white;
+      font-size: 9px;
+      line-height: 7px;
+      text-align: center;
+      cursor: pointer;
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    
+    .tree-spacer {
+      width: 9px;
+      flex-shrink: 0;
+    }
+    
+    /* Note content (right pane) */
+    .note-pane {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+    
+    .note-content {
+      flex: 1;
+      padding: 12px 16px;
+      overflow-y: auto;
+      font-family: "Courier New", monospace;
+      font-size: 12px;
+      line-height: 1.6;
+      background: white;
+    }
+    
+    .note-content h1 {
+      font-family: "MS Sans Serif", Arial, sans-serif;
+      font-size: 14px;
+      font-weight: bold;
+      margin: 0 0 8px 0;
+      padding-bottom: 4px;
+      border-bottom: 1px solid #c0c0c0;
+    }
+    
+    .note-content p {
+      margin: 0 0 10px 0;
+    }
+    
+    .note-content a {
+      color: #0000ff;
+      text-decoration: underline;
+      cursor: pointer;
+      position: relative;
+    }
+    
+    .note-content a:visited {
+      color: #800080;
+    }
+    
+    .note-content a:hover {
+      color: #ff0000;
+    }
+    
+    /* Hover preview tooltip */
+    .link-preview {
+      position: absolute;
+      background: #ffffcc;
+      border: 1px solid #000000;
+      padding: 8px;
+      width: 250px;
+      font-family: "MS Sans Serif", Arial, sans-serif;
+      font-size: 11px;
+      box-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+      z-index: 1000;
+      display: none;
+      line-height: 1.4;
+    }
+    
+    .link-preview-title {
+      font-weight: bold;
+      margin-bottom: 4px;
+      border-bottom: 1px solid #808080;
+      padding-bottom: 4px;
+    }
+    
+    .link-preview-meta {
+      font-size: 10px;
+      color: #808080;
+      margin-bottom: 4px;
+    }
+    
+    /* Metadata section */
+    .note-meta {
+      font-size: 10px;
+      color: #808080;
+      margin-bottom: 8px;
+      font-family: "MS Sans Serif", Arial, sans-serif;
+    }
+    
+    /* Backlinks section */
+    .backlinks {
+      border-top: 1px solid #c0c0c0;
+      padding: 6px 12px;
+      background: #f0f0f0;
+      font-family: "MS Sans Serif", Arial, sans-serif;
+      font-size: 11px;
+    }
+    
+    .backlinks-title {
+      font-weight: bold;
+      margin-bottom: 4px;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+    
+    .backlinks-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    
+    .backlink {
+      color: #0000ff;
+      text-decoration: underline;
+      cursor: pointer;
+    }
+    
+    .backlink:hover {
+      color: #ff0000;
+    }
+    
+    /* Status bar */
+    .status-bar {
+      display: flex;
+      justify-content: space-between;
+      padding: 2px 8px;
+      background: #c0c0c0;
+      border-top: 1px solid #808080;
+      font-size: 11px;
+    }
+    
+    .status-section {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+    
+    /* Tags styling */
+    .note-tags {
+      display: flex;
+      gap: 4px;
+      margin-bottom: 10px;
+    }
+    
+    .tag {
+      background: #ffffcc;
+      border: 1px solid #808080;
+      padding: 1px 6px;
+      font-size: 10px;
+      font-family: "MS Sans Serif", Arial, sans-serif;
+    }
+    
+    /* Blockquote */
+    .note-content blockquote {
+      margin: 10px 0;
+      padding: 6px 10px;
+      background: #f5f5f5;
+      border-left: 3px solid #808080;
+      font-style: italic;
+    }
+    
+    /* Growth stage indicator */
+    .growth-stage {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 10px;
+      color: #008000;
+    }
+    
+    /* Graph Window */
+    .graph-window {
+      width: 400px;
+      top: 80px;
+      left: 500px;
+      z-index: 100;
+    }
+    
+    .graph-content {
+      height: 320px;
+      background: #1a1a2e;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .graph-node {
+      position: absolute;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      cursor: pointer;
+      transition: transform 0.1s;
+    }
+    
+    .graph-node:hover {
+      transform: scale(1.1);
+    }
+    
+    .graph-node-icon {
+      font-size: 24px;
+      filter: drop-shadow(0 0 4px rgba(255,255,255,0.3));
+    }
+    
+    .graph-node-label {
+      font-size: 9px;
+      color: #ffffff;
+      text-shadow: 1px 1px 2px black;
+      max-width: 60px;
+      text-align: center;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    
+    .graph-node.active .graph-node-icon {
+      filter: drop-shadow(0 0 8px rgba(255,255,0,0.8));
+    }
+    
+    .graph-node.active .graph-node-label {
+      color: #ffff00;
+    }
+    
+    /* Graph lines - using SVG */
+    .graph-lines {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+    }
+    
+    .graph-lines line {
+      stroke: #4a4a6a;
+      stroke-width: 1;
+    }
+    
+    .graph-lines line.active {
+      stroke: #ffff00;
+      stroke-width: 2;
+    }
+    
+    .graph-toolbar {
+      display: flex;
+      gap: 4px;
+      padding: 4px;
+      background: #c0c0c0;
+      border-bottom: 1px solid #808080;
+    }
+    
+    .graph-toolbar button {
+      font-size: 10px;
+      padding: 2px 8px;
+    }
+    
+    .graph-status {
+      padding: 2px 8px;
+      background: #c0c0c0;
+      border-top: 1px solid #808080;
+      font-size: 10px;
+    }
+    
+    /* Find Files Dialog */
+    .find-window {
+      width: 420px;
+      top: 150px;
+      left: 250px;
+      z-index: 200;
+    }
+    
+    .find-content {
+      padding: 12px;
+      background: #c0c0c0;
+    }
+    
+    .find-row {
+      display: flex;
+      align-items: center;
+      margin-bottom: 8px;
+      gap: 8px;
+    }
+    
+    .find-row label {
+      width: 80px;
+      font-size: 11px;
+    }
+    
+    .find-row input,
+    .find-row select {
+      flex: 1;
+      font-size: 11px;
+    }
+    
+    .find-options {
+      border: 1px solid #808080;
+      padding: 8px;
+      margin: 8px 0;
+    }
+    
+    .find-options-title {
+      font-size: 11px;
+      margin-bottom: 6px;
+    }
+    
+    .find-checkbox {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 11px;
+      margin-bottom: 4px;
+    }
+    
+    .find-buttons {
+      display: flex;
+      justify-content: flex-end;
+      gap: 8px;
+      margin-top: 12px;
+    }
+    
+    .find-results {
+      background: white;
+      border: 2px inset #c0c0c0;
+      height: 120px;
+      overflow-y: auto;
+      margin-top: 8px;
+    }
+    
+    .find-result-item {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 2px 6px;
+      font-size: 11px;
+      cursor: pointer;
+    }
+    
+    .find-result-item:hover {
+      background: #000080;
+      color: white;
+    }
+    
+    .find-result-icon {
+      font-size: 14px;
+    }
+    
+    .find-result-path {
+      color: #808080;
+      font-size: 10px;
+    }
+    
+    .find-result-item:hover .find-result-path {
+      color: #c0c0c0;
+    }
+    
+    /* Taskbar */
+    .taskbar {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 28px;
+      background: #c0c0c0;
+      border-top: 2px solid #ffffff;
+      display: flex;
+      align-items: center;
+      padding: 2px 4px;
+      gap: 4px;
+      z-index: 500;
+    }
+    
+    .start-button {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      padding: 2px 6px;
+      font-weight: bold;
+      font-size: 11px;
+    }
+    
+    .start-button img {
+      width: 16px;
+      height: 16px;
+    }
+    
+    .taskbar-divider {
+      width: 2px;
+      height: 20px;
+      background: linear-gradient(to right, #808080, #ffffff);
+      margin: 0 4px;
+    }
+    
+    .taskbar-item {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      padding: 2px 8px;
+      font-size: 11px;
+      min-width: 120px;
+      border: 2px outset #c0c0c0;
+      background: #c0c0c0;
+      cursor: pointer;
+    }
+    
+    .taskbar-item.active {
+      border-style: inset;
+      background: #a0a0a0;
+    }
+    
+    .taskbar-item-icon {
+      font-size: 14px;
+    }
+    
+    .taskbar-time {
+      margin-left: auto;
+      padding: 2px 8px;
+      border: 1px inset #c0c0c0;
+      font-size: 11px;
+    }
+
+    /* Hidden by default - toggle with JS */
+    .window.hidden {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <!-- Desktop Icons -->
+  <div class="desktop">
+    <div class="desktop-icon">
+      <span class="desktop-icon-img">📧</span>
+      <span class="desktop-icon-label">Newsletter</span>
+    </div>
+    <div class="desktop-icon">
+      <span class="desktop-icon-img">🌐</span>
+      <span class="desktop-icon-label">Internet Explorer</span>
+    </div>
+    <div class="desktop-icon">
+      <span class="desktop-icon-img">💬</span>
+      <span class="desktop-icon-label">Chat</span>
+    </div>
+    <div class="desktop-icon">
+      <span class="desktop-icon-img">🎵</span>
+      <span class="desktop-icon-label">Spotify</span>
+    </div>
+    <div class="desktop-icon selected">
+      <span class="desktop-icon-img">🌱</span>
+      <span class="desktop-icon-label">Garden</span>
+    </div>
+    <div class="desktop-icon">
+      <span class="desktop-icon-img">📁</span>
+      <span class="desktop-icon-label">Applications</span>
+    </div>
+  </div>
+
+  <!-- Main Explorer Window -->
+  <div class="window explorer-window draggable">
+    <div class="title-bar">
+      <div class="title-bar-text">
+        🌱 santi's garden - C:\garden\thinking\integration.md
+      </div>
+      <div class="title-bar-controls">
+        <button aria-label="Minimize"></button>
+        <button aria-label="Maximize"></button>
+        <button aria-label="Close"></button>
+      </div>
+    </div>
+    
+    <div class="menu-bar">
+      <button>File</button>
+      <button>Edit</button>
+      <button>View</button>
+      <button>Go</button>
+      <button>Favorites</button>
+      <button>Help</button>
+    </div>
+    
+    <div class="toolbar">
+      <button class="toolbar-btn">
+        <span class="toolbar-icon">⬅️</span>
+        <span>Back</span>
+      </button>
+      <button class="toolbar-btn">
+        <span class="toolbar-icon">➡️</span>
+        <span>Forward</span>
+      </button>
+      <button class="toolbar-btn">
+        <span class="toolbar-icon">⬆️</span>
+        <span>Up</span>
+      </button>
+      <div class="toolbar-separator"></div>
+      <button class="toolbar-btn" onclick="toggleFind()">
+        <span class="toolbar-icon">🔍</span>
+        <span>Find</span>
+      </button>
+      <button class="toolbar-btn" onclick="toggleGraph()">
+        <span class="toolbar-icon">🗺️</span>
+        <span>Graph</span>
+      </button>
+      <button class="toolbar-btn">
+        <span class="toolbar-icon">🎲</span>
+        <span>Random</span>
+      </button>
+    </div>
+    
+    <div class="address-bar">
+      <label>Address:</label>
+      <input type="text" value="C:\garden\thinking\integration.md" readonly>
+    </div>
+    
+    <div class="explorer-content">
+      <div class="folder-pane">
+        <div class="tree-view">
+          <div class="tree-item">
+            <span class="tree-expander">−</span>
+            <span class="tree-icon">🌱</span>
+            <span>garden</span>
+          </div>
+          
+          <div class="tree-children">
+            <div class="tree-item">
+              <span class="tree-expander">+</span>
+              <span class="tree-icon">📁</span>
+              <span>influences</span>
+            </div>
+            
+            <div class="tree-item">
+              <span class="tree-expander">−</span>
+              <span class="tree-icon">📂</span>
+              <span>thinking</span>
+            </div>
+            
+            <div class="tree-children">
+              <div class="tree-item">
+                <span class="tree-spacer"></span>
+                <span class="tree-icon">🌱</span>
+                <span>distal-thinking</span>
+              </div>
+              <div class="tree-item">
+                <span class="tree-spacer"></span>
+                <span class="tree-icon">🌿</span>
+                <span>figure-ground</span>
+              </div>
+              <div class="tree-item selected">
+                <span class="tree-spacer"></span>
+                <span class="tree-icon">🌳</span>
+                <span>integration</span>
+              </div>
+              <div class="tree-item">
+                <span class="tree-spacer"></span>
+                <span class="tree-icon">🌿</span>
+                <span>splitting</span>
+              </div>
+            </div>
+            
+            <div class="tree-item">
+              <span class="tree-expander">+</span>
+              <span class="tree-icon">📁</span>
+              <span>seeds</span>
+            </div>
+            
+            <div class="tree-item">
+              <span class="tree-spacer"></span>
+              <span class="tree-icon">📄</span>
+              <span>about</span>
+            </div>
+            
+            <div class="tree-item">
+              <span class="tree-spacer"></span>
+              <span class="tree-icon">🏠</span>
+              <span>index</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="note-pane">
+        <div class="note-content">
+          <h1>Integration Thinking</h1>
+          
+          <div class="note-meta">
+            <span class="growth-stage">🌳 evergreen</span> · 
+            planted: nov 12, 2024 · 
+            tended: jan 18, 2026
+          </div>
+          
+          <div class="note-tags">
+            <span class="tag">creativity</span>
+            <span class="tag">thinking-modes</span>
+          </div>
+          
+          <p>integration is the act of combining two or more things that don't obviously belong together. it's the first of my four <a href="#" class="wiki-link" data-note="creative-modes">creative thinking modes</a>.</p>
+          
+          <p>the magic happens when the combination creates something that couldn't have been predicted from either part alone. <a href="#" class="wiki-link" data-note="miles-davis">miles davis</a> integrated jazz with rock electronics. <a href="#" class="wiki-link" data-note="ogilvy">david ogilvy</a> integrated research with creative copywriting.</p>
+          
+          <blockquote>
+            "creativity is just connecting things." — steve jobs
+          </blockquote>
+          
+          <p>integration differs from <a href="#" class="wiki-link" data-note="splitting">splitting</a> in that you're building up rather than breaking down. both are generative, but they move in opposite directions.</p>
+          
+          <p>the key question: <em>what two things, combined, would create more than their sum?</em></p>
+        </div>
+        
+        <div class="backlinks">
+          <div class="backlinks-title">🔗 what links here (4)</div>
+          <div class="backlinks-list">
+            <a class="backlink">creative-thinking-modes</a>
+            <a class="backlink">ogilvy-on-advertising</a>
+            <a class="backlink">newsletter-47</a>
+            <a class="backlink">splitting</a>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="status-bar">
+      <div class="status-section">
+        <span>24 notes</span> · 
+        <span>87 links</span>
+      </div>
+      <div class="status-section">
+        <span>🌱 4</span> · 
+        <span>🌿 12</span> · 
+        <span>🌳 8</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Graph Window -->
+  <div class="window graph-window draggable" id="graphWindow">
+    <div class="title-bar">
+      <div class="title-bar-text">🗺️ Garden Graph</div>
+      <div class="title-bar-controls">
+        <button aria-label="Minimize"></button>
+        <button aria-label="Maximize"></button>
+        <button aria-label="Close" onclick="toggleGraph()"></button>
+      </div>
+    </div>
+    
+    <div class="graph-toolbar">
+      <button>Zoom In</button>
+      <button>Zoom Out</button>
+      <button>Reset</button>
+      <button>Local</button>
+      <button>Global</button>
+    </div>
+    
+    <div class="graph-content">
+      <svg class="graph-lines">
+        <!-- Lines connecting nodes -->
+        <line x1="200" y1="160" x2="100" y2="80" />
+        <line x1="200" y1="160" x2="300" y2="80" />
+        <line x1="200" y1="160" x2="100" y2="240" class="active" />
+        <line x1="200" y1="160" x2="300" y2="240" />
+        <line x1="200" y1="160" x2="60" y2="160" />
+        <line x1="100" y1="240" x2="60" y2="160" />
+        <line x1="300" y1="80" x2="350" y2="140" />
+      </svg>
+      
+      <!-- Graph nodes -->
+      <div class="graph-node active" style="left: 175px; top: 140px;">
+        <span class="graph-node-icon">🌳</span>
+        <span class="graph-node-label">integration</span>
+      </div>
+      
+      <div class="graph-node" style="left: 75px; top: 60px;">
+        <span class="graph-node-icon">📄</span>
+        <span class="graph-node-label">creative-modes</span>
+      </div>
+      
+      <div class="graph-node" style="left: 275px; top: 60px;">
+        <span class="graph-node-icon">🌿</span>
+        <span class="graph-node-label">miles-davis</span>
+      </div>
+      
+      <div class="graph-node" style="left: 75px; top: 220px;">
+        <span class="graph-node-icon">🌿</span>
+        <span class="graph-node-label">splitting</span>
+      </div>
+      
+      <div class="graph-node" style="left: 275px; top: 220px;">
+        <span class="graph-node-icon">🌳</span>
+        <span class="graph-node-label">ogilvy</span>
+      </div>
+      
+      <div class="graph-node" style="left: 35px; top: 140px;">
+        <span class="graph-node-icon">🌱</span>
+        <span class="graph-node-label">figure-ground</span>
+      </div>
+      
+      <div class="graph-node" style="left: 325px; top: 120px;">
+        <span class="graph-node-icon">📄</span>
+        <span class="graph-node-label">kind-of-blue</span>
+      </div>
+    </div>
+    
+    <div class="graph-status">
+      Showing: integration.md (6 connections)
+    </div>
+  </div>
+
+  <!-- Find Files Dialog -->
+  <div class="window find-window draggable hidden" id="findWindow">
+    <div class="title-bar">
+      <div class="title-bar-text">🔍 Find: All Files</div>
+      <div class="title-bar-controls">
+        <button aria-label="Close" onclick="toggleFind()"></button>
+      </div>
+    </div>
+    
+    <div class="find-content">
+      <div class="find-row">
+        <label>Named:</label>
+        <input type="text" value="creativity" placeholder="Enter search terms...">
+      </div>
+      
+      <div class="find-row">
+        <label>Look in:</label>
+        <select>
+          <option>C:\garden</option>
+          <option>C:\garden\thinking</option>
+          <option>C:\garden\influences</option>
+          <option>C:\garden\seeds</option>
+        </select>
+      </div>
+      
+      <fieldset class="find-options">
+        <legend style="font-size: 11px;">Options</legend>
+        <label class="find-checkbox">
+          <input type="checkbox" checked> Search note content
+        </label>
+        <label class="find-checkbox">
+          <input type="checkbox" checked> Search titles
+        </label>
+        <label class="find-checkbox">
+          <input type="checkbox"> Search tags only
+        </label>
+      </fieldset>
+      
+      <div class="find-buttons">
+        <button>Find Now</button>
+        <button>Stop</button>
+        <button>New Search</button>
+      </div>
+      
+      <div class="find-results">
+        <div class="find-result-item">
+          <span class="find-result-icon">🌳</span>
+          <span>integration</span>
+          <span class="find-result-path">thinking\</span>
+        </div>
+        <div class="find-result-item">
+          <span class="find-result-icon">📄</span>
+          <span>creative-thinking-modes</span>
+          <span class="find-result-path">thinking\</span>
+        </div>
+        <div class="find-result-item">
+          <span class="find-result-icon">🌿</span>
+          <span>corita-kent</span>
+          <span class="find-result-path">influences\</span>
+        </div>
+        <div class="find-result-item">
+          <span class="find-result-icon">🌱</span>
+          <span>creative-constraints</span>
+          <span class="find-result-path">seeds\</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Hover Preview (positioned by JS) -->
+  <div class="link-preview" id="linkPreview">
+    <div class="link-preview-title">splitting</div>
+    <div class="link-preview-meta">🌿 growing · thinking\</div>
+    <div class="link-preview-content">
+      splitting is the opposite of integration — taking something whole and breaking it into distinct parts to understand it better...
+    </div>
+  </div>
+
+  <!-- Taskbar -->
+  <div class="taskbar">
+    <button class="start-button">
+      <span>🪟</span>
+      <span>Start</span>
+    </button>
+    <div class="taskbar-divider"></div>
+    <div class="taskbar-item active">
+      <span class="taskbar-item-icon">🌱</span>
+      <span>santi's garden</span>
+    </div>
+    <div class="taskbar-item">
+      <span class="taskbar-item-icon">🗺️</span>
+      <span>Garden Graph</span>
+    </div>
+    <div class="taskbar-time">2:45 PM</div>
+  </div>
+
+  <script>
+    // Toggle windows
+    function toggleGraph() {
+      const win = document.getElementById('graphWindow');
+      win.classList.toggle('hidden');
+    }
+    
+    function toggleFind() {
+      const win = document.getElementById('findWindow');
+      win.classList.toggle('hidden');
+    }
+    
+    // Hover preview functionality
+    const preview = document.getElementById('linkPreview');
+    const links = document.querySelectorAll('.wiki-link');
+    
+    const previewData = {
+      'splitting': {
+        title: 'splitting',
+        meta: '🌿 growing · thinking\\',
+        content: 'splitting is the opposite of integration — taking something whole and breaking it into distinct parts to understand it better...'
+      },
+      'miles-davis': {
+        title: 'miles davis',
+        meta: '🌿 growing · influences\\',
+        content: 'miles davis didn\'t just play jazz — he kept reinventing what jazz could be. from cool jazz to fusion, each era was a complete reimagining...'
+      },
+      'ogilvy': {
+        title: 'david ogilvy',
+        meta: '🌳 evergreen · influences\\',
+        content: 'the father of advertising who insisted on research before creativity. "the consumer isn\'t a moron; she is your wife..."'
+      },
+      'creative-modes': {
+        title: 'creative thinking modes',
+        meta: '📄 note · thinking\\',
+        content: 'four distinct modes of creative thinking: integration, splitting, figure-ground reversal, and distal thinking...'
+      }
+    };
+    
+    links.forEach(link => {
+      link.addEventListener('mouseenter', (e) => {
+        const noteId = e.target.dataset.note;
+        const data = previewData[noteId];
+        if (data) {
+          preview.querySelector('.link-preview-title').textContent = data.title;
+          preview.querySelector('.link-preview-meta').textContent = data.meta;
+          preview.querySelector('.link-preview-content').textContent = data.content;
+          
+          const rect = e.target.getBoundingClientRect();
+          preview.style.left = rect.left + 'px';
+          preview.style.top = (rect.bottom + 8) + 'px';
+          preview.style.display = 'block';
+        }
+      });
+      
+      link.addEventListener('mouseleave', () => {
+        preview.style.display = 'none';
+      });
+    });
+    
+    // Update time
+    function updateTime() {
+      const now = new Date();
+      const time = now.toLocaleTimeString('en-US', { 
+        hour: 'numeric', 
+        minute: '2-digit',
+        hour12: true 
+      });
+      document.querySelector('.taskbar-time').textContent = time;
+    }
+    updateTime();
+    setInterval(updateTime, 1000);
+  </script>
+</body>
+</html>
