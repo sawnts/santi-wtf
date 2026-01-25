@@ -71,8 +71,9 @@ wtf/
 - `postAsOwner()` - Posts as santi with blue bubble (admin mode only)
 - `updateStatus()` - Updates online/away status (admin mode only)
 
-**Admin Mode:**
-- Type "santiwtf" anywhere on the page to toggle admin mode
+**Admin Mode (Firebase Auth):**
+- Press Ctrl+Shift+L to login/logout with Google
+- Only the configured ADMIN_UID can access admin features
 - Enables: posting as owner in chat, updating status, editing/deleting updates
 
 **Applications:**
@@ -179,7 +180,8 @@ git push
 ## Security Notes
 
 - Firebase credentials are in client-side code (expected for web Firebase, security comes from Firebase Rules)
-- Admin mode uses a secret code ("santiwtf") - not high security, but sufficient for personal site
+- Admin mode uses Firebase Authentication with Google Sign-in
+- Only the ADMIN_UID in scripts.js can access admin features
 - All fetch calls check `response.ok` before processing
 - Garden uses `escapeAttr()` for dynamic values in onclick handlers
 - Chat input is limited to 500 chars (message) and 50 chars (name)

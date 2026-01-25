@@ -650,28 +650,71 @@
         }
 
         // ==========================================
-        // ADMIN MODE
+        // ADMIN MODE (Firebase Auth)
         // ==========================================
 
         let isAdminMode = false;
+        let currentUser = null;
 
-        // Secret code to enable admin mode: type "santiwtf" anywhere
-        let adminBuffer = '';
-        document.addEventListener('keypress', (e) => {
-            adminBuffer += e.key.toLowerCase();
-            if (adminBuffer.length > 8) adminBuffer = adminBuffer.slice(-8);
-            if (adminBuffer === 'santiwtf') {
-                isAdminMode = !isAdminMode;
-                document.body.classList.toggle('admin-mode', isAdminMode);
-                adminBuffer = '';
-                if (isAdminMode) {
-                    alert('admin mode enabled');
+        // Your Firebase Auth UID - set this after first login
+        const ADMIN_UID = 'SET_YOUR_UID_HERE';
+
+        function initAuth() {
+            if (typeof firebase === 'undefined' || !firebase.auth) {
+                setTimeout(initAuth, 100);
+                return;
+            }
+
+            firebase.auth().onAuthStateChanged((user) => {
+                currentUser = user;
+                if (user && user.uid === ADMIN_UID) {
+                    isAdminMode = true;
+                    document.body.classList.add('admin-mode');
+                    console.log('Admin authenticated:', user.email);
                 } else {
-                    alert('admin mode disabled');
+                    isAdminMode = false;
+                    document.body.classList.remove('admin-mode');
                 }
                 renderUpdates();
+            });
+        }
+
+        function adminLogin() {
+            const provider = new firebase.auth.GoogleAuthProvider();
+            firebase.auth().signInWithPopup(provider)
+                .then((result) => {
+                    console.log('Logged in as:', result.user.email);
+                    console.log('Your UID is:', result.user.uid);
+                    // First time: copy the UID from console and set it as ADMIN_UID
+                    if (result.user.uid !== ADMIN_UID) {
+                        alert('UID: ' + result.user.uid + '\n\nCopy this to ADMIN_UID in scripts.js');
+                    }
+                })
+                .catch((error) => {
+                    console.error('Login failed:', error);
+                    alert('Login failed: ' + error.message);
+                });
+        }
+
+        function adminLogout() {
+            firebase.auth().signOut()
+                .then(() => console.log('Logged out'))
+                .catch((error) => console.error('Logout failed:', error));
+        }
+
+        // Keyboard shortcut: Ctrl+Shift+L to trigger login
+        document.addEventListener('keydown', (e) => {
+            if (e.ctrlKey && e.shiftKey && e.key === 'L') {
+                e.preventDefault();
+                if (currentUser) {
+                    adminLogout();
+                } else {
+                    adminLogin();
+                }
             }
         });
+
+        initAuth();
 
         function getDb() {
             if (!window.db) {
