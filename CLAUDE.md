@@ -133,7 +133,7 @@ tags: [tag1, tag2]
 
 **Wikilinks:** Use `[[note-name]]` or `[[path/note-name|display text]]` format.
 
-**Private files:** Files starting with `_` are skipped by the build (e.g., `_template.md`, `_day-reference.md`).
+**Private files:** Files or folders starting with `_` are skipped by the build (e.g., `_template.md`, `_system/`).
 
 **Habit Tracker:**
 The habit tracker is a special note type that renders a visual tracker from Obsidian data.
