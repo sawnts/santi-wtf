@@ -72,7 +72,7 @@ wtf/
 - `updateStatus()` - Updates online/away status (admin mode only)
 
 **Admin Mode:**
-- Type "santi" anywhere on the page to toggle admin mode
+- Type "santiwtf" anywhere on the page to toggle admin mode
 - Enables: posting as owner in chat, updating status, editing/deleting updates
 
 **Applications:**
@@ -179,7 +179,7 @@ git push
 ## Security Notes
 
 - Firebase credentials are in client-side code (expected for web Firebase, security comes from Firebase Rules)
-- Admin mode uses a secret code ("santi") - not high security, but sufficient for personal site
+- Admin mode uses a secret code ("santiwtf") - not high security, but sufficient for personal site
 - All fetch calls check `response.ok` before processing
 - Garden uses `escapeAttr()` for dynamic values in onclick handlers
 - Chat input is limited to 500 chars (message) and 50 chars (name)

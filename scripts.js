@@ -655,12 +655,12 @@
 
         let isAdminMode = false;
 
-        // Secret code to enable admin mode: type "santi" anywhere
+        // Secret code to enable admin mode: type "santiwtf" anywhere
         let adminBuffer = '';
         document.addEventListener('keypress', (e) => {
             adminBuffer += e.key.toLowerCase();
-            if (adminBuffer.length > 5) adminBuffer = adminBuffer.slice(-5);
-            if (adminBuffer === 'santi') {
+            if (adminBuffer.length > 8) adminBuffer = adminBuffer.slice(-8);
+            if (adminBuffer === 'santiwtf') {
                 isAdminMode = !isAdminMode;
                 document.body.classList.toggle('admin-mode', isAdminMode);
                 adminBuffer = '';
