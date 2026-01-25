@@ -433,6 +433,13 @@ body {
     border-bottom: 1px dashed #cc0000;
 }
 
+/* Private links (notes outside public folder) */
+.wikilink-private {
+    color: #808080;
+    border-bottom: 1px dashed #808080;
+    cursor: default;
+}
+
 /* Tags */
 .tag {
     display: inline-block;

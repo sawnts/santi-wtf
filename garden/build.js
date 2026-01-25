@@ -167,7 +167,12 @@ Object.entries(rawContent).forEach(([noteId, markdown]) => {
         const linkId = link.toLowerCase().replace(/\s+/g, '-');
         const resolvedId = findNoteId(linkId);
         const displayText = display || link;
-        return `<a href="#" class="wikilink" data-note="${resolvedId || linkId}">${displayText}</a>`;
+        if (resolvedId) {
+            return `<a href="#" class="wikilink" data-note="${resolvedId}">${displayText}</a>`;
+        } else {
+            // Private/unresolved link
+            return `<span class="wikilink-private" title="private note">${displayText} 🔒</span>`;
+        }
     });
 
     // ensure output directory exists
