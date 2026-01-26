@@ -47,6 +47,7 @@
       ],
       "links": [
         "1. thinking/integration",
+        "1. thinking/integration",
         "1. thinking/splitting"
       ],
       "backlinks": [
@@ -297,6 +298,7 @@
         "4. loving/david ogilvy",
         "1. thinking/splitting",
         "4. loving/miles davis",
+        "steve-jobs",
         "1. thinking/splitting",
         "4. loving/david ogilvy",
         "4. loving/miles davis"
@@ -308,7 +310,7 @@
         "3. doing/digital-garden",
         "1. thinking/splitting"
       ],
-      "excerpt": "the best ideas often come from combining concepts that don't obviously belong together. ogilvy called this \"creative cross-pollination.\""
+      "excerpt": "the best ideas often come from combining concepts that don't obviously belong together."
     },
     "1. thinking/evergreen notes are for thinking": {
       "title": "evergreen notes are for thinking",
@@ -375,7 +377,7 @@
   },
   "stats": {
     "total": 17,
-    "links": 45,
+    "links": 47,
     "seedling": 1,
     "growing": 10,
     "evergreen": 6
