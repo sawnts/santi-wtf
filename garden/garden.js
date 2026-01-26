@@ -594,8 +594,10 @@ function loadRandom() {
     }
 }
 
-// hover previews
+// hover previews (disabled on touch devices)
 function setupHoverPreviews() {
+    if ('ontouchstart' in window) return;
+
     document.addEventListener('mouseover', (e) => {
         const link = e.target.closest('.wikilink');
         if (link && link.dataset.note) {

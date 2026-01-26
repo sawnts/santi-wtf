@@ -1392,11 +1392,67 @@ body {
         max-height: none;
     }
 
+    /* Hide non-functional menu bar on mobile */
+    .menu-bar {
+        display: none;
+    }
+
+    /* Stack note metadata vertically */
+    .note-meta-item {
+        display: block;
+        margin-right: 0;
+        margin-bottom: 4px;
+    }
+
+    .note-meta-item:last-child {
+        margin-bottom: 0;
+    }
+
+    /* Disable hover previews (no hover on touch) */
+    .hover-preview {
+        display: none !important;
+    }
+
+    /* Welcome page stats */
+    .welcome-stats {
+        gap: 16px;
+    }
+
     /* Search/filter dialogs */
     .search-dialog,
     .filter-dialog {
         width: 95vw;
         max-width: none;
+    }
+}
+
+/* Extra small phones */
+@media (max-width: 480px) {
+    .note-content {
+        padding: 16px 12px;
+        font-size: 14px;
+    }
+
+    .note-content h1 {
+        font-size: 20px;
+    }
+
+    .note-content h2 {
+        font-size: 16px;
+    }
+
+    .toolbar button {
+        padding: 0 6px;
+        height: 26px;
+    }
+
+    .status-bar {
+        font-size: 9px;
+    }
+
+    .welcome-stats {
+        flex-direction: column;
+        gap: 8px;
     }
 }
 

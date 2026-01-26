@@ -996,6 +996,10 @@
             }
 
             /* Garden window - no padding since iframe handles it */
+            .garden-window {
+                min-width: 100% !important;
+            }
+
             .garden-window .window-content {
                 padding: 0;
             }
@@ -1205,8 +1209,8 @@
 
         /* Garden Window */
         .garden-window {
-            min-width: 500px !important;
-            min-height: 400px !important;
+            min-width: 500px;
+            min-height: 400px;
         }
 
         .garden-window .window-content {
