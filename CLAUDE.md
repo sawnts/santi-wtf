@@ -9,13 +9,11 @@ This is a static personal blog/website styled to look like Windows 98. The site 
 ## File Structure
 
 ```
-wtf/
+santi-wtf/
 ├── index.html          # Main HTML - window markup, desktop layout
 ├── styles.css          # All CSS - Windows 98 styling
 ├── scripts.js          # All JavaScript - window management, navigation, chat
 ├── 404.html            # GitHub Pages SPA redirect handler
-├── now.html            # Legacy "Now" page (redirects to garden)
-├── posts/              # Legacy blog posts (redirects to garden)
 ├── applications/       # Standalone apps (FlowGarden, Sticky Notes, Pomodoro)
 ├── icons/              # Windows 98 style icons
 └── garden/             # Digital garden (synced from Obsidian)
