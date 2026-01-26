@@ -11,15 +11,19 @@ This is a static personal blog/website styled to look like Windows 98. The site 
 ```
 santi-wtf/
 ├── index.html          # Main HTML - window markup, desktop layout
-├── styles.css          # All CSS - Windows 98 styling
-├── scripts.js          # All JavaScript - window management, navigation, chat
+├── styles.css          # Desktop CSS - Windows 98 styling
+├── scripts.js          # Desktop JS - window management, navigation, updates
+├── chat.js             # Firebase chat, admin mode, authentication
 ├── 404.html            # GitHub Pages SPA redirect handler
 ├── applications/       # Standalone apps (FlowGarden, Sticky Notes, Pomodoro)
 ├── icons/              # Windows 98 style icons
 └── garden/             # Digital garden (synced from Obsidian)
     ├── garden.html     # Garden UI (Windows Explorer style)
     ├── garden.css      # Garden-specific styles
-    ├── garden.js       # Garden functionality
+    ├── garden.js       # Garden core - tree, navigation, notes, utilities
+    ├── search.js       # Garden search and filter dialogs
+    ├── graph.js        # Garden graph view (force-directed canvas)
+    ├── habits.js       # Garden habit tracker rendering
     ├── build.js        # Build script to sync from Obsidian
     ├── content/        # Generated HTML from markdown
     └── data/           # index.json with note metadata
@@ -29,8 +33,9 @@ santi-wtf/
 
 **Single-page application structure:**
 - `index.html` - Window markup and desktop layout only
-- `styles.css` - All Windows 98 styling (external file)
-- `scripts.js` - All JavaScript logic (external file)
+- `styles.css` - All Windows 98 styling (CSS variables defined in `:root`)
+- `scripts.js` - Window management, updates, UI logic
+- `chat.js` - Firebase chat room, admin authentication
 - Simulates a desktop environment with draggable, resizable, and minimizable windows
 - The digital garden is the main content area, running as an iframe
 
@@ -51,32 +56,27 @@ santi-wtf/
 - Features: folder tree, wikilinks, backlinks, search, graph view, hover previews
 - Resets to welcome page when window is closed and reopened
 
-## Key Functions (in scripts.js)
+## Key Functions
 
-**Window management:**
+**Window management (scripts.js):**
 - `openWindow(id)` / `closeWindow(id)` - Show/hide window elements
 - `minimizeWindow(id)` / `restoreWindow(id)` - Minimize to taskbar / restore from taskbar
 - `setActiveWindow(id)` - Bring window to front and mark as active
 - `dragStart()` / `resizeStart()` - Handle window drag and resize interactions
+- `loadApplication(contentId, filePath, appName)` - Generic loader for apps in applications/
 
-**State tracking:**
+**State tracking (scripts.js):**
 - `minimizedWindows` (Set) - Tracks which windows are minimized
 - `openWindows` (Set) - Tracks which windows are open
 
-**Chat (Firebase):**
+**Chat and admin (chat.js):**
 - `initChatRoom()` - Sets up Firebase listeners for messages and status
 - `submitChat()` - Posts visitor messages (max 500 chars, name max 50 chars)
 - `postAsOwner()` - Posts as santi with blue bubble (admin mode only)
 - `updateStatus()` - Updates online/away status (admin mode only)
-
-**Admin Mode (Firebase Auth):**
 - Press Ctrl+Shift+L (Windows) or Cmd+Shift+L (Mac) to login/logout with Google
 - Or call `adminLogin()` / `adminLogout()` in browser console
 - Only the configured ADMIN_UID can access admin features
-- Enables: posting as owner in chat, updating status, editing/deleting updates
-
-**Applications:**
-- `loadApplication(contentId, filePath, appName)` - Generic loader for apps in applications/
 
 ## Content Style Guidelines
 
@@ -180,7 +180,7 @@ git push
 
 - Firebase credentials are in client-side code (expected for web Firebase, security comes from Firebase Rules)
 - Admin mode uses Firebase Authentication with Google Sign-in
-- Only the ADMIN_UID in scripts.js can access admin features
+- Only the ADMIN_UID in chat.js can access admin features
 - All fetch calls check `response.ok` before processing
 - Garden uses `escapeAttr()` for dynamic values in onclick handlers
 - Chat input is limited to 500 chars (message) and 50 chars (name)

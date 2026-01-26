@@ -1,5 +1,19 @@
 /* Garden Explorer - Matching main site Windows 98 aesthetics */
 
+:root {
+    /* win98 chrome */
+    --w98-silver: #c0c0c0;
+    --w98-gray: #808080;
+    --w98-light: #dfdfdf;
+    --w98-navy: #000080;
+    --w98-blue: #1084d0;
+
+    /* content */
+    --link: #0066cc;
+    --link-hover: #003d99;
+    --link-visited: #551a8b;
+}
+
 * {
     margin: 0;
     padding: 0;
