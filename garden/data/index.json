@@ -69,7 +69,7 @@
         "3. doing/digital-garden"
       ],
       "backlinks": [
-        "2. being/my-favorite-reads-2025"
+        "2. being/my favorite reads 2025"
       ],
       "excerpt": "a garden grows one day at a time."
     },
@@ -83,7 +83,7 @@
         "meta"
       ],
       "links": [
-        "1. thinking/integration",
+        "1. thinking/linking is thinking",
         "1. thinking/integration",
         "1. thinking/splitting",
         "1. thinking/linking is thinking",
@@ -121,14 +121,14 @@
       ],
       "links": [
         "3. doing/digital-garden",
-        "2. being/my-favorite-reads-2025"
+        "2. being/my favorite reads 2025"
       ],
       "backlinks": [
         "index"
       ],
       "excerpt": "what i'm up to recently:"
     },
-    "2. being/my-favorite-reads-2025": {
+    "2. being/my favorite reads 2025": {
       "title": "my favorite reads of 2025",
       "stage": "evergreen",
       "planted": "2026-01-01T00:00:00.000Z",
@@ -351,7 +351,7 @@
         "notes": [
           "2. being/soft guy era",
           "2. being/now",
-          "2. being/my-favorite-reads-2025",
+          "2. being/my favorite reads 2025",
           "2. being/2026 lessons"
         ]
       },
