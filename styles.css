@@ -1,3 +1,12 @@
+        :root {
+            /* win98 chrome */
+            --w98-silver: #c0c0c0;
+            --w98-gray: #808080;
+            --w98-light: #dfdfdf;
+            --w98-navy: #000080;
+            --w98-blue: #1084d0;
+        }
+
         * {
             margin: 0;
             padding: 0;
@@ -11,6 +20,7 @@
                         linear-gradient(180deg, #1084d0 0%, #0f6bb5 50%, #0e5a9e 100%);
             background-size: 200px, 100%;
             height: 100vh;
+            height: 100dvh;
             cursor: default;
             user-select: none;
         }
@@ -83,6 +93,7 @@
             min-height: 200px;
             box-shadow: 2px 2px 0 rgba(0,0,0,0.2);
             display: none;
+            flex-direction: column;
             resize: both;
             overflow: hidden;
         }
@@ -848,6 +859,7 @@
             /* Hide desktop icons - use menu only */
             .desktop {
                 height: calc(100vh - 44px);
+                height: calc(100dvh - 44px);
             }
 
             .desktop .icon {
@@ -863,11 +875,20 @@
             .window {
                 width: 100% !important;
                 height: calc(100vh - 44px) !important;
+                height: calc(100dvh - 44px) !important;
                 left: 0 !important;
                 top: 0 !important;
-                min-width: 100%;
+                min-width: 100% !important;
+                min-height: unset !important;
                 border: none;
                 box-shadow: none;
+            }
+
+            /* Window content fills remaining space via flex */
+            .window-content {
+                flex: 1 !important;
+                height: auto !important;
+                min-height: 0;
             }
 
             /* Hide resize handles */
@@ -879,6 +900,7 @@
             .title-bar {
                 cursor: default;
                 padding: 6px 8px;
+                flex-shrink: 0;
             }
 
             .title-btn {
@@ -987,6 +1009,10 @@
             }
 
             /* Garden window - no padding since iframe handles it */
+            .garden-window {
+                min-width: 100% !important;
+            }
+
             .garden-window .window-content {
                 padding: 0;
             }
@@ -1026,97 +1052,6 @@
             .title-text span {
                 font-size: 12px;
             }
-        }
-
-        /* Blog post styles */
-        .post {
-            font-family: Tahoma, 'MS Sans Serif', sans-serif;
-            line-height: 1.7;
-            font-size: 14px;
-            color: #222;
-            padding: 10px 20px 30px;
-        }
-        .post h1 {
-            font-family: Tahoma, 'MS Sans Serif', sans-serif;
-            font-size: 26px;
-            margin: 0 0 8px 0;
-            font-weight: bold;
-            color: #000;
-        }
-        .post h2 {
-            font-family: Tahoma, 'MS Sans Serif', sans-serif;
-            font-size: 18px;
-            margin: 1.2em 0 0.5em 0;
-            color: #000;
-        }
-        .post .date {
-            color: #999;
-            font-family: Tahoma, 'MS Sans Serif', sans-serif;
-            font-size: 11px;
-            margin-top: 30px;
-        }
-        .post p {
-            margin: 0 0 1.4em 0;
-        }
-        .post a {
-            color: #0066cc;
-            text-decoration: underline;
-        }
-        .post a:hover {
-            color: #003d99;
-        }
-        .post a:visited {
-            color: #551a8b;
-        }
-        .post blockquote {
-            margin: 2.5em 0;
-            padding: 20px 25px;
-            border-left: 3px solid #0066cc;
-            background: #f5f5f5;
-            font-style: italic;
-        }
-        .post ol, .post ul {
-            margin: 1em 0;
-            margin-left: 0;
-            padding-left: 3em;
-        }
-        .post ol li, .post ul li {
-            margin-bottom: 0.6em;
-            line-height: 1.6;
-        }
-        .post img {
-            max-width: 100%;
-            height: auto;
-            margin: 1.5em 0;
-            border: 1px solid #ccc;
-        }
-        .post code {
-            font-family: 'Courier New', monospace;
-            background: #f0f0f0;
-            padding: 2px 6px;
-            font-size: 15px;
-        }
-        .post pre {
-            background: #f0f0f0;
-            padding: 15px;
-            overflow-x: auto;
-            border: 1px solid #ccc;
-            margin: 1.5em 0;
-        }
-        .post pre code {
-            padding: 0;
-            background: none;
-        }
-        .post-footer {
-            margin-top: 40px;
-            padding-top: 20px;
-            border-top: 1px solid #ccc;
-            font-family: Tahoma, 'MS Sans Serif', sans-serif;
-            font-size: 14px;
-            color: #666;
-        }
-        .post-footer a {
-            color: #0066cc;
         }
 
         /* Accessibility: Screen reader only class */
@@ -1287,8 +1222,8 @@
 
         /* Garden Window */
         .garden-window {
-            min-width: 500px !important;
-            min-height: 400px !important;
+            min-width: 500px;
+            min-height: 400px;
         }
 
         .garden-window .window-content {
