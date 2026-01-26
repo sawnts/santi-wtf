@@ -19,6 +19,29 @@
       "backlinks": [],
       "excerpt": "i built this site because i miss the internet. the one before the apps. i miss the weird little corners of the web where people shared their thoughts,"
     },
+    "4. loving/ogilvy creative process": {
+      "title": "ogilvy's creative process",
+      "stage": "evergreen",
+      "planted": "2025-10-14T00:00:00.000Z",
+      "tended": "2026-01-25T00:00:00.000Z",
+      "tags": [
+        "influences",
+        "creativity",
+        "writing"
+      ],
+      "links": [
+        "4. loving/david ogilvy",
+        "ogilvy---rolls-royce-ad.png",
+        "ogilvy---dove-ad.png",
+        "4. loving/david ogilvy",
+        "_creative-cross-pollination",
+        "1. thinking/integration"
+      ],
+      "backlinks": [
+        "4. loving/david ogilvy"
+      ],
+      "excerpt": "david ogilvy sold billions of dollars for some of the biggest brands in the world with his pen. his agency, ogilvy & mather, still prints money for co"
+    },
     "4. loving/miles davis": {
       "title": "miles davis",
       "stage": "growing",
@@ -48,9 +71,11 @@
       "links": [
         "1. thinking/integration",
         "1. thinking/integration",
-        "1. thinking/splitting"
+        "1. thinking/splitting",
+        "4. loving/ogilvy creative process"
       ],
       "backlinks": [
+        "4. loving/ogilvy creative process",
         "1. thinking/splitting",
         "1. thinking/integration"
       ],
@@ -70,7 +95,8 @@
         "3. doing/digital-garden"
       ],
       "backlinks": [
-        "2. being/my favorite reads 2025"
+        "2. being/my favorite reads 2025",
+        "1. thinking/consistency"
       ],
       "excerpt": "a garden grows one day at a time."
     },
@@ -93,8 +119,10 @@
       "backlinks": [
         "3. doing/habit-tracker",
         "2. being/now",
+        "1. thinking/thinking-in-public",
         "1. thinking/read old notes",
-        "1. thinking/power-of-writing-online"
+        "1. thinking/power-of-writing-online",
+        "1. thinking/consistency"
       ],
       "excerpt": "this is a digital garden — a place for ideas to grow over time. here's how it works."
     },
@@ -109,7 +137,9 @@
       "links": [
         "1. thinking/power-of-writing-online"
       ],
-      "backlinks": [],
+      "backlinks": [
+        "1. thinking/thinking-in-public"
+      ],
       "excerpt": "what does it mean to stop performing and just be?"
     },
     "2. being/now": {
@@ -161,9 +191,31 @@
         "1. thinking/power-of-writing-online"
       ],
       "backlinks": [
-        "1. thinking/the map is not the territory"
+        "1. thinking/the map is not the territory",
+        "1. thinking/consistency"
       ],
       "excerpt": "a running list of things i'm learning this year. updated as life teaches me."
+    },
+    "1. thinking/thinking-in-public": {
+      "title": "thinking in public",
+      "stage": "seedling",
+      "planted": "2026-01-25T00:00:00.000Z",
+      "tended": "2026-01-25T00:00:00.000Z",
+      "tags": [
+        "writing",
+        "creativity"
+      ],
+      "links": [
+        "3. doing/digital-garden",
+        "1. thinking/linking is thinking",
+        "1. thinking/the map is not the territory",
+        "2. being/soft guy era",
+        "1. thinking/power-of-writing-online",
+        "3. doing/digital-garden",
+        "1. thinking/evergreen notes are for thinking"
+      ],
+      "backlinks": [],
+      "excerpt": "sharing ideas before they're finished."
     },
     "1. thinking/the map is not the territory": {
       "title": "the map is not the territory",
@@ -180,7 +232,8 @@
         "why-i-use-obsidian"
       ],
       "backlinks": [
-        "2. being/2026 lessons"
+        "2. being/2026 lessons",
+        "1. thinking/thinking-in-public"
       ],
       "excerpt": "a mental model from Alfred Korzybski (1931): our representations of reality — maps, models, frameworks, other people's systems — are always abstractio"
     },
@@ -243,7 +296,9 @@
         "3. doing/habit-tracker",
         "3. doing/digital-garden",
         "2. being/soft guy era",
-        "2. being/2026 lessons"
+        "2. being/2026 lessons",
+        "1. thinking/thinking-in-public",
+        "1. thinking/consistency"
       ],
       "excerpt": "the person who can string together words that evoke emotion, facilitate insight, and entertain readers has a huge competitive advantage in today's dig"
     },
@@ -281,6 +336,7 @@
       ],
       "backlinks": [
         "3. doing/digital-garden",
+        "1. thinking/thinking-in-public",
         "1. thinking/evergreen notes are for thinking"
       ],
       "excerpt": "good ideas don't live in isolation. they live in relationship."
@@ -305,6 +361,7 @@
       ],
       "backlinks": [
         "index",
+        "4. loving/ogilvy creative process",
         "4. loving/miles davis",
         "4. loving/david ogilvy",
         "3. doing/digital-garden",
@@ -326,10 +383,30 @@
         "1. thinking/making effective connections"
       ],
       "backlinks": [
+        "1. thinking/thinking-in-public",
         "1. thinking/power-of-writing-online",
         "1. thinking/linking is thinking"
       ],
       "excerpt": "evergreen notes aren't content. they're tools for thought."
+    },
+    "1. thinking/consistency": {
+      "title": "consistency",
+      "stage": "seedling",
+      "planted": "2026-01-25T00:00:00.000Z",
+      "tended": "2026-01-25T00:00:00.000Z",
+      "tags": [
+        "creativity",
+        "habits"
+      ],
+      "links": [
+        "3. doing/habit-tracker",
+        "1. thinking/power-of-writing-online",
+        "3. doing/digital-garden",
+        "3. doing/habit-tracker",
+        "2. being/2026 lessons"
+      ],
+      "backlinks": [],
+      "excerpt": "the unsexy secret behind everything that works."
     }
   },
   "folders": {
@@ -337,6 +414,7 @@
       "4. loving": {
         "folders": {},
         "notes": [
+          "4. loving/ogilvy creative process",
           "4. loving/miles davis",
           "4. loving/david ogilvy"
         ]
@@ -360,6 +438,7 @@
       "1. thinking": {
         "folders": {},
         "notes": [
+          "1. thinking/thinking-in-public",
           "1. thinking/the map is not the territory",
           "1. thinking/splitting",
           "1. thinking/read old notes",
@@ -367,7 +446,8 @@
           "1. thinking/making effective connections",
           "1. thinking/linking is thinking",
           "1. thinking/integration",
-          "1. thinking/evergreen notes are for thinking"
+          "1. thinking/evergreen notes are for thinking",
+          "1. thinking/consistency"
         ]
       }
     },
@@ -376,10 +456,10 @@
     ]
   },
   "stats": {
-    "total": 17,
-    "links": 47,
-    "seedling": 1,
+    "total": 20,
+    "links": 66,
+    "seedling": 3,
     "growing": 10,
-    "evergreen": 6
+    "evergreen": 7
   }
 }
