@@ -54,7 +54,7 @@
                     // Initialize Firebase with defaults
                     window.db.ref('updates').set(defaultSiteUpdates);
                 }
-                if (document.getElementById('updates').style.display === 'block') {
+                if (document.getElementById('updates').style.display === 'flex') {
                     renderUpdates();
                 }
             });
@@ -99,7 +99,7 @@
 
         function openWindow(id) {
             const win = document.getElementById(id);
-            win.style.display = 'block';
+            win.style.display = 'flex';
             openWindows.add(id);
             minimizedWindows.delete(id);
             setActiveWindow(id);
@@ -136,7 +136,7 @@
 
         function restoreWindow(id) {
             const win = document.getElementById(id);
-            win.style.display = 'block';
+            win.style.display = 'flex';
             minimizedWindows.delete(id);
             setActiveWindow(id);
             updateTaskbar();
@@ -164,7 +164,7 @@
             container.innerHTML = '';
 
             document.querySelectorAll('.window').forEach(win => {
-                const isVisible = win.style.display === 'block';
+                const isVisible = win.style.display === 'flex';
                 const isMinimized = minimizedWindows.has(win.id);
 
                 if (isVisible || isMinimized) {
