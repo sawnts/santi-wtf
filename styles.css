@@ -1290,10 +1290,10 @@
             color: #000;
         }
 
-        /* Garden Window */
+        /* Garden Window (no !important so mobile media query can override) */
         .garden-window {
-            min-width: 500px !important;
-            min-height: 400px !important;
+            min-width: 500px;
+            min-height: 400px;
         }
 
         .garden-window .window-content {
