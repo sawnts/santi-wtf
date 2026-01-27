@@ -24,7 +24,8 @@ wtf/
     ├── garden.js       # Garden functionality
     ├── build.js        # Build script to sync from Obsidian
     ├── content/        # Generated HTML from markdown
-    └── data/           # index.json with note metadata
+    ├── data/           # index.json with note metadata
+    └── images/         # Images copied from Obsidian vault during build
 ```
 
 ## Architecture
@@ -112,8 +113,9 @@ cd garden && npm run sync
 This runs `build.js` which:
 1. Reads markdown files from the Obsidian vault (`/Users/santi/Desktop/Areas/Jots/santi.wtf/public`)
 2. Converts them to HTML with wikilink support
-3. Generates `data/index.json` with note metadata, links, and backlinks
-4. Outputs HTML files to `content/`
+3. Converts `![[image.png]]` embeds to `<img>` tags and copies images to `images/`
+4. Generates `data/index.json` with note metadata, links, and backlinks
+5. Outputs HTML files to `content/`
 
 **Note frontmatter format:**
 ```yaml
@@ -132,6 +134,8 @@ tags: [tag1, tag2]
 - 🌲 evergreen — well-developed, stable concepts
 
 **Wikilinks:** Use `[[note-name]]` or `[[path/note-name|display text]]` format.
+
+**Image embeds:** Use `![[image.png]]` or `![[image.png|alt text]]` format. The build script searches for images in the vault root and `images/` subfolder, copies them to `garden/images/` with sanitized filenames (spaces to dashes, lowercase), and converts embeds to `<img>` tags.
 
 **Private files:** Files or folders starting with `_` are skipped by the build (e.g., `_template.md`, `_system/`).
 
