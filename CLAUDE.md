@@ -51,7 +51,7 @@ wtf/
 - Windows Explorer-styled interface for browsing interconnected notes
 - Runs as an iframe inside a draggable desktop window
 - Content synced from Obsidian vault via build script
-- Features: folder tree, wikilinks, backlinks, search, graph view, hover previews
+- Features: folder tree, wikilinks, backlinks, search, graph view, hover previews, mobile touch support
 - Resets to welcome page when window is closed and reopened
 
 ## Key Functions (in scripts.js)
@@ -164,6 +164,30 @@ reading: 1-21, 24
 ```
 
 Day reference: day 1 = jan 1, day 32 = feb 1, day 60 = mar 1, etc.
+
+## Mobile
+
+**Breakpoints:** 768px (mobile) and 480px (small phones).
+
+**Parent page (styles.css):**
+- Windows go fullscreen: `width: 100%; height: calc(100dvh - 44px)`
+- Desktop icons hidden, start menu full-width
+- Taskbar items hidden (use start menu instead)
+- Desktop padding removed on mobile
+- Z-index hierarchy: taskbar (2000) > start menu (2001) > active windows (1000)
+
+**Garden (garden.css / garden.js):**
+- Left pane becomes a slide-out drawer (hamburger button or swipe from left edge)
+- Menu bar, status bar, and address bar hidden on mobile
+- `html, body` constrained with `overflow: hidden; max-width: 100vw` (iOS Safari fix)
+- Graph view has full touch support: drag nodes, pan, pinch-to-zoom, double-tap to reset
+- Wikilink previews use long-press (500ms) instead of hover on touch devices
+- Swipe gestures: left edge → open drawer, swipe on content → history back/forward
+- Resize/orientation handler closes drawer when switching to desktop width
+- Habit tracker grid scrolls horizontally with larger cells (14px)
+- Uses `100dvh` instead of `100vh` to account for mobile browser chrome
+
+**Important:** Always use `!important` in mobile media query overrides for `.garden-window` since global rules in styles.css can override them due to cascade order.
 
 ## Local Development
 
