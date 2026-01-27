@@ -142,6 +142,17 @@ function renderTree() {
         });
     });
 
+    treeView.querySelectorAll('.tree-item:not([data-note])').forEach(item => {
+        item.addEventListener('click', (e) => {
+            const children = item.nextElementSibling;
+            if (children && children.classList.contains('tree-children')) {
+                children.classList.toggle('collapsed');
+                const toggle = item.querySelector('.tree-toggle');
+                if (toggle) toggle.textContent = children.classList.contains('collapsed') ? '+' : '-';
+            }
+        });
+    });
+
     treeView.querySelectorAll('.tree-item[data-note]').forEach(item => {
         item.addEventListener('click', () => {
             loadNote(item.dataset.note);
