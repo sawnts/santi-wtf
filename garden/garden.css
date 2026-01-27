@@ -1365,6 +1365,13 @@ body {
     .note-meta {
         padding: 10px;
         font-size: 12px;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 4px 12px;
+    }
+
+    .note-meta-item {
+        margin-right: 0;
     }
 
     /* Hide status bar on mobile */
