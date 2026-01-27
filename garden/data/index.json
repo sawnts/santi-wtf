@@ -33,7 +33,6 @@
       "links": [
         "4. loving/david ogilvy",
         "4. loving/david ogilvy",
-        "_creative-cross-pollination",
         "1. thinking/integration"
       ],
       "backlinks": [
@@ -90,7 +89,9 @@
         "habits"
       ],
       "links": [],
-      "backlinks": [],
+      "backlinks": [
+        "2. being/my favorite reads 2025"
+      ],
       "excerpt": "a garden grows one day at a time."
     },
     "3. doing/digital-garden": {
@@ -112,7 +113,6 @@
       "backlinks": [
         "index",
         "2. being/now",
-        "2. being/my brain, in html",
         "1. thinking/read old notes",
         "1. thinking/power-of-writing-online"
       ],
@@ -144,28 +144,13 @@
         "writing",
         "books"
       ],
-      "links": [],
+      "links": [
+        "3. doing/habit-tracker"
+      ],
       "backlinks": [
         "2. being/now"
       ],
       "excerpt": "the first one is 70 pages long. number two will get anybody out of a reading slump. the third one is its sequel. the fourth one is the only personal d"
-    },
-    "2. being/my brain, in html": {
-      "title": "my brain, in html",
-      "stage": "evergreen",
-      "planted": "2026-01-13T00:00:00.000Z",
-      "tended": "2026-01-26T00:00:00.000Z",
-      "tags": [
-        "digital-garden",
-        "writing",
-        "personal"
-      ],
-      "links": [
-        "3. doing/digital-garden",
-        "_thinking-in-public"
-      ],
-      "backlinks": [],
-      "excerpt": "the internet used to feel like exploring someone's brain."
     },
     "2. being/2026 lessons": {
       "title": "2026 lessons",
@@ -196,8 +181,7 @@
       ],
       "links": [
         "2. being/2026 lessons",
-        "2. being/2026 lessons",
-        "why-i-use-obsidian"
+        "2. being/2026 lessons"
       ],
       "backlinks": [
         "2. being/2026 lessons"
@@ -215,9 +199,10 @@
       ],
       "links": [
         "1. thinking/integration",
+        "first-principles",
+        "5-whys",
         "4. loving/david ogilvy",
-        "1. thinking/integration",
-        "4. loving/david ogilvy"
+        "1. thinking/integration"
       ],
       "backlinks": [
         "index",
@@ -283,7 +268,7 @@
         "1. thinking/linking is thinking",
         "1. thinking/evergreen notes are for thinking"
       ],
-      "excerpt": "good links are like good friendships — they need shared context to mean something."
+      "excerpt": "good links are like good friendships. they need shared context to mean something."
     },
     "1. thinking/linking is thinking": {
       "title": "linking is thinking",
@@ -376,7 +361,6 @@
         "notes": [
           "2. being/now",
           "2. being/my favorite reads 2025",
-          "2. being/my brain, in html",
           "2. being/2026 lessons"
         ]
       },
@@ -399,10 +383,10 @@
     ]
   },
   "stats": {
-    "total": 18,
-    "links": 52,
+    "total": 17,
+    "links": 50,
     "seedling": 0,
     "growing": 10,
-    "evergreen": 8
+    "evergreen": 7
   }
 }
