@@ -92,10 +92,7 @@
         "habits"
       ],
       "links": [],
-      "backlinks": [
-        "2. being/my favorite reads 2025",
-        "1. thinking/consistency"
-      ],
+      "backlinks": [],
       "excerpt": "a garden grows one day at a time."
     },
     "3. doing/digital-garden": {
@@ -118,28 +115,10 @@
         "index",
         "2. being/now",
         "2. being/my brain, in html",
-        "1. thinking/thinking-in-public",
         "1. thinking/read old notes",
-        "1. thinking/power-of-writing-online",
-        "1. thinking/consistency"
-      ],
-      "excerpt": "this is a digital garden — a place for ideas to grow over time. here's how it works."
-    },
-    "2. being/soft guy era": {
-      "title": "soft guy era",
-      "stage": "seedling",
-      "planted": "2026-01-20T00:00:00.000Z",
-      "tended": "2026-01-20T00:00:00.000Z",
-      "tags": [
-        "personal"
-      ],
-      "links": [
         "1. thinking/power-of-writing-online"
       ],
-      "backlinks": [
-        "1. thinking/thinking-in-public"
-      ],
-      "excerpt": "what does it mean to stop performing and just be?"
+      "excerpt": "this is a digital garden — a place for ideas to grow over time. here's how it works."
     },
     "2. being/now": {
       "title": "now",
@@ -167,9 +146,7 @@
         "writing",
         "books"
       ],
-      "links": [
-        "3. doing/habit-tracker"
-      ],
+      "links": [],
       "backlinks": [
         "2. being/now"
       ],
@@ -187,7 +164,7 @@
       ],
       "links": [
         "3. doing/digital-garden",
-        "1. thinking/thinking-in-public"
+        "_thinking-in-public"
       ],
       "backlinks": [],
       "excerpt": "the internet used to feel like exploring someone's brain."
@@ -206,33 +183,9 @@
         "1. thinking/power-of-writing-online"
       ],
       "backlinks": [
-        "1. thinking/the map is not the territory",
-        "1. thinking/consistency"
+        "1. thinking/the map is not the territory"
       ],
       "excerpt": "a running list of things i'm learning this year. updated as life teaches me."
-    },
-    "1. thinking/thinking-in-public": {
-      "title": "thinking in public",
-      "stage": "seedling",
-      "planted": "2026-01-25T00:00:00.000Z",
-      "tended": "2026-01-25T00:00:00.000Z",
-      "tags": [
-        "writing",
-        "creativity"
-      ],
-      "links": [
-        "3. doing/digital-garden",
-        "1. thinking/linking is thinking",
-        "1. thinking/the map is not the territory",
-        "2. being/soft guy era",
-        "1. thinking/power-of-writing-online",
-        "3. doing/digital-garden",
-        "1. thinking/evergreen notes are for thinking"
-      ],
-      "backlinks": [
-        "2. being/my brain, in html"
-      ],
-      "excerpt": "sharing ideas before they're finished."
     },
     "1. thinking/the map is not the territory": {
       "title": "the map is not the territory",
@@ -249,8 +202,7 @@
         "why-i-use-obsidian"
       ],
       "backlinks": [
-        "2. being/2026 lessons",
-        "1. thinking/thinking-in-public"
+        "2. being/2026 lessons"
       ],
       "excerpt": "a mental model from Alfred Korzybski (1931): our representations of reality — maps, models, frameworks, other people's systems — are always abstractio"
     },
@@ -313,10 +265,7 @@
       "backlinks": [
         "index",
         "3. doing/digital-garden",
-        "2. being/soft guy era",
-        "2. being/2026 lessons",
-        "1. thinking/thinking-in-public",
-        "1. thinking/consistency"
+        "2. being/2026 lessons"
       ],
       "excerpt": "the person who can string together words that evoke emotion, facilitate insight, and entertain readers has a huge competitive advantage in today's dig"
     },
@@ -354,7 +303,6 @@
       ],
       "backlinks": [
         "3. doing/digital-garden",
-        "1. thinking/thinking-in-public",
         "1. thinking/power-of-writing-online",
         "1. thinking/evergreen notes are for thinking"
       ],
@@ -402,30 +350,10 @@
         "1. thinking/making effective connections"
       ],
       "backlinks": [
-        "1. thinking/thinking-in-public",
         "1. thinking/power-of-writing-online",
         "1. thinking/linking is thinking"
       ],
       "excerpt": "evergreen notes aren't content. they're tools for thought."
-    },
-    "1. thinking/consistency": {
-      "title": "consistency",
-      "stage": "seedling",
-      "planted": "2026-01-25T00:00:00.000Z",
-      "tended": "2026-01-25T00:00:00.000Z",
-      "tags": [
-        "creativity",
-        "habits"
-      ],
-      "links": [
-        "3. doing/habit-tracker",
-        "1. thinking/power-of-writing-online",
-        "3. doing/digital-garden",
-        "3. doing/habit-tracker",
-        "2. being/2026 lessons"
-      ],
-      "backlinks": [],
-      "excerpt": "the unsexy secret behind everything that works."
     }
   },
   "folders": {
@@ -448,7 +376,6 @@
       "2. being": {
         "folders": {},
         "notes": [
-          "2. being/soft guy era",
           "2. being/now",
           "2. being/my favorite reads 2025",
           "2. being/my brain, in html",
@@ -458,7 +385,6 @@
       "1. thinking": {
         "folders": {},
         "notes": [
-          "1. thinking/thinking-in-public",
           "1. thinking/the map is not the territory",
           "1. thinking/splitting",
           "1. thinking/read old notes",
@@ -466,8 +392,7 @@
           "1. thinking/making effective connections",
           "1. thinking/linking is thinking",
           "1. thinking/integration",
-          "1. thinking/evergreen notes are for thinking",
-          "1. thinking/consistency"
+          "1. thinking/evergreen notes are for thinking"
         ]
       }
     },
@@ -476,9 +401,9 @@
     ]
   },
   "stats": {
-    "total": 21,
-    "links": 68,
-    "seedling": 3,
+    "total": 18,
+    "links": 54,
+    "seedling": 0,
     "growing": 10,
     "evergreen": 8
   }
