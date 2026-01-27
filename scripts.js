@@ -217,8 +217,8 @@
             document.getElementById('subscribe-message').innerHTML = subscribeMessages[source];
             document.getElementById('subscribe-dialog-title').textContent = source === 'shutdown' ? 'Shut Down' : 'Newsletter';
             document.getElementById('subscribe-dialog-icon').innerHTML = source === 'shutdown'
-                ? '<img src="icons/shut_down_normal-1.png" alt="">'
-                : '<img src="icons/envelope_closed-1.png" alt="">';
+                ? '<img src="/icons/shut_down_normal-1.png" alt="">'
+                : '<img src="/icons/envelope_closed-1.png" alt="">';
             document.getElementById('shutdown-overlay').classList.add('open');
         }
 
