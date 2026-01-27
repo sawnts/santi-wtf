@@ -91,10 +91,7 @@
         "projects",
         "habits"
       ],
-      "links": [
-        "1. thinking/power-of-writing-online",
-        "3. doing/digital-garden"
-      ],
+      "links": [],
       "backlinks": [
         "2. being/my favorite reads 2025",
         "1. thinking/consistency"
@@ -105,7 +102,7 @@
       "title": "digital garden",
       "stage": "growing",
       "planted": "2026-01-24T00:00:00.000Z",
-      "tended": "2026-01-24T00:00:00.000Z",
+      "tended": "2026-01-25T00:00:00.000Z",
       "tags": [
         "projects",
         "meta"
@@ -119,7 +116,6 @@
       ],
       "backlinks": [
         "index",
-        "3. doing/habit-tracker",
         "2. being/now",
         "2. being/my brain, in html",
         "1. thinking/thinking-in-public",
@@ -316,7 +312,6 @@
       ],
       "backlinks": [
         "index",
-        "3. doing/habit-tracker",
         "3. doing/digital-garden",
         "2. being/soft guy era",
         "2. being/2026 lessons",
@@ -482,7 +477,7 @@
   },
   "stats": {
     "total": 21,
-    "links": 70,
+    "links": 68,
     "seedling": 3,
     "growing": 10,
     "evergreen": 8
