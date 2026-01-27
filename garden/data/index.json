@@ -10,6 +10,7 @@
       ],
       "links": [
         "1. thinking/power-of-writing-online",
+        "3. doing/digital-garden",
         "1. thinking/integration",
         "1. thinking/integration",
         "1. thinking/splitting",
@@ -117,8 +118,10 @@
         "1. thinking/power-of-writing-online"
       ],
       "backlinks": [
+        "index",
         "3. doing/habit-tracker",
         "2. being/now",
+        "2. being/my brain, in html",
         "1. thinking/thinking-in-public",
         "1. thinking/read old notes",
         "1. thinking/power-of-writing-online",
@@ -176,6 +179,23 @@
       ],
       "excerpt": "the first one is 70 pages long. number two will get anybody out of a reading slump. the third one is its sequel. the fourth one is the only personal d"
     },
+    "2. being/my brain, in html": {
+      "title": "my brain, in html",
+      "stage": "evergreen",
+      "planted": "2026-01-13T00:00:00.000Z",
+      "tended": "2026-01-26T00:00:00.000Z",
+      "tags": [
+        "digital-garden",
+        "writing",
+        "personal"
+      ],
+      "links": [
+        "3. doing/digital-garden",
+        "1. thinking/thinking-in-public"
+      ],
+      "backlinks": [],
+      "excerpt": "the internet used to feel like exploring someone's brain."
+    },
     "2. being/2026 lessons": {
       "title": "2026 lessons",
       "stage": "growing",
@@ -187,7 +207,6 @@
       ],
       "links": [
         "1. thinking/the map is not the territory",
-        "why-i-use-obsidian",
         "1. thinking/power-of-writing-online"
       ],
       "backlinks": [
@@ -214,7 +233,9 @@
         "3. doing/digital-garden",
         "1. thinking/evergreen notes are for thinking"
       ],
-      "backlinks": [],
+      "backlinks": [
+        "2. being/my brain, in html"
+      ],
       "excerpt": "sharing ideas before they're finished."
     },
     "1. thinking/the map is not the territory": {
@@ -288,6 +309,8 @@
         "creativity"
       ],
       "links": [
+        "1. thinking/linking is thinking",
+        "writing-is-thinking-on-paper",
         "1. thinking/evergreen notes are for thinking",
         "3. doing/digital-garden"
       ],
@@ -337,6 +360,7 @@
       "backlinks": [
         "3. doing/digital-garden",
         "1. thinking/thinking-in-public",
+        "1. thinking/power-of-writing-online",
         "1. thinking/evergreen notes are for thinking"
       ],
       "excerpt": "good ideas don't live in isolation. they live in relationship."
@@ -432,6 +456,7 @@
           "2. being/soft guy era",
           "2. being/now",
           "2. being/my favorite reads 2025",
+          "2. being/my brain, in html",
           "2. being/2026 lessons"
         ]
       },
@@ -456,10 +481,10 @@
     ]
   },
   "stats": {
-    "total": 20,
-    "links": 66,
+    "total": 21,
+    "links": 70,
     "seedling": 3,
     "growing": 10,
-    "evergreen": 7
+    "evergreen": 8
   }
 }
