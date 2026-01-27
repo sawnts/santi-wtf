@@ -271,6 +271,7 @@
             background: #c0c0c0;
             border-top: 2px solid #fff;
             display: flex;
+            z-index: 2000;
             align-items: center;
             padding: 2px;
             gap: 2px;
@@ -349,6 +350,7 @@
             border: 2px solid;
             border-color: #dfdfdf #000 #000 #dfdfdf;
             display: none;
+            z-index: 2001;
         }
 
         .start-menu.open {
