@@ -19,6 +19,7 @@ const { glob } = require('glob');
 // config
 const OUTPUT_DIR = path.join(__dirname, 'content');
 const DATA_DIR = path.join(__dirname, 'data');
+const IMAGES_DIR = path.join(__dirname, 'images');
 
 // get source path from args
 const sourcePath = process.argv[2];
@@ -33,6 +34,9 @@ if (!fs.existsSync(sourcePath)) {
     process.exit(1);
 }
 
+// vault root is the parent of the source path (for finding images/attachments)
+const vaultRoot = path.dirname(sourcePath);
+
 console.log(`building garden from: ${sourcePath}`);
 
 // ensure output directories exist
@@ -41,6 +45,9 @@ if (!fs.existsSync(OUTPUT_DIR)) {
 }
 if (!fs.existsSync(DATA_DIR)) {
     fs.mkdirSync(DATA_DIR, { recursive: true });
+}
+if (!fs.existsSync(IMAGES_DIR)) {
+    fs.mkdirSync(IMAGES_DIR, { recursive: true });
 }
 
 // clear existing content
@@ -126,9 +133,9 @@ mdFiles.forEach(filePath => {
         console.log(`  → found habit tracker config with ${frontmatter.habits.length} habits`);
     }
 
-    // extract wikilinks
+    // extract wikilinks (skip image embeds prefixed with !)
     const wikilinks = [];
-    const wikilinkRegex = /\[\[([^\]|]+)(?:\|([^\]]+))?\]\]/g;
+    const wikilinkRegex = /(?<!!)\[\[([^\]|]+)(?:\|([^\]]+))?\]\]/g;
     let match;
     while ((match = wikilinkRegex.exec(markdown)) !== null) {
         wikilinks.push(match[1].toLowerCase().replace(/\s+/g, '-'));
@@ -158,6 +165,25 @@ mdFiles.forEach(filePath => {
 // second pass: convert markdown to html with resolved links
 Object.entries(rawContent).forEach(([noteId, markdown]) => {
     console.log(`processing: ${noteId}`);
+
+    // convert image embeds to standard markdown images before marked processes them
+    const imageExtensions = /\.(png|jpg|jpeg|gif|webp|svg)$/i;
+    markdown = markdown.replace(/!\[\[([^\]|]+)(?:\|([^\]]+))?\]\]/g, (match, target, altText) => {
+        if (!imageExtensions.test(target)) return match; // not an image, leave for wikilink handling
+        const imageSource = findImage(target);
+        if (imageSource) {
+            const safeFilename = target.replace(/\s+/g, '-').replace(/-{2,}/g, '-').toLowerCase();
+            const destPath = path.join(IMAGES_DIR, safeFilename);
+            if (!fs.existsSync(destPath)) {
+                fs.copyFileSync(imageSource, destPath);
+                console.log(`  → copied image: ${target} → images/${safeFilename}`);
+            }
+            const alt = altText || target.replace(/\.[^.]+$/, '');
+            return `![${alt}](/garden/images/${safeFilename})`;
+        }
+        console.log(`  ⚠ image not found: ${target}`);
+        return match;
+    });
 
     // convert markdown to html
     let html = marked(markdown);
@@ -260,6 +286,22 @@ function addToFolderTree(noteId, tree) {
 
     // add note to final folder
     current.notes.push(noteId);
+}
+
+// helper: find image file in vault
+function findImage(imageName) {
+    const searchPaths = [
+        path.join(vaultRoot, imageName),
+        path.join(vaultRoot, 'images', imageName),
+        path.join(sourcePath, imageName),
+    ];
+
+    for (const searchPath of searchPaths) {
+        if (fs.existsSync(searchPath)) {
+            return searchPath;
+        }
+    }
+    return null;
 }
 
 // helper: find note id by partial match
