@@ -862,6 +862,7 @@ body {
     width: 100%;
     height: 100%;
     cursor: grab;
+    touch-action: none;
 }
 
 #graph-canvas:active {
@@ -1240,7 +1241,7 @@ body {
         left: 0;
         width: 280px;
         max-width: 85vw;
-        height: 100vh;
+        height: 100dvh;
         z-index: 1000;
         transform: translateX(-100%);
         transition: transform 0.25s ease-out;
@@ -1335,12 +1336,14 @@ body {
         display: none;
     }
 
-    /* Hide address bar on mobile */
-    .address-bar {
+    /* Hide address bar and menu bar on mobile */
+    .address-bar,
+    .menu-bar {
         display: none;
     }
 
     .note-content {
+        touch-action: pan-y;
         padding: 20px 16px;
         font-size: 15px;
         line-height: 1.6;
@@ -1364,18 +1367,34 @@ body {
         font-size: 12px;
     }
 
-    /* Status bar */
+    /* Hide status bar on mobile */
     .status-bar {
-        font-size: 10px;
-        padding: 4px 8px;
+        display: none;
     }
 
     /* Graph dialog - fullscreen on mobile */
     .graph-dialog {
         width: 100vw;
-        height: 100vh;
+        height: 100dvh;
         max-width: none;
         max-height: none;
+    }
+
+    /* Habit tracker - larger cells and horizontal scroll */
+    .garden-grid {
+        overflow-x: auto;
+        flex-wrap: nowrap;
+    }
+
+    .garden-cell {
+        width: 14px;
+        height: 14px;
+        flex-shrink: 0;
+    }
+
+    .habit-day {
+        width: 14px;
+        height: 14px;
     }
 
     /* Search/filter dialogs */
@@ -1383,6 +1402,26 @@ body {
     .filter-dialog {
         width: 95vw;
         max-width: none;
+    }
+}
+
+/* Small phones */
+@media (max-width: 480px) {
+    .note-content {
+        padding: 16px 12px;
+    }
+
+    .note-content h1 {
+        font-size: 20px;
+    }
+
+    .note-content h2 {
+        font-size: 16px;
+    }
+
+    .toolbar button {
+        height: 24px;
+        padding: 0 6px;
     }
 }
 

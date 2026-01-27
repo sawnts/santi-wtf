@@ -55,6 +55,8 @@ async function init() {
     collapseAllFolders(); // Start with folders collapsed
     setupPaneResize();
     setupHoverPreviews();
+    setupSwipeGestures();
+    setupResizeHandler();
 
     // Check for path from parent window (via sessionStorage)
     let notePath = null;
@@ -397,6 +399,11 @@ function setupWikilinkHandlers(container) {
     container.querySelectorAll('.wikilink').forEach(link => {
         link.addEventListener('click', (e) => {
             e.preventDefault();
+            // Skip navigation if long-press preview was just shown
+            if (longPressShown) {
+                longPressShown = false;
+                return;
+            }
             hidePreview();
             const noteId = link.dataset.note;
             if (noteId) {
@@ -920,6 +927,118 @@ function initGraph() {
         graphState.transform.scale = newScale;
     };
 
+    // Touch events for mobile
+    let lastTapTime = 0;
+    let pinchStartDist = 0;
+
+    canvas.ontouchstart = (e) => {
+        const rect = canvas.getBoundingClientRect();
+
+        if (e.touches.length === 2) {
+            // Pinch start
+            const dx = e.touches[0].clientX - e.touches[1].clientX;
+            const dy = e.touches[0].clientY - e.touches[1].clientY;
+            pinchStartDist = Math.sqrt(dx * dx + dy * dy);
+            graphState.dragging = null;
+            return;
+        }
+
+        const touch = e.touches[0];
+        const screenX = touch.clientX - rect.left;
+        const screenY = touch.clientY - rect.top;
+        const { x: gx, y: gy } = toGraphCoords(screenX, screenY);
+
+        dragStartX = screenX;
+        dragStartY = screenY;
+        didDrag = false;
+
+        // Double-tap detection
+        const now = performance.now();
+        if (now - lastTapTime < 300) {
+            if (!findNodeAt(gx, gy)) {
+                graphState.transform = { x: 0, y: 0, scale: 1 };
+            }
+            lastTapTime = 0;
+            return;
+        }
+        lastTapTime = now;
+
+        const node = findNodeAt(gx, gy);
+        if (node) {
+            graphState.dragging = node;
+            graphState.alpha = 0.8;
+        } else {
+            graphState.panning = true;
+            graphState.panStart = { x: screenX, y: screenY };
+        }
+    };
+
+    canvas.ontouchmove = (e) => {
+        e.preventDefault();
+        const rect = canvas.getBoundingClientRect();
+
+        if (e.touches.length === 2 && pinchStartDist > 0) {
+            // Pinch zoom
+            const dx = e.touches[0].clientX - e.touches[1].clientX;
+            const dy = e.touches[0].clientY - e.touches[1].clientY;
+            const dist = Math.sqrt(dx * dx + dy * dy);
+            const zoomFactor = dist / pinchStartDist;
+            pinchStartDist = dist;
+
+            const midX = (e.touches[0].clientX + e.touches[1].clientX) / 2 - rect.left;
+            const midY = (e.touches[0].clientY + e.touches[1].clientY) / 2 - rect.top;
+
+            const newScale = Math.max(0.5, Math.min(2, graphState.transform.scale * zoomFactor));
+            const scaleDiff = newScale - graphState.transform.scale;
+            graphState.transform.x -= midX * scaleDiff / graphState.transform.scale;
+            graphState.transform.y -= midY * scaleDiff / graphState.transform.scale;
+            graphState.transform.scale = newScale;
+            return;
+        }
+
+        if (e.touches.length !== 1) return;
+        const touch = e.touches[0];
+        const screenX = touch.clientX - rect.left;
+        const screenY = touch.clientY - rect.top;
+        const { x: gx, y: gy } = toGraphCoords(screenX, screenY);
+
+        if (graphState.dragging) {
+            const movedX = Math.abs(screenX - dragStartX);
+            const movedY = Math.abs(screenY - dragStartY);
+            if (movedX > 5 || movedY > 5) {
+                didDrag = true;
+            }
+            graphState.dragging.x = gx;
+            graphState.dragging.y = gy;
+            graphState.dragging.vx = 0;
+            graphState.dragging.vy = 0;
+        } else if (graphState.panning) {
+            const dx = screenX - graphState.panStart.x;
+            const dy = screenY - graphState.panStart.y;
+            graphState.transform.x += dx;
+            graphState.transform.y += dy;
+            graphState.panStart = { x: screenX, y: screenY };
+            didDrag = true;
+        }
+    };
+
+    canvas.ontouchend = (e) => {
+        if (e.touches.length > 0) return; // still touching with another finger
+
+        if (graphState.dragging && !didDrag) {
+            const node = graphState.dragging;
+            graphState.clickFeedback = { node, startTime: performance.now() };
+            setTimeout(() => {
+                closeGraph();
+                loadNote(node.id);
+            }, 100);
+        }
+
+        graphState.dragging = null;
+        graphState.panning = false;
+        pinchStartDist = 0;
+    };
+
     // Escape key to close
     const handleKeyDown = (e) => {
         if (e.key === 'Escape') {
@@ -1202,7 +1321,12 @@ function loadRandom() {
 }
 
 // hover previews
+let longPressTimer = null;
+let longPressShown = false;
+let longPressTouchStart = null;
+
 function setupHoverPreviews() {
+    // Desktop: mouse hover
     document.addEventListener('mouseover', (e) => {
         const link = e.target.closest('.wikilink');
         if (link && link.dataset.note) {
@@ -1224,9 +1348,44 @@ function setupHoverPreviews() {
             preview.style.top = (e.clientY + 15) + 'px';
         }
     });
+
+    // Mobile: long-press to preview
+    document.addEventListener('touchstart', (e) => {
+        const link = e.target.closest('.wikilink');
+        if (link && link.dataset.note) {
+            const touch = e.touches[0];
+            longPressTouchStart = { x: touch.clientX, y: touch.clientY };
+            longPressShown = false;
+            longPressTimer = setTimeout(() => {
+                showPreview(link, touch.clientX, touch.clientY);
+                longPressShown = true;
+            }, 500);
+        } else if (document.getElementById('hover-preview').style.display !== 'none') {
+            hidePreview();
+        }
+    }, { passive: true });
+
+    document.addEventListener('touchmove', (e) => {
+        if (longPressTimer && longPressTouchStart) {
+            const touch = e.touches[0];
+            const dx = Math.abs(touch.clientX - longPressTouchStart.x);
+            const dy = Math.abs(touch.clientY - longPressTouchStart.y);
+            if (dx > 10 || dy > 10) {
+                clearTimeout(longPressTimer);
+                longPressTimer = null;
+            }
+        }
+    }, { passive: true });
+
+    document.addEventListener('touchend', () => {
+        if (longPressTimer) {
+            clearTimeout(longPressTimer);
+            longPressTimer = null;
+        }
+    }, { passive: true });
 }
 
-function showPreview(link) {
+function showPreview(link, touchX, touchY) {
     const noteId = link.dataset.note;
     const note = gardenIndex.notes[noteId];
 
@@ -1238,6 +1397,12 @@ function showPreview(link) {
 
     titleEl.textContent = `${getStageIcon(note.stage)} ${note.title}`;
     excerptEl.textContent = note.excerpt || 'no preview available';
+
+    if (touchX !== undefined) {
+        // Position for mobile - above the touch point
+        preview.style.left = Math.min(touchX, window.innerWidth - 220) + 'px';
+        preview.style.top = Math.max(10, touchY - 80) + 'px';
+    }
 
     preview.style.display = 'block';
 }
@@ -1553,6 +1718,79 @@ async function renderHabitTracker() {
             <span>all</span>
         </div>
     `;
+}
+
+// swipe gestures for mobile
+function setupSwipeGestures() {
+    let swipeStart = null;
+    let swipeTarget = null;
+
+    document.addEventListener('touchstart', (e) => {
+        // Ignore if inside graph canvas
+        if (e.target.closest('#graph-canvas')) return;
+
+        const touch = e.touches[0];
+        swipeStart = { x: touch.clientX, y: touch.clientY };
+        swipeTarget = e.target;
+    }, { passive: true });
+
+    document.addEventListener('touchend', (e) => {
+        if (!swipeStart) return;
+
+        const touch = e.changedTouches[0];
+        const dx = touch.clientX - swipeStart.x;
+        const dy = touch.clientY - swipeStart.y;
+        const absDx = Math.abs(dx);
+        const absDy = Math.abs(dy);
+
+        // Must be more horizontal than vertical
+        if (absDx <= absDy) {
+            swipeStart = null;
+            return;
+        }
+
+        const isFromLeftEdge = swipeStart.x < 20;
+        const isOnContent = swipeTarget && swipeTarget.closest('.note-content');
+        const isOnOverlay = swipeTarget && swipeTarget.closest('.drawer-overlay');
+
+        // Swipe right from left edge → open drawer
+        if (dx > 50 && isFromLeftEdge && !drawerOpen) {
+            openDrawer();
+        }
+        // Swipe left on overlay → close drawer
+        else if (dx < -50 && (isOnOverlay || drawerOpen)) {
+            closeDrawer();
+        }
+        // Swipe right on content → go back
+        else if (dx > 80 && isOnContent && !isFromLeftEdge) {
+            goBack();
+        }
+        // Swipe left on content → go forward
+        else if (dx < -80 && isOnContent) {
+            goForward();
+        }
+
+        swipeStart = null;
+    }, { passive: true });
+}
+
+// resize handler for orientation changes
+function setupResizeHandler() {
+    let resizeTimer = null;
+    window.addEventListener('resize', () => {
+        clearTimeout(resizeTimer);
+        resizeTimer = setTimeout(() => {
+            if (window.innerWidth > 768 && drawerOpen) {
+                closeDrawer();
+                const leftPane = document.getElementById('left-pane');
+                const divider = document.getElementById('pane-divider');
+                if (!leftPaneHidden) {
+                    leftPane.style.display = '';
+                    divider.style.display = '';
+                }
+            }
+        }, 150);
+    });
 }
 
 // Initialize habit tracker on load
