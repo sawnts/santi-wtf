@@ -11,8 +11,15 @@ This is a static personal blog/website styled to look like Windows 98. The site 
 ```
 wtf/
 ├── index.html          # Main HTML - window markup, desktop layout
-├── styles.css          # All CSS - Windows 98 styling
-├── scripts.js          # All JavaScript - window management, navigation, chat
+├── styles.css          # All CSS - Windows 98 styling (uses CSS custom properties)
+├── scripts/            # Modular JavaScript (ES modules)
+│   ├── main.js         # Entry point - initializes all modules
+│   ├── windows.js      # Window management (open, close, drag, resize)
+│   ├── firebase.js     # Firebase chat and authentication
+│   ├── updates.js      # Site updates functionality
+│   ├── apps.js         # Application loaders, Clippy, dialogs
+│   └── routes.js       # URL routing and navigation
+├── scripts.js          # [LEGACY] Kept for reference, not used
 ├── 404.html            # GitHub Pages SPA redirect handler
 ├── now.html            # Legacy "Now" page (redirects to garden)
 ├── posts/              # Legacy blog posts (redirects to garden)
@@ -32,10 +39,28 @@ wtf/
 
 **Single-page application structure:**
 - `index.html` - Window markup and desktop layout only
-- `styles.css` - All Windows 98 styling (external file)
-- `scripts.js` - All JavaScript logic (external file)
+- `styles.css` - All Windows 98 styling with CSS custom properties (`:root` variables)
+- `scripts/` - Modular ES6 JavaScript:
+  - `main.js` - Entry point, imports all modules, exposes globals for HTML onclick handlers
+  - `windows.js` - Window management (open, close, minimize, drag, resize)
+  - `firebase.js` - Chat room, authentication, real-time updates
+  - `updates.js` - Site updates window functionality
+  - `apps.js` - Application loaders, Clippy, subscribe dialogs
+  - `routes.js` - URL routing and navigation
 - Simulates a desktop environment with draggable, resizable, and minimizable windows
 - The digital garden is the main content area, running as an iframe
+
+**CSS Custom Properties (in styles.css):**
+```css
+:root {
+    --win98-bg: #c0c0c0;
+    --win98-dark: #808080;
+    --win98-light: #dfdfdf;
+    --win98-blue: #000080;
+    --win98-highlight: #1084d0;
+    /* ... more tokens */
+}
+```
 
 **URL Routing:**
 - Uses pathname-based routing (`/garden`, `/garden/folder/note-name`, `/player`)
@@ -54,9 +79,9 @@ wtf/
 - Features: folder tree, wikilinks, backlinks, search, graph view, hover previews, mobile touch support
 - Resets to welcome page when window is closed and reopened
 
-## Key Functions (in scripts.js)
+## Key Functions
 
-**Window management:**
+**Window management (windows.js):**
 - `openWindow(id)` / `closeWindow(id)` - Show/hide window elements
 - `minimizeWindow(id)` / `restoreWindow(id)` - Minimize to taskbar / restore from taskbar
 - `setActiveWindow(id)` - Bring window to front and mark as active

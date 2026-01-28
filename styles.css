@@ -1,3 +1,36 @@
+        /* Windows 98 Design Tokens */
+        :root {
+            /* Core colors */
+            --win98-bg: #c0c0c0;
+            --win98-dark: #808080;
+            --win98-darker: #404040;
+            --win98-light: #dfdfdf;
+            --win98-white: #ffffff;
+            --win98-black: #000000;
+            
+            /* Accent colors */
+            --win98-blue: #000080;
+            --win98-highlight: #1084d0;
+            --win98-link: #0000ff;
+            
+            /* Desktop gradient */
+            --desktop-gradient: linear-gradient(180deg, #1084d0 0%, #0f6bb5 50%, #0e5a9e 100%);
+            
+            /* Borders (3D effect) */
+            --border-raised: #dfdfdf #808080 #808080 #dfdfdf;
+            --border-sunken: #808080 #dfdfdf #dfdfdf #808080;
+            
+            /* Typography */
+            --font-system: 'MS Sans Serif', Arial, sans-serif;
+            --font-mono: monospace;
+            
+            /* Sizing */
+            --taskbar-height: 28px;
+            --title-bar-height: 18px;
+            --icon-size: 32px;
+            --icon-size-small: 16px;
+        }
+
         * {
             margin: 0;
             padding: 0;
