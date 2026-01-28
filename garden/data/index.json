@@ -79,6 +79,22 @@
       ],
       "excerpt": "the father of advertising. insisted on research before creativity."
     },
+    "3. doing/tech no one needs but i can't live without": {
+      "title": "tech no one needs but i can't live without",
+      "stage": "growing",
+      "planted": "2026-01-28T00:00:00.000Z",
+      "tended": "2026-01-28T00:00:00.000Z",
+      "tags": [
+        "gear",
+        "technology",
+        "favorites"
+      ],
+      "links": [
+        "3. doing/digital-garden"
+      ],
+      "backlinks": [],
+      "excerpt": "i'm not a gadget person. i don't chase specs or wait in line for launches. but some things have quietly become pillars in my daily life — tools i'd ge"
+    },
     "3. doing/habit-tracker": {
       "title": "habit tracker",
       "stage": "evergreen",
@@ -112,6 +128,7 @@
       ],
       "backlinks": [
         "index",
+        "3. doing/tech no one needs but i can't live without",
         "2. being/now",
         "1. thinking/read old notes",
         "1. thinking/power-of-writing-online"
@@ -352,6 +369,7 @@
       "3. doing": {
         "folders": {},
         "notes": [
+          "3. doing/tech no one needs but i can't live without",
           "3. doing/habit-tracker",
           "3. doing/digital-garden"
         ]
@@ -383,10 +401,10 @@
     ]
   },
   "stats": {
-    "total": 17,
-    "links": 50,
+    "total": 18,
+    "links": 51,
     "seedling": 0,
-    "growing": 10,
+    "growing": 11,
     "evergreen": 7
   }
 }
