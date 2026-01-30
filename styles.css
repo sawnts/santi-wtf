@@ -43,7 +43,7 @@
 
         body {
             font-family: 'MS Sans Serif', Tahoma, Arial, sans-serif;
-            font-size: 11px;
+            font-size: 12px;
             overflow: hidden;
             width: 100%;
             background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100"><defs><filter id="noise"><feTurbulence baseFrequency="0.9" numOctaves="4"/><feColorMatrix values="0 0 0 0 0.4, 0 0 0 0 0.6, 0 0 0 0 0.9, 0 0 0 0.3 0"/></filter></defs><rect width="100" height="100" filter="url(%23noise)"/></svg>'),
@@ -52,11 +52,6 @@
             height: 100vh;
             cursor: default;
             user-select: none;
-            /* Disable font smoothing for authentic aliased look */
-            -webkit-font-smoothing: none;
-            -moz-osx-font-smoothing: grayscale;
-            font-smooth: never;
-            text-rendering: optimizeSpeed;
         }
 
         /* All images should be pixelated */
@@ -77,7 +72,7 @@
             bottom: 10px;
             right: 15px;
             font-family: var(--font-mono);
-            font-size: 11px;
+            font-size: 12px;
             color: #fff;
             text-shadow: 1px 1px 2px #000;
             opacity: 0.7;
@@ -110,7 +105,7 @@
 
         .icon-label {
             color: #fff;
-            font-size: 11px;
+            font-size: 12px;
             text-shadow: 1px 1px 2px #000;
             padding: 2px 4px;
         }
@@ -171,7 +166,7 @@
 
         .title-text {
             color: #fff;
-            font-size: 11px;
+            font-size: 12px;
             font-weight: bold;
             display: flex;
             align-items: center;
@@ -187,14 +182,14 @@
             gap: 2px;
         }
 
-        /* Title bar buttons - authentic Win98 sizing */
+        /* Title bar buttons - accessible sizing */
         .title-btn {
-            width: 16px;
-            height: 14px;
+            width: 22px;
+            height: 20px;
             background: #c0c0c0;
             border: 2px solid;
             border-color: #dfdfdf #808080 #808080 #dfdfdf;
-            font-size: 9px;
+            font-size: 12px;
             font-weight: bold;
             display: flex;
             align-items: center;
@@ -209,11 +204,11 @@
 
         .title-btn:disabled {
             cursor: default;
-            color: #808080;
+            color: #505050;
         }
 
         .title-btn:active:not(:disabled) {
-            border-color: #808080 #dfdfdf #dfdfdf #808080;
+            border-color: #505050 #dfdfdf #dfdfdf #808080;
         }
 
         /* Close button X glyph */
@@ -231,7 +226,7 @@
             background: #c0c0c0;
             border-bottom: 1px solid #808080;
             padding: 2px 4px;
-            font-size: 11px;
+            font-size: 12px;
         }
 
         .menu-item {
@@ -263,7 +258,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 10px;
+            font-size: 12px;
             font-family: inherit;
             padding: 0;
             margin: 0;
@@ -271,16 +266,16 @@
         }
 
         .toolbar-btn:active {
-            border-color: #808080 #dfdfdf #dfdfdf #808080;
+            border-color: #505050 #dfdfdf #dfdfdf #808080;
         }
 
         .address-bar {
             background: #fff;
             border: 2px solid;
-            border-color: #808080 #dfdfdf #dfdfdf #808080;
+            border-color: #505050 #dfdfdf #dfdfdf #808080;
             padding: 2px 4px;
             margin: 4px;
-            font-size: 11px;
+            font-size: 12px;
         }
 
         /* ============ WINDOW CONTENT ============ */
@@ -289,7 +284,7 @@
             height: calc(100% - 100px);
             overflow-y: auto;
             padding: 16px;
-            font-size: 11px;
+            font-size: 12px;
             line-height: 1.4;
             user-select: text;
         }
@@ -345,11 +340,11 @@
             gap: 4px;
             cursor: pointer;
             font-weight: bold;
-            font-size: 11px;
+            font-size: 12px;
         }
 
         .start-btn:active {
-            border-color: #808080 #dfdfdf #dfdfdf #808080;
+            border-color: #505050 #dfdfdf #dfdfdf #808080;
         }
 
         .start-icon {
@@ -372,12 +367,12 @@
             align-items: center;
             gap: 4px;
             cursor: pointer;
-            font-size: 11px;
+            font-size: 12px;
             max-width: 150px;
         }
 
         .taskbar-item.active {
-            border-color: #808080 #dfdfdf #dfdfdf #808080;
+            border-color: #505050 #dfdfdf #dfdfdf #808080;
         }
 
         .taskbar-icon {
@@ -390,11 +385,11 @@
             height: 22px;
             padding: 0 8px;
             border: 2px solid;
-            border-color: #808080 #dfdfdf #dfdfdf #808080;
+            border-color: #505050 #dfdfdf #dfdfdf #808080;
             display: flex;
             align-items: center;
             gap: 8px;
-            font-size: 11px;
+            font-size: 12px;
         }
 
         /* ============ START MENU ============ */
@@ -425,7 +420,7 @@
         .start-menu-item {
             padding: 4px 8px;
             cursor: pointer;
-            font-size: 11px;
+            font-size: 12px;
             display: flex;
             align-items: center;
             gap: 8px;
@@ -478,7 +473,7 @@
         }
 
         .shutdown-content p {
-            font-size: 11px;
+            font-size: 12px;
             margin-bottom: 12px;
             line-height: 1.5;
         }
@@ -495,13 +490,13 @@
             background: #c0c0c0;
             border: 2px solid;
             border-color: #dfdfdf #808080 #808080 #dfdfdf;
-            font-size: 11px;
+            font-size: 12px;
             font-family: 'MS Sans Serif', Tahoma, Arial, sans-serif;
             cursor: pointer;
         }
 
         .shutdown-btn:active {
-            border-color: #808080 #dfdfdf #dfdfdf #808080;
+            border-color: #505050 #dfdfdf #dfdfdf #808080;
         }
 
         /* ============ FORMS & INPUTS ============ */
@@ -514,10 +509,10 @@
         .newsletter-form input[type="email"] {
             flex: 1;
             padding: 4px 8px;
-            font-size: 11px;
+            font-size: 12px;
             font-family: 'MS Sans Serif', Tahoma, Arial, sans-serif;
             border: 2px solid;
-            border-color: #808080 #dfdfdf #dfdfdf #808080;
+            border-color: #505050 #dfdfdf #dfdfdf #808080;
             background: #fff;
             outline: none;
             -webkit-font-smoothing: none;
@@ -528,14 +523,14 @@
             background: #c0c0c0;
             border: 2px solid;
             border-color: #dfdfdf #808080 #808080 #dfdfdf;
-            font-size: 11px;
+            font-size: 12px;
             font-family: 'MS Sans Serif', Tahoma, Arial, sans-serif;
             cursor: pointer;
             -webkit-font-smoothing: none;
         }
 
         .newsletter-form button:active {
-            border-color: #808080 #dfdfdf #dfdfdf #808080;
+            border-color: #505050 #dfdfdf #dfdfdf #808080;
         }
 
         /* ============ CLIPPY ============ */
@@ -565,7 +560,7 @@
             margin-bottom: 8px;
             position: relative;
             width: 260px;
-            font-size: 11px;
+            font-size: 12px;
             box-shadow: 2px 2px 0 rgba(0,0,0,0.3);
         }
 
@@ -602,7 +597,7 @@
 
         .clippy-btn {
             padding: 4px 12px;
-            font-size: 11px;
+            font-size: 12px;
             background: #c0c0c0;
             border: 2px solid;
             border-color: #dfdfdf #808080 #808080 #dfdfdf;
@@ -612,7 +607,7 @@
         }
 
         .clippy-btn:active {
-            border-color: #808080 #dfdfdf #dfdfdf #808080;
+            border-color: #505050 #dfdfdf #dfdfdf #808080;
         }
 
         .clippy-btn.primary {
@@ -636,7 +631,7 @@
             right: 6px;
             font-size: 14px;
             cursor: pointer;
-            color: #666;
+            color: #505050;
         }
 
         .clippy-close:hover {
@@ -665,7 +660,7 @@
         .chat-status-box {
             background: #c0c0c0;
             border-bottom: 2px solid;
-            border-bottom-color: #808080;
+            border-bottom-color: #505050;
             padding: 8px;
             display: flex;
             align-items: center;
@@ -695,23 +690,23 @@
 
         .chat-status-name {
             font-weight: bold;
-            font-size: 11px;
+            font-size: 12px;
             color: #000080;
             margin-bottom: 2px;
         }
 
         .chat-status-message {
-            font-size: 11px;
+            font-size: 12px;
             color: #000;
             background: #fff;
             border: 2px solid;
-            border-color: #808080 #dfdfdf #dfdfdf #808080;
+            border-color: #505050 #dfdfdf #dfdfdf #808080;
             padding: 2px 8px;
         }
 
         .chat-status-lastseen {
-            font-size: 9px;
-            color: #808080;
+            font-size: 12px;
+            color: #505050;
             margin-top: 4px;
         }
 
@@ -728,7 +723,7 @@
         .chat-bubble {
             max-width: 85%;
             padding: 8px;
-            font-size: 11px;
+            font-size: 12px;
             position: relative;
             word-wrap: break-word;
             border: 2px solid;
@@ -757,7 +752,7 @@
 
         .chat-bubble-name {
             font-weight: bold;
-            font-size: 10px;
+            font-size: 12px;
         }
 
         .chat-bubble.visitor .chat-bubble-name {
@@ -769,7 +764,7 @@
         }
 
         .chat-bubble-time {
-            font-size: 9px;
+            font-size: 12px;
             opacity: 0.7;
             flex-shrink: 0;
         }
@@ -788,7 +783,7 @@
             border-color: #dfdfdf #808080 #808080 #dfdfdf;
             width: 16px;
             height: 14px;
-            font-size: 9px;
+            font-size: 12px;
             padding: 0;
             cursor: pointer;
             display: none;
@@ -797,7 +792,7 @@
         }
 
         .chat-bubble .chat-delete:active {
-            border-color: #808080 #dfdfdf #dfdfdf #808080;
+            border-color: #505050 #dfdfdf #dfdfdf #808080;
         }
 
         .admin-mode .chat-bubble .chat-delete {
@@ -819,8 +814,8 @@
             width: 80px;
             padding: 2px 8px;
             border: 2px solid;
-            border-color: #808080 #dfdfdf #dfdfdf #808080;
-            font-size: 11px;
+            border-color: #505050 #dfdfdf #dfdfdf #808080;
+            font-size: 12px;
             font-family: 'MS Sans Serif', Tahoma, sans-serif;
             background: #fff;
             -webkit-font-smoothing: none;
@@ -830,8 +825,8 @@
             flex: 1;
             padding: 2px 8px;
             border: 2px solid;
-            border-color: #808080 #dfdfdf #dfdfdf #808080;
-            font-size: 11px;
+            border-color: #505050 #dfdfdf #dfdfdf #808080;
+            font-size: 12px;
             font-family: 'MS Sans Serif', Tahoma, sans-serif;
             resize: none;
             background: #fff;
@@ -844,14 +839,14 @@
             border: 2px solid;
             border-color: #dfdfdf #808080 #808080 #dfdfdf;
             cursor: pointer;
-            font-size: 11px;
+            font-size: 12px;
             font-family: 'MS Sans Serif', Tahoma, sans-serif;
             font-weight: bold;
             -webkit-font-smoothing: none;
         }
 
         .chat-input-send:active {
-            border-color: #808080 #dfdfdf #dfdfdf #808080;
+            border-color: #505050 #dfdfdf #dfdfdf #808080;
         }
 
         .chat-admin-panel {
@@ -866,7 +861,7 @@
         }
 
         .chat-admin-title {
-            font-size: 10px;
+            font-size: 12px;
             font-weight: bold;
             color: #804000;
             margin-bottom: 8px;
@@ -887,8 +882,8 @@
             flex: 1;
             padding: 2px 8px;
             border: 2px solid;
-            border-color: #808080 #dfdfdf #dfdfdf #808080;
-            font-size: 11px;
+            border-color: #505050 #dfdfdf #dfdfdf #808080;
+            font-size: 12px;
             font-family: 'MS Sans Serif', Tahoma, sans-serif;
             background: #fff;
             -webkit-font-smoothing: none;
@@ -900,13 +895,13 @@
             border: 2px solid;
             border-color: #dfdfdf #808080 #808080 #dfdfdf;
             cursor: pointer;
-            font-size: 11px;
+            font-size: 12px;
             font-family: 'MS Sans Serif', Tahoma, sans-serif;
             -webkit-font-smoothing: none;
         }
 
         .chat-admin-btn:active {
-            border-color: #808080 #dfdfdf #dfdfdf #808080;
+            border-color: #505050 #dfdfdf #dfdfdf #808080;
         }
 
         .chat-admin-status-row {
@@ -917,10 +912,10 @@
 
         .chat-admin-status-select {
             padding: 2px 4px;
-            font-size: 11px;
+            font-size: 12px;
             font-family: 'MS Sans Serif', Tahoma, sans-serif;
             border: 2px solid;
-            border-color: #808080 #dfdfdf #dfdfdf #808080;
+            border-color: #505050 #dfdfdf #dfdfdf #808080;
             background: #fff;
             -webkit-font-smoothing: none;
         }
@@ -945,7 +940,7 @@
         .updates-window .window-content {
             background: #fff;
             font-family: 'MS Sans Serif', Tahoma, sans-serif;
-            font-size: 11px;
+            font-size: 12px;
             padding: 8px;
         }
 
@@ -961,7 +956,7 @@
         .update-date {
             color: #000080;
             font-weight: bold;
-            font-size: 11px;
+            font-size: 12px;
             margin-bottom: 4px;
         }
 
@@ -981,17 +976,17 @@
         .update-admin-input {
             flex: 1;
             font-family: 'MS Sans Serif', Tahoma, sans-serif;
-            font-size: 11px;
+            font-size: 12px;
             padding: 2px 8px;
             border: 2px solid;
-            border-color: #808080 #dfdfdf #dfdfdf #808080;
+            border-color: #505050 #dfdfdf #dfdfdf #808080;
             background: #fff;
             -webkit-font-smoothing: none;
         }
 
         .update-admin-btn {
             font-family: 'MS Sans Serif', Tahoma, sans-serif;
-            font-size: 11px;
+            font-size: 12px;
             padding: 2px 16px;
             background: #c0c0c0;
             border: 2px solid;
@@ -1001,7 +996,7 @@
         }
 
         .update-admin-btn:active {
-            border-color: #808080 #dfdfdf #dfdfdf #808080;
+            border-color: #505050 #dfdfdf #dfdfdf #808080;
         }
 
         .update-admin-actions {
@@ -1013,7 +1008,7 @@
         .update-edit-btn,
         .update-delete-btn {
             font-family: 'MS Sans Serif', Tahoma, sans-serif;
-            font-size: 9px;
+            font-size: 12px;
             padding: 1px 8px;
             background: #c0c0c0;
             border: 2px solid;
@@ -1024,7 +1019,7 @@
 
         .update-edit-btn:active,
         .update-delete-btn:active {
-            border-color: #808080 #dfdfdf #dfdfdf #808080;
+            border-color: #505050 #dfdfdf #dfdfdf #808080;
         }
 
         .update-delete-btn {
@@ -1048,7 +1043,7 @@
         }
 
         .mycomputer-label {
-            font-size: 11px;
+            font-size: 12px;
             margin-top: 4px;
             color: #000;
         }
@@ -1089,8 +1084,8 @@
         }
 
         .post .date {
-            color: #808080;
-            font-size: 11px;
+            color: #505050;
+            font-size: 12px;
             margin-top: 24px;
         }
 
@@ -1133,14 +1128,14 @@
             height: auto;
             margin: 8px 0;
             border: 2px solid;
-            border-color: #808080 #dfdfdf #dfdfdf #808080;
+            border-color: #505050 #dfdfdf #dfdfdf #808080;
         }
 
         .post code {
             font-family: 'Courier New', monospace;
             background: #c0c0c0;
             padding: 1px 4px;
-            font-size: 11px;
+            font-size: 12px;
         }
 
         .post pre {
@@ -1148,7 +1143,7 @@
             padding: 8px;
             overflow-x: auto;
             border: 2px solid;
-            border-color: #808080 #dfdfdf #dfdfdf #808080;
+            border-color: #505050 #dfdfdf #dfdfdf #808080;
             margin: 8px 0;
         }
 
@@ -1161,8 +1156,8 @@
             margin-top: 24px;
             padding-top: 8px;
             border-top: 2px solid #c0c0c0;
-            font-size: 11px;
-            color: #808080;
+            font-size: 12px;
+            color: #505050;
         }
 
         .post-footer a {
@@ -1199,8 +1194,8 @@
         }
 
         *:focus {
-            outline: 2px dotted #000;
-            outline-offset: 1px;
+            outline: 3px solid #000080;
+            outline-offset: 2px;
         }
 
         *:focus:not(:focus-visible) {
@@ -1208,8 +1203,8 @@
         }
 
         *:focus-visible {
-            outline: 2px dotted #000;
-            outline-offset: 1px;
+            outline: 3px solid #000080;
+            outline-offset: 2px;
         }
 
         .title-btn:focus-visible,
@@ -1366,6 +1361,6 @@
             }
 
             .title-text span {
-                font-size: 11px;
+                font-size: 12px;
             }
         }

@@ -40,35 +40,35 @@
     <a href="#blog-content" class="skip-link">Skip to main content</a>
     <main>
     <div class="desktop" id="desktop">
-        <div class="icon" style="left: 10px; top: 10px;" onclick="openWindow('mycomputer')">
+        <div tabindex="0" class="icon" style="left: 10px; top: 10px;" onclick="openWindow('mycomputer')">
             <div class="icon-img"><img src="/icons/computer_explorer-0.png" alt="My Computer"></div>
             <div class="icon-label">My Computer</div>
         </div>
-        <div class="icon" style="left: 10px; top: 90px;" onclick="openSubscribeDialog()">
+        <div tabindex="0" class="icon" style="left: 10px; top: 90px;" onclick="openSubscribeDialog()">
             <div class="icon-img"><img src="/icons/envelope_closed-0.png" alt="Newsletter"></div>
             <div class="icon-label">Newsletter</div>
         </div>
-        <div class="icon" style="left: 10px; top: 170px;" onclick="openWindow('chat')">
+        <div tabindex="0" class="icon" style="left: 10px; top: 170px;" onclick="openWindow('chat')">
             <div class="icon-img"><img src="/icons/users-0.png" alt="Chat"></div>
             <div class="icon-label">Chat</div>
         </div>
-        <div class="icon" style="left: 10px; top: 250px;" onclick="openWindow('player')">
+        <div tabindex="0" class="icon" style="left: 10px; top: 250px;" onclick="openWindow('player')">
             <div class="icon-img"><img src="/icons/Spotify_23464.png" alt="Spotify"></div>
             <div class="icon-label">Spotify</div>
         </div>
-        <div class="icon" style="left: 10px; top: 330px;" onclick="openWindow('applications')">
+        <div tabindex="0" class="icon" style="left: 10px; top: 330px;" onclick="openWindow('applications')">
             <div class="icon-img"><img src="/icons/directory_closed-0.png" alt="Applications"></div>
             <div class="icon-label">Applications</div>
         </div>
-        <div class="icon" style="left: 10px; top: 410px;" onclick="openWindow('updates')">
+        <div tabindex="0" class="icon" style="left: 10px; top: 410px;" onclick="openWindow('updates')">
             <div class="icon-img"><img src="/icons/notepad-0.png" alt="Updates"></div>
             <div class="icon-label">Updates</div>
         </div>
-        <div class="icon" style="left: 10px; top: 490px;" onclick="openWindow('garden')">
+        <div tabindex="0" class="icon" style="left: 10px; top: 490px;" onclick="openWindow('garden')">
             <div class="icon-img"><img src="/icons/tree-0.png" alt="Garden"></div>
             <div class="icon-label">Garden</div>
         </div>
-        <div class="icon" style="left: 10px; top: 570px;" onclick="openWindow('now')">
+        <div tabindex="0" class="icon" style="left: 10px; top: 570px;" onclick="openWindow('now')">
             <div class="icon-img"><img src="/icons/computer_taskmgr-0.png" alt="Now"></div>
             <div class="icon-label">Now</div>
         </div>
@@ -99,12 +99,12 @@
                         <option value="away">away</option>
                     </select>
                     <label for="admin-status-message" class="sr-only">Status message</label>
-                    <input type="text" id="admin-status-message" class="chat-admin-input" placeholder="status message...">
+                    <input type="text" id="admin-status-message" class="chat-admin-input" placeholder="status message..." aria-label="Status message">
                     <button type="button" class="chat-admin-btn" onclick="updateStatus()">set</button>
                 </div>
                 <div class="chat-admin-row">
                     <label for="admin-chat-message" class="sr-only">Post message as owner</label>
-                    <input type="text" id="admin-chat-message" class="chat-admin-input" placeholder="post as santi...">
+                    <input type="text" id="admin-chat-message" class="chat-admin-input" placeholder="post as santi..." aria-label="Post message as owner">
                     <button type="button" class="chat-admin-btn" onclick="postAsOwner()">send</button>
                 </div>
             </div>
@@ -222,15 +222,15 @@
             </div>
         </div>
         <div class="window-content" style="height: calc(100% - 24px); display: flex; flex-wrap: wrap; gap: 20px; padding: 20px; align-content: flex-start;">
-            <div class="icon" style="position: static;" onclick="openWindow('flowgarden')">
+            <div tabindex="0" class="icon" style="position: static;" onclick="openWindow('flowgarden')">
                 <div class="icon-img"><img src="/icons/write_wordpad-0.png" alt=""></div>
                 <div class="icon-label" style="color: #000; text-shadow: none;">Flow Garden</div>
             </div>
-            <div class="icon" style="position: static;" onclick="openWindow('stickynotes')">
+            <div tabindex="0" class="icon" style="position: static;" onclick="openWindow('stickynotes')">
                 <div class="icon-img"><img src="/icons/note-0.png" alt=""></div>
                 <div class="icon-label" style="color: #000; text-shadow: none;">Sticky Notes</div>
             </div>
-            <div class="icon" style="position: static;" onclick="openWindow('pomodoro')">
+            <div tabindex="0" class="icon" style="position: static;" onclick="openWindow('pomodoro')">
                 <div class="icon-img"><img src="/icons/clock-0.png" alt=""></div>
                 <div class="icon-label" style="color: #000; text-shadow: none;">Pomodoro</div>
             </div>
@@ -392,8 +392,8 @@
             <span class="clippy-close" onclick="dismissClippy()">&times;</span>
             <p>It looks like you're enjoying the site! Want to get my latest posts in your inbox?</p>
             <div class="clippy-buttons">
-                <button class="clippy-btn primary" onclick="clippySubscribe()">Sure!</button>
-                <button class="clippy-btn" onclick="dismissClippy()">No thanks</button>
+                <button type="button" class="clippy-btn primary" onclick="clippySubscribe()">Sure!</button>
+                <button type="button" class="clippy-btn" onclick="dismissClippy()">No thanks</button>
             </div>
         </div>
         <div class="clippy-character" onclick="toggleClippyBubble()"><img src="/icons/msagent-4.png" alt="" style="width: 48px; height: 48px; image-rendering: pixelated;"></div>
@@ -422,7 +422,7 @@
                     <button type="submit">subscribe</button>
                 </form>
                 <div class="shutdown-buttons">
-                    <button class="shutdown-btn" onclick="closeShutdownDialog()">Maybe Later</button>
+                    <button type="button" class="shutdown-btn" onclick="closeShutdownDialog()">Maybe Later</button>
                 </div>
             </div>
         </div>

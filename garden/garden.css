@@ -14,7 +14,7 @@ html, body {
 
 body {
     font-family: 'MS Sans Serif', Tahoma, Arial, sans-serif;
-    font-size: 11px;
+    font-size: 12px;
     background: #c0c0c0;
     height: 100vh;
     cursor: default;
@@ -22,11 +22,6 @@ body {
     text-transform: lowercase;
     margin: 0;
     padding: 0;
-    /* Disable font smoothing for authentic aliased look */
-    -webkit-font-smoothing: none;
-    -moz-osx-font-smoothing: grayscale;
-    font-smooth: never;
-    text-rendering: optimizeSpeed;
 }
 
 img {
@@ -64,7 +59,7 @@ img {
 
 .title-bar-text {
     color: #fff;
-    font-size: 11px;
+    font-size: 12px;
     font-weight: bold;
     display: flex;
     align-items: center;
@@ -89,7 +84,7 @@ img {
     background: #c0c0c0;
     border: 1px solid;
     border-color: #fff #000 #000 #fff;
-    font-size: 9px;
+    font-size: 12px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -110,7 +105,7 @@ img {
     padding: 2px 4px;
     background: #c0c0c0;
     border-bottom: 1px solid #808080;
-    font-size: 11px;
+    font-size: 12px;
 }
 
 .menu-item {
@@ -146,7 +141,7 @@ img {
     justify-content: center;
     gap: 4px;
     padding: 0 8px;
-    font-size: 11px;
+    font-size: 12px;
     font-family: 'MS Sans Serif', Arial, sans-serif;
 }
 
@@ -160,7 +155,7 @@ img {
 }
 
 .toolbar-icon {
-    font-size: 11px;
+    font-size: 12px;
 }
 
 .toolbar-separator {
@@ -179,20 +174,20 @@ img {
     display: flex;
     align-items: center;
     gap: 4px;
-    font-size: 11px;
+    font-size: 12px;
 }
 
 .address-bar label {
-    font-size: 11px;
+    font-size: 12px;
 }
 
 .address-bar input {
     flex: 1;
     font-family: 'MS Sans Serif', Arial, sans-serif;
-    font-size: 11px;
+    font-size: 12px;
     padding: 2px 4px;
     border: 1px solid;
-    border-color: #808080 #dfdfdf #dfdfdf #808080;
+    border-color: #505050 #dfdfdf #dfdfdf #808080;
     background: #fff;
 }
 
@@ -202,7 +197,7 @@ img {
     background: #c0c0c0;
     border: 1px solid;
     border-color: #fff #000 #000 #fff;
-    font-size: 11px;
+    font-size: 12px;
     font-family: 'MS Sans Serif', Arial, sans-serif;
     cursor: pointer;
 }
@@ -217,7 +212,7 @@ img {
     display: flex;
     overflow: hidden;
     border: 1px solid;
-    border-color: #808080 #dfdfdf #dfdfdf #808080;
+    border-color: #505050 #dfdfdf #dfdfdf #808080;
     margin: 4px;
     background: #fff;
 }
@@ -236,7 +231,7 @@ img {
     padding: 4px 8px;
     background: #c0c0c0;
     font-weight: bold;
-    font-size: 11px;
+    font-size: 12px;
     border-bottom: 1px solid #808080;
     display: flex;
     justify-content: space-between;
@@ -254,7 +249,7 @@ img {
     background: #c0c0c0;
     border: 1px solid;
     border-color: #fff #000 #000 #fff;
-    font-size: 10px;
+    font-size: 12px;
     font-family: monospace;
     cursor: pointer;
     display: flex;
@@ -271,7 +266,7 @@ img {
     flex: 1;
     overflow: auto;
     padding: 4px;
-    font-size: 11px;
+    font-size: 12px;
     user-select: none;
 }
 
@@ -333,7 +328,7 @@ img {
     align-items: center;
     justify-content: center;
     font-family: monospace;
-    font-size: 10px;
+    font-size: 12px;
     cursor: pointer;
     flex-shrink: 0;
 }
@@ -477,7 +472,7 @@ img {
 
 /* Private links (notes outside public folder) */
 .wikilink-private {
-    color: #808080;
+    color: #505050;
     border-bottom: 1px dashed #808080;
     cursor: default;
 }
@@ -489,7 +484,7 @@ img {
     border: 1px solid #c0c0c0;
     padding: 1px 6px;
     margin: 2px;
-    font-size: 11px;
+    font-size: 12px;
     cursor: pointer;
     font-family: 'MS Sans Serif', Arial, sans-serif;
 }
@@ -504,7 +499,7 @@ img {
     padding: 8px 12px;
     background: #f5f5f5;
     border: 1px solid #ccc;
-    font-size: 11px;
+    font-size: 12px;
     font-family: 'MS Sans Serif', Arial, sans-serif;
 }
 
@@ -515,7 +510,7 @@ img {
 
 .note-meta-label {
     font-weight: bold;
-    color: #666;
+    color: #505050;
 }
 
 /* Backlinks Section */
@@ -526,8 +521,8 @@ img {
 }
 
 .backlinks summary {
-    font-size: 11px;
-    color: #666;
+    font-size: 12px;
+    color: #505050;
     cursor: pointer;
     font-family: 'MS Sans Serif', Arial, sans-serif;
     padding: 2px 0;
@@ -549,7 +544,7 @@ img {
 }
 
 .backlinks-list a {
-    font-size: 11px;
+    font-size: 12px;
 }
 
 /* Status Bar */
@@ -559,7 +554,7 @@ img {
     padding: 2px 4px;
     background: #c0c0c0;
     border-top: 1px solid #808080;
-    font-size: 11px;
+    font-size: 12px;
 }
 
 .status-section {
@@ -576,7 +571,7 @@ img {
 
 /* Loading State */
 .loading {
-    color: #808080;
+    color: #505050;
     font-style: italic;
     text-align: center;
     padding: 32px;
@@ -615,7 +610,7 @@ img {
 
 .window .title-bar-text {
     color: #fff;
-    font-size: 11px;
+    font-size: 12px;
     font-weight: bold;
 }
 
@@ -630,7 +625,7 @@ img {
     background: #c0c0c0;
     border: 1px solid;
     border-color: #fff #000 #000 #fff;
-    font-size: 9px;
+    font-size: 12px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -667,7 +662,7 @@ img {
     display: flex;
     align-items: center;
     gap: 8px;
-    font-size: 11px;
+    font-size: 12px;
 }
 
 .search-input-row label {
@@ -677,10 +672,10 @@ img {
 .search-input-row input {
     flex: 1;
     font-family: 'MS Sans Serif', Arial, sans-serif;
-    font-size: 11px;
+    font-size: 12px;
     padding: 3px 4px;
     border: 1px solid;
-    border-color: #808080 #dfdfdf #dfdfdf #808080;
+    border-color: #505050 #dfdfdf #dfdfdf #808080;
 }
 
 .search-results {
@@ -688,7 +683,7 @@ img {
     max-height: 300px;
     overflow: auto;
     border: 1px solid;
-    border-color: #808080 #dfdfdf #dfdfdf #808080;
+    border-color: #505050 #dfdfdf #dfdfdf #808080;
     background: #fff;
     padding: 4px;
 }
@@ -696,7 +691,7 @@ img {
 .search-result-item {
     padding: 4px 8px;
     cursor: pointer;
-    font-size: 11px;
+    font-size: 12px;
 }
 
 .search-result-item:hover {
@@ -709,8 +704,8 @@ img {
 }
 
 .search-result-path {
-    font-size: 10px;
-    color: #808080;
+    font-size: 12px;
+    color: #505050;
 }
 
 .search-result-item:hover .search-result-path {
@@ -728,7 +723,7 @@ img {
     background: #c0c0c0;
     border: 2px solid;
     border-color: #fff #000 #000 #fff;
-    font-size: 11px;
+    font-size: 12px;
     font-family: 'MS Sans Serif', Arial, sans-serif;
     cursor: pointer;
 }
@@ -777,16 +772,16 @@ img {
     display: flex;
     align-items: center;
     gap: 8px;
-    font-size: 11px;
+    font-size: 12px;
 }
 
 .filter-options select {
     flex: 1;
     font-family: 'MS Sans Serif', Arial, sans-serif;
-    font-size: 11px;
+    font-size: 12px;
     padding: 2px 4px;
     border: 1px solid;
-    border-color: #808080 #dfdfdf #dfdfdf #808080;
+    border-color: #505050 #dfdfdf #dfdfdf #808080;
     background: #fff;
 }
 
@@ -795,7 +790,7 @@ img {
     max-height: 300px;
     overflow: auto;
     border: 1px solid;
-    border-color: #808080 #dfdfdf #dfdfdf #808080;
+    border-color: #505050 #dfdfdf #dfdfdf #808080;
     background: #fff;
     padding: 4px;
 }
@@ -803,7 +798,7 @@ img {
 .filter-result-item {
     padding: 4px 8px;
     cursor: pointer;
-    font-size: 11px;
+    font-size: 12px;
 }
 
 .filter-result-item:hover {
@@ -816,8 +811,8 @@ img {
 }
 
 .filter-result-tags {
-    font-size: 10px;
-    color: #808080;
+    font-size: 12px;
+    color: #505050;
 }
 
 .filter-result-item:hover .filter-result-tags {
@@ -835,7 +830,7 @@ img {
     background: #c0c0c0;
     border: 2px solid;
     border-color: #fff #000 #000 #fff;
-    font-size: 11px;
+    font-size: 12px;
     font-family: 'MS Sans Serif', Arial, sans-serif;
     cursor: pointer;
 }
@@ -893,7 +888,7 @@ img {
     background: #ffffcc;
     border: 2px solid #000;
     padding: 8px;
-    font-size: 11px;
+    font-size: 12px;
     z-index: 2000;
     pointer-events: none;
     box-shadow: 2px 2px 0 rgba(0,0,0,0.3);
@@ -928,7 +923,7 @@ img {
 }
 
 .welcome-content .subtitle {
-    color: #666;
+    color: #505050;
     margin-bottom: 32px;
     font-style: italic;
 }
@@ -952,8 +947,8 @@ img {
 }
 
 .stat-label {
-    font-size: 11px;
-    color: #666;
+    font-size: 12px;
+    color: #505050;
     font-family: 'MS Sans Serif', Arial, sans-serif;
 }
 
@@ -1032,7 +1027,7 @@ img {
 
 /* No results message */
 .no-results {
-    color: #808080;
+    color: #505050;
     font-style: italic;
     text-align: center;
     padding: 16px;
@@ -1093,7 +1088,7 @@ img {
 .habit-card {
     background: #fff;
     border: 1px solid;
-    border-color: #808080 #dfdfdf #dfdfdf #808080;
+    border-color: #505050 #dfdfdf #dfdfdf #808080;
     padding: 8px;
     display: flex;
     flex-direction: column;
@@ -1105,7 +1100,7 @@ img {
 .habit-card.blooming,
 .habit-card.tree,
 .habit-card.ancient {
-    border-color: #808080 #dfdfdf #dfdfdf #808080;
+    border-color: #505050 #dfdfdf #dfdfdf #808080;
 }
 
 .habit-plant {
@@ -1116,7 +1111,7 @@ img {
 }
 
 .habit-card.seed .habit-plant {
-    color: #808080;
+    color: #505050;
 }
 
 .habit-info {
@@ -1125,18 +1120,18 @@ img {
 
 .habit-name {
     font-weight: bold;
-    font-size: 11px;
+    font-size: 12px;
     color: #000;
     text-transform: lowercase;
 }
 
 .habit-goal {
-    font-size: 10px;
-    color: #808080;
+    font-size: 12px;
+    color: #505050;
 }
 
 .habit-streak {
-    font-size: 10px;
+    font-size: 12px;
     color: #000080;
     margin-top: 2px;
 }
@@ -1153,7 +1148,7 @@ img {
     height: 10px;
     background: #c0c0c0;
     border: 1px solid;
-    border-color: #808080 #dfdfdf #dfdfdf #808080;
+    border-color: #505050 #dfdfdf #dfdfdf #808080;
     overflow: hidden;
 }
 
@@ -1163,7 +1158,7 @@ img {
 }
 
 .habit-progress-label {
-    font-size: 10px;
+    font-size: 12px;
     color: #000;
     min-width: 28px;
     text-align: right;
@@ -1195,7 +1190,7 @@ img {
 /* Status display (read-only) */
 .habit-status {
     padding: 2px 4px;
-    font-size: 10px;
+    font-size: 12px;
     text-align: center;
 }
 
@@ -1204,7 +1199,7 @@ img {
 }
 
 .habit-status.dry {
-    color: #808080;
+    color: #505050;
 }
 
 
@@ -1231,8 +1226,8 @@ img {
     display: flex;
     align-items: center;
     gap: 2px;
-    font-size: 10px;
-    color: #808080;
+    font-size: 12px;
+    color: #505050;
     justify-content: flex-end;
 }
 
@@ -1344,7 +1339,7 @@ img {
 
     .toolbar button {
         padding: 0 8px;
-        font-size: 11px;
+        font-size: 12px;
         height: 28px;
         flex-shrink: 0;
     }

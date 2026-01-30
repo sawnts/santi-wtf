@@ -26,9 +26,9 @@
                 <img src="/icons/tree-0.png" alt="" class="title-icon"> garden - windows explorer
             </div>
             <div class="title-bar-controls">
-                <button aria-label="Minimize">_</button>
-                <button aria-label="Maximize">□</button>
-                <button aria-label="Close" onclick="window.location.href='/'">×</button>
+                <button type="button" aria-label="Minimize">_</button>
+                <button type="button" aria-label="Maximize">□</button>
+                <button type="button" aria-label="Close" onclick="window.location.href='/'">×</button>
             </div>
         </div>
 
@@ -44,24 +44,24 @@
 
         <!-- Toolbar -->
         <div class="toolbar">
-            <button class="menu-toggle" onclick="toggleDrawer()" aria-label="Menu">☰</button>
-            <button id="btn-back" onclick="goBack()" disabled>
+            <button type="button" class="menu-toggle" onclick="toggleDrawer()" aria-label="Menu">☰</button>
+            <button type="button" id="btn-back" onclick="goBack()" disabled>
                 <span class="toolbar-icon">←</span> <span>back</span>
             </button>
-            <button id="btn-forward" onclick="goForward()" disabled>
+            <button type="button" id="btn-forward" onclick="goForward()" disabled>
                 <span class="toolbar-icon">→</span> <span>forward</span>
             </button>
-            <button id="btn-up" onclick="goUp()">
+            <button type="button" id="btn-up" onclick="goUp()">
                 <span class="toolbar-icon">↑</span> <span>up</span>
             </button>
             <div class="toolbar-separator"></div>
-            <button onclick="openSearch()">
+            <button type="button" onclick="openSearch()">
                 <span class="toolbar-icon">[?]</span> <span>find</span>
             </button>
-            <button onclick="openGraph()">
+            <button type="button" onclick="openGraph()">
                 <span class="toolbar-icon">[*]</span> <span>graph</span>
             </button>
-            <button onclick="loadRandom()">
+            <button type="button" onclick="loadRandom()">
                 <span class="toolbar-icon">[~]</span> <span>random</span>
             </button>
         </div>
@@ -70,7 +70,7 @@
         <div class="address-bar">
             <label for="address">address:</label>
             <input type="text" id="address" value="C:\garden\" readonly>
-            <button onclick="goToAddress()">go</button>
+            <button type="button" onclick="goToAddress()">go</button>
         </div>
 
         <!-- Drawer Overlay (mobile) -->
@@ -83,8 +83,8 @@
                 <div class="pane-header">
                     <span>folders</span>
                     <span class="pane-header-buttons">
-                        <button onclick="expandAllFolders()" title="expand all">+</button>
-                        <button onclick="collapseAllFolders()" title="collapse all">−</button>
+                        <button type="button" onclick="expandAllFolders()" title="expand all">+</button>
+                        <button type="button" onclick="collapseAllFolders()" title="collapse all">−</button>
                     </span>
                 </div>
                 <div class="tree-view" id="tree-view">
@@ -118,7 +118,7 @@
             <div class="title-bar">
                 <div class="title-bar-text">find in garden</div>
                 <div class="title-bar-controls">
-                    <button aria-label="Close" onclick="closeSearch()">×</button>
+                    <button type="button" aria-label="Close" onclick="closeSearch()">×</button>
                 </div>
             </div>
             <div class="window-body">
@@ -130,8 +130,8 @@
                     <!-- Search results will appear here -->
                 </div>
                 <div class="search-buttons">
-                    <button onclick="performSearch()">find now</button>
-                    <button onclick="closeSearch()">cancel</button>
+                    <button type="button" onclick="performSearch()">find now</button>
+                    <button type="button" onclick="closeSearch()">cancel</button>
                 </div>
             </div>
         </div>
@@ -143,7 +143,7 @@
             <div class="title-bar">
                 <div class="title-bar-text">garden graph</div>
                 <div class="title-bar-controls">
-                    <button aria-label="Close" onclick="closeGraph()">×</button>
+                    <button type="button" aria-label="Close" onclick="closeGraph()">×</button>
                 </div>
             </div>
             <div class="window-body">
@@ -158,7 +158,7 @@
             <div class="title-bar">
                 <div class="title-bar-text">filter notes</div>
                 <div class="title-bar-controls">
-                    <button aria-label="Close" onclick="closeFilter()">×</button>
+                    <button type="button" aria-label="Close" onclick="closeFilter()">×</button>
                 </div>
             </div>
             <div class="window-body">
@@ -175,7 +175,7 @@
                     <!-- Filtered results will appear here -->
                 </div>
                 <div class="filter-buttons">
-                    <button onclick="closeFilter()">close</button>
+                    <button type="button" onclick="closeFilter()">close</button>
                 </div>
             </div>
         </div>
