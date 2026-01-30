@@ -30,13 +30,10 @@
     <!-- Preconnect to external domains -->
     <link rel="preconnect" href="https://www.gstatic.com" crossorigin>
     <link rel="preconnect" href="https://santi-guestbook-default-rtdb.firebaseio.com" crossorigin>
-    <link rel="dns-prefetch" href="https://subscribe-forms.beehiiv.com">
     <!-- Firebase SDK - deferred to not block rendering -->
     <script defer src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
     <script defer src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
     <script defer src="https://www.gstatic.com/firebasejs/10.7.1/firebase-database-compat.js"></script>
-    <!-- Beehiiv -->
-    <script async src="https://subscribe-forms.beehiiv.com/embed.js"></script>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -385,15 +382,16 @@
             </div>
             <div class="shutdown-content">
                 <p id="subscribe-message"><strong>Wait! Before you go...</strong><br>Subscribe to get my latest thoughts delivered straight to your inbox.</p>
-                <iframe
-                    src="https://subscribe-forms.beehiiv.com/31d4bffd-241f-42e3-82b3-6d084ef26221"
-                    class="beehiiv-embed"
-                    data-test-id="beehiiv-embed"
-                    title="Newsletter subscription form"
-                    frameborder="0"
-                    scrolling="no"
-                    style="height: 40px;">
-                </iframe>
+                <form
+                    action="https://buttondown.com/api/emails/embed-subscribe/sawnts"
+                    method="post"
+                    class="newsletter-form"
+                    target="_blank"
+                >
+                    <input type="email" name="email" placeholder="you@example.com" required />
+                    <input type="hidden" value="1" name="embed" />
+                    <button type="submit">subscribe</button>
+                </form>
                 <div class="shutdown-buttons">
                     <button class="shutdown-btn" onclick="closeShutdownDialog()">Maybe Later</button>
                 </div>

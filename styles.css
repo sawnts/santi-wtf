@@ -461,13 +461,6 @@
             line-height: 1.5;
         }
 
-        .shutdown-content .beehiiv-embed {
-            width: 100% !important;
-            max-width: 100% !important;
-            border: 1px solid #808080;
-            background: #fff;
-        }
-
         .shutdown-buttons {
             display: flex;
             justify-content: center;
@@ -486,6 +479,38 @@
         }
 
         .shutdown-btn:active {
+            border-color: #000 #fff #fff #000;
+        }
+
+        /* Newsletter Form */
+        .newsletter-form {
+            display: flex;
+            gap: 8px;
+            margin: 12px 0;
+        }
+
+        .newsletter-form input[type="email"] {
+            flex: 1;
+            padding: 4px 8px;
+            font-size: 11px;
+            font-family: 'MS Sans Serif', Arial, sans-serif;
+            border: 2px solid;
+            border-color: #808080 #fff #fff #808080;
+            background: #fff;
+            outline: none;
+        }
+
+        .newsletter-form button {
+            padding: 4px 16px;
+            background: #c0c0c0;
+            border: 2px solid;
+            border-color: #fff #000 #000 #fff;
+            font-size: 11px;
+            font-family: 'MS Sans Serif', Arial, sans-serif;
+            cursor: pointer;
+        }
+
+        .newsletter-form button:active {
             border-color: #000 #fff #fff #000;
         }
 
