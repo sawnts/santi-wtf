@@ -6,6 +6,8 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 This is a static personal blog/website styled to look like Windows 98. The site runs entirely in the browser with no build process or dependencies. Firebase is used for the real-time chat feature.
 
+**Key Principle: Obsidian is the source of truth.** All content lives in the Obsidian vault (`/Users/santi/Desktop/Areas/Jots/santi.wtf/public`). The site pulls from it via `npm run sync`. Never hardcode content that should come from Obsidian.
+
 ## File Structure
 
 ```
@@ -164,14 +166,21 @@ tags: [tag1, tag2]
 
 **Private files:** Files or folders starting with `_` are skipped by the build (e.g., `_template.md`, `_system/`).
 
-**Habit Tracker:**
-The habit tracker is a special note type that renders a visual tracker from Obsidian data.
+**Now Dashboard (`now.md`):**
+The now page is the source of truth for dashboard data. All dynamic content is in the frontmatter:
 
-Frontmatter format:
 ```yaml
 ---
-title: habit tracker
-type: habit-tracker
+title: now
+location: seattle, wa
+# status: override automatic status (optional)
+reading:
+  title: book title
+  author: author name
+  progress: 76
+mood: building
+energy: 7
+caffeine: 2
 habits:
   - name: meditation
     goal: daily stillness
@@ -180,7 +189,7 @@ habits:
 ---
 ```
 
-Completion data in body (using day-of-year numbers, supports ranges):
+Habit completion data in body (using day-of-year numbers, supports ranges):
 ```
 \`\`\`habits
 meditation: 1-14, 24
@@ -189,6 +198,8 @@ reading: 1-21, 24
 ```
 
 Day reference: day 1 = jan 1, day 32 = feb 1, day 60 = mar 1, etc.
+
+The build script extracts this to `garden/data/now-data.json` and `garden/data/habits-config.json`.
 
 ## Mobile
 
@@ -216,11 +227,13 @@ Day reference: day 1 = jan 1, day 32 = feb 1, day 60 = mar 1, etc.
 
 ## Local Development
 
-Test locally before pushing:
+**⚠️ ALWAYS test locally before pushing. No exceptions.**
+
 ```bash
-python3 -m http.server 8080
+cd ~/Projects/santi-wtf && python3 -m http.server 8000
 ```
-Then open `localhost:8080`. The Beehiiv newsletter form won't load if you open index.html directly as a file.
+
+Then open `localhost:8000`. Let Santi review changes before committing.
 
 ## Deployment
 
@@ -230,6 +243,24 @@ git add .
 git commit -m "description"
 git push
 ```
+
+**Workflow:**
+1. Make changes
+2. Start local server
+3. Tell Santi to test at localhost:8000
+4. Wait for approval
+5. Only then commit and push
+
+## Accessibility
+
+The site balances Win98 aesthetics with accessibility:
+- Base font: 12px minimum (not smaller)
+- Text contrast: #505050 on gray backgrounds (not #808080)
+- Focus indicators: 3px solid blue outline
+- All buttons have `type="button"`
+- Form inputs have aria-labels
+- Desktop icons are keyboard-accessible (tabindex)
+- No font-smoothing disabled (was removed for readability)
 
 ## Security Notes
 
