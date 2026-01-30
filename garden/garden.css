@@ -13,7 +13,8 @@ html, body {
 }
 
 body {
-    font-family: 'MS Sans Serif', Arial, sans-serif;
+    font-family: 'MS Sans Serif', Tahoma, Arial, sans-serif;
+    font-size: 11px;
     background: #c0c0c0;
     height: 100vh;
     cursor: default;
@@ -21,6 +22,17 @@ body {
     text-transform: lowercase;
     margin: 0;
     padding: 0;
+    /* Disable font smoothing for authentic aliased look */
+    -webkit-font-smoothing: none;
+    -moz-osx-font-smoothing: grayscale;
+    font-smooth: never;
+    text-rendering: optimizeSpeed;
+}
+
+img {
+    image-rendering: pixelated;
+    image-rendering: crisp-edges;
+    -ms-interpolation-mode: nearest-neighbor;
 }
 
 /* Main Explorer Window */

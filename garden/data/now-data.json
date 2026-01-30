@@ -1,0 +1,13 @@
+{
+  "location": "seattle, wa",
+  "status": null,
+  "reading": {
+    "title": "morning star",
+    "author": "pierce brown",
+    "progress": 45
+  },
+  "mood": "building 🔨",
+  "energy": 6,
+  "caffeine": 2,
+  "tended": "2026-01-29T00:00:00.000Z"
+}

@@ -68,6 +68,7 @@ const filenameLookup = {};
 
 // special content types
 let habitsConfig = null;
+let nowData = null;
 
 // first pass: collect all notes and build lookup table
 mdFiles.forEach(filePath => {
@@ -131,6 +132,20 @@ mdFiles.forEach(filePath => {
             habits: processedHabits
         };
         console.log(`  → found habit tracker config with ${frontmatter.habits.length} habits`);
+    }
+
+    // check for now page with dashboard data
+    if (frontmatter.title === 'now' || noteId.endsWith('/now') || noteId === 'now') {
+        nowData = {
+            location: frontmatter.location || 'seattle, wa',
+            status: frontmatter.status || null,
+            reading: frontmatter.reading || null,
+            mood: frontmatter.mood || null,
+            energy: frontmatter.energy || null,
+            caffeine: frontmatter.caffeine || null,
+            tended: frontmatter.tended || null
+        };
+        console.log(`  → found now page with dashboard data`);
     }
 
     // extract wikilinks (skip image embeds prefixed with !)
@@ -263,6 +278,12 @@ fs.writeFileSync(path.join(DATA_DIR, 'index.json'), JSON.stringify(index, null, 
 if (habitsConfig) {
     fs.writeFileSync(path.join(DATA_DIR, 'habits-config.json'), JSON.stringify(habitsConfig, null, 2));
     console.log(`\nhabits config saved: ${habitsConfig.habits.length} habits`);
+}
+
+// write now-data.json if found
+if (nowData) {
+    fs.writeFileSync(path.join(DATA_DIR, 'now-data.json'), JSON.stringify(nowData, null, 2));
+    console.log(`now data saved: ${nowData.location}${nowData.status ? ' | ' + nowData.status : ''}`);
 }
 
 console.log(`\nbuild complete!`);

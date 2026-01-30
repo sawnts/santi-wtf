@@ -68,6 +68,10 @@
             <div class="icon-img"><img src="/icons/tree-0.png" alt="Garden"></div>
             <div class="icon-label">Garden</div>
         </div>
+        <div class="icon" style="left: 10px; top: 570px;" onclick="openWindow('now')">
+            <div class="icon-img"><img src="/icons/computer_taskmgr-0.png" alt="Now"></div>
+            <div class="icon-label">Now</div>
+        </div>
         <div class="desktop-watermark">made with <span style="color: #ff0000;">♥</span> in seattle</div>
     </div>
 
@@ -195,6 +199,10 @@
             <div class="mycomputer-item" onclick="openSubscribeDialog()">
                 <div class="icon-img"><img src="/icons/newspaper.png" alt=""></div>
                 <div class="mycomputer-label">newsletter</div>
+            </div>
+            <div class="mycomputer-item" onclick="openWindow('now')">
+                <div class="icon-img"><img src="/icons/computer_taskmgr-0.png" alt=""></div>
+                <div class="mycomputer-label">now</div>
             </div>
         </div>
         <div class="resize-handle" onmousedown="resizeStart(event, 'mycomputer')"></div>
@@ -329,6 +337,29 @@
         <div class="resize-handle" onmousedown="resizeStart(event, 'garden')"></div>
     </div>
 
+    <!-- Now Dashboard Window -->
+    <div class="window" id="now" style="width: 720px; height: 600px; left: 15vw; top: 50px;">
+        <div class="title-bar" onmousedown="dragStart(event, 'now')">
+            <div class="title-text">
+                <div class="title-icon"><img src="/icons/computer_taskmgr-0.png" alt="Now"></div>
+                <span>now - system monitor</span>
+            </div>
+            <div class="title-buttons">
+                <button type="button" class="title-btn" onclick="minimizeWindow('now')" aria-label="Minimize window">_</button>
+                <button type="button" class="title-btn" aria-label="Maximize window (disabled)" disabled>□</button>
+                <button type="button" class="title-btn" onclick="closeWindow('now')" aria-label="Close window">✕</button>
+            </div>
+        </div>
+        <div class="window-content" id="now-content" style="height: calc(100% - 24px); padding: 0; overflow: hidden;">
+            <iframe
+                src="/now-dashboard.html"
+                style="width: 100%; height: 100%; border: none;"
+                title="Now Dashboard">
+            </iframe>
+        </div>
+        <div class="resize-handle" onmousedown="resizeStart(event, 'now')"></div>
+    </div>
+
     <!-- Taskbar -->
     <div class="taskbar">
         <div class="start-btn" onclick="toggleStartMenu()">
@@ -337,7 +368,6 @@
         </div>
         <div class="taskbar-items" id="taskbar-items"></div>
         <div class="system-tray">
-            <span>🔊</span>
             <span id="clock">7:08 PM</span>
         </div>
     </div>
@@ -351,6 +381,7 @@
         <div class="start-menu-item" onclick="openWindow('player')"><img src="/icons/Spotify_23464.png" alt="">Spotify</div>
         <div class="start-menu-item" onclick="openWindow('applications')"><img src="/icons/directory_closed-1.png" alt="">Applications</div>
         <div class="start-menu-item" onclick="openWindow('updates')"><img src="/icons/notepad-1.png" alt="">Updates</div>
+        <div class="start-menu-item" onclick="openWindow('now')"><img src="/icons/computer_taskmgr-0.png" alt="">Now</div>
         <div style="border-top: 1px solid #808080; margin: 2px 0;"></div>
         <div class="start-menu-item" onclick="openShutdownDialog()"><img src="/icons/shut_down_normal-1.png" alt="">Shut Down...</div>
     </div>

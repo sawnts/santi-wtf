@@ -13,22 +13,21 @@
             --win98-highlight: #1084d0;
             --win98-link: #0000ff;
             
-            /* Desktop gradient */
-            --desktop-gradient: linear-gradient(180deg, #1084d0 0%, #0f6bb5 50%, #0e5a9e 100%);
-            
-            /* Borders (3D effect) */
-            --border-raised: #dfdfdf #808080 #808080 #dfdfdf;
-            --border-sunken: #808080 #dfdfdf #dfdfdf #808080;
+            /* Borders (3D effect) - outset: light top/left, dark bottom/right */
+            --border-outset: #dfdfdf #808080 #808080 #dfdfdf;
+            /* inset: dark top/left, light bottom/right */
+            --border-inset: #808080 #dfdfdf #dfdfdf #808080;
             
             /* Typography */
-            --font-system: 'MS Sans Serif', Arial, sans-serif;
-            --font-mono: monospace;
+            --font-system: 'MS Sans Serif', Tahoma, Arial, sans-serif;
+            --font-mono: 'Courier New', monospace;
             
             /* Sizing */
             --taskbar-height: 28px;
             --title-bar-height: 18px;
             --icon-size: 32px;
             --icon-size-small: 16px;
+            --gutter: 8px;
         }
 
         * {
@@ -43,7 +42,8 @@
         }
 
         body {
-            font-family: 'MS Sans Serif', Arial, sans-serif;
+            font-family: 'MS Sans Serif', Tahoma, Arial, sans-serif;
+            font-size: 11px;
             overflow: hidden;
             width: 100%;
             background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100"><defs><filter id="noise"><feTurbulence baseFrequency="0.9" numOctaves="4"/><feColorMatrix values="0 0 0 0 0.4, 0 0 0 0 0.6, 0 0 0 0 0.9, 0 0 0 0.3 0"/></filter></defs><rect width="100" height="100" filter="url(%23noise)"/></svg>'),
@@ -52,10 +52,22 @@
             height: 100vh;
             cursor: default;
             user-select: none;
+            /* Disable font smoothing for authentic aliased look */
+            -webkit-font-smoothing: none;
+            -moz-osx-font-smoothing: grayscale;
+            font-smooth: never;
+            text-rendering: optimizeSpeed;
+        }
+
+        /* All images should be pixelated */
+        img {
+            image-rendering: pixelated;
+            image-rendering: crisp-edges;
+            -ms-interpolation-mode: nearest-neighbor;
         }
 
         .desktop {
-            height: calc(100vh - 28px);
+            height: calc(100vh - var(--taskbar-height));
             padding: 10px;
             position: relative;
         }
@@ -64,13 +76,14 @@
             position: absolute;
             bottom: 10px;
             right: 15px;
-            font-family: monospace;
+            font-family: var(--font-mono);
             font-size: 11px;
             color: #fff;
-            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+            text-shadow: 1px 1px 2px #000;
             opacity: 0.7;
         }
 
+        /* ============ ICONS ============ */
         .icon {
             width: 70px;
             text-align: center;
@@ -80,7 +93,6 @@
         }
 
         .icon-img {
-            font-size: 32px;
             margin: 0 auto 4px;
             text-align: center;
             line-height: 1;
@@ -89,17 +101,11 @@
         .icon-img img {
             width: 32px;
             height: 32px;
-            image-rendering: pixelated;
-            image-rendering: crisp-edges;
-            -ms-interpolation-mode: nearest-neighbor;
         }
 
         .title-icon img {
             width: 16px;
             height: 16px;
-            image-rendering: pixelated;
-            image-rendering: crisp-edges;
-            -ms-interpolation-mode: nearest-neighbor;
         }
 
         .icon-label {
@@ -113,6 +119,7 @@
             background: #000080;
         }
 
+        /* ============ WINDOWS ============ */
         .window {
             position: absolute;
             background: #c0c0c0;
@@ -120,7 +127,7 @@
             border-color: #dfdfdf #808080 #808080 #dfdfdf;
             min-width: 400px;
             min-height: 200px;
-            box-shadow: 2px 2px 0 rgba(0,0,0,0.2);
+            box-shadow: 2px 2px 0 rgba(0,0,0,0.25);
             display: none;
             resize: both;
             overflow: hidden;
@@ -147,13 +154,15 @@
             z-index: 1000;
         }
 
+        /* ============ TITLE BAR ============ */
         .title-bar {
             background: linear-gradient(90deg, #000080, #1084d0);
-            padding: 2px 4px;
+            padding: 2px 3px;
             display: flex;
             justify-content: space-between;
             align-items: center;
             cursor: default;
+            height: 20px;
         }
 
         .window:not(.active) .title-bar {
@@ -170,7 +179,6 @@
         }
 
         .title-icon {
-            font-size: 14px;
             line-height: 1;
         }
 
@@ -179,32 +187,46 @@
             gap: 2px;
         }
 
+        /* Title bar buttons - authentic Win98 sizing */
         .title-btn {
             width: 16px;
             height: 14px;
             background: #c0c0c0;
-            border: 1px solid;
-            border-color: #fff #000 #000 #fff;
+            border: 2px solid;
+            border-color: #dfdfdf #808080 #808080 #dfdfdf;
             font-size: 9px;
+            font-weight: bold;
             display: flex;
             align-items: center;
             justify-content: center;
             cursor: pointer;
-            font-weight: bold;
-            font-family: inherit;
+            font-family: 'Marlett', Arial, sans-serif;
             padding: 0;
             margin: 0;
-            color: inherit;
+            color: #000;
+            line-height: 1;
         }
+
         .title-btn:disabled {
             cursor: default;
-            opacity: 0.7;
+            color: #808080;
         }
 
-        .title-btn:active {
-            border-color: #000 #fff #fff #000;
+        .title-btn:active:not(:disabled) {
+            border-color: #808080 #dfdfdf #dfdfdf #808080;
         }
 
+        /* Close button X glyph */
+        .title-btn-close::before {
+            content: '';
+            width: 7px;
+            height: 7px;
+            background: 
+                linear-gradient(45deg, transparent 45%, #000 45%, #000 55%, transparent 55%),
+                linear-gradient(-45deg, transparent 45%, #000 45%, #000 55%, transparent 55%);
+        }
+
+        /* ============ MENU & TOOLBAR ============ */
         .menu-bar {
             background: #c0c0c0;
             border-bottom: 1px solid #808080;
@@ -214,7 +236,7 @@
 
         .menu-item {
             display: inline-block;
-            padding: 2px 6px;
+            padding: 2px 8px;
             cursor: pointer;
         }
 
@@ -235,8 +257,8 @@
             width: 24px;
             height: 22px;
             background: #c0c0c0;
-            border: 1px solid;
-            border-color: #fff #000 #000 #fff;
+            border: 2px solid;
+            border-color: #dfdfdf #808080 #808080 #dfdfdf;
             cursor: pointer;
             display: flex;
             align-items: center;
@@ -249,41 +271,42 @@
         }
 
         .toolbar-btn:active {
-            border-color: #000 #fff #fff #000;
+            border-color: #808080 #dfdfdf #dfdfdf #808080;
         }
 
         .address-bar {
             background: #fff;
-            border: 1px solid;
+            border: 2px solid;
             border-color: #808080 #dfdfdf #dfdfdf #808080;
-            padding: 3px 4px;
+            padding: 2px 4px;
             margin: 4px;
             font-size: 11px;
         }
 
+        /* ============ WINDOW CONTENT ============ */
         .window-content {
             background: #fff;
             height: calc(100% - 100px);
             overflow-y: auto;
-            padding: 20px;
-            font-size: 12px;
+            padding: 16px;
+            font-size: 11px;
             line-height: 1.4;
             user-select: text;
         }
 
         .window-content p {
-            margin-bottom: 16px;
+            margin-bottom: 12px;
         }
 
         .window-content h1 {
-            font-size: 24px;
-            margin-bottom: 12px;
+            font-size: 18px;
+            margin-bottom: 8px;
             text-align: center;
         }
 
         .window-content h2 {
-            font-size: 18px;
-            margin: 24px 0 12px;
+            font-size: 14px;
+            margin: 16px 0 8px;
         }
 
         .window-content a {
@@ -295,14 +318,15 @@
             color: #800080;
         }
 
+        /* ============ TASKBAR ============ */
         .taskbar {
             position: fixed;
             bottom: 0;
             left: 0;
             right: 0;
-            height: 28px;
+            height: var(--taskbar-height);
             background: #c0c0c0;
-            border-top: 2px solid #fff;
+            border-top: 2px solid #dfdfdf;
             display: flex;
             z-index: 2000;
             align-items: center;
@@ -311,11 +335,11 @@
         }
 
         .start-btn {
-            height: 24px;
-            padding: 0 6px;
+            height: 22px;
+            padding: 0 8px;
             background: #c0c0c0;
-            border: 1px solid;
-            border-color: #fff #000 #000 #fff;
+            border: 2px solid;
+            border-color: #dfdfdf #808080 #808080 #dfdfdf;
             display: flex;
             align-items: center;
             gap: 4px;
@@ -325,11 +349,10 @@
         }
 
         .start-btn:active {
-            border-color: #000 #fff #fff #000;
+            border-color: #808080 #dfdfdf #dfdfdf #808080;
         }
 
         .start-icon {
-            font-size: 16px;
             line-height: 1;
         }
 
@@ -343,8 +366,8 @@
             height: 22px;
             padding: 0 8px;
             background: #c0c0c0;
-            border: 1px solid;
-            border-color: #fff #000 #000 #fff;
+            border: 2px solid;
+            border-color: #dfdfdf #808080 #808080 #dfdfdf;
             display: flex;
             align-items: center;
             gap: 4px;
@@ -354,7 +377,7 @@
         }
 
         .taskbar-item.active {
-            border-color: #000 #fff #fff #000;
+            border-color: #808080 #dfdfdf #dfdfdf #808080;
         }
 
         .taskbar-icon {
@@ -365,23 +388,24 @@
 
         .system-tray {
             height: 22px;
-            padding: 0 6px;
-            border: 1px solid;
+            padding: 0 8px;
+            border: 2px solid;
             border-color: #808080 #dfdfdf #dfdfdf #808080;
             display: flex;
             align-items: center;
-            gap: 4px;
+            gap: 8px;
             font-size: 11px;
         }
 
+        /* ============ START MENU ============ */
         .start-menu {
             position: fixed;
-            bottom: 28px;
+            bottom: var(--taskbar-height);
             left: 2px;
             width: 200px;
             background: #c0c0c0;
             border: 2px solid;
-            border-color: #dfdfdf #000 #000 #dfdfdf;
+            border-color: #dfdfdf #808080 #808080 #dfdfdf;
             display: none;
             z-index: 2001;
         }
@@ -399,7 +423,7 @@
         }
 
         .start-menu-item {
-            padding: 4px 8px 4px 8px;
+            padding: 4px 8px;
             cursor: pointer;
             font-size: 11px;
             display: flex;
@@ -415,11 +439,9 @@
         .start-menu-item img {
             width: 16px;
             height: 16px;
-            image-rendering: pixelated;
-            image-rendering: crisp-edges;
         }
 
-        /* Shut Down Dialog */
+        /* ============ DIALOGS ============ */
         .shutdown-overlay {
             position: fixed;
             top: 0;
@@ -456,8 +478,8 @@
         }
 
         .shutdown-content p {
-            font-size: 12px;
-            margin-bottom: 16px;
+            font-size: 11px;
+            margin-bottom: 12px;
             line-height: 1.5;
         }
 
@@ -472,17 +494,17 @@
             padding: 4px 16px;
             background: #c0c0c0;
             border: 2px solid;
-            border-color: #fff #000 #000 #fff;
+            border-color: #dfdfdf #808080 #808080 #dfdfdf;
             font-size: 11px;
-            font-family: 'MS Sans Serif', Arial, sans-serif;
+            font-family: 'MS Sans Serif', Tahoma, Arial, sans-serif;
             cursor: pointer;
         }
 
         .shutdown-btn:active {
-            border-color: #000 #fff #fff #000;
+            border-color: #808080 #dfdfdf #dfdfdf #808080;
         }
 
-        /* Newsletter Form */
+        /* ============ FORMS & INPUTS ============ */
         .newsletter-form {
             display: flex;
             gap: 8px;
@@ -493,28 +515,30 @@
             flex: 1;
             padding: 4px 8px;
             font-size: 11px;
-            font-family: 'MS Sans Serif', Arial, sans-serif;
+            font-family: 'MS Sans Serif', Tahoma, Arial, sans-serif;
             border: 2px solid;
-            border-color: #808080 #fff #fff #808080;
+            border-color: #808080 #dfdfdf #dfdfdf #808080;
             background: #fff;
             outline: none;
+            -webkit-font-smoothing: none;
         }
 
         .newsletter-form button {
             padding: 4px 16px;
             background: #c0c0c0;
             border: 2px solid;
-            border-color: #fff #000 #000 #fff;
+            border-color: #dfdfdf #808080 #808080 #dfdfdf;
             font-size: 11px;
-            font-family: 'MS Sans Serif', Arial, sans-serif;
+            font-family: 'MS Sans Serif', Tahoma, Arial, sans-serif;
             cursor: pointer;
+            -webkit-font-smoothing: none;
         }
 
         .newsletter-form button:active {
-            border-color: #000 #fff #fff #000;
+            border-color: #808080 #dfdfdf #dfdfdf #808080;
         }
 
-        /* Clippy Assistant */
+        /* ============ CLIPPY ============ */
         .clippy-container {
             position: fixed;
             bottom: 50px;
@@ -537,12 +561,11 @@
         .clippy-bubble {
             background: #ffffcc;
             border: 2px solid #000;
-            border-radius: 8px;
             padding: 12px;
             margin-bottom: 8px;
             position: relative;
             width: 260px;
-            font-size: 12px;
+            font-size: 11px;
             box-shadow: 2px 2px 0 rgba(0,0,0,0.3);
         }
 
@@ -568,27 +591,28 @@
         }
 
         .clippy-bubble p {
-            margin: 0 0 10px 0;
+            margin: 0 0 8px 0;
             line-height: 1.4;
         }
 
         .clippy-buttons {
             display: flex;
-            gap: 6px;
+            gap: 8px;
         }
 
         .clippy-btn {
-            padding: 3px 10px;
+            padding: 4px 12px;
             font-size: 11px;
             background: #c0c0c0;
             border: 2px solid;
-            border-color: #fff #000 #000 #fff;
+            border-color: #dfdfdf #808080 #808080 #dfdfdf;
             cursor: pointer;
-            font-family: 'MS Sans Serif', Arial, sans-serif;
+            font-family: 'MS Sans Serif', Tahoma, Arial, sans-serif;
+            -webkit-font-smoothing: none;
         }
 
         .clippy-btn:active {
-            border-color: #000 #fff #fff #000;
+            border-color: #808080 #dfdfdf #dfdfdf #808080;
         }
 
         .clippy-btn.primary {
@@ -597,7 +621,6 @@
         }
 
         .clippy-character {
-            font-size: 48px;
             cursor: pointer;
             filter: drop-shadow(2px 2px 0 rgba(0,0,0,0.3));
             transition: transform 0.2s;
@@ -620,6 +643,7 @@
             color: #000;
         }
 
+        /* ============ CHAT WINDOW ============ */
         .chat-window .window-content {
             padding: 0;
             height: calc(100% - 24px);
@@ -638,33 +662,30 @@
             overflow: hidden;
         }
 
-        /* Status Box - AIM Style */
         .chat-status-box {
-            background: linear-gradient(180deg, #f5f5f5 0%, #e0e0e0 100%);
-            border-bottom: 2px solid #808080;
-            padding: 8px 10px;
+            background: #c0c0c0;
+            border-bottom: 2px solid;
+            border-bottom-color: #808080;
+            padding: 8px;
             display: flex;
-            align-items: flex-start;
+            align-items: center;
             gap: 8px;
         }
 
         .chat-status-indicator {
-            width: 12px;
-            height: 12px;
-            border-radius: 50%;
-            margin-top: 2px;
+            width: 10px;
+            height: 10px;
             flex-shrink: 0;
-            border: 1px solid #404040;
         }
 
         .chat-status-indicator.online {
-            background: radial-gradient(circle at 30% 30%, #44ff44, #00aa00);
-            box-shadow: 0 0 4px #00ff00;
+            background: #00aa00;
+            border: 1px solid #006600;
         }
 
         .chat-status-indicator.away {
-            background: radial-gradient(circle at 30% 30%, #ffdd44, #cc9900);
-            box-shadow: 0 0 4px #ffcc00;
+            background: #ccaa00;
+            border: 1px solid #806600;
         }
 
         .chat-status-content {
@@ -674,29 +695,30 @@
 
         .chat-status-name {
             font-weight: bold;
-            font-size: 12px;
+            font-size: 11px;
             color: #000080;
             margin-bottom: 2px;
         }
 
         .chat-status-message {
             font-size: 11px;
-            color: #333;
-            font-style: italic;
-            word-wrap: break-word;
+            color: #000;
+            background: #fff;
+            border: 2px solid;
+            border-color: #808080 #dfdfdf #dfdfdf #808080;
+            padding: 2px 8px;
         }
 
         .chat-status-lastseen {
             font-size: 9px;
             color: #808080;
-            margin-top: 3px;
+            margin-top: 4px;
         }
 
-        /* Chat Messages Area */
         .chat-messages {
             flex: 1;
             overflow-y: auto;
-            padding: 10px;
+            padding: 8px;
             background: #fff;
             display: flex;
             flex-direction: column;
@@ -705,25 +727,24 @@
 
         .chat-bubble {
             max-width: 85%;
-            padding: 8px 12px;
-            border-radius: 12px;
+            padding: 8px;
             font-size: 11px;
             position: relative;
             word-wrap: break-word;
+            border: 2px solid;
         }
 
         .chat-bubble.visitor {
-            background: #e8e8e8;
-            border: 1px solid #c0c0c0;
+            background: #c0c0c0;
+            border-color: #dfdfdf #808080 #808080 #dfdfdf;
             align-self: flex-start;
-            border-bottom-left-radius: 4px;
         }
 
         .chat-bubble.owner {
             background: #000080;
             color: #fff;
+            border-color: #0000c0 #000040 #000040 #0000c0;
             align-self: flex-end;
-            border-bottom-right-radius: 4px;
         }
 
         .chat-bubble-header {
@@ -740,7 +761,7 @@
         }
 
         .chat-bubble.visitor .chat-bubble-name {
-            color: #333;
+            color: #000;
         }
 
         .chat-bubble.owner .chat-bubble-name {
@@ -761,29 +782,28 @@
             position: absolute;
             top: -6px;
             right: -6px;
-            background: #ff4444;
-            color: #fff;
-            border: 1px solid #aa0000;
-            border-radius: 50%;
+            background: #c0c0c0;
+            color: #800000;
+            border: 2px solid;
+            border-color: #dfdfdf #808080 #808080 #dfdfdf;
             width: 16px;
-            height: 16px;
-            font-size: 10px;
+            height: 14px;
+            font-size: 9px;
             padding: 0;
             cursor: pointer;
             display: none;
-            line-height: 14px;
+            line-height: 10px;
             text-align: center;
         }
 
-        .chat-bubble .chat-delete:hover {
-            background: #ff0000;
+        .chat-bubble .chat-delete:active {
+            border-color: #808080 #dfdfdf #dfdfdf #808080;
         }
 
         .admin-mode .chat-bubble .chat-delete {
             display: block;
         }
 
-        /* Chat Input Area */
         .chat-input-area {
             background: #c0c0c0;
             border-top: 2px solid #808080;
@@ -792,47 +812,48 @@
 
         .chat-input-form {
             display: flex;
-            gap: 6px;
+            gap: 8px;
         }
 
         .chat-input-name {
             width: 80px;
-            padding: 4px 6px;
-            border: 2px inset #808080;
+            padding: 2px 8px;
+            border: 2px solid;
+            border-color: #808080 #dfdfdf #dfdfdf #808080;
             font-size: 11px;
             font-family: 'MS Sans Serif', Tahoma, sans-serif;
+            background: #fff;
+            -webkit-font-smoothing: none;
         }
 
         .chat-input-message {
             flex: 1;
-            padding: 4px 6px;
-            border: 2px inset #808080;
+            padding: 2px 8px;
+            border: 2px solid;
+            border-color: #808080 #dfdfdf #dfdfdf #808080;
             font-size: 11px;
             font-family: 'MS Sans Serif', Tahoma, sans-serif;
             resize: none;
+            background: #fff;
+            -webkit-font-smoothing: none;
         }
 
         .chat-input-send {
-            padding: 4px 12px;
+            padding: 2px 16px;
             background: #c0c0c0;
-            border-top: 2px solid #fff;
-            border-left: 2px solid #fff;
-            border-bottom: 2px solid #808080;
-            border-right: 2px solid #808080;
+            border: 2px solid;
+            border-color: #dfdfdf #808080 #808080 #dfdfdf;
             cursor: pointer;
             font-size: 11px;
             font-family: 'MS Sans Serif', Tahoma, sans-serif;
             font-weight: bold;
+            -webkit-font-smoothing: none;
         }
 
         .chat-input-send:active {
-            border-top: 2px solid #808080;
-            border-left: 2px solid #808080;
-            border-bottom: 2px solid #fff;
-            border-right: 2px solid #fff;
+            border-color: #808080 #dfdfdf #dfdfdf #808080;
         }
 
-        /* Admin Panel */
         .chat-admin-panel {
             background: #ffffcc;
             border-bottom: 2px solid #808080;
@@ -848,13 +869,14 @@
             font-size: 10px;
             font-weight: bold;
             color: #804000;
-            margin-bottom: 6px;
+            margin-bottom: 8px;
         }
 
         .chat-admin-row {
             display: flex;
-            gap: 6px;
-            margin-bottom: 6px;
+            gap: 8px;
+            margin-bottom: 8px;
+            align-items: center;
         }
 
         .chat-admin-row:last-child {
@@ -863,38 +885,47 @@
 
         .chat-admin-input {
             flex: 1;
-            padding: 3px 6px;
-            border: 1px solid #808080;
-            font-size: 10px;
+            padding: 2px 8px;
+            border: 2px solid;
+            border-color: #808080 #dfdfdf #dfdfdf #808080;
+            font-size: 11px;
             font-family: 'MS Sans Serif', Tahoma, sans-serif;
+            background: #fff;
+            -webkit-font-smoothing: none;
         }
 
         .chat-admin-btn {
-            padding: 3px 8px;
+            padding: 2px 12px;
             background: #c0c0c0;
-            border: 1px solid;
-            border-color: #fff #404040 #404040 #fff;
+            border: 2px solid;
+            border-color: #dfdfdf #808080 #808080 #dfdfdf;
             cursor: pointer;
-            font-size: 10px;
+            font-size: 11px;
             font-family: 'MS Sans Serif', Tahoma, sans-serif;
+            -webkit-font-smoothing: none;
         }
 
         .chat-admin-btn:active {
-            border-color: #404040 #fff #fff #404040;
+            border-color: #808080 #dfdfdf #dfdfdf #808080;
         }
 
         .chat-admin-status-row {
             display: flex;
-            gap: 6px;
+            gap: 8px;
             align-items: center;
         }
 
         .chat-admin-status-select {
             padding: 2px 4px;
-            font-size: 10px;
+            font-size: 11px;
             font-family: 'MS Sans Serif', Tahoma, sans-serif;
+            border: 2px solid;
+            border-color: #808080 #dfdfdf #dfdfdf #808080;
+            background: #fff;
+            -webkit-font-smoothing: none;
         }
 
+        /* ============ PLAYER WINDOW ============ */
         .player-window {
             min-width: 300px !important;
             min-height: 200px !important;
@@ -906,346 +937,7 @@
             height: calc(100% - 24px);
         }
 
-        @media (max-width: 768px) {
-            body {
-                font-size: 14px;
-            }
-
-            /* Hide desktop icons - use menu only */
-            .desktop {
-                height: calc(100dvh - 44px);
-                padding: 0;
-            }
-
-            .desktop .icon {
-                display: none;
-            }
-
-            /* Clippy hidden on mobile */
-            .clippy-container {
-                display: none;
-            }
-
-            /* Make windows full screen on mobile */
-            .window {
-                width: 100% !important;
-                height: calc(100dvh - 44px) !important;
-                left: 0 !important;
-                top: 0 !important;
-                min-width: 100%;
-                border: none;
-                box-shadow: none;
-            }
-
-            /* Hide resize handles */
-            .resize-handle {
-                display: none;
-            }
-
-            /* Simplified title bar */
-            .title-bar {
-                cursor: default;
-                padding: 6px 8px;
-            }
-
-            .title-btn {
-                width: 28px;
-                height: 24px;
-                font-size: 14px;
-            }
-
-            .window-content {
-                padding: 15px;
-                font-size: 15px;
-                line-height: 1.6;
-            }
-
-            .window-content h1 {
-                font-size: 22px;
-            }
-
-            .window-content h2 {
-                font-size: 18px;
-            }
-
-            /* Taskbar - simplified */
-            .taskbar {
-                height: 44px;
-            }
-
-            .start-btn {
-                height: 38px;
-                font-size: 14px;
-                padding: 0 12px;
-            }
-
-            .start-icon img {
-                width: 20px;
-                height: 20px;
-            }
-
-            /* Hide taskbar items on mobile - use start menu */
-            .taskbar-items {
-                display: none;
-            }
-
-            .system-tray {
-                height: 38px;
-                font-size: 13px;
-                padding: 0 12px;
-            }
-
-            /* Start menu - full width, larger items */
-            .start-menu {
-                width: 100%;
-                left: 0;
-                bottom: 44px;
-                max-height: calc(100dvh - 88px);
-                overflow-y: auto;
-            }
-
-            .start-menu-item {
-                padding: 14px 16px;
-                font-size: 15px;
-            }
-
-            .start-menu-item img {
-                width: 24px;
-                height: 24px;
-            }
-
-            .start-menu-separator {
-                margin: 8px 0;
-            }
-
-            /* Chat window */
-            .chat-window .window-content {
-                padding: 10px;
-            }
-
-            .chat-message {
-                font-size: 13px;
-                padding: 8px;
-            }
-
-            .chat-input input {
-                font-size: 16px; /* Prevent iOS zoom */
-                padding: 10px;
-            }
-
-            .chat-input button {
-                padding: 10px 16px;
-                font-size: 14px;
-            }
-
-            /* My Computer - larger items */
-            .mycomputer-item {
-                width: 90px;
-                padding: 12px;
-            }
-
-            .mycomputer-item .icon-img img {
-                width: 40px;
-                height: 40px;
-            }
-
-            .mycomputer-label {
-                font-size: 12px;
-            }
-
-            /* Garden window - no padding since iframe handles it */
-            .garden-window {
-                min-width: 100% !important;
-                min-height: unset !important;
-            }
-
-            .garden-window .window-content {
-                padding: 0;
-            }
-
-            /* Player window */
-            .player-window .window-content {
-                height: calc(100% - 32px);
-            }
-
-            /* Shutdown dialog */
-            .shutdown-dialog {
-                width: 90%;
-                max-width: 320px;
-            }
-
-            .shutdown-option {
-                padding: 12px;
-                font-size: 14px;
-            }
-        }
-
-        @media (max-width: 480px) {
-            /* Extra small phones */
-            .window-content {
-                padding: 12px;
-                font-size: 14px;
-            }
-
-            .start-btn span {
-                display: none;
-            }
-
-            .start-btn {
-                padding: 0 10px;
-            }
-
-            .title-text span {
-                font-size: 12px;
-            }
-        }
-
-        /* Blog post styles */
-        .post {
-            font-family: Tahoma, 'MS Sans Serif', sans-serif;
-            line-height: 1.7;
-            font-size: 14px;
-            color: #222;
-            padding: 10px 20px 30px;
-        }
-        .post h1 {
-            font-family: Tahoma, 'MS Sans Serif', sans-serif;
-            font-size: 26px;
-            margin: 0 0 8px 0;
-            font-weight: bold;
-            color: #000;
-        }
-        .post h2 {
-            font-family: Tahoma, 'MS Sans Serif', sans-serif;
-            font-size: 18px;
-            margin: 1.2em 0 0.5em 0;
-            color: #000;
-        }
-        .post .date {
-            color: #999;
-            font-family: Tahoma, 'MS Sans Serif', sans-serif;
-            font-size: 11px;
-            margin-top: 30px;
-        }
-        .post p {
-            margin: 0 0 1.4em 0;
-        }
-        .post a {
-            color: #0066cc;
-            text-decoration: underline;
-        }
-        .post a:hover {
-            color: #003d99;
-        }
-        .post a:visited {
-            color: #551a8b;
-        }
-        .post blockquote {
-            margin: 2.5em 0;
-            padding: 20px 25px;
-            border-left: 3px solid #0066cc;
-            background: #f5f5f5;
-            font-style: italic;
-        }
-        .post ol, .post ul {
-            margin: 1em 0;
-            margin-left: 0;
-            padding-left: 3em;
-        }
-        .post ol li, .post ul li {
-            margin-bottom: 0.6em;
-            line-height: 1.6;
-        }
-        .post img {
-            max-width: 100%;
-            height: auto;
-            margin: 1.5em 0;
-            border: 1px solid #ccc;
-        }
-        .post code {
-            font-family: 'Courier New', monospace;
-            background: #f0f0f0;
-            padding: 2px 6px;
-            font-size: 15px;
-        }
-        .post pre {
-            background: #f0f0f0;
-            padding: 15px;
-            overflow-x: auto;
-            border: 1px solid #ccc;
-            margin: 1.5em 0;
-        }
-        .post pre code {
-            padding: 0;
-            background: none;
-        }
-        .post-footer {
-            margin-top: 40px;
-            padding-top: 20px;
-            border-top: 1px solid #ccc;
-            font-family: Tahoma, 'MS Sans Serif', sans-serif;
-            font-size: 14px;
-            color: #666;
-        }
-        .post-footer a {
-            color: #0066cc;
-        }
-
-        /* Accessibility: Screen reader only class */
-        .sr-only {
-            position: absolute;
-            width: 1px;
-            height: 1px;
-            padding: 0;
-            margin: -1px;
-            overflow: hidden;
-            clip: rect(0, 0, 0, 0);
-            white-space: nowrap;
-            border: 0;
-        }
-
-        /* Accessibility: Skip link */
-        .skip-link {
-            position: absolute;
-            top: -40px;
-            left: 0;
-            background: #000080;
-            color: #fff;
-            padding: 8px 16px;
-            z-index: 100000;
-            text-decoration: none;
-            font-weight: bold;
-        }
-        .skip-link:focus {
-            top: 0;
-        }
-
-        /* Accessibility: Focus styles */
-        *:focus {
-            outline: 2px solid #000080;
-            outline-offset: 2px;
-        }
-        *:focus:not(:focus-visible) {
-            outline: none;
-        }
-        *:focus-visible {
-            outline: 2px solid #000080;
-            outline-offset: 2px;
-        }
-        .title-btn:focus-visible,
-        .toolbar-btn:focus-visible {
-            outline: 2px solid #fff;
-            outline-offset: 1px;
-            background: #000080;
-        }
-        input:focus,
-        select:focus,
-        button:focus-visible {
-            outline: 2px solid #000080;
-            outline-offset: 1px;
-        }
-
-        /* Updates Window */
+        /* ============ UPDATES WINDOW ============ */
         .updates-window {
             min-width: 280px !important;
         }
@@ -1254,12 +946,12 @@
             background: #fff;
             font-family: 'MS Sans Serif', Tahoma, sans-serif;
             font-size: 11px;
-            padding: 12px;
+            padding: 8px;
         }
 
         .update-entry {
-            padding: 8px 0;
-            border-bottom: 1px dotted #c0c0c0;
+            padding: 8px;
+            border-bottom: 1px solid #c0c0c0;
         }
 
         .update-entry:last-child {
@@ -1270,43 +962,46 @@
             color: #000080;
             font-weight: bold;
             font-size: 11px;
-            margin-bottom: 3px;
+            margin-bottom: 4px;
         }
 
         .update-text {
-            color: #333;
+            color: #000;
             line-height: 1.4;
         }
 
         .update-admin-form {
             display: flex;
-            gap: 6px;
-            margin-bottom: 12px;
-            padding-bottom: 12px;
-            border-bottom: 1px solid #808080;
+            gap: 8px;
+            margin-bottom: 8px;
+            padding-bottom: 8px;
+            border-bottom: 2px solid #808080;
         }
 
         .update-admin-input {
             flex: 1;
             font-family: 'MS Sans Serif', Tahoma, sans-serif;
             font-size: 11px;
-            padding: 4px 6px;
+            padding: 2px 8px;
             border: 2px solid;
-            border-color: #808080 #fff #fff #808080;
+            border-color: #808080 #dfdfdf #dfdfdf #808080;
+            background: #fff;
+            -webkit-font-smoothing: none;
         }
 
         .update-admin-btn {
             font-family: 'MS Sans Serif', Tahoma, sans-serif;
             font-size: 11px;
-            padding: 4px 12px;
+            padding: 2px 16px;
             background: #c0c0c0;
             border: 2px solid;
-            border-color: #fff #808080 #808080 #fff;
+            border-color: #dfdfdf #808080 #808080 #dfdfdf;
             cursor: pointer;
+            -webkit-font-smoothing: none;
         }
 
         .update-admin-btn:active {
-            border-color: #808080 #fff #fff #808080;
+            border-color: #808080 #dfdfdf #dfdfdf #808080;
         }
 
         .update-admin-actions {
@@ -1319,26 +1014,27 @@
         .update-delete-btn {
             font-family: 'MS Sans Serif', Tahoma, sans-serif;
             font-size: 9px;
-            padding: 1px 4px;
+            padding: 1px 8px;
             background: #c0c0c0;
-            border: 1px solid;
-            border-color: #fff #808080 #808080 #fff;
+            border: 2px solid;
+            border-color: #dfdfdf #808080 #808080 #dfdfdf;
             cursor: pointer;
+            -webkit-font-smoothing: none;
         }
 
         .update-edit-btn:active,
         .update-delete-btn:active {
-            border-color: #808080 #fff #fff #808080;
+            border-color: #808080 #dfdfdf #dfdfdf #808080;
         }
 
         .update-delete-btn {
             color: #800000;
         }
 
-        /* My Computer Window */
+        /* ============ MY COMPUTER ============ */
         .mycomputer-item {
             text-align: center;
-            width: 70px;
+            width: 75px;
             cursor: pointer;
             padding: 4px;
         }
@@ -1357,7 +1053,7 @@
             color: #000;
         }
 
-        /* Garden Window (no !important so mobile media query can override) */
+        /* ============ GARDEN WINDOW ============ */
         .garden-window {
             min-width: 500px;
             min-height: 400px;
@@ -1367,3 +1063,309 @@
             background: #c0c0c0;
         }
 
+        /* ============ BLOG POST STYLES ============ */
+        .post {
+            font-family: 'MS Sans Serif', Tahoma, sans-serif;
+            line-height: 1.6;
+            font-size: 12px;
+            color: #000;
+            padding: 8px 16px 24px;
+            -webkit-font-smoothing: none;
+        }
+
+        .post h1 {
+            font-family: 'MS Sans Serif', Tahoma, sans-serif;
+            font-size: 18px;
+            margin: 0 0 8px 0;
+            font-weight: bold;
+            color: #000;
+        }
+
+        .post h2 {
+            font-family: 'MS Sans Serif', Tahoma, sans-serif;
+            font-size: 14px;
+            margin: 16px 0 8px 0;
+            color: #000;
+        }
+
+        .post .date {
+            color: #808080;
+            font-size: 11px;
+            margin-top: 24px;
+        }
+
+        .post p {
+            margin: 0 0 12px 0;
+        }
+
+        .post a {
+            color: #0000ff;
+            text-decoration: underline;
+        }
+
+        .post a:hover {
+            color: #000080;
+        }
+
+        .post a:visited {
+            color: #800080;
+        }
+
+        .post blockquote {
+            margin: 16px 0;
+            padding: 8px 16px;
+            border-left: 4px solid #000080;
+            background: #c0c0c0;
+        }
+
+        .post ol, .post ul {
+            margin: 8px 0;
+            padding-left: 24px;
+        }
+
+        .post ol li, .post ul li {
+            margin-bottom: 4px;
+            line-height: 1.5;
+        }
+
+        .post img {
+            max-width: 100%;
+            height: auto;
+            margin: 8px 0;
+            border: 2px solid;
+            border-color: #808080 #dfdfdf #dfdfdf #808080;
+        }
+
+        .post code {
+            font-family: 'Courier New', monospace;
+            background: #c0c0c0;
+            padding: 1px 4px;
+            font-size: 11px;
+        }
+
+        .post pre {
+            background: #c0c0c0;
+            padding: 8px;
+            overflow-x: auto;
+            border: 2px solid;
+            border-color: #808080 #dfdfdf #dfdfdf #808080;
+            margin: 8px 0;
+        }
+
+        .post pre code {
+            padding: 0;
+            background: none;
+        }
+
+        .post-footer {
+            margin-top: 24px;
+            padding-top: 8px;
+            border-top: 2px solid #c0c0c0;
+            font-size: 11px;
+            color: #808080;
+        }
+
+        .post-footer a {
+            color: #0000ff;
+        }
+
+        /* ============ ACCESSIBILITY ============ */
+        .sr-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border: 0;
+        }
+
+        .skip-link {
+            position: absolute;
+            top: -40px;
+            left: 0;
+            background: #000080;
+            color: #fff;
+            padding: 8px 16px;
+            z-index: 100000;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .skip-link:focus {
+            top: 0;
+        }
+
+        *:focus {
+            outline: 2px dotted #000;
+            outline-offset: 1px;
+        }
+
+        *:focus:not(:focus-visible) {
+            outline: none;
+        }
+
+        *:focus-visible {
+            outline: 2px dotted #000;
+            outline-offset: 1px;
+        }
+
+        .title-btn:focus-visible,
+        .toolbar-btn:focus-visible {
+            outline: 1px dotted #fff;
+            outline-offset: -3px;
+        }
+
+        input:focus,
+        select:focus,
+        button:focus-visible {
+            outline: 2px dotted #000;
+            outline-offset: 1px;
+        }
+
+        /* ============ MOBILE RESPONSIVE ============ */
+        @media (max-width: 768px) {
+            body {
+                font-size: 13px;
+            }
+
+            .desktop {
+                height: calc(100dvh - 44px);
+                padding: 0;
+            }
+
+            .desktop .icon {
+                display: none;
+            }
+
+            .clippy-container {
+                display: none;
+            }
+
+            .window {
+                width: 100% !important;
+                height: calc(100dvh - 44px) !important;
+                left: 0 !important;
+                top: 0 !important;
+                min-width: 100%;
+                border: none;
+                box-shadow: none;
+            }
+
+            .resize-handle {
+                display: none;
+            }
+
+            .title-bar {
+                padding: 4px 8px;
+                height: 32px;
+            }
+
+            .title-btn {
+                width: 24px;
+                height: 20px;
+                font-size: 12px;
+            }
+
+            .window-content {
+                padding: 12px;
+                font-size: 13px;
+                line-height: 1.5;
+            }
+
+            .taskbar {
+                height: 44px;
+            }
+
+            .start-btn {
+                height: 36px;
+                font-size: 13px;
+                padding: 0 12px;
+            }
+
+            .start-icon img {
+                width: 20px;
+                height: 20px;
+            }
+
+            .taskbar-items {
+                display: none;
+            }
+
+            .system-tray {
+                height: 36px;
+                font-size: 13px;
+                padding: 0 12px;
+            }
+
+            .start-menu {
+                width: 100%;
+                left: 0;
+                bottom: 44px;
+                max-height: calc(100dvh - 88px);
+                overflow-y: auto;
+            }
+
+            .start-menu-item {
+                padding: 12px 16px;
+                font-size: 14px;
+            }
+
+            .start-menu-item img {
+                width: 24px;
+                height: 24px;
+            }
+
+            .mycomputer-item {
+                width: 90px;
+                padding: 8px;
+            }
+
+            .mycomputer-item .icon-img img {
+                width: 40px;
+                height: 40px;
+            }
+
+            .mycomputer-label {
+                font-size: 12px;
+            }
+
+            .garden-window {
+                min-width: 100% !important;
+                min-height: unset !important;
+            }
+
+            .garden-window .window-content {
+                padding: 0;
+            }
+
+            .player-window .window-content {
+                height: calc(100% - 32px);
+            }
+
+            .shutdown-dialog {
+                width: 90%;
+                max-width: 320px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .window-content {
+                padding: 8px;
+                font-size: 13px;
+            }
+
+            .start-btn span {
+                display: none;
+            }
+
+            .start-btn {
+                padding: 0 10px;
+            }
+
+            .title-text span {
+                font-size: 11px;
+            }
+        }

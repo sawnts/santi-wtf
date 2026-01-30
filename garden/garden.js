@@ -273,9 +273,9 @@ function updateUrl(noteId) {
 
 function getStageIcon(stage) {
     switch (stage) {
-        case 'seedling': return '🌱';
-        case 'growing': return '🌿';
-        case 'evergreen': return '🌲';
+        case 'seedling': return '[.]';
+        case 'growing': return '[+]';
+        case 'evergreen': return '[*]';
         default: return '📄';
     }
 }
@@ -458,7 +458,7 @@ async function loadWelcome() {
 
     contentArea.innerHTML = `
         <div class="welcome-content">
-            <h1>🌱 welcome to my garden</h1>
+            <h1>welcome to my garden</h1>
             <p class="subtitle">a collection of growing ideas and evergreen notes</p>
 
             <div class="welcome-stats">
@@ -1456,7 +1456,7 @@ function updateStatusBar() {
 
     document.getElementById('status-notes').textContent = `${stats.total} notes`;
     document.getElementById('status-links').textContent = `${stats.links} links`;
-    document.getElementById('status-growth').textContent = `🌱 ${stats.seedling} | 🌿 ${stats.growing} | 🌲 ${stats.evergreen}`;
+    document.getElementById('status-growth').textContent = `seed:${stats.seedling} | grow:${stats.growing} | tree:${stats.evergreen}`;
 }
 
 // handle browser back/forward
