@@ -146,6 +146,51 @@ mdFiles.forEach(filePath => {
             tended: frontmatter.tended || null
         };
         console.log(`  → found now page with dashboard data`);
+
+        // also check for habits in now.md (centralized)
+        if (frontmatter.habits) {
+            const currentYear = new Date().getFullYear();
+
+            // Parse completion data from ```habits code block in body
+            const habitsBlockMatch = markdown.match(/```habits\n([\s\S]*?)```/);
+            const completionData = {};
+
+            if (habitsBlockMatch) {
+                const lines = habitsBlockMatch[1].trim().split('\n');
+                lines.forEach(line => {
+                    const [name, daysStr] = line.split(':').map(s => s.trim());
+                    if (name && daysStr) {
+                        const days = [];
+                        daysStr.split(',').forEach(part => {
+                            part = part.trim();
+                            if (part.includes('-')) {
+                                const [start, end] = part.split('-').map(n => parseInt(n.trim()));
+                                for (let i = start; i <= end; i++) {
+                                    days.push(i);
+                                }
+                            } else if (part) {
+                                days.push(parseInt(part));
+                            }
+                        });
+                        completionData[name.toLowerCase()] = days;
+                    }
+                });
+            }
+
+            const processedHabits = frontmatter.habits.map(habit => ({
+                name: habit.name,
+                goal: habit.goal,
+                completed: completionData[habit.name.toLowerCase()] || []
+            }));
+
+            habitsConfig = {
+                noteId: noteId,
+                title: 'habits',
+                year: currentYear,
+                habits: processedHabits
+            };
+            console.log(`  → found habits config in now.md with ${frontmatter.habits.length} habits`);
+        }
     }
 
     // extract wikilinks (skip image embeds prefixed with !)
