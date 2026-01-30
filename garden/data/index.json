@@ -9,7 +9,6 @@
         "meta"
       ],
       "links": [
-        "1. thinking/power-of-writing-online",
         "3. doing/digital-garden",
         "1. thinking/integration",
         "1. thinking/integration",
@@ -79,22 +78,6 @@
       ],
       "excerpt": "the father of advertising. insisted on research before creativity."
     },
-    "3. doing/tech no one needs but i can't live without": {
-      "title": "tech no one needs but i can't live without",
-      "stage": "growing",
-      "planted": "2026-01-28T00:00:00.000Z",
-      "tended": "2026-01-28T00:00:00.000Z",
-      "tags": [
-        "gear",
-        "technology",
-        "favorites"
-      ],
-      "links": [
-        "3. doing/digital-garden"
-      ],
-      "backlinks": [],
-      "excerpt": "i'm not a gadget person. i don't chase specs or wait in line for launches. but some things have quietly become pillars in my daily life — tools i'd ge"
-    },
     "3. doing/habit-tracker": {
       "title": "habit tracker",
       "stage": "evergreen",
@@ -128,18 +111,34 @@
       ],
       "backlinks": [
         "index",
-        "3. doing/tech no one needs but i can't live without",
+        "2. being/tech i love",
         "2. being/now",
         "1. thinking/read old notes",
         "1. thinking/power-of-writing-online"
       ],
       "excerpt": "this is a digital garden — a place for ideas to grow over time. here's how it works."
     },
+    "2. being/tech i love": {
+      "title": "tech i love",
+      "stage": "growing",
+      "planted": "2026-01-28T00:00:00.000Z",
+      "tended": "2026-01-28T00:00:00.000Z",
+      "tags": [
+        "gear",
+        "technology",
+        "favorites"
+      ],
+      "links": [
+        "3. doing/digital-garden"
+      ],
+      "backlinks": [],
+      "excerpt": "i'm not a gadget person. i don't chase specs or wait in line for launches. but some things have quietly become pillars in my daily life — tools i'd ge"
+    },
     "2. being/now": {
       "title": "now",
       "stage": "evergreen",
       "planted": "2026-01-01T00:00:00.000Z",
-      "tended": "2026-01-24T00:00:00.000Z",
+      "tended": "2026-01-29T00:00:00.000Z",
       "tags": [
         "personal"
       ],
@@ -369,7 +368,6 @@
       "3. doing": {
         "folders": {},
         "notes": [
-          "3. doing/tech no one needs but i can't live without",
           "3. doing/habit-tracker",
           "3. doing/digital-garden"
         ]
@@ -377,6 +375,7 @@
       "2. being": {
         "folders": {},
         "notes": [
+          "2. being/tech i love",
           "2. being/now",
           "2. being/my favorite reads 2025",
           "2. being/2026 lessons"
@@ -402,7 +401,7 @@
   },
   "stats": {
     "total": 18,
-    "links": 51,
+    "links": 50,
     "seedling": 0,
     "growing": 11,
     "evergreen": 7
