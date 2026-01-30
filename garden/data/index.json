@@ -78,21 +78,6 @@
       ],
       "excerpt": "the father of advertising. insisted on research before creativity."
     },
-    "3. doing/habit-tracker": {
-      "title": "habit tracker",
-      "stage": "evergreen",
-      "planted": "2026-01-01T00:00:00.000Z",
-      "tended": "2026-01-25T00:00:00.000Z",
-      "tags": [
-        "projects",
-        "habits"
-      ],
-      "links": [],
-      "backlinks": [
-        "2. being/my favorite reads 2025"
-      ],
-      "excerpt": "a garden grows one day at a time."
-    },
     "3. doing/digital-garden": {
       "title": "digital garden",
       "stage": "growing",
@@ -161,7 +146,7 @@
         "books"
       ],
       "links": [
-        "3. doing/habit-tracker"
+        "habit-tracker"
       ],
       "backlinks": [
         "2. being/now"
@@ -368,7 +353,6 @@
       "3. doing": {
         "folders": {},
         "notes": [
-          "3. doing/habit-tracker",
           "3. doing/digital-garden"
         ]
       },
@@ -400,10 +384,10 @@
     ]
   },
   "stats": {
-    "total": 18,
+    "total": 17,
     "links": 50,
     "seedling": 0,
     "growing": 11,
-    "evergreen": 7
+    "evergreen": 6
   }
 }
