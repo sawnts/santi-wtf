@@ -2,12 +2,12 @@
   "location": "seattle, wa",
   "status": null,
   "reading": {
-    "title": "morning star",
-    "author": "pierce brown",
-    "progress": 45
+    "title": "the handmaid's tale",
+    "author": "margaret atwood",
+    "progress": 76
   },
   "mood": "building 🔨",
-  "energy": 6,
-  "caffeine": 2,
+  "energy": 3,
+  "caffeine": 1,
   "tended": "2026-01-29T00:00:00.000Z"
 }
