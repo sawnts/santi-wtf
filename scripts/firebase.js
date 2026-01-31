@@ -252,13 +252,23 @@ export async function postAsOwner() {
     const message = messageInput?.value.trim();
     if (!message) return;
 
-    window.db.ref('guestbook').push({
+    const msgData = {
         name: 'santi',
         message: message,
         timestamp: firebase.database.ServerValue.TIMESTAMP,
         isOwner: true
-    }).then(() => {
+    };
+
+    // Add reply data if replying
+    if (replyingTo) {
+        msgData.replyTo = replyingTo.id;
+        msgData.replyToName = replyingTo.name;
+        msgData.replyToText = replyingTo.text;
+    }
+
+    window.db.ref('guestbook').push(msgData).then(() => {
         messageInput.value = '';
+        cancelReply();
         window.db.ref('status/lastSeen').set(firebase.database.ServerValue.TIMESTAMP);
     }).catch(err => alert('failed to post: ' + err.message));
 }
