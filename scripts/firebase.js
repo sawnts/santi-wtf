@@ -256,8 +256,6 @@ export async function postAsOwner() {
     const message = messageInput?.value.trim();
     if (!message) return;
 
-    console.log('postAsOwner - replyingTo:', replyingTo);
-
     const msgData = {
         name: 'santi',
         message: message,
@@ -270,7 +268,6 @@ export async function postAsOwner() {
         msgData.replyTo = replyingTo.id;
         msgData.replyToName = replyingTo.name;
         msgData.replyToText = replyingTo.text;
-        console.log('postAsOwner - adding reply data:', msgData);
     }
 
     window.db.ref('guestbook').push(msgData).then(() => {
