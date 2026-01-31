@@ -475,13 +475,6 @@
                             </div>
                         </div>
 
-                        <div class="group-box">
-                            <div class="group-box-title">Lichess</div>
-                            <div class="big-stat-container">
-                                <div class="big-stat" id="lichess-rating">...</div>
-                                <div class="big-stat-label">Rapid Rating</div>
-                            </div>
-                        </div>
                     </div>
 
                     <div>
@@ -589,19 +582,6 @@
                 }
             } catch (e) {
                 document.getElementById('chess-rating').textContent = 'offline';
-            }
-        }
-
-        // ============ LICHESS API ============
-        async function fetchLichessRating() {
-            try {
-                const response = await fetch('https://lichess.org/api/user/sawnts');
-                const data = await response.json();
-                
-                const rapidRating = data.perfs?.rapid?.rating || 'N/A';
-                document.getElementById('lichess-rating').textContent = rapidRating;
-            } catch (e) {
-                document.getElementById('lichess-rating').textContent = '-';
             }
         }
 
@@ -724,7 +704,6 @@
             setInterval(updateTime, 60000);
             
             fetchChessRating();
-            fetchLichessRating();
             fetchGardenStats();
             fetchHabits();
         }

@@ -23,7 +23,10 @@ import {
     postAsOwner,
     deleteMessage,
     updateStatus,
-    toggleAdminAuth
+    toggleAdminAuth,
+    setReply,
+    cancelReply,
+    scrollToMessage
 } from './firebase.js';
 
 import {
@@ -90,6 +93,9 @@ window.santi = {
     postAsOwner,
     deleteMessage,
     updateStatus,
+    setReply,
+    cancelReply,
+    scrollToMessage,
     
     // Updates
     addUpdate,
@@ -124,6 +130,9 @@ window.submitChat = submitChat;
 window.postAsOwner = postAsOwner;
 window.deleteMessage = deleteMessage;
 window.updateStatus = updateStatus;
+window.setReply = setReply;
+window.cancelReply = cancelReply;
+window.scrollToMessage = scrollToMessage;
 window.dismissClippy = dismissClippy;
 window.toggleClippyBubble = toggleClippyBubble;
 window.clippySubscribe = clippySubscribe;

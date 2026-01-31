@@ -1,0 +1,452 @@
+/* ═══════════════════════════════════════════════════════════════
+   SANTI'S GARDEN — terminal-first
+   ═══════════════════════════════════════════════════════════════ */
+
+*, *::before, *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+:root {
+    --bg: #0a0a0a;
+    --text: #e0e0e0;
+    --text-dim: #666;
+    --accent: #c9a227;
+    --link: #88b4d4;
+    --border: #333;
+    --font: 'SF Mono', 'Fira Code', 'Consolas', monospace;
+}
+
+html, body {
+    height: 100%;
+}
+
+body {
+    font-family: var(--font);
+    font-size: 14px;
+    line-height: 1.6;
+    background: var(--bg);
+    color: var(--text);
+}
+
+/* ─── Terminal Container ───────────────────────────────────────── */
+.terminal {
+    max-width: 920px;
+    margin: 0 auto;
+    padding: 2rem;
+    padding-bottom: 4rem;
+    min-height: 100vh;
+}
+
+/* ─── ASCII Banner ─────────────────────────────────────────────── */
+.ascii-banner {
+    color: var(--accent);
+    font-size: 0.7rem;
+    line-height: 1.15;
+    margin-bottom: 2rem;
+    white-space: pre;
+    overflow-x: auto;
+}
+
+/* ─── Helper Text ──────────────────────────────────────────────── */
+.helper {
+    color: var(--text-dim);
+    margin-bottom: 2rem;
+}
+
+/* ─── Desktop / Mobile Toggle ──────────────────────────────────── */
+.desktop-only { display: block; }
+.mobile-only { display: none; }
+
+/* ─── Mobile Navigation ────────────────────────────────────────── */
+.mobile-nav {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.mobile-nav button {
+    background: transparent;
+    border: 1px solid var(--accent);
+    color: var(--accent);
+    font-family: inherit;
+    font-size: 0.9rem;
+    padding: 0.5rem 1rem;
+    cursor: pointer;
+    transition: all 0.15s ease;
+}
+
+.mobile-nav button:hover,
+.mobile-nav button:active {
+    background: var(--accent);
+    color: var(--bg);
+}
+
+/* ─── Recent Landing ───────────────────────────────────────────── */
+.recent-landing {
+    margin-top: 1.5rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--border);
+}
+
+.recent-label {
+    color: var(--text-dim);
+    font-size: 0.85rem;
+}
+
+.recent-landing ul {
+    list-style: none;
+    margin-top: 0.5rem;
+}
+
+.recent-landing li {
+    display: inline;
+}
+
+.recent-landing li:not(:last-child)::after {
+    content: ' · ';
+    color: var(--text-dim);
+}
+
+.recent-landing a {
+    color: var(--text-dim);
+    text-decoration: none;
+    transition: color 0.15s ease;
+}
+
+.recent-landing a:hover {
+    color: var(--accent);
+}
+
+/* Hide recent landing when output has content */
+.recent-landing.hidden {
+    display: none;
+}
+
+/* ─── Hint Bar ─────────────────────────────────────────────────── */
+.hint-bar {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 0.5rem 1rem;
+    background: var(--bg);
+    border-top: 1px solid var(--border);
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.75rem;
+    color: var(--text-dim);
+}
+
+.hint {
+    opacity: 0.7;
+}
+
+.hint-path {
+    color: var(--accent);
+    opacity: 0.7;
+}
+
+.hl {
+    color: var(--accent);
+}
+
+/* ─── Prompt Line ──────────────────────────────────────────────── */
+.prompt-line {
+    display: flex;
+    align-items: center;
+    margin-bottom: 1.5rem;
+}
+
+.prompt {
+    color: var(--accent);
+    margin-right: 0.5rem;
+}
+
+.prompt-line input {
+    flex: 1;
+    background: transparent;
+    border: none;
+    color: var(--text);
+    font-family: inherit;
+    font-size: inherit;
+    outline: none;
+    caret-color: transparent;
+}
+
+.cursor {
+    color: var(--accent);
+    animation: blink 1s step-end infinite;
+}
+
+@keyframes blink {
+    0%, 50% { opacity: 1; }
+    51%, 100% { opacity: 0; }
+}
+
+/* ─── Loading ──────────────────────────────────────────────────── */
+.loading {
+    color: var(--text-dim);
+    margin-bottom: 1rem;
+}
+
+.loading-spinner {
+    display: inline-block;
+    margin-right: 0.5rem;
+}
+
+.loading-spinner::after {
+    content: '⠋';
+    animation: spin 0.6s linear infinite;
+}
+
+@keyframes spin {
+    0% { content: '⠋'; }
+    14% { content: '⠙'; }
+    28% { content: '⠹'; }
+    42% { content: '⠸'; }
+    57% { content: '⠼'; }
+    71% { content: '⠴'; }
+    85% { content: '⠦'; }
+    100% { content: '⠧'; }
+}
+
+.hidden {
+    display: none !important;
+}
+
+/* ─── Output Area ──────────────────────────────────────────────── */
+.output {
+    margin-top: 1rem;
+}
+
+/* Command echo */
+.output .cmd-echo {
+    color: var(--text-dim);
+    margin-bottom: 1rem;
+}
+
+.output .cmd-echo .prompt {
+    color: var(--accent);
+}
+
+/* Help output */
+.output .help-section {
+    margin-bottom: 1.5rem;
+}
+
+.output .help-title {
+    color: var(--accent);
+    margin-bottom: 0.5rem;
+}
+
+.output .help-item {
+    margin-left: 1rem;
+    margin-bottom: 0.25rem;
+}
+
+.output .help-item strong {
+    color: var(--text);
+    display: inline-block;
+    min-width: 100px;
+}
+
+/* Note list */
+.output .note-list {
+    list-style: none;
+}
+
+.output .note-list li {
+    margin-bottom: 0.25rem;
+}
+
+.output .note-list a {
+    color: var(--text-dim);
+    text-decoration: none;
+}
+
+.output .note-list a:hover {
+    color: var(--accent);
+}
+
+.output .note-list .stage {
+    color: var(--text-dim);
+    font-size: 0.8rem;
+    margin-left: 0.5rem;
+}
+
+/* Note content */
+.output .note-content {
+    padding: 1rem 0;
+}
+
+.output .note-content h1 {
+    font-size: 1.1rem;
+    font-weight: normal;
+    color: var(--accent);
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid var(--border);
+}
+
+.output .note-content h2 {
+    font-size: 1rem;
+    font-weight: normal;
+    color: var(--accent);
+    margin-top: 1.5rem;
+    margin-bottom: 0.5rem;
+}
+
+.output .note-content h3 {
+    font-size: 0.95rem;
+    font-weight: normal;
+    color: var(--text);
+    margin-top: 1rem;
+    margin-bottom: 0.5rem;
+}
+
+.output .note-content p {
+    margin-bottom: 1rem;
+}
+
+.output .note-content a {
+    color: var(--link);
+    text-decoration: none;
+    border-bottom: 1px dashed var(--link);
+    transition: all 0.15s ease;
+}
+
+.output .note-content a:hover {
+    color: var(--accent);
+    border-bottom-color: var(--accent);
+    border-bottom-style: solid;
+}
+
+.output .note-content ul,
+.output .note-content ol {
+    margin-bottom: 1rem;
+    padding-left: 1.5rem;
+}
+
+.output .note-content li {
+    margin-bottom: 0.25rem;
+}
+
+.output .note-content blockquote {
+    border-left: 2px solid var(--accent);
+    padding-left: 1rem;
+    margin: 1rem 0;
+    color: var(--text-dim);
+    font-style: italic;
+}
+
+.output .note-content code {
+    background: #1a1a1a;
+    padding: 0.1em 0.3em;
+    border-radius: 2px;
+    font-size: 0.9em;
+}
+
+.output .note-content pre {
+    background: #1a1a1a;
+    padding: 1rem;
+    overflow-x: auto;
+    margin: 1rem 0;
+    border: 1px solid var(--border);
+}
+
+.output .note-content pre code {
+    background: none;
+    padding: 0;
+}
+
+/* Note meta */
+.output .note-meta {
+    color: var(--text-dim);
+    font-size: 0.85rem;
+    margin-top: 1.5rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--border);
+}
+
+.output .note-meta .stage-seed { color: #7a9f7a; }
+.output .note-meta .stage-growing { color: #b8a44c; }
+.output .note-meta .stage-evergreen { color: #4a9f8a; }
+
+.output .note-meta .back-hint {
+    opacity: 0.6;
+}
+
+/* Error */
+.output .error {
+    color: #cc6666;
+}
+
+/* ─── Footer ───────────────────────────────────────────────────── */
+.terminal-footer {
+    position: fixed;
+    bottom: 1rem;
+    left: 50%;
+    transform: translateX(-50%);
+    color: var(--text-dim);
+    font-size: 0.75rem;
+}
+
+/* ─── Responsive ───────────────────────────────────────────────── */
+@media (max-width: 768px) {
+    .terminal {
+        padding: 1rem;
+        padding-bottom: 4rem;
+    }
+    
+    .ascii-banner {
+        font-size: 0.35rem;
+        line-height: 1.1;
+    }
+    
+    .desktop-only {
+        display: none !important;
+    }
+    
+    .mobile-only {
+        display: flex !important;
+    }
+    
+    .hint-bar .hint {
+        display: none;
+    }
+    
+    .recent-landing {
+        margin-top: 1rem;
+    }
+    
+    .recent-landing li {
+        display: block;
+        margin-bottom: 0.25rem;
+    }
+    
+    .recent-landing li::after {
+        display: none;
+    }
+    
+    .recent-landing a::before {
+        content: '→ ';
+        color: var(--accent);
+    }
+}
+
+/* ─── Scrollbar ────────────────────────────────────────────────── */
+::-webkit-scrollbar {
+    width: 6px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--bg);
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--border);
+    border-radius: 3px;
+}

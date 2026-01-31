@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>garden | santi.wtf</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="icon" type="image/x-icon" href="/icons/favicon.ico">
+</head>
+<body>
+    <div class="terminal">
+        <!-- ASCII Banner -->
+        <pre class="ascii-banner">
+      ███████╗ █████╗ ███╗   ██╗████████╗██╗███████╗
+      ██╔════╝██╔══██╗████╗  ██║╚══██╔══╝██║██╔════╝
+      ███████╗███████║██╔██╗ ██║   ██║   ██║███████╗
+      ╚════██║██╔══██║██║╚██╗██║   ██║   ██║╚════██║
+      ███████║██║  ██║██║ ╚████║   ██║   ██║███████║
+      ╚══════╝╚═╝  ╚═╝╚═╝  ╚═══╝   ╚═╝   ╚═╝╚══════╝
+
+               ┌───────────────────────────────┐
+               │       g  a  r  d  e  n        │
+               └───────────────────────────────┘
+
+        ,@@@@@@@,                                     ,@@@@@@@,
+  ,,,.   ,@@@@@@/@@,  .oo8888o.  a collection  ,,,.   ,@@@@@@/@@,  .oo8888o.
+,&%%&%&&%,@@@@@/@@@@@@,8888\88/8o    of      ,&%%&%&&%,@@@@@/@@@@@@,8888\88/8o
+,%&\%&&%&&%,@@@\@@@/@@@88\88888/88' growing  ,%&\%&&%&&%,@@@\@@@/@@@88\88888/88'
+%&&%&%&/%&&%@@\@@/ /@@@88888\88888'  ideas   %&&%&%&/%&&%@@\@@/ /@@@88888\88888'
+%&&%/ %&%%&&@@\ V /@@' `88\8 `/88'           %&&%/ %&%%&&@@\ V /@@' `88\8 `/88'
+`&%\ ` /%&'    |.|        \ '|8'             `&%\ ` /%&'    |.|        \ '|8'
+    |o|        | |         | |                   |o|        | |         | |
+    |.|        | |         | |                   |.|        | |         | |
+ \\/ ._\//_/__/  ,\_//__\\/.  \_//__/_        \\/ ._\//_/__/  ,\_//__\\/.  \_/
+        </pre>
+
+        <p class="helper">type <span class="hl">'help'</span> to begin.</p>
+
+        <!-- Terminal prompt (desktop) -->
+        <div class="prompt-line desktop-only">
+            <span class="prompt">$</span>
+            <input type="text" id="command-input" autocomplete="off" spellcheck="false" autofocus>
+            <span class="cursor">▌</span>
+        </div>
+
+        <!-- Mobile navigation -->
+        <nav class="mobile-nav mobile-only">
+            <button data-cmd="start">start here</button>
+            <button data-cmd="explore">explore</button>
+            <button data-cmd="random">random</button>
+            <button data-cmd="recent">recent</button>
+        </nav>
+
+        <!-- Loading indicator -->
+        <div id="loading" class="loading hidden">
+            <span class="loading-spinner"></span>
+            <span class="loading-text">loading</span>
+        </div>
+
+        <!-- Output area (where content renders) -->
+        <div id="output" class="output"></div>
+
+        <!-- Recent notes (shown on landing) -->
+        <div id="recent-landing" class="recent-landing">
+            <span class="recent-label">recently tended:</span>
+            <ul id="recent-list"></ul>
+        </div>
+
+        <!-- Hint bar -->
+        <div class="hint-bar">
+            <span class="hint desktop-only">↑↓ history · tab autocomplete · esc clear</span>
+            <span class="hint-path" id="hint-path">~/garden</span>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>

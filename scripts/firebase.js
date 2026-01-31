@@ -20,6 +20,8 @@ const MAX_FIREBASE_RETRIES = 50;
 
 let firebaseRetries = 0;
 let currentUser = null;
+let replyingTo = null; // { id, name, text }
+let messagesCache = {}; // Store messages for reply lookup
 
 // Initialize Firebase with retry logic
 export function initFirebase() {
@@ -64,6 +66,9 @@ function initChatRoom() {
         if (lastSeenEl) lastSeenEl.textContent = 'last seen: ' + getRelativeTime(status.lastSeen || Date.now());
     });
 
+    // Who's online - Firebase presence
+    initPresence();
+
     // Listen for chat messages
     const messagesRef = window.db.ref('guestbook').orderByChild('timestamp').limitToLast(100);
     messagesRef.on('value', (snapshot) => {
@@ -80,13 +85,31 @@ function initChatRoom() {
             return;
         }
 
+        // Cache messages for reply lookup
+        messages.forEach(msg => {
+            const isOwner = msg.isOwner === true;
+            messagesCache[msg.id] = {
+                name: isOwner ? 'santi' : (msg.name || 'anon'),
+                text: msg.message
+            };
+        });
+
         messagesContainer.innerHTML = messages.map(msg => {
             const isOwner = msg.isOwner === true;
             const bubbleClass = isOwner ? 'owner' : 'visitor';
             const name = isOwner ? 'santi' : escapeHtml(msg.name || 'anon');
+            const replyHtml = msg.replyToName ? `
+                <div class="chat-reply-context" onclick="window.santi.scrollToMessage('${msg.replyTo}')">
+                    <span class="chat-reply-icon">↩</span>
+                    <span class="chat-reply-name">${escapeHtml(msg.replyToName)}</span>
+                    <span class="chat-reply-text">${escapeHtml((msg.replyToText || '').slice(0, 50))}${(msg.replyToText || '').length > 50 ? '...' : ''}</span>
+                </div>
+            ` : '';
             return `
-                <div class="chat-bubble ${bubbleClass}">
+                <div class="chat-bubble ${bubbleClass}" id="msg-${msg.id}">
                     <button class="chat-delete" onclick="window.santi.deleteMessage('${msg.id}')">×</button>
+                    <button class="chat-reply-btn" onclick="window.santi.setReply('${msg.id}')" title="Reply">↩</button>
+                    ${replyHtml}
                     <div class="chat-bubble-header">
                         <span class="chat-bubble-name">${name}</span>
                         <span class="chat-bubble-time">${getRelativeTime(msg.timestamp)}</span>
@@ -100,6 +123,92 @@ function initChatRoom() {
     });
 }
 
+// Activity-based presence tracking (counts users active in last 5 min)
+function initPresence() {
+    // Generate a unique ID per tab (not localStorage — each tab needs its own)
+    const tabId = 'v_' + Math.random().toString(36).substr(2, 9) + '_' + Date.now();
+    const visitorRef = window.db.ref('visitors/' + tabId);
+
+    // Update our activity timestamp
+    function updateActivity() {
+        visitorRef.set({
+            lastSeen: firebase.database.ServerValue.TIMESTAMP
+        }).catch(() => {
+            // Silently fail if no permission — just hide the counter
+            const onlineEl = document.getElementById('online-count');
+            if (onlineEl) onlineEl.style.display = 'none';
+        });
+    }
+
+    // Update on load and periodically
+    updateActivity();
+    setInterval(updateActivity, 30000); // Every 30 seconds
+
+    // Clean up on page close
+    window.addEventListener('beforeunload', () => {
+        // Use sendBeacon for reliability on page close
+        navigator.sendBeacon && visitorRef.remove();
+    });
+    
+    // Also use Firebase onDisconnect for cleanup
+    visitorRef.onDisconnect().remove();
+
+    // Listen for active visitors (last 2 min for more responsive count)
+    window.db.ref('visitors').on('value', (snapshot) => {
+        const onlineEl = document.getElementById('online-count');
+        if (!onlineEl) return;
+
+        const now = Date.now();
+        const twoMinAgo = now - (2 * 60 * 1000);
+        let count = 0;
+
+        snapshot.forEach((child) => {
+            const data = child.val();
+            if (data && data.lastSeen && data.lastSeen > twoMinAgo) {
+                count++;
+            }
+        });
+
+        onlineEl.textContent = count === 1 ? '1 person here' : `${count} people here`;
+    }, () => {
+        // Error callback — hide counter if no permission
+        const onlineEl = document.getElementById('online-count');
+        if (onlineEl) onlineEl.style.display = 'none';
+    });
+}
+
+// Reply functions
+export function setReply(msgId) {
+    const cached = messagesCache[msgId];
+    if (!cached) return;
+    
+    replyingTo = { id: msgId, name: cached.name, text: cached.text };
+    const indicator = document.getElementById('reply-indicator');
+    const nameEl = document.getElementById('reply-to-name');
+    if (indicator && nameEl) {
+        nameEl.textContent = cached.name;
+        indicator.style.display = 'flex';
+    }
+    document.getElementById('chat-message')?.focus();
+}
+
+export function cancelReply() {
+    replyingTo = null;
+    const indicator = document.getElementById('reply-indicator');
+    if (indicator) {
+        indicator.style.display = 'none';
+    }
+}
+
+export function scrollToMessage(msgId) {
+    const el = document.getElementById('msg-' + msgId);
+    if (el) {
+        el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        el.classList.add('chat-bubble-highlight');
+        setTimeout(() => el.classList.remove('chat-bubble-highlight'), 1500);
+    }
+}
+
 export function submitChat() {
     const nameInput = document.getElementById('chat-name');
     const messageInput = document.getElementById('chat-message');
@@ -109,13 +218,23 @@ export function submitChat() {
     const name = (nameInput?.value.trim() || 'anon').slice(0, 50);
     if (!message) return;
 
-    window.db.ref('guestbook').push({
+    const msgData = {
         name: name,
         message: message,
         timestamp: firebase.database.ServerValue.TIMESTAMP,
         isOwner: false
-    }).then(() => {
+    };
+
+    // Add reply data if replying
+    if (replyingTo) {
+        msgData.replyTo = replyingTo.id;
+        msgData.replyToName = replyingTo.name;
+        msgData.replyToText = replyingTo.text;
+    }
+
+    window.db.ref('guestbook').push(msgData).then(() => {
         messageInput.value = '';
+        cancelReply();
     }).catch(error => {
         console.error('Error posting message:', error);
     });

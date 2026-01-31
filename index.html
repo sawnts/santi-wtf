@@ -117,11 +117,18 @@
                     <div class="chat-status-message" id="status-message">welcome to my corner of the internet</div>
                     <div class="chat-status-lastseen" id="status-lastseen">last seen: just now</div>
                 </div>
+                <div class="chat-online-count" id="online-count">1 person here</div>
             </div>
 
             <!-- Chat Messages -->
             <div class="chat-messages" id="chat-messages">
                 <div style="text-align: center; color: #666; padding: 20px;">loading messages...</div>
+            </div>
+
+            <!-- Reply Indicator -->
+            <div class="chat-reply-indicator" id="reply-indicator" style="display: none;">
+                <span class="chat-reply-indicator-text">replying to <strong id="reply-to-name"></strong></span>
+                <button type="button" class="chat-reply-cancel" onclick="cancelReply()">×</button>
             </div>
 
             <!-- Chat Input -->
