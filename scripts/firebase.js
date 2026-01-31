@@ -189,7 +189,11 @@ export function setReply(msgId) {
         nameEl.textContent = cached.name;
         indicator.style.display = 'flex';
     }
-    document.getElementById('chat-message')?.focus();
+    
+    // Focus admin input if in admin mode, otherwise regular input
+    const isAdmin = document.body.classList.contains('admin-mode');
+    const inputId = isAdmin ? 'admin-chat-message' : 'chat-message';
+    document.getElementById(inputId)?.focus();
 }
 
 export function cancelReply() {
