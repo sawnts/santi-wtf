@@ -21,6 +21,25 @@
       "backlinks": [],
       "excerpt": "i built this site because i miss the internet. the one before the apps. i miss the weird little corners of the web where people shared their thoughts,"
     },
+    "about": {
+      "title": "note title",
+      "slug": "about",
+      "collection": null,
+      "stage": "seedling",
+      "planted": null,
+      "tended": null,
+      "tags": [],
+      "links": [
+        "digital-garden",
+        "integration",
+        "integration",
+        "splitting",
+        "power-of-writing-online",
+        "now"
+      ],
+      "backlinks": [],
+      "excerpt": "i built this site because i miss the internet. the one before the apps. i miss the weird little corners of the web where people shared their thoughts,"
+    },
     "ogilvy-creative-process": {
       "title": "ogilvy's creative process",
       "slug": "ogilvy-creative-process",
@@ -106,6 +125,7 @@
       ],
       "backlinks": [
         "index",
+        "about",
         "tech-i-love",
         "now",
         "read-old-notes",
@@ -146,7 +166,8 @@
         "my-favorite-reads-2025"
       ],
       "backlinks": [
-        "index"
+        "index",
+        "about"
       ],
       "excerpt": "what i'm up to recently:"
     },
@@ -229,6 +250,7 @@
       ],
       "backlinks": [
         "index",
+        "about",
         "david-ogilvy",
         "digital-garden",
         "integration"
@@ -274,6 +296,7 @@
       ],
       "backlinks": [
         "index",
+        "about",
         "digital-garden",
         "2026-lessons"
       ],
@@ -344,6 +367,7 @@
       ],
       "backlinks": [
         "index",
+        "about",
         "ogilvy-creative-process",
         "miles-davis",
         "david-ogilvy",
@@ -375,9 +399,9 @@
     }
   },
   "stats": {
-    "total": 17,
-    "links": 50,
-    "seedling": 0,
+    "total": 18,
+    "links": 56,
+    "seedling": 1,
     "growing": 11,
     "evergreen": 6,
     "collections": [

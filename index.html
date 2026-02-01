@@ -1,441 +1,101 @@
 <!DOCTYPE html>
-<!-- santi.wtf - powered by vibes -->
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>santi.wtf - a corner of the old internet</title>
-    <meta name="description" content="a time-traveling personal site.">
-    <meta name="author" content="Santi">
-    <meta name="keywords" content="personal blog, creativity, writing, philosophy, Windows 98, retro web">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>santi.wtf</title>
+    <meta name="description" content="santi's digital garden — a collection of growing ideas about creativity, building, and thinking.">
+    <meta name="author" content="santi">
 
     <!-- Open Graph / Social -->
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://santi.wtf/">
-    <meta property="og:title" content="santi.wtf - a corner of the old internet">
-    <meta property="og:description" content="a time-traveling personal site.">
+    <meta property="og:title" content="santi.wtf">
+    <meta property="og:description" content="a digital garden — ideas growing in public.">
     <meta property="og:image" content="https://santi.wtf/images/preview-image-wtf.png">
     <meta property="og:image:width" content="1200">
     <meta property="og:image:height" content="630">
 
     <!-- Twitter -->
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="santi.wtf - a corner of the old internet">
-    <meta name="twitter:description" content="a time-traveling personal site.">
+    <meta name="twitter:title" content="santi.wtf">
+    <meta name="twitter:description" content="a digital garden — ideas growing in public.">
     <meta name="twitter:image" content="https://santi.wtf/images/preview-image-wtf.png">
-    <meta name="twitter:image:alt" content="santi.wtf preview">
 
-    <link rel="icon" type="image/png" href="/icons/computer_2_cool-0.png">
+    <link rel="icon" type="image/x-icon" href="/icons/favicon.ico">
     <link rel="canonical" href="https://santi.wtf/">
-    <!-- Preconnect to external domains -->
-    <link rel="preconnect" href="https://www.gstatic.com" crossorigin>
-    <link rel="preconnect" href="https://santi-guestbook-default-rtdb.firebaseio.com" crossorigin>
-    <!-- Firebase SDK - deferred to not block rendering -->
-    <script defer src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
-    <script defer src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
-    <script defer src="https://www.gstatic.com/firebasejs/10.7.1/firebase-database-compat.js"></script>
-    <link rel="stylesheet" href="styles.css">
+
+    <!-- Preconnect for fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/terminal/styles.css">
 </head>
 <body>
-    <a href="#blog-content" class="skip-link">Skip to main content</a>
-    <main>
-    <div class="desktop" id="desktop">
-        <div tabindex="0" class="icon" style="left: 10px; top: 10px;" onclick="openWindow('mycomputer')">
-            <div class="icon-img"><img src="/icons/computer_explorer-0.png" alt="My Computer"></div>
-            <div class="icon-label">My Computer</div>
+    <div class="terminal">
+        <!-- Traffic light buttons -->
+        <div class="terminal-buttons">
+            <span class="terminal-btn red"></span>
+            <span class="terminal-btn yellow"></span>
+            <span class="terminal-btn green"></span>
         </div>
-        <div tabindex="0" class="icon" style="left: 10px; top: 90px;" onclick="openSubscribeDialog()">
-            <div class="icon-img"><img src="/icons/envelope_closed-0.png" alt="Newsletter"></div>
-            <div class="icon-label">Newsletter</div>
+
+        <div class="terminal-inner">
+            <!-- ASCII Banner -->
+            <pre class="ascii-banner" id="banner">
+███████╗ █████╗ ███╗   ██╗████████╗██╗
+██╔════╝██╔══██╗████╗  ██║╚══██╔══╝██║
+███████╗███████║██╔██╗ ██║   ██║   ██║
+╚════██║██╔══██║██║╚██╗██║   ██║   ██║
+███████║██║  ██║██║ ╚████║   ██║   ██║
+╚══════╝╚═╝  ╚═╝╚═╝  ╚═══╝   ╚═╝   ╚═╝
+            </pre>
+
+            <!-- Welcome message (typed on load) -->
+            <div id="welcome" class="welcome"></div>
+
+            <!-- Output area (commands + content render here) -->
+            <div id="output" class="output"></div>
         </div>
-        <div tabindex="0" class="icon" style="left: 10px; top: 170px;" onclick="openWindow('chat')">
-            <div class="icon-img"><img src="/icons/users-0.png" alt="Chat"></div>
-            <div class="icon-label">Chat</div>
+
+        <!-- Hidden input for capturing keystrokes -->
+        <input type="text" id="command-input" style="position:fixed;top:0;left:0;width:1px;height:1px;opacity:0;border:none;outline:none;" autocomplete="off" spellcheck="false" autofocus>
+
+        <!-- Mobile command palette -->
+        <div class="command-palette" id="command-palette">
+            <button type="button" data-cmd="search" aria-label="Search notes">
+                <span class="palette-icon">⌕</span>
+                <span class="palette-label">search</span>
+            </button>
+            <button type="button" data-cmd="explore" aria-label="Explore all notes">
+                <span class="palette-icon">☰</span>
+                <span class="palette-label">explore</span>
+            </button>
+            <button type="button" data-cmd="random" aria-label="Random note">
+                <span class="palette-icon">↻</span>
+                <span class="palette-label">random</span>
+            </button>
+            <button type="button" data-cmd="more" aria-label="More commands">
+                <span class="palette-icon">⋯</span>
+                <span class="palette-label">more</span>
+            </button>
         </div>
-        <div tabindex="0" class="icon" style="left: 10px; top: 250px;" onclick="openWindow('player')">
-            <div class="icon-img"><img src="/icons/Spotify_23464.png" alt="Spotify"></div>
-            <div class="icon-label">Spotify</div>
+
+        <!-- Loading indicator -->
+        <div id="loading" class="loading hidden">
+            <span class="loading-dots"></span>
         </div>
-        <div tabindex="0" class="icon" style="left: 10px; top: 330px;" onclick="openWindow('applications')">
-            <div class="icon-img"><img src="/icons/directory_closed-0.png" alt="Applications"></div>
-            <div class="icon-label">Applications</div>
+
+        <!-- Graph overlay -->
+        <div id="graph-overlay" class="graph-overlay">
+            <canvas id="graph-canvas"></canvas>
+            <button type="button" class="graph-close" onclick="window.closeGraph()">×</button>
         </div>
-        <div tabindex="0" class="icon" style="left: 10px; top: 410px;" onclick="openWindow('updates')">
-            <div class="icon-img"><img src="/icons/notepad-0.png" alt="Updates"></div>
-            <div class="icon-label">Updates</div>
-        </div>
-        <div tabindex="0" class="icon" style="left: 10px; top: 490px;" onclick="openWindow('garden')">
-            <div class="icon-img"><img src="/icons/tree-0.png" alt="Garden"></div>
-            <div class="icon-label">Garden</div>
-        </div>
-        <div tabindex="0" class="icon" style="left: 10px; top: 570px;" onclick="openWindow('now')">
-            <div class="icon-img"><img src="/icons/computer_taskmgr-0.png" alt="Now"></div>
-            <div class="icon-label">Now</div>
-        </div>
-        <div class="desktop-watermark">made with <span style="color: #ff0000;">♥</span> in seattle</div>
+
+        <!-- Matrix canvas (for easter egg) -->
+        <canvas id="matrix-canvas" class="matrix-canvas hidden"></canvas>
     </div>
 
-    <!-- Chat Room Window -->
-    <div class="window chat-window" id="chat" style="width: 380px; height: 500px; left: 450px; top: 100px;">
-        <div class="title-bar" onmousedown="dragStart(event, 'chat')">
-            <div class="title-text">
-                <div class="title-icon"><img src="/icons/users-1.png" alt="Chat"></div>
-                <span>santi's chat room</span>
-            </div>
-            <div class="title-buttons">
-                <button type="button" class="title-btn" onclick="minimizeWindow('chat')" aria-label="Minimize window">_</button>
-                <button type="button" class="title-btn" aria-label="Maximize window (disabled)" disabled>□</button>
-                <button type="button" class="title-btn" onclick="closeWindow('chat')" aria-label="Close window">✕</button>
-            </div>
-        </div>
-        <div class="window-content">
-            <!-- Admin Panel (hidden until admin mode) -->
-            <div class="chat-admin-panel">
-                <div class="chat-admin-title">admin controls</div>
-                <div class="chat-admin-row chat-admin-status-row">
-                    <label for="admin-status-type" class="sr-only">Status type</label>
-                    <select id="admin-status-type" class="chat-admin-status-select">
-                        <option value="online">online</option>
-                        <option value="away">away</option>
-                    </select>
-                    <label for="admin-status-message" class="sr-only">Status message</label>
-                    <input type="text" id="admin-status-message" class="chat-admin-input" placeholder="status message..." aria-label="Status message">
-                    <button type="button" class="chat-admin-btn" onclick="updateStatus()">set</button>
-                </div>
-                <div class="chat-admin-row">
-                    <label for="admin-chat-message" class="sr-only">Post message as owner</label>
-                    <input type="text" id="admin-chat-message" class="chat-admin-input" placeholder="post as santi..." aria-label="Post message as owner">
-                    <button type="button" class="chat-admin-btn" onclick="postAsOwner()">send</button>
-                </div>
-            </div>
-
-            <!-- Status Box -->
-            <div class="chat-status-box">
-                <div class="chat-status-indicator online" id="status-indicator"></div>
-                <div class="chat-status-content">
-                    <div class="chat-status-name">santi</div>
-                    <div class="chat-status-message" id="status-message">welcome to my corner of the internet</div>
-                    <div class="chat-status-lastseen" id="status-lastseen">last seen: just now</div>
-                </div>
-                <div class="chat-online-count" id="online-count">1 person here</div>
-            </div>
-
-            <!-- Chat Messages -->
-            <div class="chat-messages" id="chat-messages">
-                <div style="text-align: center; color: #666; padding: 20px;">loading messages...</div>
-            </div>
-
-            <!-- Reply Indicator -->
-            <div class="chat-reply-indicator" id="reply-indicator" style="display: none;">
-                <span class="chat-reply-indicator-text">replying to <strong id="reply-to-name"></strong></span>
-                <button type="button" class="chat-reply-cancel" onclick="cancelReply()">×</button>
-            </div>
-
-            <!-- Chat Input -->
-            <div class="chat-input-area">
-                <form class="chat-input-form" id="chat-form" onsubmit="return false;">
-                    <label for="chat-name" class="sr-only">Your name</label>
-                    <input type="text" class="chat-input-name" id="chat-name" placeholder="name">
-                    <label for="chat-message" class="sr-only">Your message</label>
-                    <input type="text" class="chat-input-message" id="chat-message" placeholder="say something..." onkeypress="if(event.key==='Enter'){submitChat();return false;}">
-                    <button type="button" class="chat-input-send" onclick="submitChat()">send</button>
-                </form>
-            </div>
-        </div>
-        <div class="resize-handle" onmousedown="resizeStart(event, 'chat')"></div>
-    </div>
-
-    <!-- Music Player Window -->
-    <div class="window player-window" id="player" style="width: 400px; height: 420px; left: 200px; top: 150px;">
-        <div class="title-bar" onmousedown="dragStart(event, 'player')">
-            <div class="title-text">
-                <div class="title-icon"><img src="/icons/Spotify_23464.png" alt="Spotify"></div>
-                <span>Spotify</span>
-            </div>
-            <div class="title-buttons">
-                <button type="button" class="title-btn" onclick="minimizeWindow('player')" aria-label="Minimize window">_</button>
-                <button type="button" class="title-btn" aria-label="Maximize window (disabled)" disabled>□</button>
-                <button type="button" class="title-btn" onclick="closeWindow('player')" aria-label="Close window">✕</button>
-            </div>
-        </div>
-        <div class="window-content" style="padding: 0; height: calc(100% - 24px); background: #121212;">
-            <iframe
-                style="border-radius: 0;"
-                src="https://open.spotify.com/embed/playlist/4QgbDjc5VUTliinoWtBTci?utm_source=generator&theme=0"
-                width="100%"
-                height="100%"
-                frameBorder="0"
-                allowfullscreen=""
-                allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
-                loading="lazy">
-            </iframe>
-        </div>
-        <div class="resize-handle" onmousedown="resizeStart(event, 'player')"></div>
-    </div>
-
-    <!-- My Computer Window -->
-    <div class="window" id="mycomputer" style="width: 450px; height: 380px; left: 100px; top: 80px;">
-        <div class="title-bar" onmousedown="dragStart(event, 'mycomputer')">
-            <div class="title-text">
-                <div class="title-icon"><img src="/icons/computer_explorer-1.png" alt="My Computer"></div>
-                <span>My Computer</span>
-            </div>
-            <div class="title-buttons">
-                <button type="button" class="title-btn" onclick="minimizeWindow('mycomputer')" aria-label="Minimize window">_</button>
-                <button type="button" class="title-btn" aria-label="Maximize window (disabled)" disabled>□</button>
-                <button type="button" class="title-btn" onclick="closeWindow('mycomputer')" aria-label="Close window">✕</button>
-            </div>
-        </div>
-        <div class="window-content" style="display: flex; flex-wrap: wrap; gap: 20px; padding: 20px; background: #fff; align-content: flex-start;">
-            <div class="mycomputer-item" onclick="openWindow('garden')">
-                <div class="icon-img"><img src="/icons/hard_disk_drive-0.png" alt=""></div>
-                <div class="mycomputer-label">garden (C:)</div>
-            </div>
-            <div class="mycomputer-item" onclick="window.open('https://threads.net/@yosawnts', '_blank')">
-                <div class="icon-img"><img src="/icons/world-0.png" alt=""></div>
-                <div class="mycomputer-label">threads</div>
-            </div>
-            <div class="mycomputer-item" onclick="window.open('https://instagram.com/yosawnts', '_blank')">
-                <div class="icon-img"><img src="/icons/camera-0.png" alt=""></div>
-                <div class="mycomputer-label">instagram</div>
-            </div>
-            <div class="mycomputer-item" onclick="window.location='mailto:yosawnts@gmail.com'">
-                <div class="icon-img"><img src="/icons/envelope_closed-0.png" alt=""></div>
-                <div class="mycomputer-label">email</div>
-            </div>
-            <div class="mycomputer-item" onclick="openSubscribeDialog()">
-                <div class="icon-img"><img src="/icons/newspaper.png" alt=""></div>
-                <div class="mycomputer-label">newsletter</div>
-            </div>
-            <div class="mycomputer-item" onclick="openWindow('now')">
-                <div class="icon-img"><img src="/icons/computer_taskmgr-0.png" alt=""></div>
-                <div class="mycomputer-label">now</div>
-            </div>
-        </div>
-        <div class="resize-handle" onmousedown="resizeStart(event, 'mycomputer')"></div>
-    </div>
-
-    <!-- Applications Folder Window -->
-    <div class="window" id="applications" style="width: 400px; height: 300px; left: 150px; top: 120px;">
-        <div class="title-bar" onmousedown="dragStart(event, 'applications')">
-            <div class="title-text">
-                <div class="title-icon"><img src="/icons/directory_closed-1.png" alt="Applications"></div>
-                <span>Applications</span>
-            </div>
-            <div class="title-buttons">
-                <button type="button" class="title-btn" onclick="minimizeWindow('applications')" aria-label="Minimize window">_</button>
-                <button type="button" class="title-btn" aria-label="Maximize window (disabled)" disabled>□</button>
-                <button type="button" class="title-btn" onclick="closeWindow('applications')" aria-label="Close window">✕</button>
-            </div>
-        </div>
-        <div class="window-content" style="height: calc(100% - 24px); display: flex; flex-wrap: wrap; gap: 20px; padding: 20px; align-content: flex-start;">
-            <div tabindex="0" class="icon" style="position: static;" onclick="openWindow('flowgarden')">
-                <div class="icon-img"><img src="/icons/write_wordpad-0.png" alt=""></div>
-                <div class="icon-label" style="color: #000; text-shadow: none;">Flow Garden</div>
-            </div>
-            <div tabindex="0" class="icon" style="position: static;" onclick="openWindow('stickynotes')">
-                <div class="icon-img"><img src="/icons/note-0.png" alt=""></div>
-                <div class="icon-label" style="color: #000; text-shadow: none;">Sticky Notes</div>
-            </div>
-            <div tabindex="0" class="icon" style="position: static;" onclick="openWindow('pomodoro')">
-                <div class="icon-img"><img src="/icons/clock-0.png" alt=""></div>
-                <div class="icon-label" style="color: #000; text-shadow: none;">Pomodoro</div>
-            </div>
-        </div>
-        <div class="resize-handle" onmousedown="resizeStart(event, 'applications')"></div>
-    </div>
-
-    <!-- Sticky Notes Window -->
-    <div class="window" id="stickynotes" style="width: 550px; height: 420px; left: 200px; top: 80px;">
-        <div class="title-bar" onmousedown="dragStart(event, 'stickynotes')">
-            <div class="title-text">
-                <div class="title-icon"><img src="/icons/note-1.png" alt="Sticky Notes"></div>
-                <span>Sticky Notes</span>
-            </div>
-            <div class="title-buttons">
-                <button type="button" class="title-btn" onclick="minimizeWindow('stickynotes')" aria-label="Minimize window">_</button>
-                <button type="button" class="title-btn" aria-label="Maximize window (disabled)" disabled>□</button>
-                <button type="button" class="title-btn" onclick="closeWindow('stickynotes')" aria-label="Close window">✕</button>
-            </div>
-        </div>
-        <div class="window-content" id="stickynotes-content" style="height: calc(100% - 24px); padding: 0; overflow: hidden;">
-            <!-- Content loads here dynamically -->
-        </div>
-        <div class="resize-handle" onmousedown="resizeStart(event, 'stickynotes')"></div>
-    </div>
-
-    <!-- Flow Garden Window -->
-    <div class="window" id="flowgarden" style="width: 720px; height: 520px; left: 120px; top: 50px;">
-        <div class="title-bar" onmousedown="dragStart(event, 'flowgarden')">
-            <div class="title-text">
-                <div class="title-icon"><img src="/icons/write_wordpad-1.png" alt="Flow Garden"></div>
-                <span>Flow Garden</span>
-            </div>
-            <div class="title-buttons">
-                <button type="button" class="title-btn" onclick="minimizeWindow('flowgarden')" aria-label="Minimize window">_</button>
-                <button type="button" class="title-btn" aria-label="Maximize window (disabled)" disabled>□</button>
-                <button type="button" class="title-btn" onclick="closeWindow('flowgarden')" aria-label="Close window">✕</button>
-            </div>
-        </div>
-        <div class="window-content" id="flowgarden-content" style="height: calc(100% - 24px);">
-            <!-- Content loads here dynamically -->
-        </div>
-        <div class="resize-handle" onmousedown="resizeStart(event, 'flowgarden')"></div>
-    </div>
-
-    <!-- Pomodoro Timer Window -->
-    <div class="window" id="pomodoro" style="width: 400px; height: 420px; left: 180px; top: 60px;">
-        <div class="title-bar" onmousedown="dragStart(event, 'pomodoro')">
-            <div class="title-text">
-                <div class="title-icon"><img src="/icons/clock-1.png" alt="Pomodoro"></div>
-                <span>Pomodoro Timer</span>
-            </div>
-            <div class="title-buttons">
-                <button type="button" class="title-btn" onclick="minimizeWindow('pomodoro')" aria-label="Minimize window">_</button>
-                <button type="button" class="title-btn" aria-label="Maximize window (disabled)" disabled>□</button>
-                <button type="button" class="title-btn" onclick="closeWindow('pomodoro')" aria-label="Close window">✕</button>
-            </div>
-        </div>
-        <div class="window-content" id="pomodoro-content" style="height: calc(100% - 24px); padding: 0; overflow: hidden;">
-            <!-- Content loads here dynamically -->
-        </div>
-        <div class="resize-handle" onmousedown="resizeStart(event, 'pomodoro')"></div>
-    </div>
-
-    <!-- Updates Window -->
-    <div class="window updates-window" id="updates" style="width: 340px; height: 400px; left: 140px; top: 80px;">
-        <div class="title-bar" onmousedown="dragStart(event, 'updates')">
-            <div class="title-text">
-                <div class="title-icon"><img src="/icons/notepad-1.png" alt="Updates"></div>
-                <span>updates</span>
-            </div>
-            <div class="title-buttons">
-                <button type="button" class="title-btn" onclick="minimizeWindow('updates')" aria-label="Minimize window">_</button>
-                <button type="button" class="title-btn" aria-label="Maximize window (disabled)" disabled>□</button>
-                <button type="button" class="title-btn" onclick="closeWindow('updates')" aria-label="Close window">✕</button>
-            </div>
-        </div>
-        <div class="window-content" id="updates-content" style="height: calc(100% - 24px); overflow-y: auto;">
-            <!-- Content renders here dynamically -->
-        </div>
-        <div class="resize-handle" onmousedown="resizeStart(event, 'updates')"></div>
-    </div>
-
-    <!-- Garden Window -->
-    <div class="window garden-window" id="garden" style="width: 80vw; height: calc(100vh - 75px); left: 10vw; top: 30px;">
-        <div class="title-bar" onmousedown="dragStart(event, 'garden')">
-            <div class="title-text">
-                <div class="title-icon"><img src="/icons/tree-1.png" alt="Garden"></div>
-                <span>garden - windows explorer</span>
-            </div>
-            <div class="title-buttons">
-                <button type="button" class="title-btn" onclick="minimizeWindow('garden')" aria-label="Minimize window">_</button>
-                <button type="button" class="title-btn" aria-label="Maximize window (disabled)" disabled>□</button>
-                <button type="button" class="title-btn" onclick="closeWindow('garden')" aria-label="Close window">✕</button>
-            </div>
-        </div>
-        <div class="window-content" id="garden-content" style="height: calc(100% - 24px); padding: 0; overflow: hidden;">
-            <iframe
-                src="/garden/garden.html"
-                style="width: 100%; height: 100%; border: none;"
-                title="Digital Garden">
-            </iframe>
-        </div>
-        <div class="resize-handle" onmousedown="resizeStart(event, 'garden')"></div>
-    </div>
-
-    <!-- Now Dashboard Window -->
-    <div class="window" id="now" style="width: 720px; height: 600px; left: 15vw; top: 50px;">
-        <div class="title-bar" onmousedown="dragStart(event, 'now')">
-            <div class="title-text">
-                <div class="title-icon"><img src="/icons/computer_taskmgr-0.png" alt="Now"></div>
-                <span>now - system monitor</span>
-            </div>
-            <div class="title-buttons">
-                <button type="button" class="title-btn" onclick="minimizeWindow('now')" aria-label="Minimize window">_</button>
-                <button type="button" class="title-btn" aria-label="Maximize window (disabled)" disabled>□</button>
-                <button type="button" class="title-btn" onclick="closeWindow('now')" aria-label="Close window">✕</button>
-            </div>
-        </div>
-        <div class="window-content" id="now-content" style="height: calc(100% - 24px); padding: 0; overflow: hidden;">
-            <iframe
-                src="/now-dashboard.html"
-                style="width: 100%; height: 100%; border: none;"
-                title="Now Dashboard">
-            </iframe>
-        </div>
-        <div class="resize-handle" onmousedown="resizeStart(event, 'now')"></div>
-    </div>
-
-    <!-- Taskbar -->
-    <div class="taskbar">
-        <div class="start-btn" onclick="toggleStartMenu()">
-            <div class="start-icon"><img src="/icons/windows-0.png" alt="" style="width: 16px; height: 16px; image-rendering: pixelated;"></div>
-            <span>Start</span>
-        </div>
-        <div class="taskbar-items" id="taskbar-items"></div>
-        <div class="system-tray">
-            <span id="clock">7:08 PM</span>
-        </div>
-    </div>
-
-    <!-- Start Menu -->
-    <div class="start-menu" id="start-menu">
-        <div class="start-menu-header">santi.wtf</div>
-        <div class="start-menu-item" onclick="openWindow('garden')"><img src="/icons/tree-1.png" alt="">Garden</div>
-        <div class="start-menu-item" onclick="openWindow('mycomputer')"><img src="/icons/computer_explorer-1.png" alt="">My Computer</div>
-        <div class="start-menu-item" onclick="openWindow('chat')"><img src="/icons/users-1.png" alt="">Chat</div>
-        <div class="start-menu-item" onclick="openWindow('player')"><img src="/icons/Spotify_23464.png" alt="">Spotify</div>
-        <div class="start-menu-item" onclick="openWindow('applications')"><img src="/icons/directory_closed-1.png" alt="">Applications</div>
-        <div class="start-menu-item" onclick="openWindow('updates')"><img src="/icons/notepad-1.png" alt="">Updates</div>
-        <div class="start-menu-item" onclick="openWindow('now')"><img src="/icons/computer_taskmgr-0.png" alt="">Now</div>
-        <div style="border-top: 1px solid #808080; margin: 2px 0;"></div>
-        <div class="start-menu-item" onclick="openShutdownDialog()"><img src="/icons/shut_down_normal-1.png" alt="">Shut Down...</div>
-    </div>
-
-    <!-- Clippy Assistant -->
-    <div class="clippy-container" id="clippy">
-        <div class="clippy-bubble">
-            <span class="clippy-close" onclick="dismissClippy()">&times;</span>
-            <p>It looks like you're enjoying the site! Want to get my latest posts in your inbox?</p>
-            <div class="clippy-buttons">
-                <button type="button" class="clippy-btn primary" onclick="clippySubscribe()">Sure!</button>
-                <button type="button" class="clippy-btn" onclick="dismissClippy()">No thanks</button>
-            </div>
-        </div>
-        <div class="clippy-character" onclick="toggleClippyBubble()"><img src="/icons/msagent-4.png" alt="" style="width: 48px; height: 48px; image-rendering: pixelated;"></div>
-    </div>
-
-    <!-- Shut Down Dialog (Newsletter Easter Egg) -->
-    <div class="shutdown-overlay" id="shutdown-overlay" onclick="closeShutdownDialog(event)">
-        <div class="shutdown-dialog" onclick="event.stopPropagation()">
-            <div class="title-bar">
-                <div class="title-text">
-                    <div class="title-icon" id="subscribe-dialog-icon"><img src="/icons/shut_down_normal-1.png" alt="Shut Down"></div>
-                    <span id="subscribe-dialog-title">Shut Down</span>
-                </div>
-                <div class="title-buttons">
-                    <button type="button" class="title-btn" onclick="closeShutdownDialog()" aria-label="Close dialog">✕</button>
-                </div>
-            </div>
-            <div class="shutdown-content">
-                <p id="subscribe-message"><strong>Wait! Before you go...</strong><br>Subscribe to get my latest thoughts delivered straight to your inbox.</p>
-                <form
-                    action="https://buttondown.com/api/emails/embed-subscribe/sawnts"
-                    method="post"
-                    class="newsletter-form"
-                >
-                    <input type="email" name="email" id="bd-email" placeholder="you@example.com" required />
-                    <button type="submit">subscribe</button>
-                </form>
-                <div class="shutdown-buttons">
-                    <button type="button" class="shutdown-btn" onclick="closeShutdownDialog()">Maybe Later</button>
-                </div>
-            </div>
-        </div>
-    </div>
-    </main>
-
-    <script type="module" src="/scripts/main.js"></script>
+    <script src="/terminal/app.js"></script>
 </body>
 </html>

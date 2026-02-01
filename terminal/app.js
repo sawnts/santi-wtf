@@ -60,6 +60,15 @@
                     input.focus();
                 }
             });
+
+            // Ensure input stays focused for typing
+            document.addEventListener('keydown', (e) => {
+                if (document.activeElement !== input &&
+                    !e.metaKey && !e.ctrlKey &&
+                    e.key.length === 1) {
+                    input.focus();
+                }
+            });
         }
 
         // Mobile command palette
@@ -158,12 +167,18 @@
 
         // Special routes
         if (path === 'about' || path === 'whoami') {
-            showAbout();
+            const note = findNote('about');
+            if (note) {
+                await loadNote(note.slug);
+            }
             return;
         }
 
         if (path === 'now' || path === 'status') {
-            await showNow();
+            const note = findNote('now');
+            if (note) {
+                await loadNote(note.slug);
+            }
             return;
         }
 
@@ -185,12 +200,12 @@
     function handleInput(e) {
         // Handle slash menu navigation
         if (slashMenuVisible) {
-            if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
+            if (e.key === 'ArrowDown') {
                 e.preventDefault();
                 slashMenuIndex = (slashMenuIndex + 1) % slashCommands.length;
                 updateSlashMenuSelection();
                 return;
-            } else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
+            } else if (e.key === 'ArrowUp') {
                 e.preventDefault();
                 slashMenuIndex = (slashMenuIndex - 1 + slashCommands.length) % slashCommands.length;
                 updateSlashMenuSelection();
@@ -295,14 +310,16 @@
         const val = input.value;
 
         if (slashMenuVisible) {
-            // Show slash menu inline
+            // Show / with cursor, then menu below
             prompt.innerHTML = `
-                <span class="typed">/</span>
-                <span class="slash-menu">
+                <div class="prompt-line"><span class="typed">/</span><span class="cursor"></span></div>
+                <div class="slash-menu">
                     ${slashCommands.map((cmd, i) => `
-                        <span class="slash-menu-item${i === slashMenuIndex ? ' selected' : ''}" data-cmd="${cmd.name}">${cmd.name}</span>
+                        <div class="slash-menu-item${i === slashMenuIndex ? ' selected' : ''}" data-cmd="${cmd.name}">
+                            <span class="menu-dot"></span><span class="menu-label">${cmd.name}</span>
+                        </div>
                     `).join('')}
-                </span>
+                </div>
             `;
             bindSlashMenu();
         } else if (val) {
@@ -353,6 +370,10 @@
 
     // ─── Execute Command ──────────────────────────────────────────
     async function execute(cmd) {
+        // Strip leading "/" if present
+        if (cmd.startsWith('/')) {
+            cmd = cmd.slice(1);
+        }
         const parts = cmd.toLowerCase().split(/\s+/);
         const command = parts[0];
         const args = parts.slice(1).join(' ');
@@ -413,14 +434,12 @@
 
             case 'now':
             case 'status':
-                clearForCommand();
-                await showNow();
+                await findAndLoad('now');
                 break;
 
             case 'about':
             case 'whoami':
-                clearForCommand();
-                showAbout();
+                await findAndLoad('about');
                 break;
 
             case 'resources':

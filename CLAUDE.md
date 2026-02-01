@@ -4,147 +4,93 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-This is a static personal blog/website styled to look like Windows 98. The site runs entirely in the browser with no build process or dependencies. Firebase is used for the real-time chat feature.
+This is a static personal website with a terminal-themed interface. The site runs entirely in the browser with no build process (except for content sync). A red background frames a floating dark terminal window.
 
 **Key Principle: Obsidian is the source of truth.** All content lives in the Obsidian vault (`/Users/santi/Desktop/Areas/Jots/santi.wtf/public`). The site pulls from it via `npm run sync`. Never hardcode content that should come from Obsidian.
 
 ## File Structure
 
 ```
-wtf/
-├── index.html          # Main HTML - window markup, desktop layout
-├── styles.css          # All CSS - Windows 98 styling (uses CSS custom properties)
-├── scripts/            # Modular JavaScript (ES modules)
-│   ├── main.js         # Entry point - initializes all modules
-│   ├── windows.js      # Window management (open, close, drag, resize)
-│   ├── firebase.js     # Firebase chat and authentication
-│   ├── updates.js      # Site updates functionality
-│   ├── apps.js         # Application loaders, Clippy, dialogs
-│   └── routes.js       # URL routing and navigation
-├── scripts.js          # [LEGACY] Kept for reference, not used
+santi-wtf/
+├── index.html          # Root - loads terminal interface
+├── terminal/           # Main terminal site
+│   ├── index.html      # Terminal HTML structure
+│   ├── styles.css      # Dark theme, JetBrains Mono font
+│   ├── app.js          # Command system, graph, animations
+│   ├── build.js        # Syncs from Obsidian (flat structure)
+│   ├── data/           # index.json, now-data.json, habits-config.json
+│   ├── content/        # Generated HTML notes
+│   └── images/         # Images copied from Obsidian
+├── garden/             # Legacy garden (fallback data source)
 ├── 404.html            # GitHub Pages SPA redirect handler
-├── now.html            # Legacy "Now" page (redirects to garden)
-├── posts/              # Legacy blog posts (redirects to garden)
-├── applications/       # Standalone apps (FlowGarden, Sticky Notes, Pomodoro)
-├── icons/              # Windows 98 style icons
-└── garden/             # Digital garden (synced from Obsidian)
-    ├── garden.html     # Garden UI (Windows Explorer style)
-    ├── garden.css      # Garden-specific styles
-    ├── garden.js       # Garden functionality
-    ├── build.js        # Build script to sync from Obsidian
-    ├── content/        # Generated HTML from markdown
-    ├── data/           # index.json with note metadata
-    └── images/         # Images copied from Obsidian vault during build
+└── icons/              # Favicon and icons
 ```
 
 ## Architecture
 
-**Single-page application structure:**
-- `index.html` - Window markup and desktop layout only
-- `styles.css` - All Windows 98 styling with CSS custom properties (`:root` variables)
-- `scripts/` - Modular ES6 JavaScript:
-  - `main.js` - Entry point, imports all modules, exposes globals for HTML onclick handlers
-  - `windows.js` - Window management (open, close, minimize, drag, resize)
-  - `firebase.js` - Chat room, authentication, real-time updates
-  - `updates.js` - Site updates window functionality
-  - `apps.js` - Application loaders, Clippy, subscribe dialogs
-  - `routes.js` - URL routing and navigation
-- Simulates a desktop environment with draggable, resizable, and minimizable windows
-- The digital garden is the main content area, running as an iframe
+**Terminal interface:**
+- Single-page app with command-based navigation
+- Slash menu (`/`) reveals quick actions (explore, random, about, now)
+- Force-directed graph visualization for `explore` command
+- Inline blinking cursor with placeholder "type / to begin"
+- Hidden input element captures keystrokes globally
+- Typing animation on welcome message
 
-**CSS Custom Properties (in styles.css):**
+**Key elements:**
+- ASCII banner at top (hidden on mobile <480px)
+- macOS-style traffic light buttons (decorative)
+- Mobile command palette at bottom (visible <768px)
+
+**CSS Custom Properties (`terminal/styles.css`):**
 ```css
 :root {
-    --win98-bg: #c0c0c0;
-    --win98-dark: #808080;
-    --win98-light: #dfdfdf;
-    --win98-blue: #000080;
-    --win98-highlight: #1084d0;
-    /* ... more tokens */
+    --page-bg: #c0392b;      /* Red background */
+    --bg: #1a1a1a;           /* Dark terminal */
+    --text: #e0e0e0;
+    --accent: #5dd9c1;       /* Teal accent */
+    --accent-secondary: #b794f4;
+    --accent-tertiary: #f687b3;
 }
 ```
 
-**URL Routing:**
-- Uses pathname-based routing (`/garden`, `/garden/folder/note-name`, `/player`)
-- `404.html` handles GitHub Pages SPA redirects by storing path in sessionStorage and redirecting to `/`
-- `handleRoutes()` reads the path and navigates to appropriate garden note
-- Garden URLs use dashes instead of spaces (e.g., `/garden/being/my-note-name`)
+## Command System
 
-**Applications in `applications/` directory:**
-- Interactive apps that run in their own desktop windows (e.g., FlowGarden)
-- Each app is a standalone HTML file with embedded CSS and JS
+| Command | Aliases | Description |
+|---------|---------|-------------|
+| `/` | - | Show slash menu with glowing dot selection |
+| `explore` | `ls` | Open force-directed graph of all notes |
+| `list` | `notes` | Text list of all notes |
+| `cat [note]` | `read`, `open`, `go` | Display a note |
+| `search [term]` | `find`, `grep` | Search notes by title/tags/content |
+| `random` | `rand`, `r` | Load random note |
+| `recent` | `latest` | Recently updated notes |
+| `now` | `status` | Current status dashboard |
+| `about` | `whoami` | About page |
+| `home` | `clear`, `cls`, `back` | Return to welcome screen |
+| `help` | `?` | Show all commands |
+| `matrix` | - | Easter egg: matrix rain effect |
 
-**Digital Garden (`garden/` directory):**
-- Windows Explorer-styled interface for browsing interconnected notes
-- Runs as an iframe inside a draggable desktop window
-- Content synced from Obsidian vault via build script
-- Features: folder tree, wikilinks, backlinks, search, graph view, hover previews, mobile touch support
-- Resets to welcome page when window is closed and reopened
+**Direct access:** Typing a note title and pressing Enter loads it directly.
 
-## Key Functions
-
-**Window management (windows.js):**
-- `openWindow(id)` / `closeWindow(id)` - Show/hide window elements
-- `minimizeWindow(id)` / `restoreWindow(id)` - Minimize to taskbar / restore from taskbar
-- `setActiveWindow(id)` - Bring window to front and mark as active
-- `dragStart()` / `resizeStart()` - Handle window drag and resize interactions
-
-**State tracking:**
-- `minimizedWindows` (Set) - Tracks which windows are minimized
-- `openWindows` (Set) - Tracks which windows are open
-
-**Chat (Firebase):**
-- `initChatRoom()` - Sets up Firebase listeners for messages and status
-- `submitChat()` - Posts visitor messages (max 500 chars, name max 50 chars)
-- `postAsOwner()` - Posts as santi with blue bubble (admin mode only)
-- `updateStatus()` - Updates online/away status (admin mode only)
-
-**Admin Mode (Firebase Auth):**
-- Press Ctrl+Shift+L (Windows) or Cmd+Shift+L (Mac) to login/logout with Google
-- Or call `adminLogin()` / `adminLogout()` in browser console
-- Only the configured ADMIN_UID can access admin features
-- Enables: posting as owner in chat, updating status, editing/deleting updates
-
-**Applications:**
-- `loadApplication(contentId, filePath, appName)` - Generic loader for apps in applications/
-
-## Content Style Guidelines
-
-**All content must be lowercase** - titles, headings, body text, dates, everything. This is the site's aesthetic.
-
-**Post signature:** Every post ends with a monospace signature linked to email:
-```html
-<p style="font-family: monospace; margin-top: 1.5em;">&lt;3 <a href="mailto:yosawnts@gmail.com">santi</a></p>
-```
-
-## Adding Site Updates
-
-The Updates window displays entries from the `siteUpdates` array at the top of scripts.js. Add new entries at the top of the array, maintaining descending date order:
-
-```javascript
-const siteUpdates = [
-    { date: "january 18, 2026", text: "added updates window to the desktop" },
-    // add new entries above existing ones
-];
-```
+**Slash menu:** Type `/` to show menu, use up/down arrows to navigate, Enter to select, Escape to dismiss.
 
 ## Digital Garden
 
-The garden is a collection of interconnected notes synced from an Obsidian vault.
-
 **Syncing from Obsidian:**
 ```bash
+cd terminal && npm run sync
+# Or fallback:
 cd garden && npm run sync
 ```
 
-This runs `build.js` which:
-1. Reads markdown files from the Obsidian vault (`/Users/santi/Desktop/Areas/Jots/santi.wtf/public`)
-2. Converts them to HTML with wikilink support
-3. Converts `![[image.png]]` embeds to `<img>` tags and copies images to `images/`
-4. Generates `data/index.json` with note metadata, links, and backlinks
-5. Outputs HTML files to `content/`
+The build script:
+1. Reads markdown from Obsidian vault (`/Users/santi/Desktop/Areas/Jots/santi.wtf/public`)
+2. Converts to HTML with wikilink support
+3. Converts `![[image.png]]` embeds to `<img>` tags
+4. Generates `data/index.json` with note metadata, links, backlinks
+5. Outputs to `content/` directory
 
-**Note frontmatter format:**
+**Note frontmatter:**
 ```yaml
 ---
 title: note title
@@ -160,20 +106,19 @@ tags: [tag1, tag2]
 - 🌿 growing — developing ideas with some structure
 - 🌲 evergreen — well-developed, stable concepts
 
-**Wikilinks:** Use `[[note-name]]` or `[[path/note-name|display text]]` format.
+**Wikilinks:** `[[note-name]]` or `[[path/note-name|display text]]`
 
-**Image embeds:** Use `![[image.png]]` or `![[image.png|alt text]]` format. The build script searches for images in the vault root and `images/` subfolder, copies them to `garden/images/` with sanitized filenames (spaces to dashes, lowercase), and converts embeds to `<img>` tags.
+**Image embeds:** `![[image.png]]` or `![[image.png|alt text]]`
 
-**Private files:** Files or folders starting with `_` are skipped by the build (e.g., `_template.md`, `_system/`).
+**Private files:** Files/folders starting with `_` are skipped (e.g., `_template.md`)
 
-**Now Dashboard (`now.md`):**
-The now page is the source of truth for dashboard data. All dynamic content is in the frontmatter:
+## Now Dashboard
 
+The `now.md` frontmatter drives the now page:
 ```yaml
 ---
 title: now
 location: seattle, wa
-# status: override automatic status (optional)
 reading:
   title: book title
   author: author name
@@ -184,56 +129,27 @@ caffeine: 2
 habits:
   - name: meditation
     goal: daily stillness
-  - name: reading
-    goal: feed the mind
 ---
 ```
 
-Habit completion data in body (using day-of-year numbers, supports ranges):
+## URL Routing
+
 ```
-\`\`\`habits
-meditation: 1-14, 24
-reading: 1-21, 24
-\`\`\`
+santi.wtf/              → Terminal home
+santi.wtf/[note-slug]   → Load note directly
+santi.wtf/now           → Now page
+santi.wtf/about         → About page
 ```
 
-Day reference: day 1 = jan 1, day 32 = feb 1, day 60 = mar 1, etc.
-
-The build script extracts this to `garden/data/now-data.json` and `garden/data/habits-config.json`.
-
-## Mobile
-
-**Breakpoints:** 768px (mobile) and 480px (small phones).
-
-**Parent page (styles.css):**
-- Windows go fullscreen: `width: 100%; height: calc(100dvh - 44px)`
-- Desktop icons hidden, start menu full-width
-- Taskbar items hidden (use start menu instead)
-- Desktop padding removed on mobile
-- Z-index hierarchy: taskbar (2000) > start menu (2001) > active windows (1000)
-
-**Garden (garden.css / garden.js):**
-- Left pane becomes a slide-out drawer (hamburger button or swipe from left edge)
-- Menu bar, status bar, and address bar hidden on mobile
-- `html, body` constrained with `overflow: hidden; max-width: 100vw` (iOS Safari fix)
-- Graph view has full touch support: drag nodes, pan, pinch-to-zoom, double-tap to reset
-- Wikilink previews use long-press (500ms) instead of hover on touch devices
-- Swipe gestures: left edge → open drawer, swipe on content → history back/forward
-- Resize/orientation handler closes drawer when switching to desktop width
-- Habit tracker grid scrolls horizontally with larger cells (14px)
-- Uses `100dvh` instead of `100vh` to account for mobile browser chrome
-
-**Important:** Always use `!important` in mobile media query overrides for `.garden-window` since global rules in styles.css can override them due to cascade order.
+Uses `404.html` + sessionStorage pattern for GitHub Pages SPA routing.
 
 ## Local Development
 
-**⚠️ ALWAYS test locally before pushing. No exceptions.**
-
+**Always test locally before pushing:**
 ```bash
-cd ~/Projects/santi-wtf && python3 -m http.server 8000
+python3 -m http.server 8000
 ```
-
-Then open `localhost:8000`. Let Santi review changes before committing.
+Then open `localhost:8000`
 
 ## Deployment
 
@@ -244,29 +160,21 @@ git commit -m "description"
 git push
 ```
 
-**Workflow:**
-1. Make changes
-2. Start local server
-3. Tell Santi to test at localhost:8000
-4. Wait for approval
-5. Only then commit and push
+## Content Style
 
-## Accessibility
+**All content must be lowercase** — titles, headings, body text, dates. This is the site's aesthetic.
 
-The site balances Win98 aesthetics with accessibility:
-- Base font: 12px minimum (not smaller)
-- Text contrast: #505050 on gray backgrounds (not #808080)
-- Focus indicators: 3px solid blue outline
-- All buttons have `type="button"`
-- Form inputs have aria-labels
-- Desktop icons are keyboard-accessible (tabindex)
-- No font-smoothing disabled (was removed for readability)
+## Mobile
+
+**Breakpoints:** 768px (tablet), 480px (phone)
+
+- ASCII banner hidden on phones
+- Mobile command palette appears at bottom
+- Swipe right to go back
+- Touch anywhere to focus input
 
 ## Security Notes
 
-- Firebase credentials are in client-side code (expected for web Firebase, security comes from Firebase Rules)
-- Admin mode uses Firebase Authentication with Google Sign-in
-- Only the ADMIN_UID in scripts.js can access admin features
-- All fetch calls check `response.ok` before processing
-- Garden uses `escapeAttr()` for dynamic values in onclick handlers
-- Chat input is limited to 500 chars (message) and 50 chars (name)
+- Firebase credentials in client code (security via Firebase Rules)
+- `escapeHtml()` and `escapeAttr()` used for dynamic content
+- Input limited to prevent abuse

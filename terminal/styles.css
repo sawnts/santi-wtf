@@ -185,15 +185,19 @@ body {
 
 /* ─── Slash Menu ───────────────────────────────────────────────── */
 .slash-menu {
-    display: inline-flex;
-    gap: 0.75rem;
-    margin-left: 0.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
 }
 
 .slash-menu-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
     color: var(--text-dim);
     cursor: pointer;
-    transition: color 0.1s ease;
+    padding: 0.25rem 0;
+    transition: color 0.15s ease;
 }
 
 .slash-menu-item:hover {
@@ -204,9 +208,17 @@ body {
     color: var(--accent);
 }
 
-.slash-menu-item.selected::before {
-    content: '> ';
-    color: var(--accent);
+.menu-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: transparent;
+    transition: all 0.15s ease;
+}
+
+.slash-menu-item.selected .menu-dot {
+    background: var(--accent);
+    box-shadow: 0 0 8px var(--accent), 0 0 12px var(--accent);
 }
 
 /* ─── Help Section ─────────────────────────────────────────────── */
@@ -647,11 +659,18 @@ body {
 
 /* ─── Inline Prompt ────────────────────────────────────────────── */
 .inline-prompt {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
     margin-top: 1.5rem;
     min-height: 1.5em;
+}
+
+.inline-prompt > span {
+    display: inline;
+}
+
+.prompt-line {
+    display: flex;
+    align-items: center;
+    margin-bottom: 0.75rem;
 }
 
 .inline-prompt .cursor {
