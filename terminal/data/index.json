@@ -1,0 +1,390 @@
+{
+  "notes": {
+    "index": {
+      "title": "start here",
+      "slug": "index",
+      "collection": null,
+      "stage": "evergreen",
+      "planted": "2026-01-24T00:00:00.000Z",
+      "tended": "2026-01-24T00:00:00.000Z",
+      "tags": [
+        "meta"
+      ],
+      "links": [
+        "digital-garden",
+        "integration",
+        "integration",
+        "splitting",
+        "power-of-writing-online",
+        "now"
+      ],
+      "backlinks": [],
+      "excerpt": "i built this site because i miss the internet. the one before the apps. i miss the weird little corners of the web where people shared their thoughts,"
+    },
+    "ogilvy-creative-process": {
+      "title": "ogilvy's creative process",
+      "slug": "ogilvy-creative-process",
+      "collection": "loving",
+      "stage": "evergreen",
+      "planted": "2025-10-14T00:00:00.000Z",
+      "tended": "2026-01-25T00:00:00.000Z",
+      "tags": [
+        "influences",
+        "creativity",
+        "writing"
+      ],
+      "links": [
+        "david-ogilvy",
+        "david-ogilvy",
+        "integration"
+      ],
+      "backlinks": [
+        "david-ogilvy"
+      ],
+      "excerpt": "david ogilvy sold billions of dollars for some of the biggest brands in the world with his pen. his agency, ogilvy & mather, still prints money for co"
+    },
+    "miles-davis": {
+      "title": "miles davis",
+      "slug": "miles-davis",
+      "collection": "loving",
+      "stage": "growing",
+      "planted": "2024-12-01T00:00:00.000Z",
+      "tended": "2026-01-08T00:00:00.000Z",
+      "tags": [
+        "influences",
+        "music"
+      ],
+      "links": [
+        "integration"
+      ],
+      "backlinks": [
+        "integration"
+      ],
+      "excerpt": "kept reinventing what jazz could be. cool jazz → hard bop → modal → fusion."
+    },
+    "david-ogilvy": {
+      "title": "david ogilvy",
+      "slug": "david-ogilvy",
+      "collection": "loving",
+      "stage": "growing",
+      "planted": "2024-10-01T00:00:00.000Z",
+      "tended": "2026-01-12T00:00:00.000Z",
+      "tags": [
+        "influences",
+        "advertising"
+      ],
+      "links": [
+        "integration",
+        "integration",
+        "splitting",
+        "ogilvy-creative-process"
+      ],
+      "backlinks": [
+        "ogilvy-creative-process",
+        "splitting",
+        "integration"
+      ],
+      "excerpt": "the father of advertising. insisted on research before creativity."
+    },
+    "digital-garden": {
+      "title": "digital garden",
+      "slug": "digital-garden",
+      "collection": "doing",
+      "stage": "growing",
+      "planted": "2026-01-24T00:00:00.000Z",
+      "tended": "2026-01-25T00:00:00.000Z",
+      "tags": [
+        "projects",
+        "meta"
+      ],
+      "links": [
+        "linking-is-thinking",
+        "integration",
+        "splitting",
+        "linking-is-thinking",
+        "power-of-writing-online"
+      ],
+      "backlinks": [
+        "index",
+        "tech-i-love",
+        "now",
+        "read-old-notes",
+        "power-of-writing-online"
+      ],
+      "excerpt": "this is a digital garden — a place for ideas to grow over time. here's how it works."
+    },
+    "tech-i-love": {
+      "title": "tech i love",
+      "slug": "tech-i-love",
+      "collection": "being",
+      "stage": "growing",
+      "planted": "2026-01-28T00:00:00.000Z",
+      "tended": "2026-01-28T00:00:00.000Z",
+      "tags": [
+        "gear",
+        "technology",
+        "favorites"
+      ],
+      "links": [
+        "digital-garden"
+      ],
+      "backlinks": [],
+      "excerpt": "i'm not a gadget person. i don't chase specs or wait in line for launches. but some things have quietly become pillars in my daily life — tools i'd ge"
+    },
+    "now": {
+      "title": "now",
+      "slug": "now",
+      "collection": "being",
+      "stage": "evergreen",
+      "planted": "2026-01-01T00:00:00.000Z",
+      "tended": "2026-01-29T00:00:00.000Z",
+      "tags": [
+        "personal"
+      ],
+      "links": [
+        "digital-garden",
+        "my-favorite-reads-2025"
+      ],
+      "backlinks": [
+        "index"
+      ],
+      "excerpt": "what i'm up to recently:"
+    },
+    "my-favorite-reads-2025": {
+      "title": "my favorite reads of 2025",
+      "slug": "my-favorite-reads-2025",
+      "collection": "being",
+      "stage": "evergreen",
+      "planted": "2026-01-01T00:00:00.000Z",
+      "tended": "2026-01-01T00:00:00.000Z",
+      "tags": [
+        "writing",
+        "books"
+      ],
+      "links": [
+        "habit-tracker"
+      ],
+      "backlinks": [
+        "now"
+      ],
+      "excerpt": "the first one is 70 pages long. number two will get anybody out of a reading slump. the third one is its sequel. the fourth one is the only personal d"
+    },
+    "2026-lessons": {
+      "title": "2026 lessons",
+      "slug": "2026-lessons",
+      "collection": "being",
+      "stage": "growing",
+      "planted": "2026-01-17T00:00:00.000Z",
+      "tended": "2026-01-25T00:00:00.000Z",
+      "tags": [
+        "personal",
+        "lessons"
+      ],
+      "links": [
+        "the-map-is-not-the-territory",
+        "power-of-writing-online"
+      ],
+      "backlinks": [
+        "the-map-is-not-the-territory"
+      ],
+      "excerpt": "a running list of things i'm learning this year. updated as life teaches me."
+    },
+    "the-map-is-not-the-territory": {
+      "title": "the map is not the territory",
+      "slug": "the-map-is-not-the-territory",
+      "collection": "thinking",
+      "stage": "growing",
+      "planted": "2026-01-25T00:00:00.000Z",
+      "tended": "2026-01-25T00:00:00.000Z",
+      "tags": [
+        "mental-models",
+        "creativity"
+      ],
+      "links": [
+        "2026-lessons",
+        "2026-lessons"
+      ],
+      "backlinks": [
+        "2026-lessons"
+      ],
+      "excerpt": "a mental model from Alfred Korzybski (1931): our representations of reality — maps, models, frameworks, other people's systems — are always abstractio"
+    },
+    "splitting": {
+      "title": "splitting",
+      "slug": "splitting",
+      "collection": "thinking",
+      "stage": "growing",
+      "planted": "2024-11-15T00:00:00.000Z",
+      "tended": "2026-01-10T00:00:00.000Z",
+      "tags": [
+        "creativity",
+        "mental-models"
+      ],
+      "links": [
+        "integration",
+        "first-principles",
+        "5-whys",
+        "david-ogilvy",
+        "integration"
+      ],
+      "backlinks": [
+        "index",
+        "david-ogilvy",
+        "digital-garden",
+        "integration"
+      ],
+      "excerpt": "before you can understand something, you often need to break it apart. this is splitting — the analytical complement to integration."
+    },
+    "read-old-notes": {
+      "title": "read old notes",
+      "slug": "read-old-notes",
+      "collection": "thinking",
+      "stage": "growing",
+      "planted": "2026-01-06T00:00:00.000Z",
+      "tended": "2026-01-24T00:00:00.000Z",
+      "tags": [
+        "writing",
+        "digital-garden"
+      ],
+      "links": [
+        "digital-garden"
+      ],
+      "backlinks": [
+        "making-effective-connections",
+        "linking-is-thinking"
+      ],
+      "excerpt": "your past self had ideas your current self forgot. rereading is how you bring them back — under a new light, with fresh eyes, and a heavy dose of curi"
+    },
+    "power-of-writing-online": {
+      "title": "the power of writing online",
+      "slug": "power-of-writing-online",
+      "collection": "thinking",
+      "stage": "evergreen",
+      "planted": "2026-01-12T00:00:00.000Z",
+      "tended": "2026-01-12T00:00:00.000Z",
+      "tags": [
+        "writing",
+        "creativity"
+      ],
+      "links": [
+        "linking-is-thinking",
+        "writing-is-thinking-on-paper",
+        "evergreen-notes-are-for-thinking",
+        "digital-garden"
+      ],
+      "backlinks": [
+        "index",
+        "digital-garden",
+        "2026-lessons"
+      ],
+      "excerpt": "the person who can string together words that evoke emotion, facilitate insight, and entertain readers has a huge competitive advantage in today's dig"
+    },
+    "making-effective-connections": {
+      "title": "making effective connections",
+      "slug": "making-effective-connections",
+      "collection": "thinking",
+      "stage": "growing",
+      "planted": "2025-05-15T00:00:00.000Z",
+      "tended": "2026-01-10T00:00:00.000Z",
+      "tags": [
+        "creativity",
+        "thinking-modes"
+      ],
+      "links": [
+        "read-old-notes"
+      ],
+      "backlinks": [
+        "linking-is-thinking",
+        "evergreen-notes-are-for-thinking"
+      ],
+      "excerpt": "good links are like good friendships. they need shared context to mean something."
+    },
+    "linking-is-thinking": {
+      "title": "linking is thinking",
+      "slug": "linking-is-thinking",
+      "collection": "thinking",
+      "stage": "growing",
+      "planted": "2026-01-06T00:00:00.000Z",
+      "tended": "2026-01-24T00:00:00.000Z",
+      "tags": [
+        "writing",
+        "digital-garden"
+      ],
+      "links": [
+        "making-effective-connections",
+        "read-old-notes",
+        "evergreen-notes-are-for-thinking"
+      ],
+      "backlinks": [
+        "digital-garden",
+        "power-of-writing-online",
+        "evergreen-notes-are-for-thinking"
+      ],
+      "excerpt": "good ideas don't live in isolation. they live in relationship."
+    },
+    "integration": {
+      "title": "integration",
+      "slug": "integration",
+      "collection": "thinking",
+      "stage": "evergreen",
+      "planted": "2024-11-12T00:00:00.000Z",
+      "tended": "2026-01-18T00:00:00.000Z",
+      "tags": [
+        "creativity",
+        "mental-models"
+      ],
+      "links": [
+        "david-ogilvy",
+        "splitting",
+        "miles-davis",
+        "steve-jobs",
+        "splitting",
+        "david-ogilvy",
+        "miles-davis"
+      ],
+      "backlinks": [
+        "index",
+        "ogilvy-creative-process",
+        "miles-davis",
+        "david-ogilvy",
+        "digital-garden",
+        "splitting"
+      ],
+      "excerpt": "the best ideas often come from combining concepts that don't obviously belong together."
+    },
+    "evergreen-notes-are-for-thinking": {
+      "title": "evergreen notes are for thinking",
+      "slug": "evergreen-notes-are-for-thinking",
+      "collection": "thinking",
+      "stage": "growing",
+      "planted": "2025-10-10T00:00:00.000Z",
+      "tended": "2026-01-10T00:00:00.000Z",
+      "tags": [
+        "creativity",
+        "digital-garden"
+      ],
+      "links": [
+        "linking-is-thinking",
+        "making-effective-connections"
+      ],
+      "backlinks": [
+        "power-of-writing-online",
+        "linking-is-thinking"
+      ],
+      "excerpt": "evergreen notes aren't content. they're tools for thought."
+    }
+  },
+  "stats": {
+    "total": 17,
+    "links": 50,
+    "seedling": 0,
+    "growing": 11,
+    "evergreen": 6,
+    "collections": [
+      "loving",
+      "doing",
+      "being",
+      "thinking"
+    ]
+  }
+}

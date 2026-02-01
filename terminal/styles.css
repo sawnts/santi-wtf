@@ -1,0 +1,975 @@
+/* ═══════════════════════════════════════════════════════════════
+   SANTI.WTF — terminal interface
+   ═══════════════════════════════════════════════════════════════ */
+
+*, *::before, *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+:root {
+    --page-bg: #c0392b;
+    --bg: #1a1a1a;
+    --text: #e0e0e0;
+    --text-dim: #6b6b6b;
+    --text-bright: #ffffff;
+    --accent: #5dd9c1;
+    --accent-secondary: #b794f4;
+    --accent-tertiary: #f687b3;
+    --link: #5dd9c1;
+    --link-hover: #81e6d9;
+    --green: #68d391;
+    --yellow: #f6e05e;
+    --border: #2d2d2d;
+    --surface: #242424;
+    --error: #fc8181;
+    --font: 'JetBrains Mono', 'Fira Code', 'SF Mono', monospace;
+
+    /* Note stages */
+    --seedling: #68d391;
+    --growing: #5dd9c1;
+    --evergreen: #b794f4;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: var(--font);
+    font-size: 15px;
+    line-height: 1.7;
+    background: var(--page-bg);
+    color: var(--text);
+    min-height: 100vh;
+    min-height: 100dvh;
+    overflow-x: hidden;
+    padding: 2rem;
+}
+
+/* ─── Terminal Container ───────────────────────────────────────── */
+.terminal {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 0;
+    min-height: calc(100vh - 4rem);
+    min-height: calc(100dvh - 4rem);
+    background: var(--bg);
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.4);
+    display: flex;
+    flex-direction: column;
+    position: relative;
+}
+
+/* Terminal title bar (macOS style) */
+.terminal::before {
+    content: '';
+    display: block;
+    height: 36px;
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    flex-shrink: 0;
+}
+
+/* Traffic light buttons */
+.terminal-buttons {
+    position: absolute;
+    top: 10px;
+    left: 12px;
+    display: flex;
+    gap: 8px;
+    z-index: 10;
+}
+
+.terminal-btn {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+}
+
+.terminal-btn.red { background: #ff5f56; }
+.terminal-btn.yellow { background: #ffbd2e; }
+.terminal-btn.green { background: #27c93f; }
+
+/* Terminal inner content */
+.terminal-inner {
+    flex: 1;
+    padding: 1.5rem 2rem 2rem;
+    overflow-y: auto;
+}
+
+/* ─── ASCII Banner ─────────────────────────────────────────────── */
+.ascii-banner {
+    color: var(--accent);
+    font-size: 0.6rem;
+    line-height: 1.15;
+    margin-bottom: 1.5rem;
+    white-space: pre;
+    overflow-x: auto;
+    transition: opacity 0.3s ease, height 0.3s ease, margin 0.3s ease;
+}
+
+.ascii-banner.collapsed {
+    opacity: 0;
+    height: 0;
+    margin: 0;
+    overflow: hidden;
+}
+
+/* ─── Welcome Message ──────────────────────────────────────────── */
+.welcome {
+    margin-bottom: 2rem;
+    min-height: 4.5rem;
+}
+
+.welcome p {
+    margin-bottom: 0.5rem;
+}
+
+.welcome .greeting {
+    color: var(--accent);
+}
+
+.welcome .hint {
+    color: var(--text-dim);
+}
+
+.welcome .hl {
+    color: var(--accent);
+}
+
+/* Typing cursor */
+.typing-cursor {
+    display: inline-block;
+    width: 0.6em;
+    height: 1.1em;
+    background: var(--accent);
+    margin-left: 2px;
+    animation: blink 0.8s step-end infinite;
+    vertical-align: text-bottom;
+}
+
+@keyframes blink {
+    50% { opacity: 0; }
+}
+
+/* ─── Output Area ──────────────────────────────────────────────── */
+.output {
+    min-height: 200px;
+}
+
+/* Command echo */
+.cmd-echo {
+    color: var(--text-dim);
+    margin-bottom: 1.5rem;
+    font-size: 0.9rem;
+}
+
+.cmd-echo .prompt {
+    color: var(--accent);
+}
+
+/* System messages */
+.system-msg {
+    color: var(--text-dim);
+    font-size: 0.9rem;
+    margin-bottom: 1rem;
+}
+
+.error {
+    color: var(--error);
+}
+
+/* ─── Slash Menu ───────────────────────────────────────────────── */
+.slash-menu {
+    display: inline-flex;
+    gap: 0.75rem;
+    margin-left: 0.5rem;
+}
+
+.slash-menu-item {
+    color: var(--text-dim);
+    cursor: pointer;
+    transition: color 0.1s ease;
+}
+
+.slash-menu-item:hover {
+    color: var(--text);
+}
+
+.slash-menu-item.selected {
+    color: var(--accent);
+}
+
+.slash-menu-item.selected::before {
+    content: '> ';
+    color: var(--accent);
+}
+
+/* ─── Help Section ─────────────────────────────────────────────── */
+.help-block {
+    margin-bottom: 2rem;
+    padding: 1.5rem;
+    background: var(--surface);
+    border-left: 3px solid var(--accent);
+    animation: fadeIn 0.3s ease;
+}
+
+.help-title {
+    color: var(--accent);
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-bottom: 1rem;
+}
+
+.help-grid {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 0.5rem 1.5rem;
+}
+
+.help-cmd {
+    color: var(--text-bright);
+}
+
+.help-desc {
+    color: var(--text-dim);
+}
+
+/* ─── Note List ────────────────────────────────────────────────── */
+.note-list {
+    list-style: none;
+    margin-bottom: 1.5rem;
+    animation: fadeIn 0.3s ease;
+}
+
+.note-list li {
+    padding: 0.5rem 0;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 1rem;
+}
+
+.note-list li:last-child {
+    border-bottom: none;
+}
+
+.note-list a {
+    color: var(--link);
+    text-decoration: none;
+    transition: color 0.15s ease;
+}
+
+.note-list a:hover {
+    color: var(--link-hover);
+}
+
+.note-list .meta {
+    color: var(--text-dim);
+    font-size: 0.8rem;
+    white-space: nowrap;
+}
+
+.note-list .stage-seedling { color: var(--green); }
+.note-list .stage-growing { color: var(--accent); }
+.note-list .stage-evergreen { color: var(--accent-secondary); }
+
+.list-count {
+    color: var(--text-dim);
+    font-size: 0.85rem;
+    margin-top: 1rem;
+}
+
+/* Collection badge */
+.collection-badge {
+    color: var(--accent-secondary);
+    font-size: 0.75rem;
+    padding: 0.1rem 0.4rem;
+    background: var(--surface);
+    border-radius: 3px;
+    margin-right: 0.5rem;
+}
+
+/* ─── Note Content ─────────────────────────────────────────────── */
+.note-view {
+    margin-bottom: 3rem;
+    animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Note header box */
+.note-box {
+    border: 1px solid var(--border);
+    margin-bottom: 2rem;
+}
+
+.note-box-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.75rem 1rem;
+    border-bottom: 1px solid var(--border);
+    background: var(--surface);
+}
+
+.note-box-title {
+    color: var(--text-bright);
+    font-size: 1.1rem;
+    font-weight: 500;
+}
+
+.note-box-stage {
+    font-size: 0.85rem;
+}
+
+.note-box-stage.seedling { color: var(--green); }
+.note-box-stage.growing { color: var(--accent); }
+.note-box-stage.evergreen { color: var(--accent-secondary); }
+
+.note-box-meta {
+    padding: 0.75rem 1rem;
+    color: var(--text-dim);
+    font-size: 0.85rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem 1rem;
+}
+
+.note-tags {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+}
+
+.note-tag {
+    color: var(--accent-tertiary);
+}
+
+/* Note Body */
+.note-body {
+    color: var(--text);
+    font-size: 1rem;
+    line-height: 1.85;
+}
+
+.note-body h1,
+.note-body h2,
+.note-body h3,
+.note-body h4 {
+    color: var(--text-bright);
+    font-weight: 500;
+    margin: 2.5rem 0 1rem;
+    line-height: 1.3;
+}
+
+.note-body h1 { font-size: 1.5rem; }
+.note-body h2 { font-size: 1.25rem; color: var(--accent-secondary); }
+.note-body h3 { font-size: 1.1rem; color: var(--accent); }
+.note-body h4 { font-size: 1rem; color: var(--text-dim); }
+
+.note-body p {
+    margin-bottom: 1.25rem;
+}
+
+.note-body a {
+    color: var(--link);
+    text-decoration: none;
+    border-bottom: 1px solid transparent;
+    transition: border-color 0.15s ease;
+}
+
+.note-body a:hover {
+    border-bottom-color: var(--link);
+}
+
+/* Wikilinks styled as [link] */
+.note-body a.wikilink {
+    color: var(--accent-tertiary);
+    border-bottom: none;
+}
+
+.note-body a.wikilink:hover {
+    color: var(--text-bright);
+}
+
+.note-body a.wikilink::before {
+    content: '[';
+    color: var(--text-dim);
+}
+
+.note-body a.wikilink::after {
+    content: ']';
+    color: var(--text-dim);
+}
+
+.wikilink-private {
+    color: var(--text-dim);
+    font-style: italic;
+}
+
+.note-body strong {
+    color: var(--text-bright);
+    font-weight: 500;
+}
+
+.note-body em {
+    font-style: italic;
+    color: var(--text);
+}
+
+.note-body ul,
+.note-body ol {
+    margin: 1.25rem 0;
+    padding-left: 1.5rem;
+}
+
+.note-body li {
+    margin-bottom: 0.5rem;
+}
+
+.note-body li::marker {
+    color: var(--accent-tertiary);
+}
+
+.note-body blockquote {
+    margin: 1.5rem 0;
+    padding: 1rem 1.5rem;
+    background: var(--surface);
+    border-left: 3px solid var(--accent);
+    color: var(--text);
+    font-style: italic;
+}
+
+.note-body blockquote p:last-child {
+    margin-bottom: 0;
+}
+
+.note-body code {
+    background: var(--surface);
+    color: var(--yellow);
+    padding: 0.2rem 0.5rem;
+    border-radius: 3px;
+    font-size: 0.9em;
+}
+
+.note-body pre {
+    background: var(--surface);
+    padding: 1.25rem;
+    border-radius: 4px;
+    overflow-x: auto;
+    margin: 1.5rem 0;
+    border: 1px solid var(--border);
+}
+
+.note-body pre code {
+    background: none;
+    padding: 0;
+    color: var(--text);
+}
+
+.note-body hr {
+    border: none;
+    border-top: 1px solid var(--border);
+    margin: 2.5rem 0;
+}
+
+.note-body img {
+    max-width: 100%;
+    border-radius: 4px;
+    margin: 1.5rem 0;
+}
+
+/* Note Footer */
+.note-footer {
+    margin-top: 3rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--border);
+    color: var(--text-dim);
+    font-size: 0.85rem;
+}
+
+.note-footer a {
+    color: var(--link);
+    text-decoration: none;
+}
+
+.note-footer a:hover {
+    text-decoration: underline;
+}
+
+.backlinks {
+    margin-top: 1rem;
+}
+
+.backlinks-title {
+    color: var(--text-dim);
+    margin-bottom: 0.5rem;
+}
+
+.backlinks-list {
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+.backlinks-list a {
+    color: var(--link);
+    padding: 0.2rem 0.5rem;
+    background: var(--surface);
+    border-radius: 3px;
+    font-size: 0.85rem;
+}
+
+.back-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--text-dim);
+    transition: color 0.15s ease;
+    cursor: pointer;
+}
+
+.back-link:hover {
+    color: var(--accent-tertiary);
+}
+
+/* ─── About Page ───────────────────────────────────────────────── */
+.about-view {
+    animation: fadeIn 0.3s ease;
+}
+
+.about-view h1 {
+    color: var(--text-bright);
+    font-size: 1.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.about-view p {
+    margin-bottom: 1rem;
+    color: var(--text);
+}
+
+.about-view .highlight {
+    color: var(--accent);
+}
+
+.about-links {
+    margin-top: 2rem;
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+.about-links a {
+    color: var(--link);
+    text-decoration: none;
+    padding: 0.5rem 1rem;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    transition: border-color 0.15s ease;
+}
+
+.about-links a:hover {
+    border-color: var(--accent);
+}
+
+/* ─── Now Page ─────────────────────────────────────────────────── */
+.now-view {
+    animation: fadeIn 0.3s ease;
+}
+
+.now-header {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 1.5rem;
+}
+
+.now-header h1 {
+    color: var(--text-bright);
+    font-size: 1.25rem;
+}
+
+.status-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--green);
+    animation: pulse 2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.4; }
+}
+
+.now-grid {
+    display: grid;
+    gap: 1rem;
+    margin-bottom: 2rem;
+}
+
+.now-card {
+    padding: 1rem;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+}
+
+.now-card-label {
+    color: var(--text-dim);
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-bottom: 0.5rem;
+}
+
+.now-card-value {
+    color: var(--text-bright);
+}
+
+.now-card-value a {
+    color: var(--link);
+    text-decoration: none;
+}
+
+/* ─── Inline Prompt ────────────────────────────────────────────── */
+.inline-prompt {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-top: 1.5rem;
+    min-height: 1.5em;
+}
+
+.inline-prompt .cursor {
+    display: inline-block;
+    width: 10px;
+    height: 1.2em;
+    background-color: var(--accent);
+    animation: blink 1s step-end infinite;
+    flex-shrink: 0;
+}
+
+.inline-prompt .placeholder {
+    color: var(--text-dim);
+}
+
+.inline-prompt .typed {
+    color: var(--text);
+}
+
+/* ─── Mobile Command Palette ───────────────────────────────────── */
+.command-palette {
+    display: none;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: var(--bg);
+    border-top: 1px solid var(--border);
+    padding: 0.75rem 1rem;
+    z-index: 101;
+    justify-content: space-around;
+    border-radius: 0 0 12px 12px;
+}
+
+.command-palette button {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.25rem;
+    padding: 0.5rem 1rem;
+    background: transparent;
+    border: none;
+    color: var(--text-dim);
+    font-family: inherit;
+    font-size: 0.7rem;
+    cursor: pointer;
+    transition: color 0.15s ease;
+}
+
+.command-palette button:hover,
+.command-palette button:active {
+    color: var(--accent-tertiary);
+}
+
+.palette-icon {
+    font-size: 1.25rem;
+}
+
+/* More menu overlay */
+.more-menu {
+    position: fixed;
+    bottom: 4rem;
+    left: 0;
+    right: 0;
+    background: var(--surface);
+    border-top: 1px solid var(--border);
+    padding: 1rem;
+    z-index: 102;
+    display: none;
+    animation: slideUp 0.2s ease;
+}
+
+@keyframes slideUp {
+    from { transform: translateY(100%); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+}
+
+.more-menu.visible {
+    display: block;
+}
+
+.more-menu-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.5rem;
+}
+
+.more-menu button {
+    padding: 0.75rem;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    color: var(--text);
+    font-family: inherit;
+    font-size: 0.85rem;
+    cursor: pointer;
+    text-align: left;
+    transition: border-color 0.15s ease;
+}
+
+.more-menu button:hover {
+    border-color: var(--accent);
+}
+
+/* ─── Loading ──────────────────────────────────────────────────── */
+.loading {
+    position: fixed;
+    top: 1rem;
+    right: 1rem;
+    z-index: 200;
+}
+
+.loading.hidden {
+    display: none;
+}
+
+.loading-dots::after {
+    content: '...';
+    animation: dots 1.2s steps(4, end) infinite;
+    color: var(--accent);
+    font-size: 1.5rem;
+}
+
+@keyframes dots {
+    0%, 20% { content: '.'; }
+    40% { content: '..'; }
+    60%, 100% { content: '...'; }
+}
+
+/* ─── Graph Overlay ────────────────────────────────────────────── */
+.graph-overlay {
+    display: none;
+    position: absolute;
+    top: 36px;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: var(--bg);
+    z-index: 500;
+    opacity: 0;
+    transition: opacity 200ms ease-out;
+}
+
+.graph-overlay #graph-canvas {
+    width: 100%;
+    height: 100%;
+}
+
+.graph-close {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    width: 32px;
+    height: 32px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    color: var(--text-dim);
+    font-size: 1.25rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.15s ease;
+}
+
+.graph-close:hover {
+    color: var(--text);
+    border-color: var(--accent);
+}
+
+/* ─── Matrix Easter Egg ────────────────────────────────────────── */
+.matrix-canvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1000;
+    pointer-events: none;
+}
+
+.matrix-canvas.hidden {
+    display: none;
+}
+
+/* ─── Scrollbar ────────────────────────────────────────────────── */
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--bg);
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--border);
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--text-dim);
+}
+
+/* ─── Selection ────────────────────────────────────────────────── */
+::selection {
+    background: var(--accent-tertiary);
+    color: var(--bg);
+}
+
+/* ─── Responsive ───────────────────────────────────────────────── */
+@media (max-width: 768px) {
+    body {
+        padding: 1rem;
+    }
+
+    .terminal {
+        min-height: calc(100vh - 2rem);
+        min-height: calc(100dvh - 2rem);
+        border-radius: 10px;
+    }
+
+    .terminal-inner {
+        padding: 1.25rem 1.5rem 5rem;
+    }
+
+    .ascii-banner {
+        font-size: 0.45rem;
+    }
+
+    .command-palette {
+        display: flex;
+    }
+}
+
+@media (max-width: 480px) {
+    body {
+        padding: 0;
+    }
+
+    .terminal {
+        min-height: 100vh;
+        min-height: 100dvh;
+        border-radius: 0;
+    }
+
+    .terminal::before {
+        display: none;
+    }
+
+    .terminal-buttons {
+        display: none;
+    }
+
+    .terminal-inner {
+        padding: 1rem 1rem 5rem;
+    }
+
+    .ascii-banner {
+        display: none;
+    }
+
+    .help-grid {
+        grid-template-columns: 1fr;
+        gap: 0.25rem;
+    }
+
+    .help-desc {
+        margin-bottom: 0.75rem;
+        padding-left: 1rem;
+    }
+
+    .note-box-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.5rem;
+    }
+
+    .note-list li {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.25rem;
+    }
+
+    .command-palette {
+        border-radius: 0;
+    }
+}
+
+/* ─── Focus States ─────────────────────────────────────────────── */
+a:focus-visible,
+button:focus-visible,
+input:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+}
+
+/* ─── Utilities ────────────────────────────────────────────────── */
+.hidden {
+    display: none !important;
+}
+
+.sr-only {
+    position: absolute;
+    left: -9999px;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
+
+/* Ensure hidden input stays hidden */
+#command-input {
+    opacity: 0;
+    pointer-events: none;
+}

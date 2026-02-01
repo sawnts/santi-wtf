@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>santi.wtf</title>
+    <meta name="description" content="santi's digital garden — a collection of growing ideas about creativity, building, and thinking.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="icon" type="image/x-icon" href="/icons/favicon.ico">
+</head>
+<body>
+    <div class="terminal">
+        <!-- Traffic light buttons -->
+        <div class="terminal-buttons">
+            <span class="terminal-btn red"></span>
+            <span class="terminal-btn yellow"></span>
+            <span class="terminal-btn green"></span>
+        </div>
+
+        <div class="terminal-inner">
+            <!-- ASCII Banner -->
+            <pre class="ascii-banner" id="banner">
+███████╗ █████╗ ███╗   ██╗████████╗██╗
+██╔════╝██╔══██╗████╗  ██║╚══██╔══╝██║
+███████╗███████║██╔██╗ ██║   ██║   ██║
+╚════██║██╔══██║██║╚██╗██║   ██║   ██║
+███████║██║  ██║██║ ╚████║   ██║   ██║
+╚══════╝╚═╝  ╚═╝╚═╝  ╚═══╝   ╚═╝   ╚═╝
+            </pre>
+
+            <!-- Welcome message (typed on load) -->
+            <div id="welcome" class="welcome"></div>
+
+            <!-- Output area (commands + content render here) -->
+            <div id="output" class="output"></div>
+        </div>
+
+        <!-- Hidden input for capturing keystrokes -->
+        <input type="text" id="command-input" style="position:absolute;left:-9999px;opacity:0;" autocomplete="off" spellcheck="false" autofocus>
+
+        <!-- Mobile command palette -->
+        <div class="command-palette" id="command-palette">
+            <button type="button" data-cmd="search" aria-label="Search notes">
+                <span class="palette-icon">⌕</span>
+                <span class="palette-label">search</span>
+            </button>
+            <button type="button" data-cmd="explore" aria-label="Explore all notes">
+                <span class="palette-icon">☰</span>
+                <span class="palette-label">explore</span>
+            </button>
+            <button type="button" data-cmd="random" aria-label="Random note">
+                <span class="palette-icon">↻</span>
+                <span class="palette-label">random</span>
+            </button>
+            <button type="button" data-cmd="more" aria-label="More commands">
+                <span class="palette-icon">⋯</span>
+                <span class="palette-label">more</span>
+            </button>
+        </div>
+
+        <!-- Loading indicator -->
+        <div id="loading" class="loading hidden">
+            <span class="loading-dots"></span>
+        </div>
+
+        <!-- Graph overlay -->
+        <div id="graph-overlay" class="graph-overlay">
+            <canvas id="graph-canvas"></canvas>
+            <button type="button" class="graph-close" onclick="window.closeGraph()">×</button>
+        </div>
+
+        <!-- Matrix canvas (for easter egg) -->
+        <canvas id="matrix-canvas" class="matrix-canvas hidden"></canvas>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
