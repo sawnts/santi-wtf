@@ -4,93 +4,64 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-This is a static personal website with a terminal-themed interface. The site runs entirely in the browser with no build process (except for content sync). A red background frames a floating dark terminal window.
+Static personal website with a terminal-themed interface. No build process except for content sync. Red background frames a floating dark terminal window.
 
 **Key Principle: Obsidian is the source of truth.** All content lives in the Obsidian vault (`/Users/santi/Desktop/Areas/Jots/santi.wtf/public`). The site pulls from it via `npm run sync`. Never hardcode content that should come from Obsidian.
 
-## File Structure
+## Commands
 
-```
-santi-wtf/
-├── index.html          # Root - loads terminal interface
-├── terminal/           # Main terminal site
-│   ├── index.html      # Terminal HTML structure
-│   ├── styles.css      # Dark theme, JetBrains Mono font
-│   ├── app.js          # Command system, graph, animations
-│   ├── build.js        # Syncs from Obsidian (flat structure)
-│   ├── data/           # index.json, now-data.json, habits-config.json
-│   ├── content/        # Generated HTML notes
-│   └── images/         # Images copied from Obsidian
-├── garden/             # Legacy garden (fallback data source)
-├── 404.html            # GitHub Pages SPA redirect handler
-└── icons/              # Favicon and icons
+```bash
+# Sync content from Obsidian (run from terminal/ directory)
+cd terminal && npm run sync
+
+# Local development
+python3 -m http.server 8000
+# Then open localhost:8000
+
+# Deploy (GitHub Pages)
+git push origin main
 ```
 
 ## Architecture
 
-**Terminal interface:**
-- Single-page app with command-based navigation
-- Slash menu (`/`) reveals quick actions (explore, random, about, now)
-- Force-directed graph visualization for `explore` command
-- Inline blinking cursor with placeholder "type / to begin"
-- Hidden input element captures keystrokes globally
-- Typing animation on welcome message
+**Single-page terminal app** (`terminal/app.js`):
+- Hidden `<input>` captures all keystrokes globally
+- Typing `/` shows slash menu with quick actions
+- Commands execute and render output to `#output` div
+- `explore` command opens force-directed graph visualization on canvas
+- URL routing via `history.pushState` + 404.html redirect pattern
 
-**Key elements:**
-- ASCII banner at top (hidden on mobile <480px)
-- macOS-style traffic light buttons (decorative)
-- Mobile command palette at bottom (visible <768px)
+**Content pipeline** (`terminal/build.js`):
+1. Reads markdown from Obsidian vault
+2. Parses frontmatter with gray-matter
+3. Converts to HTML with marked
+4. Resolves `[[wikilinks]]` and `![[image.png]]` embeds
+5. Computes backlinks
+6. Outputs: `content/*.html`, `data/index.json`, `data/now-data.json`, `data/habits-config.json`
 
-**CSS Custom Properties (`terminal/styles.css`):**
-```css
-:root {
-    --page-bg: #c0392b;      /* Red background */
-    --bg: #1a1a1a;           /* Dark terminal */
-    --text: #e0e0e0;
-    --accent: #5dd9c1;       /* Teal accent */
-    --accent-secondary: #b794f4;
-    --accent-tertiary: #f687b3;
-}
-```
+**SPA routing for GitHub Pages**:
+- `404.html` stores path in `sessionStorage.redirect`, redirects to `/`
+- `app.js` checks `sessionStorage.pendingRoute` on load (note: there's a key mismatch bug — 404 uses `redirect`, app expects `pendingRoute`)
+
+## Key Files
+
+| File | Purpose |
+|------|---------|
+| `index.html` | Root entry, loads terminal interface |
+| `terminal/app.js` | Command system, graph, animations, routing |
+| `terminal/build.js` | Obsidian → HTML converter |
+| `terminal/styles.css` | Dark theme, JetBrains Mono, CSS variables |
+| `terminal/data/index.json` | Note metadata, links, backlinks |
 
 ## Command System
 
-| Command | Aliases | Description |
-|---------|---------|-------------|
-| `/` | - | Show slash menu with glowing dot selection |
-| `explore` | `ls` | Open force-directed graph of all notes |
-| `list` | `notes` | Text list of all notes |
-| `cat [note]` | `read`, `open`, `go` | Display a note |
-| `search [term]` | `find`, `grep` | Search notes by title/tags/content |
-| `random` | `rand`, `r` | Load random note |
-| `recent` | `latest` | Recently updated notes |
-| `now` | `status` | Current status dashboard |
-| `about` | `whoami` | About page |
-| `home` | `clear`, `cls`, `back` | Return to welcome screen |
-| `help` | `?` | Show all commands |
-| `matrix` | - | Easter egg: matrix rain effect |
+Essential commands: `explore`, `cat [note]`, `search [term]`, `random`, `now`, `about`, `home`, `help`
 
-**Direct access:** Typing a note title and pressing Enter loads it directly.
-
-**Slash menu:** Type `/` to show menu, use up/down arrows to navigate, Enter to select, Escape to dismiss.
+Aliases exist (e.g., `ls` → `explore`, `read` → `cat`). Type a note title directly to load it.
 
 ## Digital Garden
 
-**Syncing from Obsidian:**
-```bash
-cd terminal && npm run sync
-# Or fallback:
-cd garden && npm run sync
-```
-
-The build script:
-1. Reads markdown from Obsidian vault (`/Users/santi/Desktop/Areas/Jots/santi.wtf/public`)
-2. Converts to HTML with wikilink support
-3. Converts `![[image.png]]` embeds to `<img>` tags
-4. Generates `data/index.json` with note metadata, links, backlinks
-5. Outputs to `content/` directory
-
-**Note frontmatter:**
+**Frontmatter:**
 ```yaml
 ---
 title: note title
@@ -101,63 +72,27 @@ tags: [tag1, tag2]
 ---
 ```
 
-**Growth stages:**
-- 🌱 seedling — early ideas, rough thoughts
-- 🌿 growing — developing ideas with some structure
-- 🌲 evergreen — well-developed, stable concepts
+**Growth stages:** 🌱 seedling → 🌿 growing → 🌲 evergreen
 
-**Wikilinks:** `[[note-name]]` or `[[path/note-name|display text]]`
+**Wikilinks:** `[[note-name]]` or `[[note|display text]]`
 
-**Image embeds:** `![[image.png]]` or `![[image.png|alt text]]`
+**Image embeds:** `![[image.png]]` — copied to `terminal/images/`
 
-**Private files:** Files/folders starting with `_` are skipped (e.g., `_template.md`)
+**Private files:** Files/folders starting with `_` are skipped
 
 ## Now Dashboard
 
-The `now.md` frontmatter drives the now page:
+`now.md` frontmatter drives the dashboard:
 ```yaml
----
-title: now
 location: seattle, wa
 reading:
   title: book title
   author: author name
   progress: 76
 mood: building
-energy: 7
-caffeine: 2
 habits:
   - name: meditation
     goal: daily stillness
----
-```
-
-## URL Routing
-
-```
-santi.wtf/              → Terminal home
-santi.wtf/[note-slug]   → Load note directly
-santi.wtf/now           → Now page
-santi.wtf/about         → About page
-```
-
-Uses `404.html` + sessionStorage pattern for GitHub Pages SPA routing.
-
-## Local Development
-
-**Always test locally before pushing:**
-```bash
-python3 -m http.server 8000
-```
-Then open `localhost:8000`
-
-## Deployment
-
-Site is hosted on GitHub Pages. Push to main branch to deploy:
-```bash
-git add .
-git commit -m "description"
-git push
 ```
 
 ## Content Style
@@ -166,15 +101,12 @@ git push
 
 ## Mobile
 
-**Breakpoints:** 768px (tablet), 480px (phone)
-
+Breakpoints: 768px (tablet), 480px (phone)
 - ASCII banner hidden on phones
-- Mobile command palette appears at bottom
+- Mobile command palette at bottom
 - Swipe right to go back
-- Touch anywhere to focus input
 
-## Security Notes
+## Security
 
+- `escapeHtml()` and `escapeAttr()` sanitize dynamic content
 - Firebase credentials in client code (security via Firebase Rules)
-- `escapeHtml()` and `escapeAttr()` used for dynamic content
-- Input limited to prevent abuse
