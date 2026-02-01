@@ -14,11 +14,14 @@
     let moreMenuVisible = false;
     let slashMenuVisible = false;
     let slashMenuIndex = 0;
+    let lettersMode = false;
     const slashCommands = [
-        { name: 'explore', desc: 'browse all notes' },
-        { name: 'random', desc: 'surprise me' },
         { name: 'about', desc: 'who is santi' },
-        { name: 'now', desc: 'what i\'m up to' }
+        { name: 'info', desc: 'about this site' },
+        { name: 'explore', desc: 'browse all notes' },
+        { name: 'now', desc: 'what i\'m up to' },
+        { name: 'letters', desc: 'subscribe to my newsletter' },
+        { name: 'random', desc: 'surprise me' }
     ];
 
     // ─── Elements ─────────────────────────────────────────────────
@@ -198,6 +201,24 @@
 
     // ─── Input Handler ────────────────────────────────────────────
     function handleInput(e) {
+        // Handle letters (newsletter) mode
+        if (lettersMode) {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                const email = input.value.trim();
+                input.value = '';
+                submitNewsletter(email);
+                return;
+            } else if (e.key === 'Escape') {
+                e.preventDefault();
+                lettersMode = false;
+                input.value = '';
+                goHome();
+                return;
+            }
+            return;
+        }
+
         // Handle slash menu navigation
         if (slashMenuVisible) {
             const filtered = getFilteredSlashCommands();
@@ -286,6 +307,12 @@
 
     // Handle input changes
     function handleInputChange() {
+        // Update letters input if in that mode
+        if (lettersMode) {
+            updateLettersInput();
+            return;
+        }
+
         if (input.value.startsWith('/') && !slashMenuVisible) {
             showSlashMenu();
         } else if (!input.value.startsWith('/') && slashMenuVisible) {
@@ -457,7 +484,17 @@
 
             case 'about':
             case 'whoami':
-                await findAndLoad('about');
+                await findAndLoad('about-me');
+                break;
+
+            case 'info':
+                await findAndLoad('about-this-site');
+                break;
+
+            case 'letters':
+            case 'newsletter':
+            case 'subscribe':
+                showLettersPrompt();
                 break;
 
             case 'resources':
@@ -736,6 +773,85 @@
         window.scrollTo(0, 0);
     }
 
+    // ─── Letters (Newsletter) ────────────────────────────────────────
+    function showLettersPrompt() {
+        output.innerHTML = '';
+        welcome.classList.add('hidden');
+        banner.classList.add('collapsed');
+        isReading = true;
+        lettersMode = true;
+
+        history.pushState({}, 'letters', '/letters');
+
+        const html = `
+            <div class="letters-view">
+                <h1>santi's letters</h1>
+                <p>occasional emails about creativity, building things, and figuring it out as i go.</p>
+                <p>no spam. no fluff. just honest thoughts from the journey.</p>
+                <div class="letters-form">
+                    <div class="letters-input-line">
+                        <span class="letters-prompt">email:</span>
+                        <span class="letters-input" id="letters-email"></span>
+                        <span class="cursor"></span>
+                    </div>
+                    <p class="letters-hint">press enter to subscribe · esc to cancel</p>
+                </div>
+            </div>
+        `;
+        output.insertAdjacentHTML('beforeend', html);
+        input.value = '';
+        updateLettersInput();
+        window.scrollTo(0, 0);
+    }
+
+    function updateLettersInput() {
+        const emailSpan = document.getElementById('letters-email');
+        if (emailSpan) {
+            emailSpan.textContent = input.value;
+        }
+    }
+
+    async function submitNewsletter(email) {
+        if (!email || !email.includes('@')) {
+            showLettersResult(false, 'please enter a valid email');
+            return;
+        }
+
+        try {
+            const res = await fetch('https://buttondown.com/api/emails/embed-subscribe/sawnts', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: `email=${encodeURIComponent(email)}`
+            });
+
+            if (res.ok) {
+                showLettersResult(true, "you're in! check your inbox to confirm.");
+            } else {
+                showLettersResult(false, 'something went wrong. try again?');
+            }
+        } catch (e) {
+            showLettersResult(false, 'could not connect. try again later.');
+        }
+    }
+
+    function showLettersResult(success, message) {
+        lettersMode = false;
+        const view = output.querySelector('.letters-view');
+        if (view) {
+            const form = view.querySelector('.letters-form');
+            if (form) {
+                form.innerHTML = `
+                    <p class="${success ? 'letters-success' : 'letters-error'}">${message}</p>
+                    <p style="margin-top: 1.5rem;">
+                        <span class="back-link" onclick="window.terminalHome()">← back</span>
+                    </p>
+                `;
+            }
+        }
+    }
+
     async function showNow() {
         output.innerHTML = '';
         welcome.classList.add('hidden');
@@ -851,6 +967,7 @@
         welcome.classList.remove('hidden');
         banner.classList.remove('collapsed');
         isReading = false;
+        lettersMode = false;
         input.value = '';
         showInlinePrompt();
         history.pushState({}, 'santi.wtf', '/');

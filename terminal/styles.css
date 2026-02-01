@@ -663,6 +663,69 @@ body {
     text-decoration: none;
 }
 
+/* ─── Letters (Newsletter) ────────────────────────────────────────── */
+.letters-view {
+    animation: fadeIn 0.3s ease;
+}
+
+.letters-view h1 {
+    color: var(--text-bright);
+    font-size: 1.25rem;
+    margin-bottom: 1rem;
+}
+
+.letters-view p {
+    color: var(--text);
+    margin-bottom: 0.75rem;
+}
+
+.letters-form {
+    margin-top: 2rem;
+    padding: 1.5rem;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+}
+
+.letters-input-line {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 1rem;
+}
+
+.letters-prompt {
+    color: var(--accent);
+}
+
+.letters-input {
+    color: var(--text-bright);
+    flex: 1;
+}
+
+.letters-form .cursor {
+    display: inline-block;
+    width: 10px;
+    height: 1.2em;
+    background-color: var(--accent);
+    animation: blink 1s step-end infinite;
+}
+
+.letters-hint {
+    color: var(--text-dim);
+    font-size: 0.8rem;
+    margin-top: 1rem;
+    margin-bottom: 0;
+}
+
+.letters-success {
+    color: var(--green);
+}
+
+.letters-error {
+    color: var(--error);
+}
+
 /* ─── Inline Prompt ────────────────────────────────────────────── */
 .inline-prompt {
     margin-top: 1.5rem;
