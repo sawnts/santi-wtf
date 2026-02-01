@@ -786,8 +786,8 @@
         const html = `
             <div class="letters-view">
                 <h1>santi's letters</h1>
-                <p>occasional emails about creativity, building things, and figuring it out as i go.</p>
-                <p>no spam. no fluff. just honest thoughts from the journey.</p>
+                <p>occasional emails about creativity, thinking in public, and this weird thing called life.</p>
+                <p>no spam. no bs. just honest thoughts and curated links.</p>
                 <div class="letters-form">
                     <div class="letters-input-line">
                         <span class="letters-prompt">email:</span>
