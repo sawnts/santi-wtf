@@ -21,9 +21,9 @@
       "backlinks": [],
       "excerpt": "i built this site because i miss the internet. the one before the apps. i miss the weird little corners of the web where people shared their thoughts,"
     },
-    "about": {
-      "title": "note title",
-      "slug": "about",
+    "about-this-site": {
+      "title": "my digital garden",
+      "slug": "about-this-site",
       "collection": null,
       "stage": "seedling",
       "planted": null,
@@ -37,8 +37,24 @@
         "power-of-writing-online",
         "now"
       ],
-      "backlinks": [],
+      "backlinks": [
+        "about-me"
+      ],
       "excerpt": "i built this site because i miss the internet. the one before the apps. i miss the weird little corners of the web where people shared their thoughts,"
+    },
+    "about-me": {
+      "title": "whoami?",
+      "slug": "about-me",
+      "collection": null,
+      "stage": "seedling",
+      "planted": null,
+      "tended": null,
+      "tags": [],
+      "links": [
+        "about-this-site"
+      ],
+      "backlinks": [],
+      "excerpt": "people call me santi (sawn-tee)."
     },
     "ogilvy-creative-process": {
       "title": "ogilvy's creative process",
@@ -125,7 +141,7 @@
       ],
       "backlinks": [
         "index",
-        "about",
+        "about-this-site",
         "tech-i-love",
         "now",
         "read-old-notes",
@@ -167,7 +183,7 @@
       ],
       "backlinks": [
         "index",
-        "about"
+        "about-this-site"
       ],
       "excerpt": "what i'm up to recently:"
     },
@@ -250,7 +266,7 @@
       ],
       "backlinks": [
         "index",
-        "about",
+        "about-this-site",
         "david-ogilvy",
         "digital-garden",
         "integration"
@@ -296,7 +312,7 @@
       ],
       "backlinks": [
         "index",
-        "about",
+        "about-this-site",
         "digital-garden",
         "2026-lessons"
       ],
@@ -367,7 +383,7 @@
       ],
       "backlinks": [
         "index",
-        "about",
+        "about-this-site",
         "ogilvy-creative-process",
         "miles-davis",
         "david-ogilvy",
@@ -399,9 +415,9 @@
     }
   },
   "stats": {
-    "total": 18,
-    "links": 56,
-    "seedling": 1,
+    "total": 19,
+    "links": 57,
+    "seedling": 2,
     "growing": 11,
     "evergreen": 6,
     "collections": [
