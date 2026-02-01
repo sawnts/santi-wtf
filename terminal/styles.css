@@ -221,6 +221,12 @@ body {
     box-shadow: 0 0 8px var(--accent), 0 0 12px var(--accent);
 }
 
+.slash-menu-empty {
+    color: var(--text-dim);
+    font-style: italic;
+    padding: 0.25rem 0;
+}
+
 /* ─── Help Section ─────────────────────────────────────────────── */
 .help-block {
     margin-bottom: 2rem;
@@ -663,10 +669,6 @@ body {
     min-height: 1.5em;
 }
 
-.inline-prompt > span {
-    display: inline;
-}
-
 .prompt-line {
     display: flex;
     align-items: center;
@@ -679,15 +681,17 @@ body {
     height: 1.2em;
     background-color: var(--accent);
     animation: blink 1s step-end infinite;
-    flex-shrink: 0;
+    vertical-align: middle;
 }
 
 .inline-prompt .placeholder {
     color: var(--text-dim);
+    vertical-align: middle;
 }
 
 .inline-prompt .typed {
     color: var(--text);
+    vertical-align: middle;
 }
 
 /* ─── Mobile Command Palette ───────────────────────────────────── */

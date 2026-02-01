@@ -200,23 +200,30 @@
     function handleInput(e) {
         // Handle slash menu navigation
         if (slashMenuVisible) {
+            const filtered = getFilteredSlashCommands();
             if (e.key === 'ArrowDown') {
                 e.preventDefault();
-                slashMenuIndex = (slashMenuIndex + 1) % slashCommands.length;
-                updateSlashMenuSelection();
+                if (filtered.length > 0) {
+                    slashMenuIndex = (slashMenuIndex + 1) % filtered.length;
+                    updateSlashMenuSelection();
+                }
                 return;
             } else if (e.key === 'ArrowUp') {
                 e.preventDefault();
-                slashMenuIndex = (slashMenuIndex - 1 + slashCommands.length) % slashCommands.length;
-                updateSlashMenuSelection();
+                if (filtered.length > 0) {
+                    slashMenuIndex = (slashMenuIndex - 1 + filtered.length) % filtered.length;
+                    updateSlashMenuSelection();
+                }
                 return;
             } else if (e.key === 'Enter') {
                 e.preventDefault();
-                const cmd = slashCommands[slashMenuIndex].name;
-                hideSlashMenu();
-                input.value = '';
-                updateInlinePrompt();
-                execute(cmd);
+                if (filtered.length > 0) {
+                    const cmd = filtered[slashMenuIndex].name;
+                    hideSlashMenu();
+                    input.value = '';
+                    updateInlinePrompt();
+                    execute(cmd);
+                }
                 return;
             } else if (e.key === 'Escape') {
                 e.preventDefault();
@@ -279,13 +286,19 @@
 
     // Handle input changes
     function handleInputChange() {
-        if (input.value === '/' && !slashMenuVisible) {
+        if (input.value.startsWith('/') && !slashMenuVisible) {
             showSlashMenu();
-        } else if (input.value !== '/' && slashMenuVisible) {
+        } else if (!input.value.startsWith('/') && slashMenuVisible) {
             hideSlashMenu();
-        } else {
-            updateInlinePrompt();
         }
+        updateInlinePrompt();
+    }
+
+    // Get filtered slash commands based on input
+    function getFilteredSlashCommands() {
+        const query = input.value.slice(1).toLowerCase(); // remove leading /
+        if (!query) return slashCommands;
+        return slashCommands.filter(cmd => cmd.name.startsWith(query));
     }
 
     // ─── Inline Prompt ─────────────────────────────────────────────
@@ -310,15 +323,20 @@
         const val = input.value;
 
         if (slashMenuVisible) {
-            // Show / with cursor, then menu below
+            const filtered = getFilteredSlashCommands();
+            // Clamp selection index to filtered length
+            if (slashMenuIndex >= filtered.length) {
+                slashMenuIndex = Math.max(0, filtered.length - 1);
+            }
+            // Show typed text with cursor, then filtered menu below
             prompt.innerHTML = `
-                <div class="prompt-line"><span class="typed">/</span><span class="cursor"></span></div>
+                <div class="prompt-line"><span class="typed">${escapeHtml(val)}</span><span class="cursor"></span></div>
                 <div class="slash-menu">
-                    ${slashCommands.map((cmd, i) => `
+                    ${filtered.length > 0 ? filtered.map((cmd, i) => `
                         <div class="slash-menu-item${i === slashMenuIndex ? ' selected' : ''}" data-cmd="${cmd.name}">
                             <span class="menu-dot"></span><span class="menu-label">${cmd.name}</span>
                         </div>
-                    `).join('')}
+                    `).join('') : '<div class="slash-menu-empty">no matches</div>'}
                 </div>
             `;
             bindSlashMenu();
