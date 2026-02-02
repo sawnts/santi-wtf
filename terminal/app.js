@@ -1449,7 +1449,12 @@
                 }
 
                 graphState.dragging = null;
-                graphState.hovering = null; // Clear label on release
+                // Keep label visible briefly after touch, then fade
+                if (graphState.hovering) {
+                    setTimeout(() => {
+                        graphState.hovering = null;
+                    }, 1500);
+                }
                 graphState.panning = false;
                 initialPinchDistance = 0;
             } else if (e.touches.length === 1) {
