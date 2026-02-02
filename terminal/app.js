@@ -1841,6 +1841,44 @@
 
     // ─── Snake Game ──────────────────────────────────────────────
     let snakeGame = null;
+    const SNAKE_HIGH_SCORES_KEY = 'santi-wtf-snake-highscores';
+    const MAX_HIGH_SCORES = 5;
+
+    function getHighScores() {
+        try {
+            const scores = JSON.parse(localStorage.getItem(SNAKE_HIGH_SCORES_KEY)) || [];
+            return scores.slice(0, MAX_HIGH_SCORES);
+        } catch {
+            return [];
+        }
+    }
+
+    function saveHighScore(score) {
+        if (score <= 0) return false;
+        const scores = getHighScores();
+        const isHighScore = scores.length < MAX_HIGH_SCORES || score > scores[scores.length - 1]?.score;
+
+        if (isHighScore) {
+            scores.push({ score, date: new Date().toLocaleDateString() });
+            scores.sort((a, b) => b.score - a.score);
+            localStorage.setItem(SNAKE_HIGH_SCORES_KEY, JSON.stringify(scores.slice(0, MAX_HIGH_SCORES)));
+        }
+        return isHighScore;
+    }
+
+    function renderHighScores() {
+        const scores = getHighScores();
+        if (scores.length === 0) return '';
+
+        return `
+            <div class="snake-highscores">
+                <span class="highscores-title">high scores</span>
+                <div class="highscores-list">
+                    ${scores.map((s, i) => `<span class="highscore-entry"><span class="highscore-rank">${i + 1}.</span> ${s.score}</span>`).join('')}
+                </div>
+            </div>
+        `;
+    }
 
     function startSnakeGame() {
         // Hide SANTI banner, show SNAKE banner instead
@@ -1877,7 +1915,10 @@
         const html = `
             <div class="snake-game">
                 <pre class="snake-ascii">${snakeAscii}</pre>
-                <pre id="snake-board" class="snake-board"></pre>
+                <div class="snake-main">
+                    <pre id="snake-board" class="snake-board"></pre>
+                    <div id="snake-sidebar" class="snake-sidebar">${renderHighScores()}</div>
+                </div>
                 <div class="snake-footer">
                     <span class="snake-controls">arrow keys to move · esc to quit</span>
                     <span class="snake-score">score: <span id="snake-score">0</span></span>
@@ -2030,10 +2071,20 @@
         snakeGame.gameOver = true;
         clearInterval(snakeGame.intervalId);
 
+        // Save and check for high score
+        const isNewHighScore = saveHighScore(snakeGame.score);
+
         // Update controls text to show game over state
         const controls = document.querySelector('.snake-controls');
         if (controls) {
-            controls.innerHTML = `<span class="snake-game-over">game over!</span> press enter to restart · esc to quit`;
+            const msg = isNewHighScore ? '<span class="snake-new-highscore">new high score!</span>' : '<span class="snake-game-over">game over!</span>';
+            controls.innerHTML = `${msg} press enter to restart · esc to quit`;
+        }
+
+        // Update high scores display
+        const sidebar = document.getElementById('snake-sidebar');
+        if (sidebar) {
+            sidebar.innerHTML = renderHighScores();
         }
     }
 

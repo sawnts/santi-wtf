@@ -1242,11 +1242,49 @@ input:focus-visible {
     margin-bottom: 1.5rem;
 }
 
+.snake-main {
+    display: flex;
+    gap: 2rem;
+    margin-bottom: 0.75rem;
+}
+
 .snake-board {
     color: var(--accent);
     font-size: 1rem;
     line-height: 1.05;
-    margin-bottom: 0.75rem;
+}
+
+.snake-sidebar {
+    min-width: 100px;
+}
+
+.snake-highscores {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.highscores-title {
+    color: var(--accent-secondary);
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.highscores-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+}
+
+.highscore-entry {
+    color: var(--text-dim);
+    font-size: 0.85rem;
+}
+
+.highscore-rank {
+    color: var(--text-dim);
+    margin-right: 0.5rem;
 }
 
 .snake-footer {
@@ -1267,6 +1305,10 @@ input:focus-visible {
 
 .snake-game-over {
     color: var(--error);
+}
+
+.snake-new-highscore {
+    color: var(--yellow);
 }
 
 /* ─── Command Execution Flash ──────────────────────────────────── */
