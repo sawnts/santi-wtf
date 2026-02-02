@@ -2398,12 +2398,10 @@
         menu.className = 'more-menu';
         menu.innerHTML = `
             <div class="more-menu-grid">
-                <button type="button" data-cmd="recent">recent</button>
-                <button type="button" data-cmd="now">now</button>
                 <button type="button" data-cmd="about">about</button>
-                <button type="button" data-cmd="help">help</button>
-                <button type="button" data-cmd="home">home</button>
-                <button type="button" data-cmd="matrix">matrix</button>
+                <button type="button" data-cmd="info">info</button>
+                <button type="button" data-cmd="now">now</button>
+                <button type="button" data-cmd="letters">letters</button>
             </div>
         `;
 
