@@ -1373,6 +1373,7 @@
                 const node = findNodeAt(gx, gy);
                 if (node) {
                     graphState.dragging = node;
+                    graphState.hovering = node; // Show label on touch
                     graphState.alpha = 0.8;
                 } else {
                     graphState.panning = true;
@@ -1448,6 +1449,7 @@
                 }
 
                 graphState.dragging = null;
+                graphState.hovering = null; // Clear label on release
                 graphState.panning = false;
                 initialPinchDistance = 0;
             } else if (e.touches.length === 1) {
