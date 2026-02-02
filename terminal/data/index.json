@@ -47,9 +47,11 @@
       "slug": "about-me",
       "collection": null,
       "stage": "seedling",
-      "planted": null,
-      "tended": null,
-      "tags": [],
+      "planted": "2026-01-01T00:00:00.000Z",
+      "tended": "2026-02-01T00:00:00.000Z",
+      "tags": [
+        "personal"
+      ],
       "links": [
         "about-this-site"
       ],
@@ -147,7 +149,7 @@
         "read-old-notes",
         "power-of-writing-online"
       ],
-      "excerpt": "this is a digital garden — a place for ideas to grow over time. here's how it works."
+      "excerpt": "this is a digital garden — a place for ideas to grow over time."
     },
     "tech-i-love": {
       "title": "tech i love",
