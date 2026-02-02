@@ -1133,6 +1133,7 @@
     let graphState = {
         dragging: null,
         hovering: null,
+        selected: null, // For mobile tap-to-select
         panning: false,
         panStart: { x: 0, y: 0 },
         transform: { x: 0, y: 0, scale: 1 },
@@ -1150,6 +1151,7 @@
         graphState.transform = { x: 0, y: 0, scale: 1 };
         graphState.alpha = 1;
         graphState.hovering = null;
+        graphState.selected = null;
         graphState.dragging = null;
         graphState.panning = false;
         graphState.isClosing = false;
@@ -1373,11 +1375,13 @@
                 const node = findNodeAt(gx, gy);
                 if (node) {
                     graphState.dragging = node;
-                    graphState.hovering = node; // Show label on touch
+                    graphState.hovering = node; // Show label while touching
                     graphState.alpha = 0.8;
                 } else {
                     graphState.panning = true;
                     graphState.panStart = { x: screenX, y: screenY };
+                    // Keep selected node's label visible while panning
+                    graphState.hovering = graphState.selected;
                 }
             } else if (e.touches.length === 2) {
                 // Two fingers - pinch to zoom
@@ -1441,20 +1445,27 @@
                 const touchDuration = Date.now() - touchStartTime;
                 const isTap = touchDuration < 300 && !didDrag;
 
-                if (graphState.dragging && isTap) {
-                    // Tap on node - open it
+                if (isTap) {
                     const node = graphState.dragging;
-                    closeGraph();
-                    loadNote(node.id);
+                    if (node) {
+                        // Tapped on a node
+                        if (graphState.selected === node) {
+                            // Second tap on same node - open it
+                            closeGraph();
+                            loadNote(node.id);
+                        } else {
+                            // First tap - select it and show label
+                            graphState.selected = node;
+                            graphState.hovering = node;
+                        }
+                    } else {
+                        // Tapped empty space - deselect
+                        graphState.selected = null;
+                        graphState.hovering = null;
+                    }
                 }
 
                 graphState.dragging = null;
-                // Keep label visible briefly after touch, then fade
-                if (graphState.hovering) {
-                    setTimeout(() => {
-                        graphState.hovering = null;
-                    }, 1500);
-                }
                 graphState.panning = false;
                 initialPinchDistance = 0;
             } else if (e.touches.length === 1) {
