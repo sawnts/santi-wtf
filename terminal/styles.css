@@ -1173,6 +1173,17 @@ body {
         padding-right: calc(0.5rem + env(safe-area-inset-right, 0px));
     }
 
+    /* Graph overlay - fixed position on mobile for full coverage */
+    .graph-overlay {
+        position: fixed;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        padding-top: env(safe-area-inset-top, 0px);
+        border-radius: 0;
+    }
+
     /* Improve touch targets for note list */
     .note-list a {
         display: inline-block;
