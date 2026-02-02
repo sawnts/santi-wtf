@@ -177,7 +177,8 @@
         "digital-garden"
       ],
       "backlinks": [
-        "about-me"
+        "about-me",
+        "my-favorite-reads-2025"
       ],
       "excerpt": "i'm not a gadget person. i don't chase specs or wait in line for launches. but some things have quietly become pillars in my daily life — tools i'd ge"
     },
@@ -210,11 +211,10 @@
       "planted": "2026-01-01T00:00:00.000Z",
       "tended": "2026-01-01T00:00:00.000Z",
       "tags": [
-        "writing",
-        "books"
+        "personal"
       ],
       "links": [
-        "habit-tracker"
+        "tech-i-love"
       ],
       "backlinks": [
         "about-me",
