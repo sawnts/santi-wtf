@@ -15,6 +15,23 @@
     let slashMenuVisible = false;
     let slashMenuIndex = 0;
     let lettersMode = false;
+    let placeholderInterval = null;
+    let idleTimeout = null;
+
+    const placeholderHints = [
+        'type / to begin',
+        "try 'random' for a surprise",
+        'press tab to autocomplete',
+        'there are secrets here...',
+        "type 'explore' to see all notes",
+        '↑↑↓↓←→←→BA',
+        "try 'coffee' when you need a break",
+        "type 'help' for commands",
+        'click the traffic lights...',
+        "type 'fortune' for wisdom"
+    ];
+    let currentHintIndex = 0;
+
     const slashCommands = [
         { name: 'about', desc: 'who is santi' },
         { name: 'info', desc: 'about this site' },
@@ -79,6 +96,12 @@
 
         // Swipe gestures for mobile
         setupSwipeGestures();
+
+        // Konami code listener
+        setupKonamiCode();
+
+        // Traffic light button easter eggs
+        setupTrafficLights();
     }
 
     // ─── Load Index ───────────────────────────────────────────────
@@ -117,9 +140,19 @@
     }
 
     // ─── Typing Animation ─────────────────────────────────────────
+    function getTimeGreeting() {
+        const hour = new Date().getHours();
+        if (hour >= 5 && hour < 12) return 'good morning';
+        if (hour >= 12 && hour < 17) return 'good afternoon';
+        if (hour >= 17 && hour < 21) return 'good evening';
+        // Night owl mode (9pm - 5am)
+        return 'hello, night owl';
+    }
+
     async function typeWelcome() {
+        const greeting = getTimeGreeting();
         const lines = [
-            { text: '> hello, world', class: 'greeting' },
+            { text: `> ${greeting}`, class: 'greeting' },
             { text: "i'm santi — a writer, builder, and thinker.", class: '' }
         ];
 
@@ -201,6 +234,18 @@
 
     // ─── Input Handler ────────────────────────────────────────────
     function handleInput(e) {
+        // Handle snake game mode
+        if (snakeGame) {
+            return; // Snake has its own handler
+        }
+
+        // Handle vim trap mode
+        if (vimMode) {
+            e.preventDefault();
+            handleVimInput(e.key);
+            return;
+        }
+
         // Handle letters (newsletter) mode
         if (lettersMode) {
             if (e.key === 'Enter') {
@@ -307,6 +352,9 @@
 
     // Handle input changes
     function handleInputChange() {
+        // Reset idle hint rotation on any input
+        resetIdleTimer();
+
         // Update letters input if in that mode
         if (lettersMode) {
             updateLettersInput();
@@ -338,9 +386,50 @@
         prompt.className = 'inline-prompt';
         prompt.innerHTML = `
             <span class="cursor"></span>
-            <span class="placeholder">type / to begin</span>
+            <span class="placeholder">${placeholderHints[0]}</span>
         `;
         welcome.appendChild(prompt);
+
+        // Start rotating hints after idle
+        startIdleHintRotation();
+    }
+
+    function startIdleHintRotation() {
+        // Clear any existing intervals
+        stopIdleHintRotation();
+
+        // Start rotating hints after 5 seconds of inactivity
+        idleTimeout = setTimeout(() => {
+            placeholderInterval = setInterval(() => {
+                currentHintIndex = (currentHintIndex + 1) % placeholderHints.length;
+                const placeholder = welcome.querySelector('.inline-prompt .placeholder');
+                if (placeholder && !slashMenuVisible && !input.value) {
+                    placeholder.classList.add('hint-fade');
+                    setTimeout(() => {
+                        placeholder.textContent = placeholderHints[currentHintIndex];
+                        placeholder.classList.remove('hint-fade');
+                    }, 150);
+                }
+            }, 4000);
+        }, 5000);
+    }
+
+    function stopIdleHintRotation() {
+        if (idleTimeout) {
+            clearTimeout(idleTimeout);
+            idleTimeout = null;
+        }
+        if (placeholderInterval) {
+            clearInterval(placeholderInterval);
+            placeholderInterval = null;
+        }
+    }
+
+    function resetIdleTimer() {
+        stopIdleHintRotation();
+        if (!isReading && !vimMode && !lettersMode) {
+            startIdleHintRotation();
+        }
     }
 
     function updateInlinePrompt() {
@@ -415,6 +504,9 @@
 
     // ─── Execute Command ──────────────────────────────────────────
     async function execute(cmd) {
+        // Trigger command flash
+        triggerCmdFlash();
+
         // Strip leading "/" if present
         if (cmd.startsWith('/')) {
             cmd = cmd.slice(1);
@@ -512,6 +604,49 @@
 
             case 'matrix':
                 startMatrix();
+                break;
+
+            // ─── Easter Eggs ─────────────────────────────────────────
+            case 'coffee':
+                clearForCommand();
+                showCoffee();
+                break;
+
+            case 'sudo':
+                echo(cmd);
+                print('nice try, but you have no power here.', 'system-msg');
+                break;
+
+            case '42':
+                echo(cmd);
+                print('the answer to life, the universe, and everything.', 'system-msg');
+                print('but what was the question?', 'text-dim');
+                break;
+
+            case 'fortune':
+                clearForCommand();
+                showFortune();
+                break;
+
+            case 'cowsay':
+                clearForCommand();
+                showCowsay(args || 'moo');
+                break;
+
+            case 'hack':
+                startHack();
+                break;
+
+            case 'vim':
+            case 'vi':
+            case 'nvim':
+            case 'nano':
+            case 'emacs':
+                startVimTrap();
+                break;
+
+            case 'snake':
+                startSnakeGame();
                 break;
 
             default:
@@ -682,6 +817,7 @@
             welcome.classList.add('hidden');
             banner.classList.add('collapsed');
             isReading = true;
+            stopIdleHintRotation();
 
             // Update URL
             history.pushState({ slug }, note.title, `/${slug}`);
@@ -972,6 +1108,8 @@
         showInlinePrompt();
         history.pushState({}, 'santi.wtf', '/');
         window.scrollTo(0, 0);
+        // Restart idle hint rotation
+        resetIdleTimer();
     }
 
     // Expose for inline onclick
@@ -1057,20 +1195,29 @@
         const centerX = width / 2;
         const centerY = height / 2;
 
+        const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
         notesList.forEach((note, i) => {
             const angle = (i / notesList.length) * Math.PI * 2;
-            const radius = Math.min(width, height) * 0.35;
+            const targetRadius = Math.min(width, height) * 0.35;
+            const targetX = centerX + Math.cos(angle) * targetRadius + (Math.random() - 0.5) * 50;
+            const targetY = centerY + Math.sin(angle) * targetRadius + (Math.random() - 0.5) * 50;
             const node = {
                 id: note.slug,
                 title: note.title,
-                x: centerX + Math.cos(angle) * radius + (Math.random() - 0.5) * 50,
-                y: centerY + Math.sin(angle) * radius + (Math.random() - 0.5) * 50,
+                // Start at center for burst animation (or at target if reduced motion)
+                x: reducedMotion ? targetX : centerX,
+                y: reducedMotion ? targetY : centerY,
+                targetX,
+                targetY,
                 vx: 0,
                 vy: 0,
                 backlinkCount: (note.backlinks || []).length,
                 stage: note.stage || 'seedling',
                 hoverAmount: 0,
-                scale: 1
+                scale: 1,
+                // Stagger the burst animation
+                burstDelay: i * 15,
+                burstProgress: reducedMotion ? 1 : 0
             };
             graphNodes.push(node);
             nodeMap[note.slug] = node;
@@ -1212,8 +1359,31 @@
     function animateGraph(canvas, ctx, width, height) {
         if (graphState.isClosing) return;
 
-        // Physics simulation
-        if (graphState.alpha > 0.001) {
+        const elapsed = performance.now() - graphState.startTime;
+
+        // Burst animation phase
+        graphNodes.forEach(node => {
+            if (node.burstProgress < 1) {
+                const nodeElapsed = elapsed - node.burstDelay;
+                if (nodeElapsed > 0) {
+                    // Ease out cubic for smooth deceleration
+                    const duration = 600;
+                    const t = Math.min(nodeElapsed / duration, 1);
+                    const eased = 1 - Math.pow(1 - t, 3);
+                    node.burstProgress = eased;
+
+                    // Interpolate from center to target
+                    const centerX = width / 2;
+                    const centerY = height / 2;
+                    node.x = centerX + (node.targetX - centerX) * eased;
+                    node.y = centerY + (node.targetY - centerY) * eased;
+                }
+            }
+        });
+
+        // Physics simulation (only after burst animation settles)
+        const allBurstComplete = graphNodes.every(n => n.burstProgress >= 1);
+        if (allBurstComplete && graphState.alpha > 0.001) {
             graphNodes.forEach(node => {
                 if (node === graphState.dragging) return;
 
@@ -1284,19 +1454,33 @@
             });
         }
 
-        // Draw edges
-        graphEdges.forEach(edge => {
+        // Draw edges with animated appearance
+        graphEdges.forEach((edge, i) => {
             const isConnected = graphState.hovering &&
                 (edge.source === graphState.hovering || edge.target === graphState.hovering);
             const shouldFade = graphState.hovering && !isConnected;
 
-            ctx.strokeStyle = isConnected ? 'rgba(93, 217, 193, 0.8)' :
-                (shouldFade ? 'rgba(93, 217, 193, 0.1)' : 'rgba(93, 217, 193, 0.3)');
+            // Edge appears as both connected nodes have burst
+            const minBurst = Math.min(edge.source.burstProgress, edge.target.burstProgress);
+            const edgeOpacity = minBurst;
+
+            let baseOpacity = isConnected ? 0.8 : (shouldFade ? 0.1 : 0.3);
+            baseOpacity *= edgeOpacity;
+
+            ctx.strokeStyle = `rgba(93, 217, 193, ${baseOpacity})`;
             ctx.lineWidth = isConnected ? 2 : 1;
+
+            // Draw edge with growing length effect during burst
+            const dx = edge.target.x - edge.source.x;
+            const dy = edge.target.y - edge.source.y;
+            const drawProgress = Math.min(minBurst * 1.5, 1); // Edges draw slightly after nodes arrive
 
             ctx.beginPath();
             ctx.moveTo(edge.source.x, edge.source.y);
-            ctx.lineTo(edge.target.x, edge.target.y);
+            ctx.lineTo(
+                edge.source.x + dx * drawProgress,
+                edge.source.y + dy * drawProgress
+            );
             ctx.stroke();
         });
 
@@ -1380,6 +1564,492 @@
             matrixCanvas.classList.add('hidden');
             ctx.clearRect(0, 0, matrixCanvas.width, matrixCanvas.height);
         }, 8000);
+    }
+
+    // ─── Coffee Easter Egg ───────────────────────────────────────
+    function showCoffee() {
+        const ascii = `
+        ( (
+         ) )
+      .______.
+      |      |]
+      \\      /
+       \`----'
+`;
+        const html = `
+            <div class="easter-egg">
+                <pre class="ascii-art coffee">${ascii}</pre>
+                <p class="system-msg">here's a virtual coffee. you've earned it.</p>
+                <p class="text-dim">fun fact: this site was built on approximately 47 cups of coffee.</p>
+            </div>
+        `;
+        output.insertAdjacentHTML('beforeend', html);
+    }
+
+    // ─── Fortune Easter Egg ──────────────────────────────────────
+    function showFortune() {
+        const fortunes = [
+            "the code you're looking for is inside you all along.",
+            "a bug in production builds character.",
+            "your next commit will be your best yet.",
+            "the terminal rewards those who explore.",
+            "embrace the void. also, dark mode.",
+            "ship it. you can always fix it later.",
+            "documentation is a love letter to your future self.",
+            "the best time to refactor was yesterday. the second best time is never.",
+            "your impostor syndrome is lying to you.",
+            "remember: every expert was once a beginner who didn't quit.",
+            "the real treasure was the merge conflicts we resolved along the way.",
+            "you will find what you seek in the last place you look. obviously.",
+            "a wise developer once said: 'it works on my machine.'",
+            "your rubber duck believes in you.",
+            "today's yak shave will be tomorrow's useful skill."
+        ];
+        const fortune = fortunes[Math.floor(Math.random() * fortunes.length)];
+        const html = `
+            <div class="easter-egg fortune">
+                <p class="fortune-text">"${fortune}"</p>
+                <p class="fortune-attr">— the terminal oracle</p>
+            </div>
+        `;
+        output.insertAdjacentHTML('beforeend', html);
+    }
+
+    // ─── Cowsay Easter Egg ───────────────────────────────────────
+    function showCowsay(text) {
+        const maxLen = Math.min(text.length, 40);
+        const padding = '-'.repeat(maxLen + 2);
+        const cow = `
+ ${padding}
+< ${text.slice(0, 40).padEnd(maxLen)} >
+ ${padding}
+        \\   ^__^
+         \\  (oo)\\_______
+            (__)\\       )\\/\\
+                ||----w |
+                ||     ||
+`;
+        const html = `<pre class="ascii-art cowsay">${escapeHtml(cow)}</pre>`;
+        output.insertAdjacentHTML('beforeend', html);
+    }
+
+    // ─── Hack Easter Egg ─────────────────────────────────────────
+    function startHack() {
+        output.innerHTML = '';
+        welcome.classList.add('hidden');
+        banner.classList.add('collapsed');
+
+        const hackLines = [
+            'initializing hack sequence...',
+            'bypassing firewall [██████████] 100%',
+            'accessing mainframe...',
+            'decrypting password hash: ********',
+            'injecting payload into system32...',
+            'ERROR: just kidding.',
+            '',
+            "you're not actually hacking anything.",
+            "this is just a website.",
+            '',
+            'but hey, cool hacker aesthetic right?',
+            '',
+            '(press any key to return)'
+        ];
+
+        let lineIndex = 0;
+        const hackOutput = document.createElement('div');
+        hackOutput.className = 'hack-output';
+        output.appendChild(hackOutput);
+
+        const typeNextLine = () => {
+            if (lineIndex >= hackLines.length) {
+                const handler = () => {
+                    document.removeEventListener('keydown', handler);
+                    goHome();
+                };
+                document.addEventListener('keydown', handler);
+                return;
+            }
+
+            const line = document.createElement('p');
+            line.className = 'hack-line';
+            line.textContent = hackLines[lineIndex];
+            hackOutput.appendChild(line);
+            lineIndex++;
+
+            setTimeout(typeNextLine, 150 + Math.random() * 200);
+        };
+
+        typeNextLine();
+    }
+
+    // ─── Vim Trap Easter Egg ─────────────────────────────────────
+    let vimMode = false;
+
+    function startVimTrap() {
+        vimMode = true;
+        output.innerHTML = '';
+        welcome.classList.add('hidden');
+        banner.classList.add('collapsed');
+
+        const html = `
+            <div class="vim-trap">
+                <pre class="vim-screen">
+~
+~
+~
+~                      VIM - Vi IMproved
+~
+~                        version 9.0
+~                   by Bram Moolenaar et al.
+~
+~              type  :q!<Enter>       to exit
+~              type  :help<Enter>     for help (just kidding)
+~
+~
+~
+~
+</pre>
+                <div class="vim-status">-- NORMAL --</div>
+                <div class="vim-command"><span class="vim-input"></span><span class="cursor"></span></div>
+            </div>
+        `;
+        output.insertAdjacentHTML('beforeend', html);
+
+        // Override input handling
+        input.value = '';
+    }
+
+    function handleVimInput(key) {
+        const vimInput = output.querySelector('.vim-input');
+        const vimStatus = output.querySelector('.vim-status');
+        if (!vimInput) return;
+
+        if (key === 'Escape') {
+            vimInput.textContent = '';
+            vimStatus.textContent = '-- NORMAL --';
+            return;
+        }
+
+        if (key === ':') {
+            vimInput.textContent = ':';
+            vimStatus.textContent = '';
+            return;
+        }
+
+        if (vimInput.textContent.startsWith(':')) {
+            if (key === 'Enter') {
+                const cmd = vimInput.textContent;
+                if (cmd === ':q!' || cmd === ':wq' || cmd === ':x' || cmd === ':qa!') {
+                    vimMode = false;
+                    goHome();
+                    print('you escaped vim. you are among the chosen few.', 'system-msg');
+                } else if (cmd === ':q') {
+                    vimInput.textContent = '';
+                    vimStatus.textContent = 'E37: No write since last change (add ! to override)';
+                } else if (cmd === ':help') {
+                    vimInput.textContent = '';
+                    vimStatus.textContent = 'just type :q! to quit. i believe in you.';
+                } else {
+                    vimInput.textContent = '';
+                    vimStatus.textContent = `E492: Not an editor command: ${cmd.slice(1)}`;
+                }
+            } else if (key === 'Backspace') {
+                vimInput.textContent = vimInput.textContent.slice(0, -1);
+            } else if (key.length === 1) {
+                vimInput.textContent += key;
+            }
+        }
+    }
+
+    // ─── Traffic Light Easter Eggs ─────────────────────────────────
+    function setupTrafficLights() {
+        const btnRed = document.getElementById('btn-red');
+        const btnYellow = document.getElementById('btn-yellow');
+        const btnGreen = document.getElementById('btn-green');
+
+        if (btnRed) {
+            btnRed.addEventListener('click', (e) => {
+                e.stopPropagation();
+                triggerGlitch();
+            });
+        }
+
+        if (btnYellow) {
+            btnYellow.addEventListener('click', (e) => {
+                e.stopPropagation();
+                triggerMinimize();
+            });
+        }
+
+        if (btnGreen) {
+            btnGreen.addEventListener('click', (e) => {
+                e.stopPropagation();
+                triggerFlash();
+            });
+        }
+    }
+
+    function triggerGlitch() {
+        const terminal = document.querySelector('.terminal');
+        if (!terminal || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+        terminal.classList.add('glitch');
+        setTimeout(() => terminal.classList.remove('glitch'), 500);
+    }
+
+    function triggerMinimize() {
+        const terminal = document.querySelector('.terminal');
+        if (!terminal) return;
+
+        terminal.classList.add('minimize');
+        setTimeout(() => terminal.classList.remove('minimize'), 600);
+    }
+
+    function triggerFlash() {
+        const terminal = document.querySelector('.terminal');
+        if (!terminal || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+        terminal.classList.add('flash-green');
+        setTimeout(() => terminal.classList.remove('flash-green'), 300);
+    }
+
+    // ─── Konami Code Easter Egg ──────────────────────────────────
+    function setupKonamiCode() {
+        const konamiCode = ['ArrowUp', 'ArrowUp', 'ArrowDown', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'ArrowLeft', 'ArrowRight', 'b', 'a'];
+        let konamiIndex = 0;
+
+        document.addEventListener('keydown', (e) => {
+            // Don't trigger during vim mode or letters mode
+            if (vimMode || lettersMode) return;
+
+            const key = e.key.toLowerCase() === e.key ? e.key : e.key;
+            if (key === konamiCode[konamiIndex] || key.toLowerCase() === konamiCode[konamiIndex]) {
+                konamiIndex++;
+                if (konamiIndex === konamiCode.length) {
+                    konamiIndex = 0;
+                    triggerKonamiEasterEgg();
+                }
+            } else {
+                konamiIndex = 0;
+            }
+        });
+    }
+
+    function triggerKonamiEasterEgg() {
+        startSnakeGame();
+    }
+
+    // ─── Snake Game ──────────────────────────────────────────────
+    let snakeGame = null;
+
+    function startSnakeGame() {
+        // Hide SANTI banner, show SNAKE banner instead
+        output.innerHTML = '';
+        welcome.innerHTML = '';
+        banner.classList.add('collapsed');
+        stopIdleHintRotation();
+
+        const gameWidth = 40;
+        const gameHeight = 12;
+
+        snakeGame = {
+            width: gameWidth,
+            height: gameHeight,
+            snake: [{ x: Math.floor(gameWidth / 2), y: Math.floor(gameHeight / 2) }],
+            direction: { x: 1, y: 0 },
+            nextDirection: { x: 1, y: 0 },
+            food: null,
+            score: 0,
+            gameOver: false,
+            intervalId: null,
+            speed: 150
+        };
+
+        spawnFood();
+
+        const snakeAscii = `███████╗███╗   ██╗ █████╗ ██╗  ██╗███████╗
+██╔════╝████╗  ██║██╔══██╗██║ ██╔╝██╔════╝
+███████╗██╔██╗ ██║███████║█████╔╝ █████╗
+╚════██║██║╚██╗██║██╔══██║██╔═██╗ ██╔══╝
+███████║██║ ╚████║██║  ██║██║  ██╗███████╗
+╚══════╝╚═╝  ╚═══╝╚═╝  ╚═╝╚═╝  ╚═╝╚══════╝`;
+
+        const html = `
+            <div class="snake-game">
+                <pre class="snake-ascii">${snakeAscii}</pre>
+                <pre id="snake-board" class="snake-board"></pre>
+                <div class="snake-footer">
+                    <span class="snake-controls">arrow keys to move · esc to quit</span>
+                    <span class="snake-score">score: <span id="snake-score">0</span></span>
+                </div>
+            </div>
+        `;
+        output.insertAdjacentHTML('beforeend', html);
+
+        renderSnakeBoard();
+
+        // Start game loop
+        snakeGame.intervalId = setInterval(updateSnake, snakeGame.speed);
+
+        // Handle snake input
+        document.addEventListener('keydown', handleSnakeInput);
+    }
+
+    function spawnFood() {
+        if (!snakeGame) return;
+        let pos;
+        do {
+            pos = {
+                x: Math.floor(Math.random() * snakeGame.width),
+                y: Math.floor(Math.random() * snakeGame.height)
+            };
+        } while (snakeGame.snake.some(seg => seg.x === pos.x && seg.y === pos.y));
+        snakeGame.food = pos;
+    }
+
+    function handleSnakeInput(e) {
+        if (!snakeGame) return;
+
+        if (e.key === 'Escape') {
+            e.preventDefault();
+            endSnakeGame();
+            return;
+        }
+
+        if (snakeGame.gameOver) {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                // Restart game
+                document.removeEventListener('keydown', handleSnakeInput);
+                startSnakeGame();
+            }
+            return;
+        }
+
+        const { direction } = snakeGame;
+
+        switch (e.key) {
+            case 'ArrowUp':
+                e.preventDefault();
+                if (direction.y !== 1) snakeGame.nextDirection = { x: 0, y: -1 };
+                break;
+            case 'ArrowDown':
+                e.preventDefault();
+                if (direction.y !== -1) snakeGame.nextDirection = { x: 0, y: 1 };
+                break;
+            case 'ArrowLeft':
+                e.preventDefault();
+                if (direction.x !== 1) snakeGame.nextDirection = { x: -1, y: 0 };
+                break;
+            case 'ArrowRight':
+                e.preventDefault();
+                if (direction.x !== -1) snakeGame.nextDirection = { x: 1, y: 0 };
+                break;
+        }
+    }
+
+    function updateSnake() {
+        if (!snakeGame || snakeGame.gameOver) return;
+
+        snakeGame.direction = snakeGame.nextDirection;
+
+        const head = snakeGame.snake[0];
+        const newHead = {
+            x: head.x + snakeGame.direction.x,
+            y: head.y + snakeGame.direction.y
+        };
+
+        // Check wall collision
+        if (newHead.x < 0 || newHead.x >= snakeGame.width ||
+            newHead.y < 0 || newHead.y >= snakeGame.height) {
+            gameOver();
+            return;
+        }
+
+        // Check self collision
+        if (snakeGame.snake.some(seg => seg.x === newHead.x && seg.y === newHead.y)) {
+            gameOver();
+            return;
+        }
+
+        snakeGame.snake.unshift(newHead);
+
+        // Check food collision
+        if (snakeGame.food && newHead.x === snakeGame.food.x && newHead.y === snakeGame.food.y) {
+            snakeGame.score += 10;
+            document.getElementById('snake-score').textContent = snakeGame.score;
+            spawnFood();
+            // Speed up slightly
+            if (snakeGame.speed > 80) {
+                clearInterval(snakeGame.intervalId);
+                snakeGame.speed -= 5;
+                snakeGame.intervalId = setInterval(updateSnake, snakeGame.speed);
+            }
+        } else {
+            snakeGame.snake.pop();
+        }
+
+        renderSnakeBoard();
+    }
+
+    function renderSnakeBoard() {
+        if (!snakeGame) return;
+
+        const board = document.getElementById('snake-board');
+        if (!board) return;
+
+        let display = '┌' + '─'.repeat(snakeGame.width) + '┐\n';
+
+        for (let y = 0; y < snakeGame.height; y++) {
+            display += '│';
+            for (let x = 0; x < snakeGame.width; x++) {
+                const isHead = snakeGame.snake[0].x === x && snakeGame.snake[0].y === y;
+                const isBody = snakeGame.snake.slice(1).some(seg => seg.x === x && seg.y === y);
+                const isFood = snakeGame.food && snakeGame.food.x === x && snakeGame.food.y === y;
+
+                if (isHead) {
+                    display += '◆';
+                } else if (isBody) {
+                    display += '●';
+                } else if (isFood) {
+                    display += '○';
+                } else {
+                    display += ' ';
+                }
+            }
+            display += '│\n';
+        }
+
+        display += '└' + '─'.repeat(snakeGame.width) + '┘';
+
+        board.textContent = display;
+    }
+
+    function gameOver() {
+        if (!snakeGame) return;
+        snakeGame.gameOver = true;
+        clearInterval(snakeGame.intervalId);
+
+        // Update controls text to show game over state
+        const controls = document.querySelector('.snake-controls');
+        if (controls) {
+            controls.innerHTML = `<span class="snake-game-over">game over!</span> press enter to restart · esc to quit`;
+        }
+    }
+
+    function endSnakeGame() {
+        if (snakeGame && snakeGame.intervalId) {
+            clearInterval(snakeGame.intervalId);
+        }
+        document.removeEventListener('keydown', handleSnakeInput);
+        snakeGame = null;
+        // Restore welcome and go home
+        output.innerHTML = '';
+        welcome.innerHTML = '';
+        banner.classList.remove('collapsed');
+        isReading = false;
+        typeWelcome();
+        history.pushState({}, 'santi.wtf', '/');
     }
 
     // ─── Mobile Command Palette ───────────────────────────────────
@@ -1469,6 +2139,17 @@
     }
 
     // ─── Helpers ──────────────────────────────────────────────────
+    function triggerCmdFlash() {
+        const inner = document.querySelector('.terminal-inner');
+        if (inner && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+            inner.classList.remove('cmd-flash');
+            // Force reflow to restart animation
+            void inner.offsetWidth;
+            inner.classList.add('cmd-flash');
+            setTimeout(() => inner.classList.remove('cmd-flash'), 300);
+        }
+    }
+
     function echo(cmd) {
         output.insertAdjacentHTML('beforeend', `
             <div class="cmd-echo"><span class="prompt">~$</span> ${escapeHtml(cmd)}</div>

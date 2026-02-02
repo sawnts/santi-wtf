@@ -90,9 +90,59 @@ body {
     border-radius: 50%;
 }
 
-.terminal-btn.red { background: #ff5f56; }
-.terminal-btn.yellow { background: #ffbd2e; }
-.terminal-btn.green { background: #27c93f; }
+.terminal-btn.red { background: #ff5f56; cursor: pointer; }
+.terminal-btn.yellow { background: #ffbd2e; cursor: pointer; }
+.terminal-btn.green { background: #27c93f; cursor: pointer; }
+
+.terminal-btn:hover {
+    transform: scale(1.1);
+    transition: transform 0.15s ease;
+}
+
+.terminal-btn:active {
+    transform: scale(0.9);
+}
+
+/* Traffic light effects */
+.terminal.glitch {
+    animation: glitchEffect 0.5s ease;
+}
+
+@keyframes glitchEffect {
+    0% { transform: translate(0); filter: hue-rotate(0deg); }
+    10% { transform: translate(-5px, 2px); filter: hue-rotate(90deg); }
+    20% { transform: translate(5px, -2px); filter: hue-rotate(180deg); }
+    30% { transform: translate(-3px, -1px); filter: hue-rotate(270deg); }
+    40% { transform: translate(3px, 1px); filter: hue-rotate(0deg); }
+    50% { transform: translate(-2px, 2px); filter: hue-rotate(90deg); }
+    60% { transform: translate(2px, -2px); }
+    70% { transform: translate(-1px, 1px); }
+    80% { transform: translate(1px, -1px); }
+    90% { transform: translate(0); }
+    100% { transform: translate(0); filter: hue-rotate(0deg); }
+}
+
+.terminal.minimize {
+    animation: minimizeEffect 0.6s ease;
+}
+
+@keyframes minimizeEffect {
+    0% { transform: scale(1); opacity: 1; }
+    50% { transform: scale(0.1) translateY(100%); opacity: 0.5; }
+    51% { transform: scale(0.1) translateY(100%); opacity: 0; }
+    52% { transform: scale(0.1) translateY(100%); opacity: 0.5; }
+    100% { transform: scale(1); opacity: 1; }
+}
+
+.terminal.flash-green {
+    animation: flashGreen 0.3s ease;
+}
+
+@keyframes flashGreen {
+    0% { box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.4); }
+    50% { box-shadow: 0 0 50px rgba(39, 201, 63, 0.6), 0 0 100px rgba(39, 201, 63, 0.3); }
+    100% { box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.4); }
+}
 
 /* Terminal inner content */
 .terminal-inner {
@@ -197,11 +247,35 @@ body {
     color: var(--text-dim);
     cursor: pointer;
     padding: 0.25rem 0;
-    transition: color 0.15s ease;
+    transition: color 0.15s ease, transform 0.1s ease;
+    opacity: 0;
+    animation: slashMenuFadeIn 0.2s ease forwards;
+}
+
+.slash-menu-item:nth-child(1) { animation-delay: 0ms; }
+.slash-menu-item:nth-child(2) { animation-delay: 30ms; }
+.slash-menu-item:nth-child(3) { animation-delay: 60ms; }
+.slash-menu-item:nth-child(4) { animation-delay: 90ms; }
+.slash-menu-item:nth-child(5) { animation-delay: 120ms; }
+.slash-menu-item:nth-child(6) { animation-delay: 150ms; }
+
+@keyframes slashMenuFadeIn {
+    from {
+        opacity: 0;
+        transform: translateX(-8px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
 }
 
 .slash-menu-item:hover {
     color: var(--text);
+}
+
+.slash-menu-item:active {
+    transform: scale(0.98);
 }
 
 .slash-menu-item.selected {
@@ -281,11 +355,12 @@ body {
 .note-list a {
     color: var(--link);
     text-decoration: none;
-    transition: color 0.15s ease;
+    transition: color 0.15s ease, text-shadow 0.15s ease;
 }
 
 .note-list a:hover {
     color: var(--link-hover);
+    text-shadow: 0 0 8px var(--accent), 0 0 12px rgba(93, 217, 193, 0.4);
 }
 
 .note-list .meta {
@@ -403,21 +478,24 @@ body {
     color: var(--link);
     text-decoration: none;
     border-bottom: 1px solid transparent;
-    transition: border-color 0.15s ease;
+    transition: border-color 0.15s ease, text-shadow 0.15s ease;
 }
 
 .note-body a:hover {
     border-bottom-color: var(--link);
+    text-shadow: 0 0 8px var(--accent), 0 0 12px rgba(93, 217, 193, 0.4);
 }
 
 /* Wikilinks styled as [link] */
 .note-body a.wikilink {
     color: var(--accent-tertiary);
     border-bottom: none;
+    transition: color 0.15s ease, text-shadow 0.15s ease;
 }
 
 .note-body a.wikilink:hover {
     color: var(--text-bright);
+    text-shadow: 0 0 8px var(--accent-tertiary), 0 0 12px rgba(246, 135, 179, 0.4);
 }
 
 .note-body a.wikilink::before {
@@ -519,10 +597,12 @@ body {
 .note-footer a {
     color: var(--link);
     text-decoration: none;
+    transition: text-shadow 0.15s ease;
 }
 
 .note-footer a:hover {
     text-decoration: underline;
+    text-shadow: 0 0 8px var(--accent), 0 0 12px rgba(93, 217, 193, 0.4);
 }
 
 .backlinks {
@@ -547,6 +627,12 @@ body {
     background: var(--surface);
     border-radius: 3px;
     font-size: 0.85rem;
+    transition: text-shadow 0.15s ease, background 0.15s ease;
+}
+
+.backlinks-list a:hover {
+    text-shadow: 0 0 8px var(--accent), 0 0 12px rgba(93, 217, 193, 0.4);
+    background: var(--border);
 }
 
 .back-link {
@@ -554,12 +640,16 @@ body {
     align-items: center;
     gap: 0.5rem;
     color: var(--text-dim);
-    transition: color 0.15s ease;
+    transition: color 0.15s ease, transform 0.1s ease;
     cursor: pointer;
 }
 
 .back-link:hover {
     color: var(--accent-tertiary);
+}
+
+.back-link:active {
+    transform: scale(0.97);
 }
 
 /* ─── About Page ───────────────────────────────────────────────── */
@@ -596,11 +686,16 @@ body {
     background: var(--surface);
     border: 1px solid var(--border);
     border-radius: 4px;
-    transition: border-color 0.15s ease;
+    transition: border-color 0.15s ease, transform 0.1s ease, text-shadow 0.15s ease;
 }
 
 .about-links a:hover {
     border-color: var(--accent);
+    text-shadow: 0 0 8px var(--accent), 0 0 12px rgba(93, 217, 193, 0.4);
+}
+
+.about-links a:active {
+    transform: scale(0.97);
 }
 
 /* ─── Now Page ─────────────────────────────────────────────────── */
@@ -750,6 +845,11 @@ body {
 .inline-prompt .placeholder {
     color: var(--text-dim);
     vertical-align: middle;
+    transition: opacity 0.15s ease;
+}
+
+.inline-prompt .placeholder.hint-fade {
+    opacity: 0;
 }
 
 .inline-prompt .typed {
@@ -784,12 +884,16 @@ body {
     font-family: inherit;
     font-size: 0.7rem;
     cursor: pointer;
-    transition: color 0.15s ease;
+    transition: color 0.15s ease, transform 0.1s ease;
 }
 
-.command-palette button:hover,
+.command-palette button:hover {
+    color: var(--accent-tertiary);
+}
+
 .command-palette button:active {
     color: var(--accent-tertiary);
+    transform: scale(0.95);
 }
 
 .palette-icon {
@@ -835,11 +939,15 @@ body {
     font-size: 0.85rem;
     cursor: pointer;
     text-align: left;
-    transition: border-color 0.15s ease;
+    transition: border-color 0.15s ease, transform 0.1s ease;
 }
 
 .more-menu button:hover {
     border-color: var(--accent);
+}
+
+.more-menu button:active {
+    transform: scale(0.97);
 }
 
 /* ─── Loading ──────────────────────────────────────────────────── */
@@ -907,6 +1015,10 @@ body {
 .graph-close:hover {
     color: var(--text);
     border-color: var(--accent);
+}
+
+.graph-close:active {
+    transform: scale(0.95);
 }
 
 /* ─── Matrix Easter Egg ────────────────────────────────────────── */
@@ -1036,6 +1148,138 @@ input:focus-visible {
     outline-offset: 2px;
 }
 
+/* ─── Easter Eggs ──────────────────────────────────────────────── */
+.easter-egg {
+    animation: fadeIn 0.3s ease;
+    margin-bottom: 2rem;
+}
+
+.ascii-art {
+    color: var(--accent);
+    font-size: 0.8rem;
+    line-height: 1.2;
+    margin-bottom: 1rem;
+}
+
+.ascii-art.coffee {
+    color: #d4a574;
+}
+
+.ascii-art.cowsay {
+    color: var(--text);
+}
+
+.fortune-text {
+    color: var(--accent-secondary);
+    font-style: italic;
+    font-size: 1.1rem;
+    margin-bottom: 0.5rem;
+}
+
+.fortune-attr {
+    color: var(--text-dim);
+    font-size: 0.85rem;
+}
+
+.text-dim {
+    color: var(--text-dim);
+}
+
+/* Hack animation */
+.hack-output {
+    font-family: var(--font);
+}
+
+.hack-line {
+    color: var(--green);
+    margin-bottom: 0.25rem;
+    animation: hackType 0.1s ease;
+}
+
+@keyframes hackType {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+/* Vim trap */
+.vim-trap {
+    font-family: var(--font);
+}
+
+.vim-screen {
+    color: var(--text-dim);
+    font-size: 0.9rem;
+    line-height: 1.4;
+    margin-bottom: 0;
+}
+
+.vim-status {
+    color: var(--text);
+    background: var(--surface);
+    padding: 0.25rem 0.5rem;
+    margin-top: 0;
+}
+
+.vim-command {
+    display: flex;
+    align-items: center;
+    padding: 0.25rem 0;
+}
+
+.vim-input {
+    color: var(--text);
+}
+
+/* Snake game (konami code easter egg) */
+.snake-game {
+    animation: fadeIn 0.3s ease;
+}
+
+.snake-ascii {
+    color: var(--accent);
+    font-size: 0.5rem;
+    line-height: 1.15;
+    margin-bottom: 1.5rem;
+}
+
+.snake-board {
+    color: var(--accent);
+    font-size: 1rem;
+    line-height: 1.05;
+    margin-bottom: 0.75rem;
+}
+
+.snake-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.snake-controls {
+    color: var(--text-dim);
+    font-size: 0.85rem;
+}
+
+.snake-score {
+    color: var(--text-dim);
+    font-size: 0.85rem;
+}
+
+.snake-game-over {
+    color: var(--error);
+}
+
+/* ─── Command Execution Flash ──────────────────────────────────── */
+.terminal-inner.cmd-flash {
+    animation: cmdFlash 0.3s ease;
+}
+
+@keyframes cmdFlash {
+    0% { background: var(--bg); }
+    15% { background: rgba(93, 217, 193, 0.05); }
+    100% { background: var(--bg); }
+}
+
 /* ─── Utilities ────────────────────────────────────────────────── */
 .hidden {
     display: none !important;
@@ -1058,4 +1302,43 @@ input:focus-visible {
 #command-input {
     opacity: 0;
     pointer-events: none;
+}
+
+/* ─── Reduced Motion Support ───────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+
+    .typing-cursor {
+        animation: none;
+        opacity: 1;
+    }
+
+    .status-dot {
+        animation: none;
+        opacity: 1;
+    }
+
+    .loading-dots::after {
+        animation: none;
+        content: '...';
+    }
+
+    .slash-menu-item {
+        opacity: 1;
+        animation: none;
+    }
+
+    .terminal-inner.cmd-flash {
+        animation: none;
+    }
+
+    html {
+        scroll-behavior: auto;
+    }
 }
