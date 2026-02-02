@@ -154,7 +154,7 @@ body {
 /* ─── ASCII Banner ─────────────────────────────────────────────── */
 .ascii-banner {
     color: var(--accent);
-    font-size: 0.6rem;
+    font-size: 0.85rem;
     line-height: 1.15;
     margin-bottom: 1.5rem;
     white-space: pre;
@@ -1089,7 +1089,7 @@ body {
     }
 
     .ascii-banner {
-        font-size: 0.45rem;
+        font-size: 0.65rem;
     }
 
     .command-palette {
@@ -1141,7 +1141,7 @@ body {
     }
 
     .ascii-banner {
-        font-size: 0.32rem;
+        font-size: 0.5rem;
         margin-bottom: 1rem;
     }
 
@@ -1320,7 +1320,7 @@ input:focus-visible {
 
 .snake-ascii {
     color: var(--accent);
-    font-size: 0.5rem;
+    font-size: 0.75rem;
     line-height: 1.15;
     margin-bottom: 1.5rem;
 }
@@ -1459,7 +1459,7 @@ input:focus-visible {
 
 @media (max-width: 480px) {
     .snake-ascii {
-        font-size: 0.35rem;
+        font-size: 0.5rem;
     }
 
     .snake-main {
