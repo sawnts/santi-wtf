@@ -26,16 +26,20 @@
       "slug": "about-this-site",
       "collection": null,
       "stage": "seedling",
-      "planted": null,
-      "tended": null,
-      "tags": [],
+      "planted": "2026-01-01T00:00:00.000Z",
+      "tended": "2026-02-01T00:00:00.000Z",
+      "tags": [
+        "personal",
+        "digital-garden"
+      ],
       "links": [
         "digital-garden",
         "integration",
+        "now",
+        "about-me",
         "integration",
         "splitting",
-        "power-of-writing-online",
-        "now"
+        "power-of-writing-online"
       ],
       "backlinks": [
         "about-me"
@@ -53,9 +57,15 @@
         "personal"
       ],
       "links": [
+        "about-this-site",
+        "now",
+        "tech-i-love",
+        "2026---lessons",
+        "my-favorite-reads-2025"
+      ],
+      "backlinks": [
         "about-this-site"
       ],
-      "backlinks": [],
       "excerpt": "people call me santi (sawn-tee)."
     },
     "ogilvy-creative-process": {
@@ -166,7 +176,9 @@
       "links": [
         "digital-garden"
       ],
-      "backlinks": [],
+      "backlinks": [
+        "about-me"
+      ],
       "excerpt": "i'm not a gadget person. i don't chase specs or wait in line for launches. but some things have quietly become pillars in my daily life — tools i'd ge"
     },
     "now": {
@@ -185,7 +197,8 @@
       ],
       "backlinks": [
         "index",
-        "about-this-site"
+        "about-this-site",
+        "about-me"
       ],
       "excerpt": "what i'm up to recently:"
     },
@@ -204,13 +217,14 @@
         "habit-tracker"
       ],
       "backlinks": [
+        "about-me",
         "now"
       ],
       "excerpt": "the first one is 70 pages long. number two will get anybody out of a reading slump. the third one is its sequel. the fourth one is the only personal d"
     },
-    "2026-lessons": {
-      "title": "2026 lessons",
-      "slug": "2026-lessons",
+    "2026---lessons": {
+      "title": "2026: lessons",
+      "slug": "2026---lessons",
       "collection": "being",
       "stage": "growing",
       "planted": "2026-01-17T00:00:00.000Z",
@@ -224,6 +238,7 @@
         "power-of-writing-online"
       ],
       "backlinks": [
+        "about-me",
         "the-map-is-not-the-territory"
       ],
       "excerpt": "a running list of things i'm learning this year. updated as life teaches me."
@@ -240,11 +255,11 @@
         "creativity"
       ],
       "links": [
-        "2026-lessons",
-        "2026-lessons"
+        "2026---lessons",
+        "2026---lessons"
       ],
       "backlinks": [
-        "2026-lessons"
+        "2026---lessons"
       ],
       "excerpt": "a mental model from Alfred Korzybski (1931): our representations of reality — maps, models, frameworks, other people's systems — are always abstractio"
     },
@@ -316,7 +331,7 @@
         "index",
         "about-this-site",
         "digital-garden",
-        "2026-lessons"
+        "2026---lessons"
       ],
       "excerpt": "the person who can string together words that evoke emotion, facilitate insight, and entertain readers has a huge competitive advantage in today's dig"
     },
@@ -418,7 +433,7 @@
   },
   "stats": {
     "total": 19,
-    "links": 57,
+    "links": 62,
     "seedling": 2,
     "growing": 11,
     "evergreen": 6,
