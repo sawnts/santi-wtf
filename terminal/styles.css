@@ -867,6 +867,7 @@ body {
     background: var(--bg);
     border-top: 1px solid var(--border);
     padding: 0.75rem 1rem;
+    padding-bottom: calc(0.75rem + env(safe-area-inset-bottom, 0px));
     z-index: 101;
     justify-content: space-around;
     border-radius: 0 0 12px 12px;
@@ -877,7 +878,9 @@ body {
     flex-direction: column;
     align-items: center;
     gap: 0.25rem;
-    padding: 0.5rem 1rem;
+    padding: 0.75rem 1rem;
+    min-height: 44px;
+    min-width: 44px;
     background: transparent;
     border: none;
     color: var(--text-dim);
@@ -885,6 +888,8 @@ body {
     font-size: 0.7rem;
     cursor: pointer;
     transition: color 0.15s ease, transform 0.1s ease;
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
 }
 
 .command-palette button:hover {
@@ -903,12 +908,14 @@ body {
 /* More menu overlay */
 .more-menu {
     position: fixed;
-    bottom: 4rem;
+    bottom: calc(4rem + env(safe-area-inset-bottom, 0px));
     left: 0;
     right: 0;
     background: var(--surface);
     border-top: 1px solid var(--border);
     padding: 1rem;
+    padding-left: calc(1rem + env(safe-area-inset-left, 0px));
+    padding-right: calc(1rem + env(safe-area-inset-right, 0px));
     z-index: 102;
     display: none;
     animation: slideUp 0.2s ease;
@@ -930,7 +937,8 @@ body {
 }
 
 .more-menu button {
-    padding: 0.75rem;
+    padding: 0.875rem 1rem;
+    min-height: 44px;
     background: var(--bg);
     border: 1px solid var(--border);
     border-radius: 4px;
@@ -940,6 +948,8 @@ body {
     cursor: pointer;
     text-align: left;
     transition: border-color 0.15s ease, transform 0.1s ease;
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
 }
 
 .more-menu button:hover {
@@ -1074,7 +1084,8 @@ body {
     }
 
     .terminal-inner {
-        padding: 1.25rem 1.5rem 5rem;
+        padding: 1.25rem 1.5rem;
+        padding-bottom: calc(5rem + env(safe-area-inset-bottom, 0px));
     }
 
     .ascii-banner {
@@ -1083,6 +1094,22 @@ body {
 
     .command-palette {
         display: flex;
+    }
+
+    /* Improve touch targets for links */
+    .note-list a {
+        padding: 0.25rem 0;
+    }
+
+    .slash-menu-item {
+        padding: 0.5rem 0;
+        min-height: 44px;
+    }
+
+    /* Graph close button */
+    .graph-close {
+        width: 44px;
+        height: 44px;
     }
 }
 
@@ -1095,6 +1122,7 @@ body {
         min-height: 100vh;
         min-height: 100dvh;
         border-radius: 0;
+        padding-top: env(safe-area-inset-top, 0px);
     }
 
     .terminal::before {
@@ -1106,7 +1134,10 @@ body {
     }
 
     .terminal-inner {
-        padding: 1rem 1rem 5rem;
+        padding: 1rem;
+        padding-bottom: calc(5rem + env(safe-area-inset-bottom, 0px));
+        padding-left: calc(1rem + env(safe-area-inset-left, 0px));
+        padding-right: calc(1rem + env(safe-area-inset-right, 0px));
     }
 
     .ascii-banner {
@@ -1137,6 +1168,24 @@ body {
 
     .command-palette {
         border-radius: 0;
+        padding-left: calc(0.5rem + env(safe-area-inset-left, 0px));
+        padding-right: calc(0.5rem + env(safe-area-inset-right, 0px));
+    }
+
+    /* Improve touch targets for note list */
+    .note-list a {
+        display: inline-block;
+        padding: 0.5rem 0;
+        min-height: 44px;
+        line-height: 1.5;
+    }
+
+    /* Ensure backlinks are tappable */
+    .backlinks-list a {
+        min-height: 44px;
+        display: inline-flex;
+        align-items: center;
+        padding: 0.5rem 0.75rem;
     }
 }
 
@@ -1230,6 +1279,28 @@ input:focus-visible {
     color: var(--text);
 }
 
+.vim-escape-btn {
+    display: block;
+    margin: 2rem auto 0;
+    padding: 1rem 2rem;
+    background: var(--surface);
+    border: 2px solid var(--accent);
+    border-radius: 8px;
+    color: var(--accent);
+    font-family: var(--font);
+    font-size: 1.25rem;
+    cursor: pointer;
+    transition: all 0.15s ease;
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+}
+
+.vim-escape-btn:active {
+    background: var(--accent);
+    color: var(--bg);
+    transform: scale(0.95);
+}
+
 /* Snake game (konami code easter egg) */
 .snake-game {
     animation: fadeIn 0.3s ease;
@@ -1309,6 +1380,97 @@ input:focus-visible {
 
 .snake-new-highscore {
     color: var(--yellow);
+}
+
+/* Snake D-pad for touch devices */
+.snake-dpad {
+    display: grid;
+    grid-template-columns: repeat(3, 52px);
+    grid-template-rows: repeat(3, 52px);
+    gap: 4px;
+    margin-top: 1.5rem;
+    justify-content: center;
+}
+
+.dpad-btn {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    color: var(--accent);
+    font-size: 1.5rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.1s ease;
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+    user-select: none;
+}
+
+.dpad-btn:active {
+    background: var(--accent);
+    color: var(--bg);
+    transform: scale(0.95);
+}
+
+.dpad-btn.dpad-center {
+    background: transparent;
+    border: none;
+    cursor: default;
+}
+
+.dpad-btn.dpad-up {
+    grid-column: 2;
+    grid-row: 1;
+}
+
+.dpad-btn.dpad-left {
+    grid-column: 1;
+    grid-row: 2;
+}
+
+.dpad-btn.dpad-center {
+    grid-column: 2;
+    grid-row: 2;
+}
+
+.dpad-btn.dpad-right {
+    grid-column: 3;
+    grid-row: 2;
+}
+
+.dpad-btn.dpad-down {
+    grid-column: 2;
+    grid-row: 3;
+}
+
+@media (max-width: 480px) {
+    .snake-ascii {
+        font-size: 0.35rem;
+    }
+
+    .snake-main {
+        flex-direction: column;
+        gap: 1rem;
+    }
+
+    .snake-board {
+        font-size: 0.7rem;
+    }
+
+    .snake-sidebar {
+        display: none;
+    }
+
+    .snake-dpad {
+        grid-template-columns: repeat(3, 60px);
+        grid-template-rows: repeat(3, 60px);
+    }
+
+    .dpad-btn {
+        font-size: 1.75rem;
+    }
 }
 
 /* ─── Command Execution Flash ──────────────────────────────────── */

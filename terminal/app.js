@@ -102,6 +102,9 @@
 
         // Traffic light button easter eggs
         setupTrafficLights();
+
+        // Triple-tap easter egg (mobile alternative to Konami code)
+        setupTripleTapEasterEgg();
     }
 
     // ─── Load Index ───────────────────────────────────────────────
@@ -1344,6 +1347,122 @@
             graphState.transform.scale = newScale;
         };
 
+        // Touch event handling for mobile
+        let touchStartTime = 0;
+        let touchStartPos = { x: 0, y: 0 };
+        let initialPinchDistance = 0;
+        let initialScale = 1;
+
+        canvas.addEventListener('touchstart', (e) => {
+            e.preventDefault();
+            const rect = canvas.getBoundingClientRect();
+
+            if (e.touches.length === 1) {
+                // Single finger - drag or pan
+                const touch = e.touches[0];
+                const screenX = touch.clientX - rect.left;
+                const screenY = touch.clientY - rect.top;
+                const { x: gx, y: gy } = toGraphCoords(screenX, screenY);
+
+                touchStartTime = Date.now();
+                touchStartPos = { x: screenX, y: screenY };
+                dragStartX = screenX;
+                dragStartY = screenY;
+                didDrag = false;
+
+                const node = findNodeAt(gx, gy);
+                if (node) {
+                    graphState.dragging = node;
+                    graphState.alpha = 0.8;
+                } else {
+                    graphState.panning = true;
+                    graphState.panStart = { x: screenX, y: screenY };
+                }
+            } else if (e.touches.length === 2) {
+                // Two fingers - pinch to zoom
+                graphState.dragging = null;
+                graphState.panning = false;
+                const dx = e.touches[0].clientX - e.touches[1].clientX;
+                const dy = e.touches[0].clientY - e.touches[1].clientY;
+                initialPinchDistance = Math.sqrt(dx * dx + dy * dy);
+                initialScale = graphState.transform.scale;
+            }
+        }, { passive: false });
+
+        canvas.addEventListener('touchmove', (e) => {
+            e.preventDefault();
+            const rect = canvas.getBoundingClientRect();
+
+            if (e.touches.length === 1 && (graphState.dragging || graphState.panning)) {
+                const touch = e.touches[0];
+                const screenX = touch.clientX - rect.left;
+                const screenY = touch.clientY - rect.top;
+                const { x: gx, y: gy } = toGraphCoords(screenX, screenY);
+
+                if (graphState.dragging) {
+                    if (Math.abs(screenX - dragStartX) > 5 || Math.abs(screenY - dragStartY) > 5) {
+                        didDrag = true;
+                    }
+                    graphState.dragging.x = gx;
+                    graphState.dragging.y = gy;
+                    graphState.dragging.vx = 0;
+                    graphState.dragging.vy = 0;
+                } else if (graphState.panning) {
+                    graphState.transform.x += screenX - graphState.panStart.x;
+                    graphState.transform.y += screenY - graphState.panStart.y;
+                    graphState.panStart = { x: screenX, y: screenY };
+                    didDrag = true;
+                }
+            } else if (e.touches.length === 2) {
+                // Pinch zoom
+                const dx = e.touches[0].clientX - e.touches[1].clientX;
+                const dy = e.touches[0].clientY - e.touches[1].clientY;
+                const distance = Math.sqrt(dx * dx + dy * dy);
+
+                if (initialPinchDistance > 0) {
+                    const scale = distance / initialPinchDistance;
+                    const newScale = Math.max(0.5, Math.min(2, initialScale * scale));
+
+                    // Zoom toward center of pinch
+                    const centerX = (e.touches[0].clientX + e.touches[1].clientX) / 2 - rect.left;
+                    const centerY = (e.touches[0].clientY + e.touches[1].clientY) / 2 - rect.top;
+
+                    const scaleDiff = newScale - graphState.transform.scale;
+                    graphState.transform.x -= centerX * scaleDiff / graphState.transform.scale;
+                    graphState.transform.y -= centerY * scaleDiff / graphState.transform.scale;
+                    graphState.transform.scale = newScale;
+                }
+            }
+        }, { passive: false });
+
+        canvas.addEventListener('touchend', (e) => {
+            if (e.touches.length === 0) {
+                const touchDuration = Date.now() - touchStartTime;
+                const isTap = touchDuration < 300 && !didDrag;
+
+                if (graphState.dragging && isTap) {
+                    // Tap on node - open it
+                    const node = graphState.dragging;
+                    closeGraph();
+                    loadNote(node.id);
+                }
+
+                graphState.dragging = null;
+                graphState.panning = false;
+                initialPinchDistance = 0;
+            } else if (e.touches.length === 1) {
+                // Transitioned from two fingers to one
+                initialPinchDistance = 0;
+                const rect = canvas.getBoundingClientRect();
+                const touch = e.touches[0];
+                graphState.panning = true;
+                graphState.panStart = {
+                    x: touch.clientX - rect.left,
+                    y: touch.clientY - rect.top
+                };
+            }
+        }, { passive: true });
+
         // Escape key to close
         const handleKeyDown = (e) => {
             if (e.key === 'Escape') {
@@ -1639,6 +1758,9 @@
         welcome.classList.add('hidden');
         banner.classList.add('collapsed');
 
+        const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+        const exitHint = isTouchDevice ? '(tap anywhere to return)' : '(press any key to return)';
+
         const hackLines = [
             'initializing hack sequence...',
             'bypassing firewall [██████████] 100%',
@@ -1652,7 +1774,7 @@
             '',
             'but hey, cool hacker aesthetic right?',
             '',
-            '(press any key to return)'
+            exitHint
         ];
 
         let lineIndex = 0;
@@ -1662,11 +1784,18 @@
 
         const typeNextLine = () => {
             if (lineIndex >= hackLines.length) {
-                const handler = () => {
-                    document.removeEventListener('keydown', handler);
+                const keyHandler = () => {
+                    document.removeEventListener('keydown', keyHandler);
+                    document.removeEventListener('touchstart', touchHandler);
                     goHome();
                 };
-                document.addEventListener('keydown', handler);
+                const touchHandler = () => {
+                    document.removeEventListener('keydown', keyHandler);
+                    document.removeEventListener('touchstart', touchHandler);
+                    goHome();
+                };
+                document.addEventListener('keydown', keyHandler);
+                document.addEventListener('touchstart', touchHandler, { once: true });
                 return;
             }
 
@@ -1691,6 +1820,8 @@
         welcome.classList.add('hidden');
         banner.classList.add('collapsed');
 
+        const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+
         const html = `
             <div class="vim-trap">
                 <pre class="vim-screen">
@@ -1711,9 +1842,24 @@
 </pre>
                 <div class="vim-status">-- NORMAL --</div>
                 <div class="vim-command"><span class="vim-input"></span><span class="cursor"></span></div>
+                ${isTouchDevice ? `
+                <button type="button" class="vim-escape-btn" id="vim-escape-btn">:q!</button>
+                ` : ''}
             </div>
         `;
         output.insertAdjacentHTML('beforeend', html);
+
+        // Setup mobile escape button
+        if (isTouchDevice) {
+            const escBtn = document.getElementById('vim-escape-btn');
+            if (escBtn) {
+                escBtn.addEventListener('click', () => {
+                    vimMode = false;
+                    goHome();
+                    print('you escaped vim. you are among the chosen few.', 'system-msg');
+                });
+            }
+        }
 
         // Override input handling
         input.value = '';
@@ -1839,6 +1985,44 @@
         startSnakeGame();
     }
 
+    // ─── Triple-Tap Easter Egg (mobile Konami alternative) ───────
+    function setupTripleTapEasterEgg() {
+        const terminal = document.querySelector('.terminal');
+        if (!terminal) return;
+
+        let tapCount = 0;
+        let lastTapTime = 0;
+        const TAP_TIMEOUT = 500; // ms between taps
+        const TAP_ZONE_HEIGHT = 100; // Only trigger in top 100px of terminal
+
+        terminal.addEventListener('touchstart', (e) => {
+            // Only count taps in the header area
+            const rect = terminal.getBoundingClientRect();
+            const touchY = e.touches[0].clientY - rect.top;
+
+            if (touchY > TAP_ZONE_HEIGHT) {
+                tapCount = 0;
+                return;
+            }
+
+            const now = Date.now();
+            if (now - lastTapTime > TAP_TIMEOUT) {
+                tapCount = 0;
+            }
+
+            tapCount++;
+            lastTapTime = now;
+
+            if (tapCount === 3) {
+                tapCount = 0;
+                // Don't trigger if already in a game or special mode
+                if (!snakeGame && !vimMode && !lettersMode) {
+                    triggerKonamiEasterEgg();
+                }
+            }
+        }, { passive: true });
+    }
+
     // ─── Snake Game ──────────────────────────────────────────────
     let snakeGame = null;
     const SNAKE_HIGH_SCORES_KEY = 'santi-wtf-snake-highscores';
@@ -1912,6 +2096,9 @@
 ███████║██║ ╚████║██║  ██║██║  ██╗███████╗
 ╚══════╝╚═╝  ╚═══╝╚═╝  ╚═╝╚═╝  ╚═╝╚══════╝`;
 
+        const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+        const controlsHint = isTouchDevice ? 'd-pad to move · esc to quit' : 'arrow keys to move · esc to quit';
+
         const html = `
             <div class="snake-game">
                 <pre class="snake-ascii">${snakeAscii}</pre>
@@ -1920,12 +2107,26 @@
                     <div id="snake-sidebar" class="snake-sidebar">${renderHighScores()}</div>
                 </div>
                 <div class="snake-footer">
-                    <span class="snake-controls">arrow keys to move · esc to quit</span>
+                    <span class="snake-controls">${controlsHint}</span>
                     <span class="snake-score">score: <span id="snake-score">0</span></span>
                 </div>
+                ${isTouchDevice ? `
+                <div class="snake-dpad" id="snake-dpad">
+                    <button type="button" class="dpad-btn dpad-up" data-dir="up" aria-label="Move up">↑</button>
+                    <button type="button" class="dpad-btn dpad-left" data-dir="left" aria-label="Move left">←</button>
+                    <button type="button" class="dpad-btn dpad-center"></button>
+                    <button type="button" class="dpad-btn dpad-right" data-dir="right" aria-label="Move right">→</button>
+                    <button type="button" class="dpad-btn dpad-down" data-dir="down" aria-label="Move down">↓</button>
+                </div>
+                ` : ''}
             </div>
         `;
         output.insertAdjacentHTML('beforeend', html);
+
+        // Setup D-pad touch controls
+        if (isTouchDevice) {
+            setupSnakeDpad();
+        }
 
         renderSnakeBoard();
 
@@ -2101,6 +2302,51 @@
         isReading = false;
         typeWelcome();
         history.pushState({}, 'santi.wtf', '/');
+    }
+
+    function setupSnakeDpad() {
+        const dpad = document.getElementById('snake-dpad');
+        if (!dpad) return;
+
+        const handleDpadInput = (dir) => {
+            if (!snakeGame || snakeGame.gameOver) {
+                if (snakeGame && snakeGame.gameOver) {
+                    // Restart on any tap when game is over
+                    document.removeEventListener('keydown', handleSnakeInput);
+                    startSnakeGame();
+                }
+                return;
+            }
+
+            const { direction } = snakeGame;
+
+            switch (dir) {
+                case 'up':
+                    if (direction.y !== 1) snakeGame.nextDirection = { x: 0, y: -1 };
+                    break;
+                case 'down':
+                    if (direction.y !== -1) snakeGame.nextDirection = { x: 0, y: 1 };
+                    break;
+                case 'left':
+                    if (direction.x !== 1) snakeGame.nextDirection = { x: -1, y: 0 };
+                    break;
+                case 'right':
+                    if (direction.x !== -1) snakeGame.nextDirection = { x: 1, y: 0 };
+                    break;
+            }
+        };
+
+        dpad.querySelectorAll('.dpad-btn[data-dir]').forEach(btn => {
+            btn.addEventListener('touchstart', (e) => {
+                e.preventDefault();
+                handleDpadInput(btn.dataset.dir);
+            }, { passive: false });
+
+            btn.addEventListener('click', (e) => {
+                e.preventDefault();
+                handleDpadInput(btn.dataset.dir);
+            });
+        });
     }
 
     // ─── Mobile Command Palette ───────────────────────────────────
