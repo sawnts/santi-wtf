@@ -39,7 +39,7 @@ git push origin main
 - Commands execute and render output to `#output` div
 - `explore` command opens force-directed graph visualization on canvas
 - URL routing via `history.pushState` + 404.html redirect pattern
-- ~2500 lines, manages state, command dispatch, and all UI interactions
+- ~2800 lines, manages state, command dispatch, and all UI interactions
 
 **Content pipeline** (`terminal/build.js`):
 1. Reads all `.md` files from Obsidian vault (skips files/folders starting with `_`)
@@ -70,7 +70,7 @@ git push origin main
 | File | Purpose |
 |------|---------|
 | `index.html` | Root entry point, loads terminal interface |
-| `terminal/app.js` | Command system, graph visualization, animations, routing (~2500 lines) |
+| `terminal/app.js` | Command system, graph visualization, newsletter whisper, animations, routing (~2800 lines) |
 | `terminal/build.js` | Obsidian vault parser and HTML converter |
 | `terminal/index.html` | Terminal interface template |
 | `terminal/styles.css` | Dark theme, JetBrains Mono, CSS variables |
@@ -87,7 +87,7 @@ git push origin main
 - `now` — Show dashboard with location, reading, mood, habits
 - `about` — About santi
 - `info` — About this site
-- `letters` — Subscribe to newsletter (Buttondown integration)
+- `letters` — Subscribe to newsletter (Buttondown integration, also via whisper popup)
 - `help` — List all commands
 - **Direct title**: Type any note title to load it (e.g., `digital garden`)
 
@@ -157,6 +157,32 @@ habits:
 - Completion data stored in code block: ` ```habits\nmeditation: 1-10, 15\nexercise: 1-28\n``` `
 - `app.js` renders visual completion calendar for current year
 - Days specified as ranges (`1-10`) or individual (`1, 5, 15`)
+
+## Newsletter Whisper
+
+A subtle newsletter signup prompt that appears while reading notes.
+
+**Behavior:**
+- Floating envelope (✉) appears in bottom-right after 15 seconds of reading a note
+- Hover (desktop) or tap (mobile) expands to reveal inline email signup form
+- Submits directly to Buttondown API with `whisper` tag for tracking
+- Dismissed state persists per session via `sessionStorage`
+- Does NOT appear during: vim mode, snake game, graph view, or letters mode
+
+**Key constants** (`app.js`):
+- `WHISPER_DELAY` — Time before whisper appears (15000ms)
+- `WHISPER_SESSION_KEY` — sessionStorage key for dismissed state
+
+**Integration points:**
+- `startWhisperTimer()` — Called in `loadNote()` after `isReading = true`
+- `hideWhisper()` — Called in `goHome()`, `clearForCommand()`, `openGraph()`, `startVimTrap()`, `startSnakeGame()`
+- `shouldShowWhisper()` — Guards against showing in wrong states
+
+**Styling** (`styles.css`):
+- `.newsletter-whisper` — Fixed position container
+- `.whisper-envelope` — Animated floating/glowing envelope
+- `.whisper-message` — Expandable form panel
+- Respects `prefers-reduced-motion`
 
 ## Content Style
 
