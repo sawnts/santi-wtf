@@ -864,8 +864,8 @@
                             <span class="note-box-stage ${note.stage}">${stageEmoji(note.stage)} ${note.stage}</span>
                         </div>
                         <div class="note-box-meta">
-                            <span>planted: ${note.planted || 'unknown'}</span>
-                            <span>tended: ${note.tended || 'unknown'}</span>
+                            <span>planted: ${formatDateOnly(note.planted)}</span>
+                            <span>tended: ${formatDateOnly(note.tended)}</span>
                             ${tags}
                         </div>
                     </div>
@@ -1285,6 +1285,7 @@
     // ─── Graph View ───────────────────────────────────────────────
     function isGraphOpen() {
         const overlay = document.getElementById('graph-overlay');
+        if (graphState && graphState.isClosing) return false;
         return overlay && overlay.style.display === 'block';
     }
 
@@ -2778,6 +2779,11 @@
         if (days < 30) return `${Math.floor(days / 7)}w ago`;
         if (days < 365) return `${Math.floor(days / 30)}mo ago`;
         return `${Math.floor(days / 365)}y ago`;
+    }
+
+    function formatDateOnly(dateStr) {
+        if (!dateStr) return 'unknown';
+        return dateStr.split('T')[0];
     }
 
     function stageEmoji(stage) {

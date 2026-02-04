@@ -62,7 +62,6 @@ body {
     display: flex;
     flex-direction: column;
     position: relative;
-    overscroll-behavior: contain;
 }
 
 /* Terminal title bar (macOS style) */
