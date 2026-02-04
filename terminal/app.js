@@ -1310,9 +1310,7 @@
         touchStartTime: 0,
         touchStartPos: { x: 0, y: 0 },
         initialPinchDistance: 0,
-        initialScale: 1,
-        lastTapTime: 0,
-        lastTappedNode: null
+        initialScale: 1
     };
     let graphState = {
         dragging: null,
@@ -1535,7 +1533,7 @@
         };
 
         // Touch event handling for mobile (only add listeners once)
-        if (graphListenersAdded) return;
+        if (!graphListenersAdded) {
         graphListenersAdded = true;
 
         canvas.addEventListener('touchstart', (e) => {
@@ -1652,31 +1650,21 @@
                 if (isTap) {
                     const node = graphState.dragging;
                     if (node) {
-                        // Tapped on a node - check for double-tap
-                        if (graphTouchState.lastTappedNode === node && (now - graphTouchState.lastTapTime) < 400) {
-                            // Double-tap on same node - open it
-                            graphTouchState.lastTappedNode = null;
-                            graphTouchState.lastTapTime = 0;
+                        // Tapped on a node - check if already selected
+                        if (graphState.selected === node) {
+                            // Tap on already selected node - open it
                             closeGraph();
                             loadNote(node.id);
                         } else {
                             // First tap - select it and show label
                             graphState.selected = node;
                             graphState.hovering = node;
-                            graphTouchState.lastTappedNode = node;
-                            graphTouchState.lastTapTime = now;
                         }
                     } else {
                         // Tapped empty space - deselect
                         graphState.selected = null;
                         graphState.hovering = null;
-                        graphTouchState.lastTappedNode = null;
-                        graphTouchState.lastTapTime = 0;
                     }
-                } else {
-                    // Dragged or long press - reset tap tracking
-                    graphTouchState.lastTappedNode = null;
-                    graphTouchState.lastTapTime = 0;
                 }
 
                 graphState.dragging = null;
@@ -1694,6 +1682,7 @@
                 };
             }
         }, { passive: false });
+        } // end graphListenersAdded check
 
         // Escape key to close
         const handleKeyDown = (e) => {
