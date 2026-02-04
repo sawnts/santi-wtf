@@ -1058,6 +1058,7 @@
         const submitBtn = whisper.querySelector('.whisper-submit');
         const status = whisper.querySelector('.whisper-status');
 
+        // Desktop: hover to expand
         envelope.addEventListener('mouseenter', () => whisper.classList.add('expanded'));
         whisper.addEventListener('mouseleave', (e) => {
             // Don't collapse if input is focused
@@ -1065,15 +1066,28 @@
                 whisper.classList.remove('expanded');
             }
         });
+
+        // Both desktop and mobile: click/tap to toggle
         envelope.addEventListener('click', (e) => {
             e.preventDefault();
+            e.stopPropagation();
             whisper.classList.toggle('expanded');
             if (whisper.classList.contains('expanded')) {
                 setTimeout(() => emailInput.focus(), 100);
             }
         });
+
+        // Mobile: tap outside to collapse (but not on form elements)
+        document.addEventListener('click', (e) => {
+            if (whisper.classList.contains('expanded') &&
+                !whisper.contains(e.target)) {
+                whisper.classList.remove('expanded');
+            }
+        });
+
         dismissBtn.addEventListener('click', (e) => {
             e.preventDefault();
+            e.stopPropagation();
             hideWhisper(true);
         });
 
@@ -1291,6 +1305,15 @@
 
     let graphNodes = [];
     let graphEdges = [];
+    let graphListenersAdded = false;
+    let graphTouchState = {
+        touchStartTime: 0,
+        touchStartPos: { x: 0, y: 0 },
+        initialPinchDistance: 0,
+        initialScale: 1,
+        lastTapTime: 0,
+        lastTappedNode: null
+    };
     let graphState = {
         dragging: null,
         hovering: null,
@@ -1511,13 +1534,9 @@
             graphState.transform.scale = newScale;
         };
 
-        // Touch event handling for mobile
-        let touchStartTime = 0;
-        let touchStartPos = { x: 0, y: 0 };
-        let initialPinchDistance = 0;
-        let initialScale = 1;
-        let lastTapTime = 0;
-        let lastTappedNode = null;
+        // Touch event handling for mobile (only add listeners once)
+        if (graphListenersAdded) return;
+        graphListenersAdded = true;
 
         canvas.addEventListener('touchstart', (e) => {
             e.preventDefault();
@@ -1530,8 +1549,8 @@
                 const screenY = touch.clientY - rect.top;
                 const { x: gx, y: gy } = toGraphCoords(screenX, screenY);
 
-                touchStartTime = Date.now();
-                touchStartPos = { x: screenX, y: screenY };
+                graphTouchState.touchStartTime = Date.now();
+                graphTouchState.touchStartPos = { x: screenX, y: screenY };
                 dragStartX = screenX;
                 dragStartY = screenY;
                 didDrag = false;
@@ -1553,8 +1572,8 @@
                 graphState.panning = false;
                 const dx = e.touches[0].clientX - e.touches[1].clientX;
                 const dy = e.touches[0].clientY - e.touches[1].clientY;
-                initialPinchDistance = Math.sqrt(dx * dx + dy * dy);
-                initialScale = graphState.transform.scale;
+                graphTouchState.initialPinchDistance = Math.sqrt(dx * dx + dy * dy);
+                graphTouchState.initialScale = graphState.transform.scale;
             }
         }, { passive: false });
 
@@ -1588,9 +1607,9 @@
                 const dy = e.touches[0].clientY - e.touches[1].clientY;
                 const distance = Math.sqrt(dx * dx + dy * dy);
 
-                if (initialPinchDistance > 0) {
+                if (graphTouchState.initialPinchDistance > 0) {
                     const scale = distance / initialPinchDistance;
-                    const newScale = Math.max(0.5, Math.min(2, initialScale * scale));
+                    const newScale = Math.max(0.5, Math.min(2, graphTouchState.initialScale * scale));
 
                     // Zoom toward center of pinch
                     const centerX = (e.touches[0].clientX + e.touches[1].clientX) / 2 - rect.left;
@@ -1608,7 +1627,7 @@
             e.preventDefault(); // Prevent browser double-tap zoom
 
             if (e.touches.length === 0) {
-                const touchDuration = Date.now() - touchStartTime;
+                const touchDuration = Date.now() - graphTouchState.touchStartTime;
                 const isTap = touchDuration < 400 && !didDrag;
                 const now = Date.now();
 
@@ -1617,15 +1636,15 @@
                     const endTouch = e.changedTouches[0];
                     const rect = canvas.getBoundingClientRect();
                     const endY = endTouch.clientY - rect.top;
-                    const diffY = endY - touchStartPos.y;
-                    const diffX = Math.abs((endTouch.clientX - rect.left) - touchStartPos.x);
+                    const diffY = endY - graphTouchState.touchStartPos.y;
+                    const diffX = Math.abs((endTouch.clientX - rect.left) - graphTouchState.touchStartPos.x);
 
                     // Swipe down: vertical movement > 100px, and more vertical than horizontal
                     if (diffY > 100 && diffY > diffX) {
                         closeGraph();
                         graphState.dragging = null;
                         graphState.panning = false;
-                        initialPinchDistance = 0;
+                        graphTouchState.initialPinchDistance = 0;
                         return;
                     }
                 }
@@ -1634,38 +1653,38 @@
                     const node = graphState.dragging;
                     if (node) {
                         // Tapped on a node - check for double-tap
-                        if (lastTappedNode === node && (now - lastTapTime) < 400) {
+                        if (graphTouchState.lastTappedNode === node && (now - graphTouchState.lastTapTime) < 400) {
                             // Double-tap on same node - open it
-                            lastTappedNode = null;
-                            lastTapTime = 0;
+                            graphTouchState.lastTappedNode = null;
+                            graphTouchState.lastTapTime = 0;
                             closeGraph();
                             loadNote(node.id);
                         } else {
                             // First tap - select it and show label
                             graphState.selected = node;
                             graphState.hovering = node;
-                            lastTappedNode = node;
-                            lastTapTime = now;
+                            graphTouchState.lastTappedNode = node;
+                            graphTouchState.lastTapTime = now;
                         }
                     } else {
                         // Tapped empty space - deselect
                         graphState.selected = null;
                         graphState.hovering = null;
-                        lastTappedNode = null;
-                        lastTapTime = 0;
+                        graphTouchState.lastTappedNode = null;
+                        graphTouchState.lastTapTime = 0;
                     }
                 } else {
                     // Dragged or long press - reset tap tracking
-                    lastTappedNode = null;
-                    lastTapTime = 0;
+                    graphTouchState.lastTappedNode = null;
+                    graphTouchState.lastTapTime = 0;
                 }
 
                 graphState.dragging = null;
                 graphState.panning = false;
-                initialPinchDistance = 0;
+                graphTouchState.initialPinchDistance = 0;
             } else if (e.touches.length === 1) {
                 // Transitioned from two fingers to one
-                initialPinchDistance = 0;
+                graphTouchState.initialPinchDistance = 0;
                 const rect = canvas.getBoundingClientRect();
                 const touch = e.touches[0];
                 graphState.panning = true;
