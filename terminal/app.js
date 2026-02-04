@@ -17,6 +17,7 @@
     let lettersMode = false;
     let placeholderInterval = null;
     let idleTimeout = null;
+    let suppressKeyboard = false;
 
     const placeholderHints = [
         'type / to begin',
@@ -71,6 +72,9 @@
 
             // Keep focus on input (desktop)
             document.body.addEventListener('click', (e) => {
+                // Don't refocus when keyboard should be suppressed or graph is open
+                if (suppressKeyboard || isGraphOpen()) return;
+
                 if (!e.target.closest('a') &&
                     !e.target.closest('button') &&
                     !e.target.closest('.command-palette') &&
@@ -1128,6 +1132,11 @@
     }
 
     // ─── Graph View ───────────────────────────────────────────────
+    function isGraphOpen() {
+        const overlay = document.getElementById('graph-overlay');
+        return overlay && overlay.style.display === 'block';
+    }
+
     let graphNodes = [];
     let graphEdges = [];
     let graphState = {
@@ -1354,6 +1363,8 @@
         let touchStartPos = { x: 0, y: 0 };
         let initialPinchDistance = 0;
         let initialScale = 1;
+        let lastTapTime = 0;
+        let lastTappedNode = null;
 
         canvas.addEventListener('touchstart', (e) => {
             e.preventDefault();
@@ -1441,28 +1452,59 @@
         }, { passive: false });
 
         canvas.addEventListener('touchend', (e) => {
+            e.preventDefault(); // Prevent browser double-tap zoom
+
             if (e.touches.length === 0) {
                 const touchDuration = Date.now() - touchStartTime;
-                const isTap = touchDuration < 300 && !didDrag;
+                const isTap = touchDuration < 400 && !didDrag;
+                const now = Date.now();
+
+                // Check for swipe-down to close (only when panning, not dragging a node)
+                if (didDrag && !graphState.dragging && e.changedTouches.length > 0) {
+                    const endTouch = e.changedTouches[0];
+                    const rect = canvas.getBoundingClientRect();
+                    const endY = endTouch.clientY - rect.top;
+                    const diffY = endY - touchStartPos.y;
+                    const diffX = Math.abs((endTouch.clientX - rect.left) - touchStartPos.x);
+
+                    // Swipe down: vertical movement > 100px, and more vertical than horizontal
+                    if (diffY > 100 && diffY > diffX) {
+                        closeGraph();
+                        graphState.dragging = null;
+                        graphState.panning = false;
+                        initialPinchDistance = 0;
+                        return;
+                    }
+                }
 
                 if (isTap) {
                     const node = graphState.dragging;
                     if (node) {
-                        // Tapped on a node
-                        if (graphState.selected === node) {
-                            // Second tap on same node - open it
+                        // Tapped on a node - check for double-tap
+                        if (lastTappedNode === node && (now - lastTapTime) < 400) {
+                            // Double-tap on same node - open it
+                            lastTappedNode = null;
+                            lastTapTime = 0;
                             closeGraph();
                             loadNote(node.id);
                         } else {
                             // First tap - select it and show label
                             graphState.selected = node;
                             graphState.hovering = node;
+                            lastTappedNode = node;
+                            lastTapTime = now;
                         }
                     } else {
                         // Tapped empty space - deselect
                         graphState.selected = null;
                         graphState.hovering = null;
+                        lastTappedNode = null;
+                        lastTapTime = 0;
                     }
+                } else {
+                    // Dragged or long press - reset tap tracking
+                    lastTappedNode = null;
+                    lastTapTime = 0;
                 }
 
                 graphState.dragging = null;
@@ -1479,7 +1521,7 @@
                     y: touch.clientY - rect.top
                 };
             }
-        }, { passive: true });
+        }, { passive: false });
 
         // Escape key to close
         const handleKeyDown = (e) => {
@@ -2083,6 +2125,10 @@
     }
 
     function startSnakeGame() {
+        // Hide keyboard on mobile
+        suppressKeyboard = true;
+        if (input) input.blur();
+
         // Hide SANTI banner, show SNAKE banner instead
         output.innerHTML = '';
         welcome.innerHTML = '';
@@ -2313,6 +2359,7 @@
         }
         document.removeEventListener('keydown', handleSnakeInput);
         snakeGame = null;
+        suppressKeyboard = false;
         // Restore welcome and go home
         output.innerHTML = '';
         welcome.innerHTML = '';
@@ -2436,6 +2483,9 @@
         }, { passive: true });
 
         document.addEventListener('touchend', (e) => {
+            // Don't trigger swipe when in immersive modes
+            if (isGraphOpen() || snakeGame || vimMode) return;
+
             const endX = e.changedTouches[0].clientX;
             const endY = e.changedTouches[0].clientY;
             const diffX = endX - startX;
