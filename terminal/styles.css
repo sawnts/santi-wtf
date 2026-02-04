@@ -1113,13 +1113,19 @@ body {
         height: 44px;
     }
 
-    /* Newsletter whisper - position above command palette */
+    /* Newsletter whisper - middle right on mobile */
     .newsletter-whisper {
-        bottom: calc(4.5rem + env(safe-area-inset-bottom, 0px));
+        bottom: auto;
+        top: 50%;
         right: 1rem;
+        transform: translateY(-50%);
         flex-direction: column-reverse;
         align-items: flex-end;
         gap: 0.5rem;
+    }
+
+    .newsletter-whisper.visible {
+        transform: translateY(-50%);
     }
 
     .newsletter-whisper .whisper-message {

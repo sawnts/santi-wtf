@@ -1627,25 +1627,6 @@
             if (e.touches.length === 0) {
                 const touchDuration = Date.now() - graphTouchState.touchStartTime;
                 const isTap = touchDuration < 400 && !didDrag;
-                const now = Date.now();
-
-                // Check for swipe-down to close (only when panning, not dragging a node)
-                if (didDrag && !graphState.dragging && e.changedTouches.length > 0) {
-                    const endTouch = e.changedTouches[0];
-                    const rect = canvas.getBoundingClientRect();
-                    const endY = endTouch.clientY - rect.top;
-                    const diffY = endY - graphTouchState.touchStartPos.y;
-                    const diffX = Math.abs((endTouch.clientX - rect.left) - graphTouchState.touchStartPos.x);
-
-                    // Swipe down: vertical movement > 100px, and more vertical than horizontal
-                    if (diffY > 100 && diffY > diffX) {
-                        closeGraph();
-                        graphState.dragging = null;
-                        graphState.panning = false;
-                        graphTouchState.initialPinchDistance = 0;
-                        return;
-                    }
-                }
 
                 if (isTap) {
                     const node = graphState.dragging;
