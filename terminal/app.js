@@ -18,6 +18,8 @@
     let placeholderInterval = null;
     let idleTimeout = null;
     let suppressKeyboard = false;
+    let whisperTimeout = null;
+    let whisperShown = false;
 
     const placeholderHints = [
         'type / to begin',
@@ -77,9 +79,11 @@
 
                 if (!e.target.closest('a') &&
                     !e.target.closest('button') &&
+                    !e.target.closest('input') &&
                     !e.target.closest('.command-palette') &&
                     !e.target.closest('.more-menu') &&
                     !e.target.closest('.slash-menu') &&
+                    !e.target.closest('.newsletter-whisper') &&
                     !window.getSelection().toString()) {
                     input.focus();
                 }
@@ -87,6 +91,9 @@
 
             // Ensure input stays focused for typing
             document.addEventListener('keydown', (e) => {
+                // Don't steal focus from other inputs (like whisper email input)
+                if (document.activeElement.tagName === 'INPUT' && document.activeElement !== input) return;
+
                 if (document.activeElement !== input &&
                     !e.metaKey && !e.ctrlKey &&
                     e.key.length === 1) {
@@ -825,6 +832,7 @@
             banner.classList.add('collapsed');
             isReading = true;
             stopIdleHintRotation();
+            startWhisperTimer();
 
             // Update URL
             history.pushState({ slug }, note.title, `/${slug}`);
@@ -995,6 +1003,144 @@
         }
     }
 
+    // ─── Newsletter Whisper ────────────────────────────────────────
+    const WHISPER_DELAY = 15000; // 15 seconds
+    const WHISPER_SESSION_KEY = 'newsletter-whisper-dismissed';
+
+    function shouldShowWhisper() {
+        if (whisperShown) return false;
+        if (sessionStorage.getItem(WHISPER_SESSION_KEY)) return false;
+        if (!isReading) return false;
+        if (vimMode || snakeGame || lettersMode || isGraphOpen()) return false;
+        return true;
+    }
+
+    function startWhisperTimer() {
+        clearWhisperTimer();
+        if (!shouldShowWhisper()) return;
+        whisperTimeout = setTimeout(() => {
+            if (shouldShowWhisper()) showWhisper();
+        }, WHISPER_DELAY);
+    }
+
+    function clearWhisperTimer() {
+        if (whisperTimeout) {
+            clearTimeout(whisperTimeout);
+            whisperTimeout = null;
+        }
+    }
+
+    function showWhisper() {
+        const whisper = document.getElementById('newsletter-whisper');
+        if (!whisper) return;
+        whisperShown = true;
+        whisper.classList.remove('hidden');
+        whisper.offsetHeight; // trigger reflow
+        whisper.classList.add('visible');
+        bindWhisperEvents();
+    }
+
+    function hideWhisper(markDismissed = false) {
+        const whisper = document.getElementById('newsletter-whisper');
+        if (!whisper) return;
+        whisper.classList.remove('visible', 'expanded');
+        setTimeout(() => whisper.classList.add('hidden'), 400);
+        if (markDismissed) sessionStorage.setItem(WHISPER_SESSION_KEY, 'true');
+        clearWhisperTimer();
+    }
+
+    function bindWhisperEvents() {
+        const whisper = document.getElementById('newsletter-whisper');
+        if (!whisper) return;
+        const envelope = whisper.querySelector('.whisper-envelope');
+        const dismissBtn = whisper.querySelector('.whisper-dismiss');
+        const emailInput = whisper.querySelector('.whisper-input');
+        const submitBtn = whisper.querySelector('.whisper-submit');
+        const status = whisper.querySelector('.whisper-status');
+
+        envelope.addEventListener('mouseenter', () => whisper.classList.add('expanded'));
+        whisper.addEventListener('mouseleave', (e) => {
+            // Don't collapse if input is focused
+            if (document.activeElement !== emailInput) {
+                whisper.classList.remove('expanded');
+            }
+        });
+        envelope.addEventListener('click', (e) => {
+            e.preventDefault();
+            whisper.classList.toggle('expanded');
+            if (whisper.classList.contains('expanded')) {
+                setTimeout(() => emailInput.focus(), 100);
+            }
+        });
+        dismissBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            hideWhisper(true);
+        });
+
+        // Handle form submission
+        async function submitWhisperEmail() {
+            const email = emailInput.value.trim();
+            if (!email || !email.includes('@')) {
+                status.textContent = 'enter a valid email';
+                status.className = 'whisper-status error';
+                return;
+            }
+
+            submitBtn.textContent = '...';
+            submitBtn.disabled = true;
+
+            try {
+                const res = await fetch('https://api.buttondown.email/v1/subscribers', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        email: email,
+                        tags: ['whisper']
+                    })
+                });
+
+                if (res.ok || res.status === 201) {
+                    status.textContent = 'you\'re in ✓';
+                    status.className = 'whisper-status success';
+                    emailInput.value = '';
+                    setTimeout(() => hideWhisper(true), 1500);
+                } else {
+                    const data = await res.json().catch(() => ({}));
+                    if (data.email && data.email[0]?.includes('already')) {
+                        status.textContent = 'already subscribed!';
+                        status.className = 'whisper-status success';
+                    } else {
+                        status.textContent = 'something went wrong';
+                        status.className = 'whisper-status error';
+                    }
+                }
+            } catch (e) {
+                status.textContent = 'couldn\'t connect';
+                status.className = 'whisper-status error';
+            }
+
+            submitBtn.textContent = '→';
+            submitBtn.disabled = false;
+        }
+
+        submitBtn.addEventListener('click', submitWhisperEmail);
+        emailInput.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                submitWhisperEmail();
+            } else if (e.key === 'Escape') {
+                e.preventDefault();
+                emailInput.blur();
+                whisper.classList.remove('expanded');
+            }
+        });
+
+        // Prevent main input from stealing focus
+        emailInput.addEventListener('focus', () => {
+            whisper.classList.add('expanded');
+        });
+    }
+
     async function showNow() {
         output.innerHTML = '';
         welcome.classList.add('hidden');
@@ -1117,6 +1263,9 @@
         window.scrollTo(0, 0);
         // Restart idle hint rotation
         resetIdleTimer();
+        // Hide whisper without marking dismissed (can show again on next note)
+        clearWhisperTimer();
+        hideWhisper(false);
     }
 
     // Expose for inline onclick
@@ -1128,6 +1277,8 @@
             welcome.classList.add('hidden');
             banner.classList.remove('collapsed');
             isReading = false;
+            clearWhisperTimer();
+            hideWhisper(false);
         }
     }
 
@@ -1156,6 +1307,7 @@
         const overlay = document.getElementById('graph-overlay');
         overlay.style.display = 'block';
         overlay.style.opacity = '0';
+        hideWhisper(false);
 
         graphState.transform = { x: 0, y: 0, scale: 1 };
         graphState.alpha = 1;
@@ -1879,6 +2031,7 @@
         output.innerHTML = '';
         welcome.classList.add('hidden');
         banner.classList.add('collapsed');
+        hideWhisper(false);
 
         const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
 
@@ -2134,6 +2287,7 @@
         welcome.innerHTML = '';
         banner.classList.add('collapsed');
         stopIdleHintRotation();
+        hideWhisper(false);
 
         const gameWidth = 40;
         const gameHeight = 12;

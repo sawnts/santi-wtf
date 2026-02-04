@@ -94,6 +94,20 @@
 
         <!-- Matrix canvas (for easter egg) -->
         <canvas id="matrix-canvas" class="matrix-canvas hidden"></canvas>
+
+        <!-- Newsletter whisper -->
+        <div id="newsletter-whisper" class="newsletter-whisper hidden">
+            <div class="whisper-envelope">✉</div>
+            <div class="whisper-message">
+                <span class="whisper-text">meet me in your inbox?</span>
+                <div class="whisper-form">
+                    <input type="email" class="whisper-input" placeholder="email" autocomplete="email">
+                    <button type="button" class="whisper-submit">→</button>
+                </div>
+                <span class="whisper-status"></span>
+                <button type="button" class="whisper-dismiss" aria-label="dismiss">×</button>
+            </div>
+        </div>
     </div>
 
     <script src="/terminal/app.js"></script>

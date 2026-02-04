@@ -1113,6 +1113,12 @@ body {
         width: 44px;
         height: 44px;
     }
+
+    /* Newsletter whisper */
+    .newsletter-whisper {
+        bottom: calc(5rem + env(safe-area-inset-bottom, 0px));
+        right: 1rem;
+    }
 }
 
 @media (max-width: 480px) {
@@ -1498,6 +1504,163 @@ input:focus-visible {
     100% { background: var(--bg); }
 }
 
+/* ─── Newsletter Whisper ───────────────────────────────────────── */
+.newsletter-whisper {
+    position: fixed;
+    bottom: 2rem;
+    right: 2rem;
+    z-index: 50;
+    display: flex;
+    align-items: flex-end;
+    gap: 0.75rem;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.5s ease, transform 0.5s ease;
+    pointer-events: none;
+}
+
+.newsletter-whisper.visible {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
+}
+
+.newsletter-whisper.hidden { display: none; }
+
+.whisper-envelope {
+    font-size: 3.5rem;
+    cursor: pointer;
+    animation: envelopeFloat 3s ease-in-out infinite, envelopeGlow 2s ease-in-out infinite;
+    transition: transform 0.2s ease;
+    filter: drop-shadow(0 0 8px var(--accent));
+}
+
+.whisper-envelope:hover {
+    transform: scale(1.15) rotate(-5deg);
+    animation-play-state: paused;
+}
+
+@keyframes envelopeFloat {
+    0%, 100% { transform: translateY(0) rotate(0deg); }
+    25% { transform: translateY(-6px) rotate(2deg); }
+    75% { transform: translateY(-3px) rotate(-2deg); }
+}
+
+@keyframes envelopeGlow {
+    0%, 100% { filter: drop-shadow(0 0 6px var(--accent)); }
+    50% { filter: drop-shadow(0 0 16px var(--accent)) drop-shadow(0 0 24px rgba(93, 217, 193, 0.4)); }
+}
+
+.whisper-message {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    padding: 0.75rem 1rem;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    opacity: 0;
+    transform: translateX(10px) scale(0.95);
+    transition: opacity 0.3s ease, transform 0.3s ease;
+    pointer-events: none;
+    position: relative;
+}
+
+.newsletter-whisper.expanded .whisper-message {
+    opacity: 1;
+    transform: translateX(0) scale(1);
+    pointer-events: auto;
+}
+
+.whisper-text {
+    color: var(--text);
+    font-size: 0.9rem;
+    white-space: nowrap;
+}
+
+.whisper-form {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.whisper-input {
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 0.4rem 0.6rem;
+    color: var(--text);
+    font-family: var(--font);
+    font-size: 0.85rem;
+    width: 160px;
+    outline: none;
+    transition: border-color 0.2s ease;
+}
+
+.whisper-input:focus {
+    border-color: var(--accent);
+    caret-color: var(--accent);
+}
+
+.whisper-input::placeholder {
+    color: var(--text-dim);
+}
+
+.whisper-submit {
+    background: var(--accent);
+    border: none;
+    border-radius: 4px;
+    padding: 0.4rem 0.75rem;
+    color: var(--bg);
+    font-family: var(--font);
+    font-size: 1rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background 0.2s ease, transform 0.1s ease;
+}
+
+.whisper-submit:hover {
+    background: var(--link-hover);
+}
+
+.whisper-submit:active {
+    transform: scale(0.95);
+}
+
+.whisper-status {
+    font-size: 0.8rem;
+    display: none;
+}
+
+.whisper-status.success {
+    display: block;
+    color: var(--green);
+}
+
+.whisper-status.error {
+    display: block;
+    color: var(--error);
+}
+
+.whisper-dismiss {
+    position: absolute;
+    top: 0.25rem;
+    right: 0.25rem;
+    background: transparent;
+    border: none;
+    color: var(--text-dim);
+    font-size: 0.9rem;
+    cursor: pointer;
+    padding: 0.25rem;
+    line-height: 1;
+    opacity: 0.6;
+    transition: opacity 0.2s ease, color 0.2s ease;
+}
+
+.whisper-dismiss:hover {
+    opacity: 1;
+    color: var(--error);
+}
+
 /* ─── Utilities ────────────────────────────────────────────────── */
 .hidden {
     display: none !important;
@@ -1554,6 +1717,11 @@ input:focus-visible {
 
     .terminal-inner.cmd-flash {
         animation: none;
+    }
+
+    .whisper-envelope {
+        animation: none;
+        filter: drop-shadow(0 0 8px var(--accent));
     }
 
     html {
