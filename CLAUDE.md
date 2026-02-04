@@ -163,8 +163,9 @@ habits:
 A subtle newsletter signup prompt that appears while reading notes.
 
 **Behavior:**
-- Floating envelope (✉) appears in bottom-right after 15 seconds of reading a note
-- Hover (desktop) or tap (mobile) expands to reveal inline email signup form
+- Floating envelope (✉) appears after 15 seconds of reading a note
+- Desktop: bottom-right corner, hover to expand
+- Mobile: middle-right of screen, tap to expand
 - Submits directly to Buttondown API with `whisper` tag for tracking
 - Dismissed state persists per session via `sessionStorage`
 - Does NOT appear during: vim mode, snake game, graph view, or letters mode
@@ -199,7 +200,8 @@ A subtle newsletter signup prompt that appears while reading notes.
 - Command palette moved to bottom of screen for thumb reach
 - Swipe right gesture to navigate back
 - Touch-optimized terminal interface
-- Graph visualization scales appropriately
+- Graph: tap node to select/show title, tap selected node to open (use × button to close)
+- Newsletter whisper appears at middle-right of screen
 
 ## Security
 
