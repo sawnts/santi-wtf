@@ -866,8 +866,8 @@ body {
     right: 0;
     background: var(--bg);
     border-top: 1px solid var(--border);
-    padding: 0.75rem 1rem;
-    padding-bottom: calc(0.75rem + env(safe-area-inset-bottom, 0px));
+    padding: 0.5rem 1rem;
+    padding-bottom: calc(0.5rem + env(safe-area-inset-bottom, 0px));
     z-index: 101;
     justify-content: space-around;
     border-radius: 0 0 12px 12px;
@@ -877,15 +877,15 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 0.25rem;
-    padding: 0.75rem 1rem;
-    min-height: 44px;
-    min-width: 44px;
+    gap: 0.15rem;
+    padding: 0.5rem 0.75rem;
+    min-height: 40px;
+    min-width: 40px;
     background: transparent;
     border: none;
     color: var(--text-dim);
     font-family: inherit;
-    font-size: 0.7rem;
+    font-size: 0.65rem;
     cursor: pointer;
     transition: color 0.15s ease, transform 0.1s ease;
     touch-action: manipulation;
@@ -902,13 +902,13 @@ body {
 }
 
 .palette-icon {
-    font-size: 1.25rem;
+    font-size: 1.1rem;
 }
 
 /* More menu overlay */
 .more-menu {
     position: fixed;
-    bottom: calc(4rem + env(safe-area-inset-bottom, 0px));
+    bottom: calc(3.5rem + env(safe-area-inset-bottom, 0px));
     left: 0;
     right: 0;
     background: var(--surface);
@@ -1086,7 +1086,7 @@ body {
 
     .terminal-inner {
         padding: 1.25rem 1.5rem;
-        padding-bottom: calc(5rem + env(safe-area-inset-bottom, 0px));
+        padding-bottom: calc(4rem + env(safe-area-inset-bottom, 0px));
     }
 
     .ascii-banner {
@@ -1157,7 +1157,7 @@ body {
 
     .terminal-inner {
         padding: 1rem;
-        padding-bottom: calc(5rem + env(safe-area-inset-bottom, 0px));
+        padding-bottom: calc(4rem + env(safe-area-inset-bottom, 0px));
         padding-left: calc(1rem + env(safe-area-inset-left, 0px));
         padding-right: calc(1rem + env(safe-area-inset-right, 0px));
     }
