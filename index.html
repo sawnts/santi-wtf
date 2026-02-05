@@ -30,6 +30,15 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/terminal/styles.css">
+    <script>
+        // Hide homepage content immediately if routing to another page
+        if (sessionStorage.getItem('pendingRoute')) {
+            document.documentElement.classList.add('routing');
+        }
+    </script>
+    <style>
+        .routing #banner, .routing #welcome { display: none !important; }
+    </style>
 </head>
 <body>
     <div class="terminal">

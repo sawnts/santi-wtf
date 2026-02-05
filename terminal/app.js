@@ -62,6 +62,7 @@
         if (pendingRoute) {
             sessionStorage.removeItem('pendingRoute');
             await handleRoute(pendingRoute);
+            document.documentElement.classList.remove('routing');
         } else {
             // Show welcome with typing effect
             await typeWelcome();
