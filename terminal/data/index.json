@@ -156,6 +156,7 @@
         "about-this-site",
         "tech-i-love",
         "now",
+        "thinking-in-public",
         "read-old-notes",
         "power-of-writing-online",
         "consistency"
@@ -245,6 +246,29 @@
       ],
       "excerpt": "a running list of things i'm learning this year. updated as life teaches me."
     },
+    "thinking-in-public": {
+      "title": "thinking in public",
+      "slug": "thinking-in-public",
+      "collection": "thinking",
+      "stage": "growing",
+      "planted": "2026-01-25T00:00:00.000Z",
+      "tended": "2026-02-04T00:00:00.000Z",
+      "tags": [
+        "writing",
+        "creativity",
+        "digital-garden"
+      ],
+      "links": [
+        "digital-garden",
+        "linking-is-thinking",
+        "the-map-is-not-the-territory",
+        "power-of-writing-online",
+        "digital-garden",
+        "evergreen-notes-are-for-thinking"
+      ],
+      "backlinks": [],
+      "excerpt": "sharing ideas before they're finished seems counterintuitive, but this is what a digital-garden is for — not polished essays, but thoughts in progress"
+    },
     "the-map-is-not-the-territory": {
       "title": "the map is not the territory",
       "slug": "the-map-is-not-the-territory",
@@ -262,6 +286,7 @@
       ],
       "backlinks": [
         "2026---lessons",
+        "thinking-in-public",
         "consistency"
       ],
       "excerpt": "a mental model from Alfred Korzybski (1931): our representations of reality — maps, models, frameworks, other people's systems — are always abstractio"
@@ -335,6 +360,7 @@
         "about-this-site",
         "digital-garden",
         "2026---lessons",
+        "thinking-in-public",
         "consistency"
       ],
       "excerpt": "the person who can string together words that evoke emotion, facilitate insight, and entertain readers has a huge competitive advantage in today's dig"
@@ -377,6 +403,7 @@
       ],
       "backlinks": [
         "digital-garden",
+        "thinking-in-public",
         "power-of-writing-online",
         "evergreen-notes-are-for-thinking"
       ],
@@ -429,6 +456,7 @@
         "making-effective-connections"
       ],
       "backlinks": [
+        "thinking-in-public",
         "power-of-writing-online",
         "linking-is-thinking"
       ],
@@ -440,7 +468,7 @@
       "collection": "thinking",
       "stage": "growing",
       "planted": "2026-01-25T00:00:00.000Z",
-      "tended": "2026-01-25T00:00:00.000Z",
+      "tended": "2026-02-04T00:00:00.000Z",
       "tags": [
         "creativity",
         "personal"
@@ -456,10 +484,10 @@
     }
   },
   "stats": {
-    "total": 20,
-    "links": 66,
+    "total": 21,
+    "links": 72,
     "seedling": 2,
-    "growing": 12,
+    "growing": 13,
     "evergreen": 6,
     "collections": [
       "loving",
