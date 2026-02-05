@@ -157,7 +157,8 @@
         "tech-i-love",
         "now",
         "read-old-notes",
-        "power-of-writing-online"
+        "power-of-writing-online",
+        "consistency"
       ],
       "excerpt": "this is a digital garden — a place for ideas to grow over time."
     },
@@ -239,7 +240,8 @@
       ],
       "backlinks": [
         "about-me",
-        "the-map-is-not-the-territory"
+        "the-map-is-not-the-territory",
+        "consistency"
       ],
       "excerpt": "a running list of things i'm learning this year. updated as life teaches me."
     },
@@ -259,7 +261,8 @@
         "2026---lessons"
       ],
       "backlinks": [
-        "2026---lessons"
+        "2026---lessons",
+        "consistency"
       ],
       "excerpt": "a mental model from Alfred Korzybski (1931): our representations of reality — maps, models, frameworks, other people's systems — are always abstractio"
     },
@@ -331,7 +334,8 @@
         "index",
         "about-this-site",
         "digital-garden",
-        "2026---lessons"
+        "2026---lessons",
+        "consistency"
       ],
       "excerpt": "the person who can string together words that evoke emotion, facilitate insight, and entertain readers has a huge competitive advantage in today's dig"
     },
@@ -429,13 +433,33 @@
         "linking-is-thinking"
       ],
       "excerpt": "evergreen notes aren't content. they're tools for thought."
+    },
+    "consistency": {
+      "title": "consistency",
+      "slug": "consistency",
+      "collection": "thinking",
+      "stage": "growing",
+      "planted": "2026-01-25T00:00:00.000Z",
+      "tended": "2026-01-25T00:00:00.000Z",
+      "tags": [
+        "creativity",
+        "personal"
+      ],
+      "links": [
+        "power-of-writing-online",
+        "digital-garden",
+        "2026---lessons",
+        "the-map-is-not-the-territory"
+      ],
+      "backlinks": [],
+      "excerpt": "consistency is the unsexy secret behind everything that works."
     }
   },
   "stats": {
-    "total": 19,
-    "links": 62,
+    "total": 20,
+    "links": 66,
     "seedling": 2,
-    "growing": 11,
+    "growing": 12,
     "evergreen": 6,
     "collections": [
       "loving",
