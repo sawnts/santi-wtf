@@ -20,6 +20,7 @@
     let suppressKeyboard = false;
     let whisperTimeout = null;
     let whisperShown = false;
+    let whisperEventsBound = false;
 
     const placeholderHints = [
         'type / to begin',
@@ -1051,8 +1052,10 @@
     }
 
     function bindWhisperEvents() {
+        if (whisperEventsBound) return;
         const whisper = document.getElementById('newsletter-whisper');
         if (!whisper) return;
+        whisperEventsBound = true;
         const envelope = whisper.querySelector('.whisper-envelope');
         const dismissBtn = whisper.querySelector('.whisper-dismiss');
         const emailInput = whisper.querySelector('.whisper-input');
@@ -1607,7 +1610,7 @@
                 const distance = Math.sqrt(dx * dx + dy * dy);
 
                 if (graphTouchState.initialPinchDistance > 0) {
-                    const scale = distance / initialPinchDistance;
+                    const scale = distance / graphTouchState.initialPinchDistance;
                     const newScale = Math.max(0.5, Math.min(2, graphTouchState.initialScale * scale));
 
                     // Zoom toward center of pinch
@@ -2794,7 +2797,12 @@
 
     function escapeAttr(text) {
         if (!text) return '';
-        return text.replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+        return text
+            .replace(/&/g, '&amp;')
+            .replace(/</g, '&lt;')
+            .replace(/>/g, '&gt;')
+            .replace(/"/g, '&quot;')
+            .replace(/'/g, '&#39;');
     }
 
     // ─── Browser History ──────────────────────────────────────────
