@@ -65,6 +65,18 @@
             await handleRoute(pendingRoute);
             document.documentElement.classList.remove('routing');
         } else {
+            // CRT bootup sequence (skip for reduced motion)
+            const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+            const terminal = document.querySelector('.terminal');
+            if (!reducedMotion && terminal) {
+                terminal.classList.add('crt-boot');
+                await new Promise(r => setTimeout(r, 450));
+                terminal.classList.remove('crt-boot');
+                terminal.classList.add('crt-booted');
+                await new Promise(r => setTimeout(r, 400));
+                terminal.classList.remove('crt-booted');
+            }
+
             // Show welcome with typing effect
             await typeWelcome();
         }
@@ -897,6 +909,11 @@
             // Update URL
             history.pushState({ slug }, note.title, `/${slug}`);
 
+            // Estimated reading time
+            const textOnly = content.replace(/<[^>]*>/g, '');
+            const wordCount = textOnly.trim().split(/\s+/).filter(w => w.length > 0).length;
+            const readingTime = Math.max(1, Math.round(wordCount / 220));
+
             // Build note view
             const tags = note.tags && note.tags.length > 0
                 ? `<span class="note-tags">${note.tags.map(t => `<span class="note-tag">#${t}</span>`).join(' ')}</span>`
@@ -910,14 +927,16 @@
                             const linked = notesList.find(n => n.slug === b || n.path === b);
                             const title = linked ? linked.title : b;
                             const linkSlug = linked ? linked.slug : b;
-                            return `<li><a href="#" data-slug="${escapeAttr(linkSlug)}">${escapeHtml(title)}</a></li>`;
+                            const stage = linked ? (linked.stage || 'seedling') : 'seedling';
+                            const emoji = stageEmoji(stage);
+                            return `<li class="backlink-${escapeAttr(stage)}"><a href="#" data-slug="${escapeAttr(linkSlug)}">${emoji} ${escapeHtml(title)}</a></li>`;
                         }).join('')}
                     </ul>
                 </div>`
                 : '';
 
             const html = `
-                <article class="note-view">
+                <article class="note-view cinematic">
                     <div class="note-box">
                         <div class="note-box-header">
                             <span class="note-box-title">${escapeHtml(note.title)}</span>
@@ -926,6 +945,7 @@
                         <div class="note-box-meta">
                             <span>planted: ${formatDateOnly(note.planted)}</span>
                             <span>tended: ${formatDateOnly(note.tended)}</span>
+                            <span>~${readingTime}m read</span>
                             ${tags}
                         </div>
                     </div>
@@ -1387,11 +1407,21 @@
         startTime: 0
     };
 
+    let graphStarCanvas = null;
+    let graphParticles = [];
+
     function openGraph() {
         const overlay = document.getElementById('graph-overlay');
+        const terminalInner = document.querySelector('.terminal-inner');
         overlay.style.display = 'block';
         overlay.style.opacity = '0';
+        overlay.classList.remove('graph-zoom-in');
         hideWhisper(false);
+
+        // Transition terminal content out
+        if (terminalInner) {
+            terminalInner.classList.add('graph-transition-out');
+        }
 
         graphState.transform = { x: 0, y: 0, scale: 1 };
         graphState.alpha = 1;
@@ -1401,9 +1431,11 @@
         graphState.panning = false;
         graphState.isClosing = false;
         graphState.startTime = performance.now();
+        graphState.zoomingToNode = false;
 
         requestAnimationFrame(() => {
             initGraph();
+            overlay.classList.add('graph-zoom-in');
             overlay.style.opacity = '1';
         });
     }
@@ -1411,7 +1443,14 @@
     function closeGraph() {
         graphState.isClosing = true;
         const overlay = document.getElementById('graph-overlay');
+        const terminalInner = document.querySelector('.terminal-inner');
         overlay.style.opacity = '0';
+        overlay.classList.remove('graph-zoom-in');
+
+        // Restore terminal content
+        if (terminalInner) {
+            terminalInner.classList.remove('graph-transition-out');
+        }
 
         setTimeout(() => {
             overlay.style.display = 'none';
@@ -1419,10 +1458,49 @@
                 cancelAnimationFrame(graphState.animationId);
                 graphState.animationId = null;
             }
-        }, 200);
+        }, 300);
     }
 
     window.closeGraph = closeGraph;
+
+    function zoomToNodeAndLoad(node, canvas, ctx, width, height) {
+        graphState.zoomingToNode = true;
+        graphState.alpha = 0; // Freeze physics
+
+        const startTransform = { ...graphState.transform };
+        const targetScale = 3;
+        const targetX = width / 2 - node.x * targetScale;
+        const targetY = height / 2 - node.y * targetScale;
+        const duration = 350;
+        const startTime = performance.now();
+
+        function animateZoom() {
+            const elapsed = performance.now() - startTime;
+            const t = Math.min(elapsed / duration, 1);
+            // Ease-in-out cubic
+            const eased = t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+
+            graphState.transform.x = startTransform.x + (targetX - startTransform.x) * eased;
+            graphState.transform.y = startTransform.y + (targetY - startTransform.y) * eased;
+            graphState.transform.scale = startTransform.scale + (targetScale - startTransform.scale) * eased;
+
+            // Fade overlay in last 30%
+            if (t > 0.7) {
+                const fadeT = (t - 0.7) / 0.3;
+                const overlay = document.getElementById('graph-overlay');
+                if (overlay) overlay.style.opacity = String(1 - fadeT);
+            }
+
+            if (t < 1) {
+                requestAnimationFrame(animateZoom);
+            } else {
+                graphState.zoomingToNode = false;
+                closeGraph();
+                loadNote(node.id);
+            }
+        }
+        requestAnimationFrame(animateZoom);
+    }
 
     function initGraph() {
         const canvas = document.getElementById('graph-canvas');
@@ -1436,6 +1514,42 @@
         canvas.width = width * dpr;
         canvas.height = height * dpr;
         ctx.scale(dpr, dpr);
+
+        // Generate star field on offscreen canvas
+        graphStarCanvas = document.createElement('canvas');
+        graphStarCanvas.width = width;
+        graphStarCanvas.height = height;
+        const starCtx = graphStarCanvas.getContext('2d');
+        const starData = [];
+        for (let i = 0; i < 150; i++) {
+            const star = {
+                x: Math.random() * width,
+                y: Math.random() * height,
+                r: 0.3 + Math.random() * 1.2,
+                baseOpacity: 0.15 + Math.random() * 0.35,
+                twinkle: i % 3 === 0, // Every 3rd star twinkles
+                twinkleOffset: Math.random() * Math.PI * 2
+            };
+            starData.push(star);
+            starCtx.beginPath();
+            starCtx.arc(star.x, star.y, star.r, 0, Math.PI * 2);
+            starCtx.fillStyle = `rgba(255, 255, 255, ${star.baseOpacity})`;
+            starCtx.fill();
+        }
+        // Store star data for twinkle animation
+        graphStarCanvas._stars = starData;
+
+        // Initialize edge particles pool
+        graphParticles = [];
+        for (let i = 0; i < 80; i++) {
+            graphParticles.push({
+                edgeIndex: Math.floor(Math.random() * Math.max(1, graphEdges.length)),
+                t: Math.random(),
+                speed: 0.002 + Math.random() * 0.004,
+                size: 0.5 + Math.random() * 1,
+                baseOpacity: 0.15 + Math.random() * 0.1
+            });
+        }
 
         // Create nodes from notes
         graphNodes = [];
@@ -1486,6 +1600,14 @@
                 }
             });
         });
+
+        // Reassign particles to valid edge indices now that edges are created
+        if (graphEdges.length > 0) {
+            graphParticles.forEach(p => {
+                p.edgeIndex = Math.floor(Math.random() * graphEdges.length);
+                p.t = Math.random();
+            });
+        }
 
         // Coordinate conversion
         const toGraphCoords = (screenX, screenY) => {
@@ -1559,8 +1681,13 @@
         canvas.onmouseup = () => {
             if (graphState.dragging && !didDrag) {
                 const node = graphState.dragging;
-                closeGraph();
-                loadNote(node.id);
+                const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+                if (reducedMotion) {
+                    closeGraph();
+                    loadNote(node.id);
+                } else {
+                    zoomToNodeAndLoad(node, canvas, ctx, width, height);
+                }
             }
             graphState.dragging = null;
             graphState.panning = false;
@@ -1696,8 +1823,13 @@
                         // Tapped on a node - check if already selected
                         if (graphState.selected === node) {
                             // Tap on already selected node - open it
-                            closeGraph();
-                            loadNote(node.id);
+                            const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+                            if (reducedMotion) {
+                                closeGraph();
+                                loadNote(node.id);
+                            } else {
+                                zoomToNodeAndLoad(node, canvas, ctx, width, height);
+                            }
                         } else {
                             // First tap - select it and show label
                             graphState.selected = node;
@@ -1818,11 +1950,58 @@
             node.hoverAmount += (targetHover - node.hoverAmount) * 0.2;
         });
 
-        // Draw
+        const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+        // ─── Draw ────────────────────────────────────────────────
         const t = graphState.transform;
-        ctx.fillStyle = '#1a1a1a';
+
+        // 1. Clear
+        ctx.fillStyle = '#191919';
         ctx.fillRect(0, 0, width, height);
 
+        // 2. Star field (offscreen canvas blit; skip per-frame twinkle redraw on mobile)
+        const isMobileGraph = width < 600;
+        if (graphStarCanvas) {
+            if (!reducedMotion && !isMobileGraph && graphStarCanvas._stars) {
+                // Redraw stars with twinkle
+                const starCtx = graphStarCanvas.getContext('2d');
+                starCtx.clearRect(0, 0, width, height);
+                const time = elapsed * 0.001;
+                graphStarCanvas._stars.forEach(star => {
+                    let opacity = star.baseOpacity;
+                    if (star.twinkle) {
+                        opacity *= 0.6 + 0.4 * Math.sin(time * 1.5 + star.twinkleOffset);
+                    }
+                    starCtx.beginPath();
+                    starCtx.arc(star.x, star.y, star.r, 0, Math.PI * 2);
+                    starCtx.fillStyle = `rgba(255, 255, 255, ${opacity})`;
+                    starCtx.fill();
+                });
+            }
+            ctx.drawImage(graphStarCanvas, 0, 0);
+        }
+
+        // 3. Nebula ambient wash (3 drifting radial gradients)
+        if (!reducedMotion) {
+            const time = elapsed * 0.001;
+            const nebulaColors = [
+                { r: 93, g: 217, b: 193 },  // teal
+                { r: 232, g: 168, b: 76 },   // amber
+                { r: 246, g: 135, b: 179 }   // pink
+            ];
+            nebulaColors.forEach((c, i) => {
+                const cx = width * 0.5 + Math.sin(time * 0.03 + i * 2.1) * width * 0.25;
+                const cy = height * 0.5 + Math.cos(time * 0.025 + i * 1.7) * height * 0.25;
+                const r = Math.min(width, height) * 0.4;
+                const grad = ctx.createRadialGradient(cx, cy, 0, cx, cy, r);
+                grad.addColorStop(0, `rgba(${c.r}, ${c.g}, ${c.b}, 0.035)`);
+                grad.addColorStop(1, 'rgba(0, 0, 0, 0)');
+                ctx.fillStyle = grad;
+                ctx.fillRect(0, 0, width, height);
+            });
+        }
+
+        // 4. Transform for graph-space drawing
         ctx.save();
         ctx.translate(t.x, t.y);
         ctx.scale(t.scale, t.scale);
@@ -1837,13 +2016,12 @@
             });
         }
 
-        // Draw edges with animated appearance
-        graphEdges.forEach((edge, i) => {
+        // 5. Draw edges with animated appearance
+        graphEdges.forEach(edge => {
             const isConnected = graphState.hovering &&
                 (edge.source === graphState.hovering || edge.target === graphState.hovering);
             const shouldFade = graphState.hovering && !isConnected;
 
-            // Edge appears as both connected nodes have burst
             const minBurst = Math.min(edge.source.burstProgress, edge.target.burstProgress);
             const edgeOpacity = minBurst;
 
@@ -1853,10 +2031,9 @@
             ctx.strokeStyle = `rgba(93, 217, 193, ${baseOpacity})`;
             ctx.lineWidth = isConnected ? 2 : 1;
 
-            // Draw edge with growing length effect during burst
             const dx = edge.target.x - edge.source.x;
             const dy = edge.target.y - edge.source.y;
-            const drawProgress = Math.min(minBurst * 1.5, 1); // Edges draw slightly after nodes arrive
+            const drawProgress = Math.min(minBurst * 1.5, 1);
 
             ctx.beginPath();
             ctx.moveTo(edge.source.x, edge.source.y);
@@ -1867,7 +2044,36 @@
             ctx.stroke();
         });
 
-        // Draw nodes
+        // 6. Edge particles (limit count on mobile for performance)
+        const particleLimit = width < 600 ? 30 : graphParticles.length;
+        if (!reducedMotion && graphEdges.length > 0 && allBurstComplete) {
+            graphParticles.slice(0, particleLimit).forEach(p => {
+                p.t += p.speed;
+                if (p.t >= 1) {
+                    p.t = 0;
+                    p.edgeIndex = Math.floor(Math.random() * graphEdges.length);
+                }
+
+                const edge = graphEdges[p.edgeIndex];
+                if (!edge) return;
+
+                const ex = edge.source.x + (edge.target.x - edge.source.x) * p.t;
+                const ey = edge.source.y + (edge.target.y - edge.source.y) * p.t;
+
+                // Fade via sin — invisible at endpoints, brightest at midpoint
+                const fadeFactor = Math.sin(p.t * Math.PI);
+                const isHoveredEdge = graphState.hovering &&
+                    (edge.source === graphState.hovering || edge.target === graphState.hovering);
+                const opacity = p.baseOpacity * fadeFactor * (isHoveredEdge ? 2 : 1);
+
+                ctx.beginPath();
+                ctx.arc(ex, ey, p.size, 0, Math.PI * 2);
+                ctx.fillStyle = `rgba(93, 217, 193, ${opacity})`;
+                ctx.fill();
+            });
+        }
+
+        // 7. Draw nodes with glow/bloom
         graphNodes.forEach(node => {
             const isHovered = node === graphState.hovering;
             const isConnected = connectedToHover.has(node);
@@ -1881,11 +2087,24 @@
             if (shouldFade) {
                 color = 'rgba(107, 107, 107, 0.5)';
             } else if (node.stage === 'evergreen') {
-                color = '#b794f4';
+                color = '#e8a84c';
             } else if (node.stage === 'growing') {
                 color = '#5dd9c1';
             } else {
                 color = '#68d391';
+            }
+
+            // Glow/bloom effect (skip on small screens for performance)
+            const isMobile = width < 600;
+            if (!shouldFade && !reducedMotion && !isMobile) {
+                const breathe = Math.sin(elapsed * 0.002 + node.burstDelay * 0.1);
+                const glowBlur = 5 + breathe * 5 + (isHovered ? 10 : 0);
+                ctx.shadowColor = color;
+                ctx.shadowBlur = glowBlur;
+            } else if (!shouldFade && !isMobile) {
+                // Reduced motion: static glow
+                ctx.shadowColor = color;
+                ctx.shadowBlur = 8;
             }
 
             ctx.beginPath();
@@ -1893,7 +2112,11 @@
             ctx.fillStyle = color;
             ctx.fill();
 
-            // Label on hover
+            // Reset shadow
+            ctx.shadowBlur = 0;
+            ctx.shadowColor = 'transparent';
+
+            // 8. Label on hover
             if (isHovered) {
                 ctx.font = '12px "JetBrains Mono", monospace';
                 ctx.fillStyle = '#fff';
@@ -1902,8 +2125,21 @@
             }
         });
 
+        // 9. Restore transform
         ctx.restore();
 
+        // 10. Vignette (screen-space)
+        const smallDim = Math.min(width, height);
+        const vigGrad = ctx.createRadialGradient(
+            width / 2, height / 2, smallDim * 0.3,
+            width / 2, height / 2, Math.max(width, height) * 0.7
+        );
+        vigGrad.addColorStop(0, 'rgba(25, 25, 25, 0)');
+        vigGrad.addColorStop(1, 'rgba(25, 25, 25, 0.6)');
+        ctx.fillStyle = vigGrad;
+        ctx.fillRect(0, 0, width, height);
+
+        // 11. Next frame
         graphState.animationId = requestAnimationFrame(() => animateGraph(canvas, ctx, width, height));
     }
 
