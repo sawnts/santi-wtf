@@ -118,6 +118,64 @@
 
         // Triple-tap easter egg (mobile alternative to Konami code)
         setupTripleTapEasterEgg();
+
+        // Create wikilink preview tooltip
+        createWikilinkPreview();
+    }
+
+    // ─── Wikilink Preview ─────────────────────────────────────────
+    const STAGE_ICONS = { seedling: '🌱', growing: '🌿', evergreen: '🌲' };
+
+    function createWikilinkPreview() {
+        const previewTooltip = document.createElement('div');
+        previewTooltip.className = 'wikilink-preview';
+        previewTooltip.innerHTML = `
+            <div class="wikilink-preview-title">
+                <span class="wikilink-preview-stage"></span>
+                <span class="wikilink-preview-name"></span>
+            </div>
+            <div class="wikilink-preview-excerpt"></div>
+        `;
+        document.body.appendChild(previewTooltip);
+    }
+
+    function showWikilinkPreview(link, slug) {
+        const note = notesIndex[slug];
+        if (!note) return;
+
+        const preview = document.querySelector('.wikilink-preview');
+        if (!preview) return;
+
+        const titleEl = preview.querySelector('.wikilink-preview-name');
+        const stageEl = preview.querySelector('.wikilink-preview-stage');
+        const excerptEl = preview.querySelector('.wikilink-preview-excerpt');
+
+        titleEl.textContent = note.title || slug;
+        stageEl.textContent = STAGE_ICONS[note.stage] || '';
+        excerptEl.textContent = note.excerpt || '';
+
+        // Position near the link
+        const rect = link.getBoundingClientRect();
+
+        let left = rect.left;
+        let top = rect.bottom + 8;
+
+        // Keep within viewport
+        if (left + 300 > window.innerWidth) {
+            left = window.innerWidth - 310;
+        }
+        if (top + 150 > window.innerHeight) {
+            top = rect.top - 150 - 8;
+        }
+
+        preview.style.left = `${Math.max(10, left)}px`;
+        preview.style.top = `${top}px`;
+        preview.classList.add('visible');
+    }
+
+    function hideWikilinkPreview() {
+        const preview = document.querySelector('.wikilink-preview');
+        if (preview) preview.classList.remove('visible');
     }
 
     // ─── Load Index ───────────────────────────────────────────────
@@ -2696,14 +2754,21 @@
 
     function bindBodyLinks() {
         output.querySelectorAll('.note-body a.wikilink').forEach(a => {
+            const noteId = a.dataset.note;
+
+            // Click handler
             a.addEventListener('click', async e => {
                 e.preventDefault();
-                const noteId = a.dataset.note;
+                hideWikilinkPreview();
                 const note = notesList.find(n => n.slug === noteId || n.path === noteId);
                 if (note) {
                     await loadNote(note.slug);
                 }
             });
+
+            // Hover handlers for preview tooltip
+            a.addEventListener('mouseenter', () => showWikilinkPreview(a, noteId));
+            a.addEventListener('mouseleave', hideWikilinkPreview);
         });
     }
 

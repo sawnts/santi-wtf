@@ -513,6 +513,54 @@ body {
     font-style: italic;
 }
 
+/* ─── Wikilink Preview Tooltip ─────────────────────────────────── */
+.wikilink-preview {
+    position: fixed;
+    max-width: 300px;
+    padding: 0.75rem 1rem;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+    z-index: 1000;
+    pointer-events: none;
+    opacity: 0;
+    transform: translateY(4px);
+    transition: opacity 0.15s ease, transform 0.15s ease;
+}
+
+.wikilink-preview.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.wikilink-preview-title {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--accent-tertiary);
+    margin-bottom: 0.35rem;
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+}
+
+.wikilink-preview-stage {
+    font-size: 0.75rem;
+}
+
+.wikilink-preview-excerpt {
+    font-size: 0.8rem;
+    color: var(--text-dim);
+    line-height: 1.5;
+}
+
+/* Hide on touch devices */
+@media (hover: none) {
+    .wikilink-preview {
+        display: none;
+    }
+}
+
 .note-body strong {
     color: var(--text-bright);
     font-weight: 500;
