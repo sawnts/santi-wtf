@@ -13,37 +13,13 @@
       "links": [
         "digital-garden",
         "integration",
-        "integration",
-        "splitting",
-        "power-of-writing-online",
-        "now"
-      ],
-      "backlinks": [],
-      "excerpt": "i built this site because i miss the internet. the one before the apps. i miss the weird little corners of the web where people shared their thoughts,"
-    },
-    "about-this-site": {
-      "title": "my digital garden",
-      "slug": "about-this-site",
-      "collection": null,
-      "stage": "seedling",
-      "planted": "2026-01-01T00:00:00.000Z",
-      "tended": "2026-02-01T00:00:00.000Z",
-      "tags": [
-        "personal",
-        "digital-garden"
-      ],
-      "links": [
-        "digital-garden",
-        "integration",
         "now",
         "about-me",
         "integration",
         "splitting",
         "power-of-writing-online"
       ],
-      "backlinks": [
-        "about-me"
-      ],
+      "backlinks": [],
       "excerpt": "i built this site because i miss the internet. the one before the apps. i miss the weird little corners of the web where people shared their thoughts,"
     },
     "about-me": {
@@ -57,14 +33,14 @@
         "personal"
       ],
       "links": [
-        "about-this-site",
+        "digital-garden",
         "now",
         "tech-i-love",
-        "2026---lessons",
+        "lessons-from-2026",
         "my-favorite-reads-2025"
       ],
       "backlinks": [
-        "about-this-site"
+        "index"
       ],
       "excerpt": "people call me santi (sawn-tee)."
     },
@@ -105,7 +81,8 @@
         "integration"
       ],
       "backlinks": [
-        "integration"
+        "integration",
+        "creative-cross-pollination"
       ],
       "excerpt": "kept reinventing what jazz could be. cool jazz → hard bop → modal → fusion."
     },
@@ -129,7 +106,8 @@
       "backlinks": [
         "ogilvy-creative-process",
         "splitting",
-        "integration"
+        "integration",
+        "creative-cross-pollination"
       ],
       "excerpt": "the father of advertising. insisted on research before creativity."
     },
@@ -153,7 +131,7 @@
       ],
       "backlinks": [
         "index",
-        "about-this-site",
+        "about-me",
         "tech-i-love",
         "now",
         "thinking-in-public",
@@ -200,7 +178,6 @@
       ],
       "backlinks": [
         "index",
-        "about-this-site",
         "about-me"
       ],
       "excerpt": "what i'm up to recently:"
@@ -224,9 +201,9 @@
       ],
       "excerpt": "the first one is 70 pages long. number two will get anybody out of a reading slump. the third one is its sequel. the fourth one is the only personal d"
     },
-    "2026---lessons": {
-      "title": "2026: lessons",
-      "slug": "2026---lessons",
+    "lessons-from-2026": {
+      "title": "lessons from 2026",
+      "slug": "lessons-from-2026",
       "collection": "being",
       "stage": "growing",
       "planted": "2026-01-17T00:00:00.000Z",
@@ -267,7 +244,7 @@
         "evergreen-notes-are-for-thinking"
       ],
       "backlinks": [],
-      "excerpt": "sharing ideas before they're finished seems counterintuitive, but this is what a digital-garden is for — not polished essays, but thoughts in progress"
+      "excerpt": "sharing ideas before they're finished seems counterintuitive, but this is what a digital garden is for — not polished essays, but thoughts in progress"
     },
     "the-map-is-not-the-territory": {
       "title": "the map is not the territory",
@@ -281,12 +258,13 @@
         "creativity"
       ],
       "links": [
-        "2026---lessons",
-        "2026---lessons"
+        "lessons-from-2026",
+        "lessons-from-2026"
       ],
       "backlinks": [
-        "2026---lessons",
+        "lessons-from-2026",
         "thinking-in-public",
+        "creative-cross-pollination",
         "consistency"
       ],
       "excerpt": "a mental model from Alfred Korzybski (1931): our representations of reality — maps, models, frameworks, other people's systems — are always abstractio"
@@ -311,7 +289,6 @@
       ],
       "backlinks": [
         "index",
-        "about-this-site",
         "david-ogilvy",
         "digital-garden",
         "integration"
@@ -357,9 +334,8 @@
       ],
       "backlinks": [
         "index",
-        "about-this-site",
         "digital-garden",
-        "2026---lessons",
+        "lessons-from-2026",
         "thinking-in-public",
         "consistency"
       ],
@@ -370,7 +346,7 @@
       "slug": "making-effective-connections",
       "collection": "thinking",
       "stage": "growing",
-      "planted": "2025-05-15T00:00:00.000Z",
+      "planted": "2024-11-15T00:00:00.000Z",
       "tended": "2026-01-10T00:00:00.000Z",
       "tags": [
         "creativity",
@@ -431,12 +407,12 @@
       ],
       "backlinks": [
         "index",
-        "about-this-site",
         "ogilvy-creative-process",
         "miles-davis",
         "david-ogilvy",
         "digital-garden",
-        "splitting"
+        "splitting",
+        "creative-cross-pollination"
       ],
       "excerpt": "the best ideas often come from combining concepts that don't obviously belong together."
     },
@@ -462,6 +438,27 @@
       ],
       "excerpt": "evergreen notes aren't content. they're tools for thought."
     },
+    "creative-cross-pollination": {
+      "title": "creative cross-pollination",
+      "slug": "creative-cross-pollination",
+      "collection": "thinking",
+      "stage": "seedling",
+      "planted": "2026-02-25T00:00:00.000Z",
+      "tended": "2026-02-22T00:00:00.000Z",
+      "tags": [
+        "creativity",
+        "mental-models"
+      ],
+      "links": [
+        "integration",
+        "david-ogilvy",
+        "miles-davis",
+        "steve-jobs",
+        "the-map-is-not-the-territory"
+      ],
+      "backlinks": [],
+      "excerpt": "borrowing ideas from one field and applying them in another."
+    },
     "consistency": {
       "title": "consistency",
       "slug": "consistency",
@@ -476,7 +473,7 @@
       "links": [
         "power-of-writing-online",
         "digital-garden",
-        "2026---lessons",
+        "lessons-from-2026",
         "the-map-is-not-the-territory"
       ],
       "backlinks": [],
@@ -485,7 +482,7 @@
   },
   "stats": {
     "total": 21,
-    "links": 72,
+    "links": 71,
     "seedling": 2,
     "growing": 13,
     "evergreen": 6,
