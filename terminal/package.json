@@ -4,7 +4,7 @@
   "description": "",
   "main": "app.js",
   "scripts": {
-    "sync": "node build.js \"/Users/santi/Desktop/Areas/Jots/santi.wtf/public\" && git add -A && git commit -m 'sync content' && git push",
+    "sync": "node build.js \"/Users/santi/Desktop/santi.wtf/public\" && git add -A && git commit -m 'sync content' && git push",
     "sync:mini": "node build.js ~/Desktop/santi.wtf/public && git add -A && git commit -m 'sync content' && git push",
     "test": "echo \"Error: no test specified\" && exit 1"
   },

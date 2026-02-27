@@ -44,10 +44,145 @@
       ],
       "excerpt": "people call me santi (sawn-tee)."
     },
+    "tech-i-love": {
+      "title": "tech i love",
+      "slug": "tech-i-love",
+      "collection": "personal",
+      "stage": "growing",
+      "planted": "2026-01-28T00:00:00.000Z",
+      "tended": "2026-01-28T00:00:00.000Z",
+      "tags": [
+        "gear",
+        "technology",
+        "favorites"
+      ],
+      "links": [
+        "digital-garden"
+      ],
+      "backlinks": [
+        "about-me",
+        "my-favorite-reads-2025"
+      ],
+      "excerpt": "i'm not a gadget person. i don't chase specs or wait in line for launches. but some things have quietly become pillars in my daily life — tools i'd ge"
+    },
+    "now": {
+      "title": "now",
+      "slug": "now",
+      "collection": "personal",
+      "stage": "evergreen",
+      "planted": "2026-01-01T00:00:00.000Z",
+      "tended": "2026-01-29T00:00:00.000Z",
+      "tags": [
+        "personal"
+      ],
+      "links": [
+        "digital-garden",
+        "my-favorite-reads-2025"
+      ],
+      "backlinks": [
+        "index",
+        "about-me"
+      ],
+      "excerpt": "what i'm up to recently:"
+    },
+    "my-favorite-reads-2025": {
+      "title": "my favorite reads of 2025",
+      "slug": "my-favorite-reads-2025",
+      "collection": "personal",
+      "stage": "evergreen",
+      "planted": "2026-01-01T00:00:00.000Z",
+      "tended": "2026-01-01T00:00:00.000Z",
+      "tags": [
+        "personal"
+      ],
+      "links": [
+        "tech-i-love"
+      ],
+      "backlinks": [
+        "about-me",
+        "now"
+      ],
+      "excerpt": "the first one is 70 pages long. number two will get anybody out of a reading slump. the third one is its sequel. the fourth one is the only personal d"
+    },
+    "my-brain,-in-html": {
+      "title": "my brain, in html",
+      "slug": "my-brain,-in-html",
+      "collection": "personal",
+      "stage": "evergreen",
+      "planted": "2026-01-13T00:00:00.000Z",
+      "tended": "2026-02-26T00:00:00.000Z",
+      "tags": [
+        "digital-garden",
+        "writing",
+        "personal"
+      ],
+      "links": [
+        "digital-garden",
+        "thinking-in-public"
+      ],
+      "backlinks": [
+        "digital-garden"
+      ],
+      "excerpt": "the internet used to feel like exploring someone's brain."
+    },
+    "lessons-from-2026": {
+      "title": "lessons from 2026",
+      "slug": "lessons-from-2026",
+      "collection": "personal",
+      "stage": "growing",
+      "planted": "2026-01-17T00:00:00.000Z",
+      "tended": "2026-01-25T00:00:00.000Z",
+      "tags": [
+        "personal",
+        "lessons"
+      ],
+      "links": [
+        "the-map-is-not-the-territory",
+        "power-of-writing-online"
+      ],
+      "backlinks": [
+        "about-me",
+        "the-map-is-not-the-territory",
+        "consistency"
+      ],
+      "excerpt": "a running list of things i'm learning this year. updated as life teaches me."
+    },
+    "digital-garden": {
+      "title": "digital garden",
+      "slug": "digital-garden",
+      "collection": "personal",
+      "stage": "growing",
+      "planted": "2026-01-24T00:00:00.000Z",
+      "tended": "2026-01-25T00:00:00.000Z",
+      "tags": [
+        "projects",
+        "meta"
+      ],
+      "links": [
+        "linking-is-thinking",
+        "integration",
+        "splitting",
+        "linking-is-thinking",
+        "power-of-writing-online",
+        "my-brain,-in-html"
+      ],
+      "backlinks": [
+        "index",
+        "about-me",
+        "tech-i-love",
+        "now",
+        "my-brain,-in-html",
+        "thinking-in-public",
+        "read-old-notes",
+        "power-of-writing-online",
+        "consistency"
+      ],
+      "excerpt": "this is a digital garden — a place for ideas to grow over time."
+    },
     "ogilvy-creative-process": {
       "title": "ogilvy's creative process",
       "slug": "ogilvy-creative-process",
-      "collection": "loving",
+      "collection": "influences",
       "stage": "evergreen",
       "planted": "2025-10-14T00:00:00.000Z",
       "tended": "2026-01-25T00:00:00.000Z",
@@ -69,7 +204,7 @@
     "miles-davis": {
       "title": "miles davis",
       "slug": "miles-davis",
-      "collection": "loving",
+      "collection": "influences",
       "stage": "growing",
       "planted": "2024-12-01T00:00:00.000Z",
       "tended": "2026-01-08T00:00:00.000Z",
@@ -89,7 +224,7 @@
     "david-ogilvy": {
       "title": "david ogilvy",
       "slug": "david-ogilvy",
-      "collection": "loving",
+      "collection": "influences",
       "stage": "growing",
       "planted": "2024-10-01T00:00:00.000Z",
       "tended": "2026-01-12T00:00:00.000Z",
@@ -111,122 +246,10 @@
       ],
       "excerpt": "the father of advertising. insisted on research before creativity."
     },
-    "digital-garden": {
-      "title": "digital garden",
-      "slug": "digital-garden",
-      "collection": "doing",
-      "stage": "growing",
-      "planted": "2026-01-24T00:00:00.000Z",
-      "tended": "2026-01-25T00:00:00.000Z",
-      "tags": [
-        "projects",
-        "meta"
-      ],
-      "links": [
-        "linking-is-thinking",
-        "integration",
-        "splitting",
-        "linking-is-thinking",
-        "power-of-writing-online"
-      ],
-      "backlinks": [
-        "index",
-        "about-me",
-        "tech-i-love",
-        "now",
-        "thinking-in-public",
-        "read-old-notes",
-        "power-of-writing-online",
-        "consistency"
-      ],
-      "excerpt": "this is a digital garden — a place for ideas to grow over time."
-    },
-    "tech-i-love": {
-      "title": "tech i love",
-      "slug": "tech-i-love",
-      "collection": "being",
-      "stage": "growing",
-      "planted": "2026-01-28T00:00:00.000Z",
-      "tended": "2026-01-28T00:00:00.000Z",
-      "tags": [
-        "gear",
-        "technology",
-        "favorites"
-      ],
-      "links": [
-        "digital-garden"
-      ],
-      "backlinks": [
-        "about-me",
-        "my-favorite-reads-2025"
-      ],
-      "excerpt": "i'm not a gadget person. i don't chase specs or wait in line for launches. but some things have quietly become pillars in my daily life — tools i'd ge"
-    },
-    "now": {
-      "title": "now",
-      "slug": "now",
-      "collection": "being",
-      "stage": "evergreen",
-      "planted": "2026-01-01T00:00:00.000Z",
-      "tended": "2026-01-29T00:00:00.000Z",
-      "tags": [
-        "personal"
-      ],
-      "links": [
-        "digital-garden",
-        "my-favorite-reads-2025"
-      ],
-      "backlinks": [
-        "index",
-        "about-me"
-      ],
-      "excerpt": "what i'm up to recently:"
-    },
-    "my-favorite-reads-2025": {
-      "title": "my favorite reads of 2025",
-      "slug": "my-favorite-reads-2025",
-      "collection": "being",
-      "stage": "evergreen",
-      "planted": "2026-01-01T00:00:00.000Z",
-      "tended": "2026-01-01T00:00:00.000Z",
-      "tags": [
-        "personal"
-      ],
-      "links": [
-        "tech-i-love"
-      ],
-      "backlinks": [
-        "about-me",
-        "now"
-      ],
-      "excerpt": "the first one is 70 pages long. number two will get anybody out of a reading slump. the third one is its sequel. the fourth one is the only personal d"
-    },
-    "lessons-from-2026": {
-      "title": "lessons from 2026",
-      "slug": "lessons-from-2026",
-      "collection": "being",
-      "stage": "growing",
-      "planted": "2026-01-17T00:00:00.000Z",
-      "tended": "2026-01-25T00:00:00.000Z",
-      "tags": [
-        "personal",
-        "lessons"
-      ],
-      "links": [
-        "the-map-is-not-the-territory",
-        "power-of-writing-online"
-      ],
-      "backlinks": [
-        "about-me",
-        "the-map-is-not-the-territory",
-        "consistency"
-      ],
-      "excerpt": "a running list of things i'm learning this year. updated as life teaches me."
-    },
     "thinking-in-public": {
       "title": "thinking in public",
       "slug": "thinking-in-public",
-      "collection": "thinking",
+      "collection": "ideas",
       "stage": "growing",
       "planted": "2026-01-25T00:00:00.000Z",
       "tended": "2026-02-04T00:00:00.000Z",
@@ -243,13 +266,15 @@
         "digital-garden",
         "evergreen-notes-are-for-thinking"
       ],
-      "backlinks": [],
+      "backlinks": [
+        "my-brain,-in-html"
+      ],
       "excerpt": "sharing ideas before they're finished seems counterintuitive, but this is what a digital garden is for — not polished essays, but thoughts in progress"
     },
     "the-map-is-not-the-territory": {
       "title": "the map is not the territory",
       "slug": "the-map-is-not-the-territory",
-      "collection": "thinking",
+      "collection": "ideas",
       "stage": "growing",
       "planted": "2026-01-25T00:00:00.000Z",
       "tended": "2026-01-25T00:00:00.000Z",
@@ -272,7 +297,7 @@
     "splitting": {
       "title": "splitting",
       "slug": "splitting",
-      "collection": "thinking",
+      "collection": "ideas",
       "stage": "growing",
       "planted": "2024-11-15T00:00:00.000Z",
       "tended": "2026-01-10T00:00:00.000Z",
@@ -289,8 +314,8 @@
       ],
       "backlinks": [
         "index",
-        "david-ogilvy",
         "digital-garden",
+        "david-ogilvy",
         "integration"
       ],
       "excerpt": "before you can understand something, you often need to break it apart. this is splitting — the analytical complement to integration."
@@ -298,7 +323,7 @@
     "read-old-notes": {
       "title": "read old notes",
       "slug": "read-old-notes",
-      "collection": "thinking",
+      "collection": "ideas",
       "stage": "growing",
       "planted": "2026-01-06T00:00:00.000Z",
       "tended": "2026-01-24T00:00:00.000Z",
@@ -318,7 +343,7 @@
     "power-of-writing-online": {
       "title": "the power of writing online",
       "slug": "power-of-writing-online",
-      "collection": "thinking",
+      "collection": "ideas",
       "stage": "evergreen",
       "planted": "2026-01-12T00:00:00.000Z",
       "tended": "2026-01-12T00:00:00.000Z",
@@ -334,8 +359,8 @@
       ],
       "backlinks": [
         "index",
-        "digital-garden",
         "lessons-from-2026",
+        "digital-garden",
         "thinking-in-public",
         "consistency"
       ],
@@ -344,7 +369,7 @@
     "making-effective-connections": {
       "title": "making effective connections",
       "slug": "making-effective-connections",
-      "collection": "thinking",
+      "collection": "ideas",
       "stage": "growing",
       "planted": "2024-11-15T00:00:00.000Z",
       "tended": "2026-01-10T00:00:00.000Z",
@@ -364,7 +389,7 @@
     "linking-is-thinking": {
       "title": "linking is thinking",
       "slug": "linking-is-thinking",
-      "collection": "thinking",
+      "collection": "ideas",
       "stage": "growing",
       "planted": "2026-01-06T00:00:00.000Z",
       "tended": "2026-01-24T00:00:00.000Z",
@@ -388,7 +413,7 @@
     "integration": {
       "title": "integration",
       "slug": "integration",
-      "collection": "thinking",
+      "collection": "ideas",
       "stage": "evergreen",
       "planted": "2024-11-12T00:00:00.000Z",
       "tended": "2026-01-18T00:00:00.000Z",
@@ -400,17 +425,14 @@
         "david-ogilvy",
         "splitting",
         "miles-davis",
-        "steve-jobs",
-        "splitting",
-        "david-ogilvy",
-        "miles-davis"
+        "steve-jobs"
       ],
       "backlinks": [
         "index",
+        "digital-garden",
         "ogilvy-creative-process",
         "miles-davis",
         "david-ogilvy",
-        "digital-garden",
         "splitting",
         "creative-cross-pollination"
       ],
@@ -419,7 +441,7 @@
     "evergreen-notes-are-for-thinking": {
       "title": "evergreen notes are for thinking",
       "slug": "evergreen-notes-are-for-thinking",
-      "collection": "thinking",
+      "collection": "ideas",
       "stage": "growing",
       "planted": "2025-10-10T00:00:00.000Z",
       "tended": "2026-01-10T00:00:00.000Z",
@@ -441,10 +463,10 @@
     "creative-cross-pollination": {
       "title": "creative cross-pollination",
       "slug": "creative-cross-pollination",
-      "collection": "thinking",
+      "collection": "ideas",
       "stage": "seedling",
-      "planted": "2026-02-25T00:00:00.000Z",
-      "tended": "2026-02-22T00:00:00.000Z",
+      "planted": "2026-02-22T00:00:00.000Z",
+      "tended": "2026-02-25T00:00:00.000Z",
       "tags": [
         "creativity",
         "mental-models"
@@ -462,7 +484,7 @@
     "consistency": {
       "title": "consistency",
       "slug": "consistency",
-      "collection": "thinking",
+      "collection": "ideas",
       "stage": "growing",
       "planted": "2026-01-25T00:00:00.000Z",
       "tended": "2026-02-04T00:00:00.000Z",
@@ -481,16 +503,15 @@
     }
   },
   "stats": {
-    "total": 21,
+    "total": 22,
     "links": 71,
     "seedling": 2,
     "growing": 13,
-    "evergreen": 6,
+    "evergreen": 7,
     "collections": [
-      "loving",
-      "doing",
-      "being",
-      "thinking"
+      "personal",
+      "influences",
+      "ideas"
     ]
   }
 }

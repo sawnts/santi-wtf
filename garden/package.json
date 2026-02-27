@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "digital garden build tools",
   "scripts": {
-    "sync": "node build.js \"/Users/santi/Desktop/Areas/Jots/santi.wtf/public\"",
+    "sync": "node build.js \"/Users/santi/Desktop/santi.wtf/public\"",
     "watch": "node watch.js"
   },
   "keywords": [],
