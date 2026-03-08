@@ -456,9 +456,26 @@
       "backlinks": [
         "thinking-in-public",
         "power-of-writing-online",
-        "linking-is-thinking"
+        "linking-is-thinking",
+        "essay-vs-evergreen-note"
       ],
       "excerpt": "evergreen notes aren't content. they're tools for thought."
+    },
+    "essay-vs-evergreen-note": {
+      "title": "essay vs evergreen note",
+      "slug": "essay-vs-evergreen-note",
+      "collection": "ideas",
+      "stage": "seedling",
+      "planted": null,
+      "tended": null,
+      "tags": [
+        "writing"
+      ],
+      "links": [
+        "evergreen-notes-are-for-thinking"
+      ],
+      "backlinks": [],
+      "excerpt": "essays are for readers. evergreen notes are for thinking."
     },
     "creative-cross-pollination": {
       "title": "creative cross-pollination",
@@ -503,9 +520,9 @@
     }
   },
   "stats": {
-    "total": 22,
-    "links": 71,
-    "seedling": 2,
+    "total": 23,
+    "links": 72,
+    "seedling": 3,
     "growing": 13,
     "evergreen": 7,
     "collections": [

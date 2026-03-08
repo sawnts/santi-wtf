@@ -13,7 +13,7 @@ const { spawn } = require('child_process');
 const fs = require('fs');
 const path = require('path');
 
-const WATCH_PATH = '/Users/santi/Desktop/Areas/Jots/santi.wtf/public';
+const WATCH_PATH = '/Users/santi/Desktop/santi.wtf/public';
 const DEBOUNCE_MS = 1000;
 
 let debounceTimer = null;
