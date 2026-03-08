@@ -469,7 +469,9 @@
       "planted": null,
       "tended": null,
       "tags": [
-        "writing"
+        "writing",
+        "digital-garden",
+        "thinking"
       ],
       "links": [
         "evergreen-notes-are-for-thinking"
