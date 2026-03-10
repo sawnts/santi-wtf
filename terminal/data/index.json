@@ -268,7 +268,7 @@
       ],
       "backlinks": [
         "my-brain,-in-html",
-        "on-tyranny-—-timothy-snyder"
+        "on-tyranny"
       ],
       "excerpt": "sharing ideas before they're finished seems counterintuitive, but this is what a digital garden is for — not polished essays, but thoughts in progress"
     },
@@ -290,7 +290,7 @@
       "backlinks": [
         "lessons-from-2026",
         "thinking-in-public",
-        "on-tyranny-—-timothy-snyder",
+        "on-tyranny",
         "creative-cross-pollination",
         "consistency"
       ],
@@ -364,14 +364,14 @@
         "lessons-from-2026",
         "digital-garden",
         "thinking-in-public",
-        "on-tyranny-—-timothy-snyder",
+        "on-tyranny",
         "consistency"
       ],
       "excerpt": "the person who can string together words that evoke emotion, facilitate insight, and entertain readers has a huge competitive advantage in today's dig"
     },
-    "on-tyranny-—-timothy-snyder": {
+    "on-tyranny": {
       "title": "on tyranny — timothy snyder",
-      "slug": "on-tyranny-—-timothy-snyder",
+      "slug": "on-tyranny",
       "collection": "ideas",
       "stage": "seedling",
       "planted": "2026-02-26T00:00:00.000Z",
@@ -386,9 +386,7 @@
         "thinking-in-public",
         "power-of-writing-online"
       ],
-      "backlinks": [
-        "the-map-is-not-the-territory"
-      ],
+      "backlinks": [],
       "excerpt": "a short, urgent book about how authoritarians seize power through the very democratic structures designed to prevent them — and what citizens can do a"
     },
     "making-effective-connections": {
