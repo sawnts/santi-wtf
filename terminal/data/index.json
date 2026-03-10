@@ -267,7 +267,8 @@
         "evergreen-notes-are-for-thinking"
       ],
       "backlinks": [
-        "my-brain,-in-html"
+        "my-brain,-in-html",
+        "on-tyranny-—-timothy-snyder"
       ],
       "excerpt": "sharing ideas before they're finished seems counterintuitive, but this is what a digital garden is for — not polished essays, but thoughts in progress"
     },
@@ -284,11 +285,12 @@
       ],
       "links": [
         "lessons-from-2026",
-        "lessons-from-2026"
+        "on-tyranny-—-timothy-snyder"
       ],
       "backlinks": [
         "lessons-from-2026",
         "thinking-in-public",
+        "on-tyranny-—-timothy-snyder",
         "creative-cross-pollination",
         "consistency"
       ],
@@ -362,9 +364,32 @@
         "lessons-from-2026",
         "digital-garden",
         "thinking-in-public",
+        "on-tyranny-—-timothy-snyder",
         "consistency"
       ],
       "excerpt": "the person who can string together words that evoke emotion, facilitate insight, and entertain readers has a huge competitive advantage in today's dig"
+    },
+    "on-tyranny-—-timothy-snyder": {
+      "title": "on tyranny — timothy snyder",
+      "slug": "on-tyranny-—-timothy-snyder",
+      "collection": "ideas",
+      "stage": "seedling",
+      "planted": "2026-02-26T00:00:00.000Z",
+      "tended": "2026-03-09T00:00:00.000Z",
+      "tags": [
+        "booknotes"
+      ],
+      "links": [
+        "_the-brainwashing-machine",
+        "_power-is-alchemy",
+        "the-map-is-not-the-territory",
+        "thinking-in-public",
+        "power-of-writing-online"
+      ],
+      "backlinks": [
+        "the-map-is-not-the-territory"
+      ],
+      "excerpt": "a short, urgent book about how authoritarians seize power through the very democratic structures designed to prevent them — and what citizens can do a"
     },
     "making-effective-connections": {
       "title": "making effective connections",
@@ -522,9 +547,9 @@
     }
   },
   "stats": {
-    "total": 23,
-    "links": 72,
-    "seedling": 3,
+    "total": 24,
+    "links": 77,
+    "seedling": 4,
     "growing": 13,
     "evergreen": 7,
     "collections": [
