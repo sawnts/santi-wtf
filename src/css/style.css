@@ -40,11 +40,13 @@
   --accent-hover: #fff;
   --border: #242424;
   --surface: #1e1e1e;
-  --line-number: #282828;
+  --line-number: #333;
   --selection: rgba(200, 200, 200, 0.08);
   --active-bg: #1e1e1e;
   --sidebar-hover: #1a1a1a;
   --search-bg: #1a1a1a;
+  --blockquote-border: #444;
+  --blockquote-text: #aaa;
 }
 
 [data-theme="light"] {
@@ -64,6 +66,8 @@
   --active-bg: #e8e8e8;
   --sidebar-hover: #e8e8e8;
   --search-bg: #f8f8f8;
+  --blockquote-border: #ccc;
+  --blockquote-text: #666;
 }
 
 /* --- reset --- */
@@ -99,7 +103,7 @@ body {
 /* --- layout --- */
 .layout {
   display: grid;
-  grid-template-columns: 280px 1fr;
+  grid-template-columns: 300px 1fr;
   min-height: 100vh;
   min-height: 100dvh;
   transition: grid-template-columns 0.2s ease;
@@ -122,6 +126,7 @@ body {
   height: 100vh;
   height: 100dvh;
   background: var(--bg-sidebar);
+  border-right: 1px solid var(--border);
   display: flex;
   flex-direction: column;
   overflow: hidden;
@@ -146,10 +151,12 @@ body {
   font-weight: 600;
   text-decoration: none;
   letter-spacing: -0.01em;
+  transition: color 0.15s, opacity 0.15s;
 }
 
 .site-name:hover {
   color: var(--accent-hover);
+  opacity: 0.85;
 }
 
 .sidebar-actions {
@@ -237,6 +244,9 @@ body {
   flex-shrink: 0;
   color: var(--text-dim);
   transition: color 0.15s;
+  vertical-align: middle;
+  position: relative;
+  top: -0.5px;
 }
 
 .tree-item:hover .tree-icon,
@@ -316,30 +326,32 @@ body {
   cursor: default;
 }
 
-/* sidebar inline search */
+/* sidebar inline search — docked at bottom, native feel */
 .sidebar-search {
-  padding: 0.6rem 1rem;
+  padding: 0.5rem 0.75rem;
   border-top: 1px solid var(--border);
   flex-shrink: 0;
   display: flex;
   align-items: center;
   gap: 0.5rem;
+  background: var(--bg-sidebar);
 }
 
 .search-input-icon {
-  width: 14px;
-  height: 14px;
+  width: 13px;
+  height: 13px;
   color: var(--text-dim);
   flex-shrink: 0;
+  opacity: 0.7;
 }
 
 .search-input {
-  background: var(--search-bg);
+  background: transparent;
   border: 1px solid var(--border);
   color: var(--text-bright);
   font-family: var(--font-body);
   font-size: 12px;
-  padding: 0.35rem 0.5rem;
+  padding: 0.3rem 0.5rem;
   width: 100%;
   border-radius: 3px;
   outline: none;
@@ -348,10 +360,16 @@ body {
 
 .search-input::placeholder {
   color: var(--text-dim);
+  font-size: 12px;
 }
 
 .search-input:focus {
   border-color: var(--text-dim);
+}
+
+.search-input:focus + .search-input-icon,
+.sidebar-search:focus-within .search-input-icon {
+  opacity: 1;
 }
 
 /* sidebar overlay (mobile) */
@@ -473,6 +491,12 @@ body {
   flex-shrink: 0;
 }
 
+.status-left {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
 /* === LINE NUMBERS === */
 /*
   line numbers at very low contrast — subtle marginalia,
@@ -582,18 +606,34 @@ body {
   color: var(--text-dim);
 }
 
-/* blockquotes — editorial: subtle left accent, italic, slightly indented */
+/* blockquotes — editorial: elegant left accent, italic, distinct from body */
 .page blockquote,
 .note blockquote {
-  border-left: 2px solid var(--border);
-  padding-left: 1.25rem;
+  border-left: 2px solid var(--blockquote-border);
+  padding-left: 1.5rem;
   font-style: italic;
-  color: var(--text);
+  color: var(--blockquote-text);
+  margin: 0.75rem 0;
+  line-height: 1.75;
 }
 
 .page blockquote p,
 .note blockquote p {
   color: inherit;
+}
+
+.page blockquote cite,
+.note blockquote cite {
+  display: block;
+  margin-top: 0.5rem;
+  font-size: 0.85em;
+  font-style: normal;
+  color: var(--text-dim);
+}
+
+.page blockquote cite::before,
+.note blockquote cite::before {
+  content: '\2014\00a0';
 }
 
 /* code: monospace */
@@ -663,6 +703,13 @@ body {
   border-top: 1px solid var(--border);
   margin-top: 2rem;
   max-width: 68ch;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.note-meta .status-icon {
+  flex-shrink: 0;
 }
 
 /* === NOTES INDEX === */

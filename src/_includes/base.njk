@@ -46,7 +46,10 @@
       </main>
 
       <footer class="editor-statusbar">
-        <span class="status-left">santi villanueva</span>
+        <span class="status-left">
+          <svg class="status-icon"><use href="#icon-calendar"/></svg>
+          {% if updated %}{{ updated | readableDateTime }}{% elif date %}{{ date | readableDateTime }}{% else %}—{% endif %}
+        </span>
         <span class="status-right">santi.wtf</span>
       </footer>
     </div>

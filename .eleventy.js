@@ -67,6 +67,19 @@ export default function (eleventyConfig) {
     return new Date(dateObj).toISOString().split("T")[0];
   });
 
+  // readable date+time filter for "last modified" footer
+  eleventyConfig.addFilter("readableDateTime", (dateObj) => {
+    if (!dateObj) return "";
+    const d = new Date(dateObj);
+    const months = [
+      "jan", "feb", "mar", "apr", "may", "jun",
+      "jul", "aug", "sep", "oct", "nov", "dec",
+    ];
+    const h = d.getUTCHours().toString().padStart(2, "0");
+    const m = d.getUTCMinutes().toString().padStart(2, "0");
+    return `${months[d.getUTCMonth()]} ${d.getUTCDate()}, ${d.getUTCFullYear()} ${h}:${m}`;
+  });
+
   // get date from a collection item
   eleventyConfig.addFilter("getDate", (item) => {
     if (!item) return "";
