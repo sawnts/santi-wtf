@@ -1,17 +1,21 @@
 /* ============================================
    santi.wtf — editorial digital garden
 
+   fixed-frame architecture:
+   - the entire viewport is a 2-column grid
+   - left: sidebar (sticky, 100vh, own scrollbar)
+   - right: editor (100vh grid: header | content | footer)
+   - header and footer are locked; only content scrolls
+   - all horizontal borders are flush with the sidebar's
+     vertical border — zero "stepping" at intersections
+
    font strategy:
    - body/prose: Inter → system sans-serif
-     for comfortable reading at length
    - meta elements: monospace (system mono stack)
-     sidebar labels, line numbers, status bar, code
 
-   spacing rationale:
-   - sidebar 300px: generous room for note titles
-   - content padding 3rem horizontal: breathing room
-   - prose max-width 68ch: optimal reading measure
-   - line-height 1.65: balanced for sans-serif body text
+   spacing:
+   - sidebar 300px, content max-width 68ch
+   - line-height 1.65 everywhere (body + line numbers)
    ============================================ */
 
 /* --- fonts --- */
@@ -20,7 +24,6 @@
   --font-mono: 'SF Mono', 'Fira Code', 'Cascadia Code', ui-monospace, monospace;
 }
 
-/* inter variable font feature settings */
 @supports (font-variation-settings: normal) {
   :root {
     --font-body: 'Inter var', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
@@ -47,6 +50,8 @@
   --search-bg: #191919;
   --blockquote-border: #444;
   --blockquote-text: #bbb;
+  --scrollbar-thumb: #333;
+  --scrollbar-track: transparent;
 }
 
 [data-theme="light"] {
@@ -68,6 +73,8 @@
   --search-bg: #f8f8f8;
   --blockquote-border: #ccc;
   --blockquote-text: #666;
+  --scrollbar-thumb: #ccc;
+  --scrollbar-track: transparent;
 }
 
 /* --- reset --- */
@@ -96,21 +103,49 @@ body {
   background: var(--bg);
   min-height: 100vh;
   min-height: 100dvh;
+  overflow: hidden;
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
 }
 
+/* --- scrollbar theming ---
+   thin, dark scrollbars that match the editorial aesthetic.
+   webkit for chrome/safari/edge, standard for firefox.
+*/
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--scrollbar-thumb) var(--scrollbar-track);
+}
+
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--scrollbar-track);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--scrollbar-thumb);
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--text-dim);
+}
+
 /* --- layout ---
-   the grid uses a single continuous border strategy:
-   sidebar owns the right border (vertical divider).
-   header/footer borders span the full editor width.
-   no double-borders or "step" at intersections.
+   fixed-frame: 2-column grid fills the viewport exactly.
+   sidebar owns the vertical border-right.
+   header/footer borders run edge-to-edge within the editor column.
 */
 .layout {
   display: grid;
   grid-template-columns: 300px 1fr;
-  min-height: 100vh;
-  min-height: 100dvh;
+  height: 100vh;
+  height: 100dvh;
+  overflow: hidden;
   transition: grid-template-columns 0.2s ease;
 }
 
@@ -126,14 +161,12 @@ body {
 
 /* === SIDEBAR === */
 .sidebar {
-  position: sticky;
-  top: 0;
+  display: flex;
+  flex-direction: column;
   height: 100vh;
   height: 100dvh;
   background: var(--bg-sidebar);
   border-right: 1px solid var(--border);
-  display: flex;
-  flex-direction: column;
   overflow: hidden;
   font-family: var(--font-body);
   font-size: 13px;
@@ -203,7 +236,7 @@ body {
   line-height: 1;
 }
 
-/* file tree */
+/* file tree — independent scrolling */
 .file-tree {
   flex: 1;
   padding: 0.5rem 0;
@@ -242,7 +275,7 @@ body {
   display: none;
 }
 
-/* icons — thin stroke style, sized to match 13px text */
+/* icons — thin stroke, sized to match 13px text */
 .tree-icon {
   width: 15px;
   height: 15px;
@@ -256,7 +289,6 @@ body {
   color: var(--text);
 }
 
-/* header & status bar icons */
 .header-icon {
   width: 16px;
   height: 16px;
@@ -328,7 +360,7 @@ body {
   cursor: default;
 }
 
-/* sidebar inline search — docked at bottom */
+/* sidebar search — docked at bottom */
 .sidebar-search {
   padding: 0.5rem 0.75rem;
   border-top: 1px solid var(--border);
@@ -387,17 +419,22 @@ body {
   display: block;
 }
 
-/* === EDITOR === */
+/* === EDITOR ===
+   3-row grid: locked header | scrollable content | locked footer.
+   the editor fills the right column of the layout exactly.
+   only .editor-content scrolls — header and footer never move.
+*/
 .editor {
-  display: flex;
-  flex-direction: column;
-  min-height: 100vh;
-  min-height: 100dvh;
+  display: grid;
+  grid-template-rows: 44px 1fr 30px;
+  height: 100vh;
+  height: 100dvh;
+  overflow: hidden;
 }
 
-/* editor header — the "tab bar"
-   height matches sidebar-header exactly (44px)
-   so the horizontal border-bottom is flush with sidebar's border-bottom */
+/* editor header — locked top row
+   height: 44px matches sidebar-header exactly,
+   so border-bottom is flush with sidebar's border-bottom */
 .editor-header {
   display: flex;
   align-items: center;
@@ -405,8 +442,7 @@ body {
   padding: 0 2rem;
   border-bottom: 1px solid var(--border);
   background: var(--bg-header);
-  height: 44px;
-  min-height: 44px;
+  min-height: 0;
   flex-shrink: 0;
 }
 
@@ -446,13 +482,12 @@ body {
   color: var(--text-bright);
 }
 
-/* show sun in dark mode, moon in light mode */
 [data-theme="dark"] .theme-icon-sun { display: block; }
 [data-theme="dark"] .theme-icon-moon { display: none; }
 [data-theme="light"] .theme-icon-sun { display: none; }
 [data-theme="light"] .theme-icon-moon { display: block; }
 
-/* sidebar toggle in header — hidden when sidebar is visible */
+/* sidebar toggle in header — visible only when sidebar is collapsed */
 .sidebar-toggle {
   display: none;
   background: none;
@@ -473,26 +508,26 @@ body {
   justify-content: center;
 }
 
-/* editor content */
+/* editor content — the only scrollable region */
 .editor-content {
-  flex: 1;
-  padding: 0;
   overflow-y: auto;
+  padding: 0;
+  min-height: 0;
 }
 
-/* editor status bar */
+/* editor status bar — locked bottom row */
 .editor-statusbar {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0.35rem 2rem;
+  padding: 0 2rem;
   background: var(--bg-statusbar);
   border-top: 1px solid var(--border);
   font-family: var(--font-mono);
   font-size: 11px;
   letter-spacing: 0.02em;
   color: var(--text-dim);
-  min-height: 30px;
+  min-height: 0;
   flex-shrink: 0;
 }
 
@@ -502,11 +537,10 @@ body {
   gap: 0.35rem;
 }
 
-/* === LINE NUMBERS === */
-/*
-  line numbers — mid-gray, readable but secondary.
-  matched line-height with body text (1.65) for
-  precise vertical alignment.
+/* === LINE NUMBERS ===
+   continuous counter on every block element.
+   line-height: 1.65 on both gutter and body text
+   ensures the grid never drifts during scroll.
 */
 .lined {
   counter-reset: line;
@@ -535,6 +569,7 @@ body {
   pointer-events: none;
 }
 
+/* empty paragraphs (blank lines in markdown) still get a line number */
 .lined > p:empty {
   min-height: 1.65em;
 }
@@ -641,7 +676,7 @@ body {
   content: '\2014\00a0';
 }
 
-/* code: monospace */
+/* code */
 .page code,
 .note code {
   font-family: var(--font-mono);
@@ -678,7 +713,7 @@ body {
   margin: 0.5rem 0;
 }
 
-/* horizontal rules — minimalist 1px line matching border color */
+/* horizontal rules — minimalist 1px line */
 .page hr,
 .note hr {
   border: none;
@@ -691,30 +726,10 @@ body {
   content: none;
 }
 
-/* dim class */
 .dim {
   color: var(--text-dim);
   font-family: var(--font-mono);
   font-size: 0.85em;
-}
-
-/* === NOTE METADATA FOOTER === */
-.note-meta {
-  padding: 1.5rem 5.5rem 2rem;
-  font-size: 12px;
-  color: var(--text-dim);
-  font-family: var(--font-mono);
-  letter-spacing: 0.01em;
-  border-top: 1px solid var(--border);
-  margin-top: 2rem;
-  max-width: 68ch;
-  display: flex;
-  align-items: center;
-  gap: 0.4rem;
-}
-
-.note-meta .status-icon {
-  flex-shrink: 0;
 }
 
 /* === NOTES INDEX === */
@@ -781,8 +796,24 @@ body {
 
 /* === RESPONSIVE === */
 @media (max-width: 768px) {
+  body {
+    overflow: auto;
+  }
+
   .layout {
     grid-template-columns: 1fr;
+    height: auto;
+    overflow: visible;
+  }
+
+  .editor {
+    height: auto;
+    overflow: visible;
+    grid-template-rows: 44px 1fr 30px;
+  }
+
+  .editor-content {
+    overflow-y: visible;
   }
 
   /* hide desktop sidebar actions */
@@ -807,7 +838,6 @@ body {
     transform: translateX(0);
   }
 
-  /* always show the sidebar-toggle hamburger on mobile */
   .sidebar-toggle {
     display: flex;
     align-items: center;
@@ -830,11 +860,6 @@ body {
   .lined > *::before {
     width: 2.25rem;
   }
-
-  .note-meta {
-    padding-left: 3.5rem;
-    padding-right: 1.5rem;
-  }
 }
 
 @media (max-width: 480px) {
@@ -850,11 +875,6 @@ body {
   .lined > *::before {
     width: 2rem;
     font-size: 11px;
-  }
-
-  .note-meta {
-    padding-left: 2.75rem;
-    padding-right: 1rem;
   }
 }
 

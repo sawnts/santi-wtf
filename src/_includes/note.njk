@@ -4,14 +4,3 @@ layout: base.njk
 <article class="note lined">
   {{ content | safe }}
 </article>
-{% if date or updated %}
-<footer class="note-meta">
-  {% if updated %}
-    <svg class="status-icon"><use href="#icon-calendar"/></svg>
-    <span>last modified {{ updated | readableDateTime }}</span>
-  {% elif date %}
-    <svg class="status-icon"><use href="#icon-calendar"/></svg>
-    <span>planted {{ date | readableDate }}</span>
-  {% endif %}
-</footer>
-{% endif %}
