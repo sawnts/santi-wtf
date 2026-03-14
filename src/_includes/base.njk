@@ -20,6 +20,7 @@
   <link rel="alternate" type="application/rss+xml" title="{{ site.title }}" href="/feed.xml">
 </head>
 <body>
+  {% include "partials/icons.njk" %}
   <div class="layout">
     {% include "partials/sidebar.njk" %}
 
@@ -39,7 +40,7 @@
 
       <footer class="editor-statusbar">
         <span class="status-left">
-          <button class="search-trigger-footer" id="search-trigger-footer" aria-label="filter">⚡ filter</button>
+          <button class="search-trigger-footer" id="search-trigger-footer" aria-label="filter"><svg class="status-icon"><use href="#icon-funnel"/></svg> filter</button>
         </span>
         <span class="status-right">santi.wtf</span>
       </footer>

@@ -183,9 +183,30 @@ body {
   color: var(--text-bright);
 }
 
+/*
+  icons: phosphor regular weight, rendered as inline SVGs via <use>.
+  14px matches the text, currentColor inherits from parent,
+  dim by default, brightens with parent :hover and .active states.
+*/
 .tree-icon {
-  font-size: 13px;
+  width: 15px;
+  height: 15px;
   flex-shrink: 0;
+  color: var(--text-dim);
+  transition: color 0.15s;
+}
+
+.tree-item:hover .tree-icon,
+.tree-item.active .tree-icon {
+  color: var(--text);
+}
+
+/* status bar icon */
+.status-icon {
+  width: 12px;
+  height: 12px;
+  vertical-align: -1px;
+  color: inherit;
 }
 
 /* folder expand/collapse */

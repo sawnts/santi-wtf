@@ -6,17 +6,17 @@
 
   <nav class="file-tree" aria-label="site navigation">
     <a href="/" class="tree-item{% if page.url === '/' %} active{% endif %}">
-      <span class="tree-icon">📄</span> readme
+      <svg class="tree-icon"><use href="#icon-note"/></svg> readme
     </a>
 
     <details class="tree-folder"{% if '/notes/' in page.url %} open{% endif %}>
       <summary class="tree-item folder">
-        <span class="tree-icon">📁</span> notes
+        <svg class="tree-icon"><use href="#icon-folder"/></svg> notes
       </summary>
       <div class="tree-children">
         {% for note in collections.notesByTitle %}
         <a href="{{ note.url }}" class="tree-item child{% if note.url === page.url %} active{% endif %}">
-          <span class="tree-icon">📄</span> {{ note.data.title }}
+          <svg class="tree-icon"><use href="#icon-note"/></svg> {{ note.data.title }}
         </a>
         {% endfor %}
       </div>
@@ -24,24 +24,24 @@
 
     <details class="tree-folder"{% if '/newsletter/' in page.url %} open{% endif %}>
       <summary class="tree-item folder">
-        <span class="tree-icon">📁</span> newsletter
+        <svg class="tree-icon"><use href="#icon-folder"/></svg> newsletter
       </summary>
       <div class="tree-children">
         <a href="/newsletter/" class="tree-item child{% if page.url === '/newsletter/' %} active{% endif %}">
-          <span class="tree-icon">📄</span> subscribe
+          <svg class="tree-icon"><use href="#icon-file"/></svg> subscribe
         </a>
       </div>
     </details>
 
     <details class="tree-folder"{% if '/photos/' in page.url %} open{% endif %}>
       <summary class="tree-item folder">
-        <span class="tree-icon">📁</span> photos
+        <svg class="tree-icon"><use href="#icon-folder"/></svg> photos
       </summary>
       <div class="tree-children">
         {% if collections.photos | length %}
           {% for photo in collections.photos %}
           <a href="{{ photo.url }}" class="tree-item child{% if photo.url === page.url %} active{% endif %}">
-            <span class="tree-icon">📄</span> {{ photo.data.title }}
+            <svg class="tree-icon"><use href="#icon-image"/></svg> {{ photo.data.title }}
           </a>
           {% endfor %}
         {% else %}
