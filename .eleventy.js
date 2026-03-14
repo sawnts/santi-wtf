@@ -82,8 +82,13 @@ export default function (eleventyConfig) {
             } else {
               state = "pre";
             }
-          } else {
+          } else if (/^</.test(line)) {
+            // recognized block element — keep as-is
             output.push(line);
+          } else {
+            // raw text not wrapped in a tag (e.g. text after <hr>)
+            // wrap in a paragraph so it gets a line number
+            output.push("<p>" + line + "</p>");
           }
           break;
 

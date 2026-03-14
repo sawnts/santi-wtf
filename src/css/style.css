@@ -2,23 +2,13 @@
    santi.wtf — editorial digital garden
 
    fixed-frame architecture:
-   - 2-column grid fills the viewport exactly
-   - left: sidebar (100vh flexbox, own scrollbar)
-   - right: editor (100vh grid: header | content | footer)
-   - header and footer are locked; only content scrolls
-   - editor uses margin-left: -1px to overlap the sidebar's
-     border-right, creating flush T-intersections
-
-   line numbering:
-   - every block element is a direct child of .lined
-   - ul/ol/blockquote are flattened at build time into
-     individual .line divs by the numberLines filter
-   - blank spacer divs between block groups get numbered too
-   - CSS counter increments on every direct child
-
-   font strategy:
-   - body/prose: Inter → system sans-serif
-   - meta elements: monospace (system mono stack)
+   - body: overflow hidden, height 100vh — no page scroll
+   - .layout: 2-column CSS grid fills viewport exactly
+   - .sidebar: flexbox column, file-tree scrolls independently
+   - .editor: flexbox column, height 100% of grid cell
+     - header: flex-shrink 0 (locked top)
+     - content: flex 1 + overflow-y auto (scrolls)
+     - statusbar: flex-shrink 0 (locked bottom)
    ============================================ */
 
 /* --- fonts --- */
@@ -50,12 +40,9 @@
   --selection: rgba(200, 200, 200, 0.08);
   --active-bg: #1e1e1e;
   --sidebar-hover: #1c1c1c;
-  --search-bg: #191919;
   --blockquote-border: #444;
   --blockquote-text: #bbb;
-  --scrollbar-thumb: transparent;
-  --scrollbar-thumb-hover: #333;
-  --scrollbar-track: transparent;
+  --scrollbar-thumb: #333;
 }
 
 [data-theme="light"] {
@@ -74,12 +61,9 @@
   --selection: rgba(0, 0, 0, 0.05);
   --active-bg: #e8e8e8;
   --sidebar-hover: #e8e8e8;
-  --search-bg: #f8f8f8;
   --blockquote-border: #ccc;
   --blockquote-text: #666;
-  --scrollbar-thumb: transparent;
-  --scrollbar-thumb-hover: #bbb;
-  --scrollbar-track: transparent;
+  --scrollbar-thumb: #bbb;
 }
 
 /* --- reset --- */
@@ -113,17 +97,13 @@ body {
   text-rendering: optimizeLegibility;
 }
 
-/* --- stealth scrollbars ---
-   invisible by default, appear on hover/scroll.
-   thin profile, dark thumb that blends with the UI.
+/* --- scrollbar theming ---
+   thin dark scrollbar that blends with the editorial aesthetic.
+   always visible but subtle — no transparency tricks.
 */
 * {
   scrollbar-width: thin;
-  scrollbar-color: transparent transparent;
-}
-
-*:hover {
-  scrollbar-color: var(--scrollbar-thumb-hover) transparent;
+  scrollbar-color: var(--scrollbar-thumb) transparent;
 }
 
 ::-webkit-scrollbar {
@@ -136,26 +116,15 @@ body {
 }
 
 ::-webkit-scrollbar-thumb {
-  background: transparent;
+  background: var(--scrollbar-thumb);
   border-radius: 3px;
-  transition: background 0.2s;
 }
 
-*:hover::-webkit-scrollbar-thumb {
-  background: var(--scrollbar-thumb-hover);
-}
-
-/* --- layout ---
-   fixed-frame: 2-column grid, viewport-locked.
-   the editor overlaps the sidebar's border-right by 1px
-   via margin-left: -1px, so horizontal border lines form
-   perfect T-intersections with the vertical divider.
-*/
+/* --- layout --- */
 .layout {
   display: grid;
   grid-template-columns: 300px 1fr;
-  height: 100vh;
-  height: 100dvh;
+  height: 100%;
   overflow: hidden;
   transition: grid-template-columns 0.2s ease;
 }
@@ -174,14 +143,13 @@ body {
 .sidebar {
   display: flex;
   flex-direction: column;
-  height: 100vh;
-  height: 100dvh;
   background: var(--bg-sidebar);
   border-right: 1px solid var(--border);
   overflow: hidden;
   font-family: var(--font-body);
   font-size: 13px;
   transition: transform 0.2s ease, opacity 0.2s ease;
+  min-height: 0;
 }
 
 .sidebar-header {
@@ -190,9 +158,8 @@ body {
   align-items: center;
   justify-content: space-between;
   height: 44px;
-  min-height: 44px;
+  flex: 0 0 44px;
   border-bottom: 1px solid var(--border);
-  flex-shrink: 0;
 }
 
 .site-name {
@@ -201,7 +168,6 @@ body {
   font-weight: 600;
   text-decoration: none;
   letter-spacing: -0.01em;
-  line-height: 44px;
   transition: color 0.15s;
 }
 
@@ -213,7 +179,6 @@ body {
   display: flex;
   align-items: center;
   gap: 0.15rem;
-  height: 100%;
 }
 
 .sidebar-action-btn {
@@ -252,7 +217,8 @@ body {
 
 /* file tree — independent scrolling */
 .file-tree {
-  flex: 1;
+  flex: 1 1 0;
+  min-height: 0;
   padding: 0.5rem 0;
   display: flex;
   flex-direction: column;
@@ -289,7 +255,6 @@ body {
   display: none;
 }
 
-/* icons — thin stroke, sized to match 13px text */
 .tree-icon {
   width: 15px;
   height: 15px;
@@ -378,7 +343,7 @@ body {
 .sidebar-search {
   padding: 0.5rem 0.75rem;
   border-top: 1px solid var(--border);
-  flex-shrink: 0;
+  flex: 0 0 auto;
   display: flex;
   align-items: center;
   gap: 0.5rem;
@@ -434,20 +399,19 @@ body {
 }
 
 /* === EDITOR ===
-   3-row grid: locked header | scrollable content | locked footer.
-   margin-left: -1px overlaps the sidebar's border-right so
-   horizontal borders form flush T-intersections.
+   flexbox column: header and statusbar are flex-shrink: 0 (locked),
+   content is flex: 1 with overflow-y: auto (scrolls independently).
+   height: 100% fills the grid cell from .layout.
 */
 .editor {
-  display: grid;
-  grid-template-rows: 44px 1fr 30px;
-  height: 100vh;
-  height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
   overflow: hidden;
-  margin-left: -1px;
+  min-height: 0;
 }
 
-/* editor header — locked top row */
+/* editor header — locked top */
 .editor-header {
   display: flex;
   align-items: center;
@@ -455,6 +419,7 @@ body {
   padding: 0 2rem;
   border-bottom: 1px solid var(--border);
   background: var(--bg-header);
+  flex: 0 0 44px;
 }
 
 .editor-header-left {
@@ -498,7 +463,7 @@ body {
 [data-theme="light"] .theme-icon-sun { display: none; }
 [data-theme="light"] .theme-icon-moon { display: block; }
 
-/* sidebar toggle in header — visible only when sidebar is collapsed */
+/* sidebar toggle — visible only when sidebar is collapsed */
 .sidebar-toggle {
   display: none;
   background: none;
@@ -519,13 +484,14 @@ body {
   justify-content: center;
 }
 
-/* editor content — the only scrollable region */
+/* editor content — the only part that scrolls */
 .editor-content {
+  flex: 1 1 0;
   overflow-y: auto;
   min-height: 0;
 }
 
-/* editor status bar — locked bottom row */
+/* editor status bar — locked bottom */
 .editor-statusbar {
   display: flex;
   align-items: center;
@@ -537,6 +503,7 @@ body {
   font-size: 11px;
   letter-spacing: 0.02em;
   color: var(--text-dim);
+  flex: 0 0 30px;
 }
 
 .status-left {
@@ -545,15 +512,7 @@ body {
   gap: 0.35rem;
 }
 
-/* === LINE NUMBERS ===
-   continuous CSS counter on every direct child of .lined.
-   the numberLines filter ensures every logical line
-   (including flattened li, blockquote p, and blank spacers)
-   is a direct child, so every line gets a number.
-
-   line-height 1.65 on both gutter numbers and body text
-   keeps them in perfect vertical sync during scroll.
-*/
+/* === LINE NUMBERS === */
 .lined {
   counter-reset: line;
   padding: 1.5rem 0;
@@ -582,12 +541,12 @@ body {
   pointer-events: none;
 }
 
-/* blank spacer lines — same height as text lines, no content */
+/* blank spacer lines */
 .line-blank {
   height: 1.65em;
 }
 
-/* list items — flattened from ul/ol by numberLines filter */
+/* list items — flattened from ul/ol */
 .line-li {
   color: var(--text);
 }
@@ -596,7 +555,7 @@ body {
   color: var(--text-dim);
 }
 
-/* blockquote lines — flattened from blockquote by numberLines filter */
+/* blockquote lines — flattened from blockquote */
 .line-quote {
   color: var(--blockquote-text);
   font-style: italic;
@@ -701,7 +660,7 @@ body {
   margin: 0.5rem 0;
 }
 
-/* horizontal rules — minimalist 1px line */
+/* horizontal rules */
 .page hr,
 .note hr {
   border: none;
@@ -793,8 +752,6 @@ body {
   .editor {
     height: auto;
     overflow: visible;
-    grid-template-rows: 44px 1fr 30px;
-    margin-left: 0;
   }
 
   .editor-content {
@@ -816,6 +773,8 @@ body {
     transform: translateX(-100%);
     transition: transform 0.2s ease;
     border-right: 1px solid var(--border);
+    height: 100vh;
+    height: 100dvh;
   }
 
   .sidebar.open {
