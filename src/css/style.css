@@ -148,6 +148,11 @@ body {
   text-decoration: none;
   font-size: 14px;
   transition: background 0.1s;
+  cursor: pointer;
+  user-select: none;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .tree-item:hover {
@@ -162,6 +167,51 @@ body {
 .tree-icon {
   font-size: 14px;
   flex-shrink: 0;
+}
+
+/* folder expand/collapse */
+.tree-folder {
+  display: flex;
+  flex-direction: column;
+}
+
+.tree-folder > summary {
+  list-style: none;
+}
+
+.tree-folder > summary::-webkit-details-marker {
+  display: none;
+}
+
+.tree-folder > summary.folder::before {
+  content: '▸';
+  font-size: 10px;
+  color: var(--text-dim);
+  position: absolute;
+  left: 0.4rem;
+}
+
+.tree-folder[open] > summary.folder::before {
+  content: '▾';
+}
+
+.tree-folder > summary.folder {
+  position: relative;
+}
+
+.tree-children {
+  display: flex;
+  flex-direction: column;
+}
+
+.tree-item.child {
+  padding-left: 2.25rem;
+  font-size: 13px;
+}
+
+.tree-item.dim {
+  color: var(--text-dim);
+  cursor: default;
 }
 
 /* sidebar footer */

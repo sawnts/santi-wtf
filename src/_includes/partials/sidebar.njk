@@ -8,15 +8,47 @@
     <a href="/" class="tree-item{% if page.url === '/' %} active{% endif %}">
       <span class="tree-icon">📄</span> readme
     </a>
-    <a href="/notes/" class="tree-item folder{% if '/notes/' in page.url %} active{% endif %}">
-      <span class="tree-icon">📁</span> notes
-    </a>
-    <a href="/newsletter/" class="tree-item{% if page.url === '/newsletter/' %} active{% endif %}">
-      <span class="tree-icon">📁</span> newsletter
-    </a>
-    <a href="/photos/" class="tree-item{% if '/photos/' in page.url %} active{% endif %}">
-      <span class="tree-icon">📁</span> photos
-    </a>
+
+    <details class="tree-folder"{% if '/notes/' in page.url %} open{% endif %}>
+      <summary class="tree-item folder">
+        <span class="tree-icon">📁</span> notes
+      </summary>
+      <div class="tree-children">
+        {% for note in collections.notesByTitle %}
+        <a href="{{ note.url }}" class="tree-item child{% if note.url === page.url %} active{% endif %}">
+          <span class="tree-icon">📄</span> {{ note.data.title }}
+        </a>
+        {% endfor %}
+      </div>
+    </details>
+
+    <details class="tree-folder"{% if '/newsletter/' in page.url %} open{% endif %}>
+      <summary class="tree-item folder">
+        <span class="tree-icon">📁</span> newsletter
+      </summary>
+      <div class="tree-children">
+        <a href="/newsletter/" class="tree-item child{% if page.url === '/newsletter/' %} active{% endif %}">
+          <span class="tree-icon">📄</span> subscribe
+        </a>
+      </div>
+    </details>
+
+    <details class="tree-folder"{% if '/photos/' in page.url %} open{% endif %}>
+      <summary class="tree-item folder">
+        <span class="tree-icon">📁</span> photos
+      </summary>
+      <div class="tree-children">
+        {% if collections.photos | length %}
+          {% for photo in collections.photos %}
+          <a href="{{ photo.url }}" class="tree-item child{% if photo.url === page.url %} active{% endif %}">
+            <span class="tree-icon">📄</span> {{ photo.data.title }}
+          </a>
+          {% endfor %}
+        {% else %}
+          <span class="tree-item child dim">coming soon</span>
+        {% endif %}
+      </div>
+    </details>
   </nav>
 
   <div class="sidebar-footer">
