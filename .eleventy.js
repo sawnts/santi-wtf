@@ -50,6 +50,138 @@ export default function (eleventyConfig) {
       });
   });
 
+  // --- numberLines filter ---
+  // flattens markdown-it HTML so every logical line is a direct
+  // child of .lined, enabling continuous CSS counter numbering.
+  // ul/ol → individual line-li divs with dash prefix
+  // blockquote → individual line-quote divs with border span
+  // blank spacer divs inserted between block groups
+  eleventyConfig.addFilter("numberLines", function (html) {
+    if (!html || typeof html !== "string") return html;
+
+    const output = [];
+    const rawLines = html.split("\n");
+    let state = "normal";
+    let buffer = [];
+
+    for (let i = 0; i < rawLines.length; i++) {
+      const line = rawLines[i].trim();
+      if (!line) continue;
+
+      switch (state) {
+        case "normal":
+          if (/^<[uo]l>$/i.test(line)) {
+            state = "list";
+          } else if (/^<blockquote>$/i.test(line)) {
+            state = "quote";
+          } else if (/^<pre/i.test(line)) {
+            buffer = [rawLines[i]];
+            if (/<\/pre>/.test(line)) {
+              output.push(buffer.join("\n"));
+              buffer = [];
+            } else {
+              state = "pre";
+            }
+          } else {
+            output.push(line);
+          }
+          break;
+
+        case "list":
+          if (/^<\/[uo]l>$/i.test(line)) {
+            state = "normal";
+          } else if (/^<li>/i.test(line)) {
+            if (/<\/li>$/i.test(line)) {
+              const content = line
+                .replace(/^<li>/i, "")
+                .replace(/<\/li>$/i, "");
+              output.push(
+                '<div class="line line-li"><span class="li-dash">\u2014 </span>' +
+                  content +
+                  "</div>",
+              );
+            } else {
+              buffer = [line.replace(/^<li>/i, "")];
+            }
+          } else if (/<\/li>$/i.test(line)) {
+            buffer.push(line.replace(/<\/li>$/i, ""));
+            const content = buffer.join(" ");
+            output.push(
+              '<div class="line line-li"><span class="li-dash">\u2014 </span>' +
+                content +
+                "</div>",
+            );
+            buffer = [];
+          } else {
+            buffer.push(line);
+          }
+          break;
+
+        case "quote":
+          if (/^<\/blockquote>$/i.test(line)) {
+            state = "normal";
+          } else if (/^<p>/i.test(line)) {
+            if (/<\/p>$/i.test(line)) {
+              const content = line
+                .replace(/^<p>/i, "")
+                .replace(/<\/p>$/i, "");
+              output.push(
+                '<div class="line line-quote"><span class="quote-border">' +
+                  content +
+                  "</span></div>",
+              );
+            } else {
+              buffer = [line.replace(/^<p>/i, "")];
+            }
+          } else if (/<\/p>$/i.test(line)) {
+            buffer.push(line.replace(/<\/p>$/i, ""));
+            for (const bufLine of buffer) {
+              const trimmed = bufLine.trim();
+              if (trimmed) {
+                output.push(
+                  '<div class="line line-quote"><span class="quote-border">' +
+                    trimmed +
+                    "</span></div>",
+                );
+              }
+            }
+            buffer = [];
+          } else {
+            buffer.push(line);
+          }
+          break;
+
+        case "pre":
+          buffer.push(rawLines[i]);
+          if (/<\/pre>/.test(line)) {
+            output.push(buffer.join("\n"));
+            buffer = [];
+            state = "normal";
+          }
+          break;
+      }
+    }
+
+    // insert blank spacer lines between different block groups
+    const spaced = [];
+    for (let j = 0; j < output.length; j++) {
+      spaced.push(output[j]);
+      if (j < output.length - 1) {
+        const curr = output[j];
+        const next = output[j + 1];
+        const currLi = curr.includes("line-li");
+        const nextLi = next.includes("line-li");
+        const currQ = curr.includes("line-quote");
+        const nextQ = next.includes("line-quote");
+        if (!(currLi && nextLi) && !(currQ && nextQ)) {
+          spaced.push('<div class="line line-blank"></div>');
+        }
+      }
+    }
+
+    return spaced.join("\n");
+  });
+
   // date formatting filter
   eleventyConfig.addFilter("readableDate", (dateObj) => {
     if (!dateObj) return "";
