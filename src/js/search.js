@@ -1,61 +1,63 @@
-// search modal with pagefind
+// inline sidebar fuzzy search
 (function () {
-  var modal = document.getElementById('search-modal');
-  var backdrop = document.getElementById('search-backdrop');
-  var closeBtn = document.getElementById('search-close');
-  var trigger = document.getElementById('search-trigger');
-  var loaded = false;
+  var input = document.getElementById('sidebar-search-input');
+  if (!input) return;
 
-  function openSearch() {
-    if (!modal) return;
-    modal.hidden = false;
+  var items = document.querySelectorAll('.tree-item.child[data-title]');
 
-    if (!loaded) {
-      loaded = true;
-      // load pagefind UI dynamically
-      var script = document.createElement('script');
-      script.src = '/pagefind/pagefind-ui.js';
-      script.onload = function () {
-        new PagefindUI({
-          element: '#search-ui',
-          showSubResults: false,
-          showImages: false,
-        });
-        // focus the search input
-        var input = document.querySelector('.pagefind-ui__search-input');
-        if (input) input.focus();
-      };
-      document.head.appendChild(script);
+  // simple fuzzy match: all characters of query appear in order in target
+  function fuzzyMatch(query, target) {
+    if (!query) return true;
+    query = query.toLowerCase();
+    target = target.toLowerCase();
 
-      var link = document.createElement('link');
-      link.rel = 'stylesheet';
-      link.href = '/pagefind/pagefind-ui.css';
-      document.head.appendChild(link);
-    } else {
-      var input = document.querySelector('.pagefind-ui__search-input');
-      if (input) input.focus();
+    // first check simple includes
+    if (target.indexOf(query) !== -1) return true;
+
+    // fuzzy: chars in order
+    var qi = 0;
+    for (var ti = 0; ti < target.length && qi < query.length; ti++) {
+      if (target[ti] === query[qi]) qi++;
     }
+    return qi === query.length;
   }
 
-  function closeSearch() {
-    if (modal) modal.hidden = true;
-  }
+  input.addEventListener('input', function () {
+    var query = input.value.trim();
 
-  // keyboard shortcut: / to open, esc to close
-  document.addEventListener('keydown', function (e) {
-    if (e.key === '/' && !e.target.matches('input, textarea')) {
-      e.preventDefault();
-      openSearch();
-    }
-    if (e.key === 'Escape' && modal && !modal.hidden) {
-      closeSearch();
-    }
+    items.forEach(function (item) {
+      var title = item.getAttribute('data-title') || '';
+      if (fuzzyMatch(query, title)) {
+        item.classList.remove('filtered-out');
+      } else {
+        item.classList.add('filtered-out');
+      }
+    });
+
+    // auto-expand folders that have visible children
+    var folders = document.querySelectorAll('.tree-folder');
+    folders.forEach(function (folder) {
+      if (query) {
+        var visibleChildren = folder.querySelectorAll('.tree-item.child:not(.filtered-out)');
+        if (visibleChildren.length > 0) {
+          folder.setAttribute('open', '');
+        } else {
+          folder.removeAttribute('open');
+        }
+      }
+    });
   });
 
-  var triggerFooter = document.getElementById('search-trigger-footer');
-
-  if (trigger) trigger.addEventListener('click', openSearch);
-  if (triggerFooter) triggerFooter.addEventListener('click', openSearch);
-  if (backdrop) backdrop.addEventListener('click', closeSearch);
-  if (closeBtn) closeBtn.addEventListener('click', closeSearch);
+  // keyboard shortcut: ctrl/cmd+k focuses search
+  document.addEventListener('keydown', function (e) {
+    if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
+      e.preventDefault();
+      input.focus();
+    }
+    if (e.key === 'Escape' && document.activeElement === input) {
+      input.value = '';
+      input.dispatchEvent(new Event('input'));
+      input.blur();
+    }
+  });
 })();

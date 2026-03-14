@@ -4,3 +4,12 @@ layout: base.njk
 <article class="note lined">
   {{ content | safe }}
 </article>
+{% if date or updated %}
+<footer class="note-meta">
+  {% if updated %}
+    <span>last tended {{ updated | readableDate }}</span>
+  {% elif date %}
+    <span>planted {{ date | readableDate }}</span>
+  {% endif %}
+</footer>
+{% endif %}

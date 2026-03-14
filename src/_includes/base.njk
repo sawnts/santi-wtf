@@ -15,21 +15,28 @@
     })();
   </script>
 
-  <link rel="preload" href="/fonts/JetBrainsMono-Regular.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preconnect" href="https://rsms.me/">
+  <link rel="stylesheet" href="https://rsms.me/inter/inter.css">
   <link rel="stylesheet" href="/css/style.css">
   <link rel="alternate" type="application/rss+xml" title="{{ site.title }}" href="/feed.xml">
 </head>
 <body>
   {% include "partials/icons.njk" %}
-  <div class="layout">
+  <div class="layout" id="layout">
     {% include "partials/sidebar.njk" %}
 
     <div class="editor">
       <header class="editor-header">
-        <span class="editor-filename">{{ title or "readme" }}</span>
+        <div class="editor-header-left">
+          <button class="sidebar-toggle" id="sidebar-toggle" aria-label="open menu">
+            <svg class="header-icon"><use href="#icon-sidebar-show"/></svg>
+          </button>
+          <span class="editor-filename">{{ title or "readme" }}</span>
+        </div>
         <div class="editor-actions">
-          <button class="search-trigger" id="search-trigger" aria-label="search">
-            <span class="search-icon">/</span>
+          <button class="theme-toggle" id="theme-toggle" aria-label="toggle theme">
+            <svg class="header-icon theme-icon-sun"><use href="#icon-sun"/></svg>
+            <svg class="header-icon theme-icon-moon"><use href="#icon-moon"/></svg>
           </button>
         </div>
       </header>
@@ -39,15 +46,11 @@
       </main>
 
       <footer class="editor-statusbar">
-        <span class="status-left">
-          <button class="search-trigger-footer" id="search-trigger-footer" aria-label="filter"><svg class="status-icon"><use href="#icon-funnel"/></svg> filter</button>
-        </span>
+        <span class="status-left">santi villanueva</span>
         <span class="status-right">santi.wtf</span>
       </footer>
     </div>
   </div>
-
-  {% include "partials/search.njk" %}
 
   <script src="/js/theme.js"></script>
   <script src="/js/search.js"></script>
