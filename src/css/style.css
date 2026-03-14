@@ -8,7 +8,7 @@
      sidebar labels, line numbers, status bar, code
 
    spacing rationale:
-   - sidebar 280px: generous room for note titles
+   - sidebar 300px: generous room for note titles
    - content padding 3rem horizontal: breathing room
    - prose max-width 68ch: optimal reading measure
    - line-height 1.65: balanced for sans-serif body text
@@ -29,24 +29,24 @@
 
 /* --- color tokens --- */
 [data-theme="dark"] {
-  --bg: #1a1a1a;
+  --bg: #191919;
   --bg-sidebar: #141414;
-  --bg-header: #1a1a1a;
+  --bg-header: #191919;
   --bg-statusbar: #141414;
   --text: #999;
-  --text-dim: #444;
+  --text-dim: #555;
   --text-bright: #e0e0e0;
   --accent: #e0e0e0;
   --accent-hover: #fff;
-  --border: #242424;
+  --border: #2a2a2a;
   --surface: #1e1e1e;
-  --line-number: #333;
+  --line-number: #444;
   --selection: rgba(200, 200, 200, 0.08);
   --active-bg: #1e1e1e;
-  --sidebar-hover: #1a1a1a;
-  --search-bg: #1a1a1a;
+  --sidebar-hover: #1c1c1c;
+  --search-bg: #191919;
   --blockquote-border: #444;
-  --blockquote-text: #aaa;
+  --blockquote-text: #bbb;
 }
 
 [data-theme="light"] {
@@ -61,7 +61,7 @@
   --accent-hover: #000;
   --border: #e0e0e0;
   --surface: #eee;
-  --line-number: #ddd;
+  --line-number: #ccc;
   --selection: rgba(0, 0, 0, 0.05);
   --active-bg: #e8e8e8;
   --sidebar-hover: #e8e8e8;
@@ -100,7 +100,12 @@ body {
   text-rendering: optimizeLegibility;
 }
 
-/* --- layout --- */
+/* --- layout ---
+   the grid uses a single continuous border strategy:
+   sidebar owns the right border (vertical divider).
+   header/footer borders span the full editor width.
+   no double-borders or "step" at intersections.
+*/
 .layout {
   display: grid;
   grid-template-columns: 300px 1fr;
@@ -136,10 +141,11 @@ body {
 }
 
 .sidebar-header {
-  padding: 0.85rem 1rem 0.85rem 1.25rem;
+  padding: 0 1rem 0 1.25rem;
   display: flex;
   align-items: center;
   justify-content: space-between;
+  height: 44px;
   min-height: 44px;
   border-bottom: 1px solid var(--border);
   flex-shrink: 0;
@@ -151,18 +157,17 @@ body {
   font-weight: 600;
   text-decoration: none;
   letter-spacing: -0.01em;
-  transition: color 0.15s, opacity 0.15s;
+  transition: color 0.15s;
 }
 
 .site-name:hover {
   color: var(--accent-hover);
-  opacity: 0.85;
 }
 
 .sidebar-actions {
   display: flex;
   align-items: center;
-  gap: 0.25rem;
+  gap: 0.15rem;
 }
 
 .sidebar-action-btn {
@@ -170,7 +175,7 @@ body {
   border: none;
   color: var(--text-dim);
   cursor: pointer;
-  padding: 0.25rem;
+  padding: 0.3rem;
   border-radius: 3px;
   display: flex;
   align-items: center;
@@ -179,12 +184,12 @@ body {
 }
 
 .sidebar-action-btn:hover {
-  color: var(--text);
+  color: var(--text-bright);
 }
 
 .sidebar-action-icon {
-  width: 16px;
-  height: 16px;
+  width: 15px;
+  height: 15px;
 }
 
 .sidebar-close {
@@ -237,16 +242,13 @@ body {
   display: none;
 }
 
-/* icons — thin stroke style, 15px to match text */
+/* icons — thin stroke style, sized to match 13px text */
 .tree-icon {
   width: 15px;
   height: 15px;
   flex-shrink: 0;
   color: var(--text-dim);
   transition: color 0.15s;
-  vertical-align: middle;
-  position: relative;
-  top: -0.5px;
 }
 
 .tree-item:hover .tree-icon,
@@ -326,7 +328,7 @@ body {
   cursor: default;
 }
 
-/* sidebar inline search — docked at bottom, native feel */
+/* sidebar inline search — docked at bottom */
 .sidebar-search {
   padding: 0.5rem 0.75rem;
   border-top: 1px solid var(--border);
@@ -342,7 +344,8 @@ body {
   height: 13px;
   color: var(--text-dim);
   flex-shrink: 0;
-  opacity: 0.7;
+  opacity: 0.6;
+  transition: opacity 0.15s;
 }
 
 .search-input {
@@ -364,10 +367,9 @@ body {
 }
 
 .search-input:focus {
-  border-color: var(--text-dim);
+  border-color: var(--text);
 }
 
-.search-input:focus + .search-input-icon,
 .sidebar-search:focus-within .search-input-icon {
   opacity: 1;
 }
@@ -393,7 +395,9 @@ body {
   min-height: 100dvh;
 }
 
-/* editor header — the "tab bar" */
+/* editor header — the "tab bar"
+   height matches sidebar-header exactly (44px)
+   so the horizontal border-bottom is flush with sidebar's border-bottom */
 .editor-header {
   display: flex;
   align-items: center;
@@ -401,6 +405,7 @@ body {
   padding: 0 2rem;
   border-bottom: 1px solid var(--border);
   background: var(--bg-header);
+  height: 44px;
   min-height: 44px;
   flex-shrink: 0;
 }
@@ -438,7 +443,7 @@ body {
 }
 
 .theme-toggle:hover {
-  color: var(--text);
+  color: var(--text-bright);
 }
 
 /* show sun in dark mode, moon in light mode */
@@ -459,7 +464,7 @@ body {
 }
 
 .sidebar-toggle:hover {
-  color: var(--text);
+  color: var(--text-bright);
 }
 
 .layout.sidebar-collapsed .sidebar-toggle {
@@ -499,8 +504,9 @@ body {
 
 /* === LINE NUMBERS === */
 /*
-  line numbers at very low contrast — subtle marginalia,
-  felt not read. a quiet texture that says "this is a document."
+  line numbers — mid-gray, readable but secondary.
+  matched line-height with body text (1.65) for
+  precise vertical alignment.
 */
 .lined {
   counter-reset: line;
@@ -524,7 +530,7 @@ body {
   color: var(--line-number);
   font-family: var(--font-mono);
   font-size: 12px;
-  line-height: inherit;
+  line-height: 1.65;
   user-select: none;
   pointer-events: none;
 }
@@ -546,7 +552,7 @@ body {
   text-underline-offset: 3px;
   text-decoration-thickness: 1px;
   text-decoration-color: var(--text-dim);
-  transition: text-decoration-color 0.15s;
+  transition: text-decoration-color 0.15s, color 0.15s;
 }
 
 .page a:hover,
@@ -606,15 +612,14 @@ body {
   color: var(--text-dim);
 }
 
-/* blockquotes — editorial: elegant left accent, italic, distinct from body */
+/* blockquotes — editorial: left accent, italic, shifted color */
 .page blockquote,
 .note blockquote {
   border-left: 2px solid var(--blockquote-border);
   padding-left: 1.5rem;
   font-style: italic;
   color: var(--blockquote-text);
-  margin: 0.75rem 0;
-  line-height: 1.75;
+  margin: 0.5rem 0;
 }
 
 .page blockquote p,
@@ -673,17 +678,17 @@ body {
   margin: 0.5rem 0;
 }
 
+/* horizontal rules — minimalist 1px line matching border color */
 .page hr,
 .note hr {
   border: none;
-  margin: 0;
+  border-top: 1px solid var(--border);
+  margin: 1.5rem 0;
 }
 
-.page hr::before {
-  content: '---';
-  font-family: var(--font-mono);
-  font-size: 0.88em;
-  color: var(--text-dim);
+.page hr::before,
+.note hr::before {
+  content: none;
 }
 
 /* dim class */
@@ -716,6 +721,7 @@ body {
 .notes-list a {
   color: var(--text);
   text-decoration: none;
+  transition: color 0.15s;
 }
 
 .notes-list a:hover {
@@ -781,7 +787,8 @@ body {
 
   /* hide desktop sidebar actions */
   #toggle-folders,
-  #hide-sidebar {
+  #hide-sidebar,
+  #focus-search {
     display: none;
   }
 

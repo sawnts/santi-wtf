@@ -87,3 +87,15 @@
     }
   });
 })();
+
+// sidebar: search focus button
+(function () {
+  var btn = document.getElementById('focus-search');
+  var input = document.getElementById('sidebar-search-input');
+  if (!btn || !input) return;
+
+  btn.addEventListener('click', function () {
+    input.focus();
+    input.scrollIntoView({ block: 'nearest' });
+  });
+})();
