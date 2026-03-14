@@ -1,0 +1,29 @@
+---
+layout: base.njk
+---
+<article class="note">
+  <header class="note-header">
+    <h1>{{ title }}</h1>
+    <div class="note-meta">
+      {% if date %}
+        <time datetime="{{ date | isoDate }}">{{ date | readableDate }}</time>
+      {% endif %}
+      {% if updated %}
+        <span class="note-updated">· updated {{ updated | readableDate }}</span>
+      {% endif %}
+    </div>
+    {% if tags | length %}
+      <div class="note-tags">
+        {% for tag in tags %}
+          {% if tag !== "notes" %}
+            <span class="tag">{{ tag }}</span>
+          {% endif %}
+        {% endfor %}
+      </div>
+    {% endif %}
+  </header>
+
+  <div class="note-content">
+    {{ content | safe }}
+  </div>
+</article>

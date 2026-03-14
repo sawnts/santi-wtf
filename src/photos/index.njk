@@ -1,0 +1,21 @@
+---
+title: photos
+layout: page.njk
+permalink: /photos/
+---
+
+<h1>photos</h1>
+
+{% if collections.photos | length %}
+<div class="photo-grid">
+  {% for photo in collections.photos %}
+  <div class="photo-grid-item">
+    <a href="{{ photo.url }}">
+      <img src="{{ photo.data.image }}" alt="{{ photo.data.alt or photo.data.title }}" loading="lazy">
+    </a>
+  </div>
+  {% endfor %}
+</div>
+{% else %}
+<p class="text-dim">coming soon.</p>
+{% endif %}

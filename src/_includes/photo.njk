@@ -1,0 +1,21 @@
+---
+layout: base.njk
+---
+<article class="photo-page">
+  <h1>{{ title }}</h1>
+  <div class="photo-meta">
+    {% if date %}
+      <time datetime="{{ date | isoDate }}">{{ date | readableDate }}</time>
+    {% endif %}
+    {% if location %}
+      <span>· {{ location }}</span>
+    {% endif %}
+    {% if camera %}
+      <span>· {{ camera }}</span>
+    {% endif %}
+  </div>
+
+  <div class="photo-content">
+    {{ content | safe }}
+  </div>
+</article>

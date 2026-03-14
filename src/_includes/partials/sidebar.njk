@@ -1,0 +1,60 @@
+<aside class="sidebar" id="sidebar">
+  <div class="sidebar-header">
+    <a href="/" class="site-name">santi.wtf</a>
+    <button class="sidebar-close" id="sidebar-close" aria-label="close menu">&times;</button>
+  </div>
+
+  <nav class="file-tree" aria-label="site navigation">
+    <ul>
+      <li>
+        <a href="/"{% if page.url === "/" %} aria-current="page"{% endif %}>readme</a>
+      </li>
+      <li class="folder">
+        <details{% if "/notes/" in page.url %} open{% endif %}>
+          <summary>notes/</summary>
+          <ul>
+            {% for note in collections.notesByTitle %}
+              <li>
+                <a href="{{ note.url }}"{% if note.url === page.url %} aria-current="page"{% endif %}>{{ note.data.title }}</a>
+              </li>
+            {% endfor %}
+          </ul>
+        </details>
+      </li>
+      <li class="folder">
+        <details{% if "/photos/" in page.url %} open{% endif %}>
+          <summary>photos/</summary>
+          <ul>
+            {% if collections.photos | length %}
+              {% for photo in collections.photos %}
+                <li>
+                  <a href="{{ photo.url }}"{% if photo.url === page.url %} aria-current="page"{% endif %}>{{ photo.data.title }}</a>
+                </li>
+              {% endfor %}
+            {% else %}
+              <li><span class="text-dim">coming soon</span></li>
+            {% endif %}
+          </ul>
+        </details>
+      </li>
+      <li>
+        <a href="/newsletter/"{% if page.url === "/newsletter/" %} aria-current="page"{% endif %}>newsletter</a>
+      </li>
+    </ul>
+  </nav>
+
+  <div class="sidebar-footer">
+    <button class="search-trigger" id="search-trigger" aria-label="search">
+      <span class="search-icon">/</span> search
+    </button>
+    <button class="theme-toggle" id="theme-toggle" aria-label="toggle theme">
+      <span class="theme-icon"></span>
+    </button>
+  </div>
+</aside>
+
+<button class="sidebar-toggle" id="sidebar-toggle" aria-label="open menu">
+  <span></span>
+  <span></span>
+  <span></span>
+</button>
