@@ -1,21 +1,15 @@
 ---
 title: photos
-layout: page.njk
+layout: base.njk
 permalink: /photos/
 ---
 
-<h1>photos</h1>
-
-{% if collections.photos | length %}
-<div class="photo-grid">
+<article class="page lined">
+  {% if collections.photos | length %}
   {% for photo in collections.photos %}
-  <div class="photo-grid-item">
-    <a href="{{ photo.url }}">
-      <img src="{{ photo.data.image }}" alt="{{ photo.data.alt or photo.data.title }}" loading="lazy">
-    </a>
-  </div>
+  <p><a href="{{ photo.url }}">{{ photo.data.title }}</a> <span class="dim">— {{ photo.data.date | readableDate }}</span></p>
   {% endfor %}
-</div>
-{% else %}
-<p class="text-dim">coming soon.</p>
-{% endif %}
+  {% else %}
+  <p class="dim">coming soon.</p>
+  {% endif %}
+</article>

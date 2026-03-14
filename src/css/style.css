@@ -1,5 +1,5 @@
 /* ============================================
-   santi.wtf — minimal, text-focused, code-editor aesthetic
+   santi.wtf — code editor aesthetic
    ============================================ */
 
 /* --- fonts --- */
@@ -29,33 +29,37 @@
 
 /* --- color tokens --- */
 [data-theme="dark"] {
-  --bg: #1a1a1a;
-  --bg-sidebar: #151515;
-  --text: #d4d4d4;
-  --text-dim: #707070;
-  --text-bright: #e8e8e8;
-  --accent: #5dd9c1;
-  --accent-hover: #81e6d9;
-  --border: #2a2a2a;
-  --surface: #212121;
-  --code-bg: #252525;
-  --selection: rgba(93, 217, 193, 0.15);
-  --shadow: rgba(0, 0, 0, 0.3);
+  --bg: #1e1e2e;
+  --bg-sidebar: #181825;
+  --bg-header: #1e1e2e;
+  --bg-statusbar: #181825;
+  --text: #cdd6f4;
+  --text-dim: #585b70;
+  --text-bright: #cdd6f4;
+  --accent: #89b4fa;
+  --accent-hover: #b4d0fb;
+  --border: #313244;
+  --surface: #24243a;
+  --line-number: #45475a;
+  --selection: rgba(137, 180, 250, 0.12);
+  --active-bg: #313244;
 }
 
 [data-theme="light"] {
-  --bg: #fafafa;
-  --bg-sidebar: #f2f2f2;
-  --text: #2a2a2a;
-  --text-dim: #888888;
-  --text-bright: #1a1a1a;
-  --accent: #0e7c6b;
-  --accent-hover: #0a5c4f;
-  --border: #e0e0e0;
-  --surface: #f0f0f0;
-  --code-bg: #eaeaea;
-  --selection: rgba(14, 124, 107, 0.12);
-  --shadow: rgba(0, 0, 0, 0.08);
+  --bg: #eff1f5;
+  --bg-sidebar: #e6e9ef;
+  --bg-header: #eff1f5;
+  --bg-statusbar: #e6e9ef;
+  --text: #4c4f69;
+  --text-dim: #9ca0b0;
+  --text-bright: #4c4f69;
+  --accent: #1e66f5;
+  --accent-hover: #1750c0;
+  --border: #ccd0da;
+  --surface: #e6e9ef;
+  --line-number: #bcc0cc;
+  --selection: rgba(30, 102, 245, 0.1);
+  --active-bg: #ccd0da;
 }
 
 /* --- reset --- */
@@ -73,31 +77,29 @@
 
 /* --- base --- */
 html {
-  scroll-behavior: smooth;
   -webkit-text-size-adjust: 100%;
 }
 
 body {
   font-family: 'JetBrains Mono', 'SF Mono', 'Fira Code', 'Cascadia Code', monospace;
   font-size: 14px;
-  line-height: 1.7;
+  line-height: 1.65;
   color: var(--text);
   background: var(--bg);
   min-height: 100vh;
   min-height: 100dvh;
-  text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
 }
 
 /* --- layout --- */
 .layout {
   display: grid;
-  grid-template-columns: 240px 1fr;
+  grid-template-columns: 220px 1fr;
   min-height: 100vh;
   min-height: 100dvh;
 }
 
-/* --- sidebar --- */
+/* === SIDEBAR === */
 .sidebar {
   position: sticky;
   top: 0;
@@ -108,25 +110,21 @@ body {
   display: flex;
   flex-direction: column;
   overflow-y: auto;
-  padding: 1.5rem 0;
 }
 
 .sidebar-header {
-  padding: 0 1.25rem 1.25rem;
+  padding: 0.75rem 1rem;
   border-bottom: 1px solid var(--border);
-  margin-bottom: 0.75rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 38px;
 }
 
 .site-name {
-  color: var(--text-bright);
-  text-decoration: none;
-  font-weight: 700;
-  font-size: 14px;
-  letter-spacing: -0.02em;
-}
-
-.site-name:hover {
-  color: var(--accent);
+  color: var(--text);
+  font-size: 13px;
+  font-weight: 400;
 }
 
 .sidebar-close {
@@ -136,104 +134,55 @@ body {
 /* file tree */
 .file-tree {
   flex: 1;
-  padding: 0 0.5rem;
+  padding: 0.5rem 0;
+  display: flex;
+  flex-direction: column;
 }
 
-.file-tree ul {
-  list-style: none;
-}
-
-.file-tree > ul > li {
-  margin-bottom: 0.125rem;
-}
-
-.file-tree a {
-  display: block;
-  padding: 0.2rem 0.75rem;
-  color: var(--text-dim);
+.tree-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.3rem 1rem;
+  color: var(--text);
   text-decoration: none;
-  font-size: 13px;
-  border-radius: 4px;
-  transition: color 0.15s, background 0.15s;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+  font-size: 14px;
+  transition: background 0.1s;
 }
 
-.file-tree a:hover {
-  color: var(--text);
+.tree-item:hover {
   background: var(--surface);
 }
 
-.file-tree a[aria-current="page"] {
-  color: var(--accent);
-  background: var(--selection);
+.tree-item.active {
+  background: var(--active-bg);
+  color: var(--text-bright);
 }
 
-/* folder sections */
-.folder > details > summary {
-  display: block;
-  padding: 0.2rem 0.75rem;
-  color: var(--text);
-  font-size: 13px;
-  cursor: pointer;
-  border-radius: 4px;
-  list-style: none;
-  user-select: none;
-}
-
-.folder > details > summary::-webkit-details-marker {
-  display: none;
-}
-
-.folder > details > summary::before {
-  content: '▸ ';
-  color: var(--text-dim);
-}
-
-.folder > details[open] > summary::before {
-  content: '▾ ';
-}
-
-.folder > details > summary:hover {
-  background: var(--surface);
-}
-
-.folder > details > ul {
-  padding-left: 0.75rem;
+.tree-icon {
+  font-size: 14px;
+  flex-shrink: 0;
 }
 
 /* sidebar footer */
 .sidebar-footer {
-  padding: 0.75rem 1.25rem 0;
+  padding: 0.5rem 1rem;
   border-top: 1px solid var(--border);
   margin-top: auto;
-  display: flex;
-  gap: 0.5rem;
-  align-items: center;
 }
 
-.search-trigger,
 .theme-toggle {
   background: none;
-  border: 1px solid var(--border);
+  border: none;
   color: var(--text-dim);
   font-family: inherit;
-  font-size: 12px;
-  padding: 0.3rem 0.6rem;
-  border-radius: 4px;
+  font-size: 14px;
   cursor: pointer;
-  transition: color 0.15s, border-color 0.15s;
+  padding: 0.2rem;
 }
 
-.search-trigger:hover,
 .theme-toggle:hover {
   color: var(--text);
-  border-color: var(--text-dim);
-}
-
-.search-icon {
-  color: var(--accent);
 }
 
 .theme-icon::after {
@@ -244,10 +193,10 @@ body {
 .sidebar-toggle {
   display: none;
   position: fixed;
-  top: 1rem;
-  left: 1rem;
+  top: 0.75rem;
+  left: 0.75rem;
   z-index: 100;
-  background: var(--surface);
+  background: var(--bg-sidebar);
   border: 1px solid var(--border);
   border-radius: 4px;
   padding: 0.5rem;
@@ -264,210 +213,265 @@ body {
   border-radius: 1px;
 }
 
-/* --- main content --- */
-.content {
-  max-width: 72ch;
-  padding: 3rem 2.5rem;
-  width: 100%;
+/* === EDITOR === */
+.editor {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  min-height: 100dvh;
 }
 
-/* --- articles --- */
-.page,
-.note,
-.photo-page {
-  max-width: 65ch;
+/* editor header (filename bar) */
+.editor-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 1rem;
+  border-bottom: 1px solid var(--border);
+  background: var(--bg-header);
+  min-height: 38px;
+  flex-shrink: 0;
 }
 
-/* note header */
-.note-header {
-  margin-bottom: 2rem;
+.editor-filename {
+  font-size: 14px;
+  color: var(--text);
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
 }
 
-.note-header h1 {
-  font-size: 1.5rem;
-  font-weight: 700;
-  color: var(--text-bright);
-  line-height: 1.3;
-  margin-bottom: 0.5rem;
-  text-transform: lowercase;
-}
-
-.note-meta {
-  font-size: 13px;
-  color: var(--text-dim);
-}
-
-.note-updated {
-  color: var(--text-dim);
-}
-
-.note-tags {
-  margin-top: 0.5rem;
+.editor-actions {
   display: flex;
   gap: 0.5rem;
-  flex-wrap: wrap;
+  align-items: center;
 }
 
-.tag {
-  font-size: 12px;
+.search-trigger {
+  background: none;
+  border: none;
   color: var(--text-dim);
-  border: 1px solid var(--border);
-  padding: 0.1rem 0.5rem;
+  font-family: inherit;
+  font-size: 14px;
+  cursor: pointer;
+  padding: 0.2rem 0.4rem;
   border-radius: 3px;
 }
 
-/* --- prose --- */
-.note-content,
-.page {
-  line-height: 1.8;
+.search-trigger:hover {
+  color: var(--text);
+  background: var(--surface);
 }
 
-.note-content h2,
-.note-content h3,
-.page h2,
-.page h3 {
-  font-weight: 700;
-  color: var(--text-bright);
-  margin-top: 2.5rem;
-  margin-bottom: 0.75rem;
-  text-transform: lowercase;
+/* editor content */
+.editor-content {
+  flex: 1;
+  padding: 0;
+  overflow-y: auto;
 }
 
-.note-content h2,
-.page h2 {
-  font-size: 1.2rem;
+/* editor status bar */
+.editor-statusbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.25rem 1rem;
+  background: var(--bg-statusbar);
+  border-top: 1px solid var(--border);
+  font-size: 12px;
+  color: var(--text-dim);
+  min-height: 28px;
+  flex-shrink: 0;
 }
 
-.note-content h3,
-.page h3 {
-  font-size: 1rem;
+.search-trigger-footer {
+  background: none;
+  border: none;
+  color: var(--text-dim);
+  font-family: inherit;
+  font-size: 12px;
+  cursor: pointer;
+  padding: 0;
 }
 
-.note-content p,
-.page p {
-  margin-bottom: 1.25rem;
+.search-trigger-footer:hover {
+  color: var(--text);
 }
 
-.note-content a,
-.page a {
+/* === LINE NUMBERS === */
+.lined {
+  counter-reset: line;
+  padding: 1rem 0;
+}
+
+.lined > * {
+  counter-increment: line;
+  position: relative;
+  padding-left: 4.5rem;
+  padding-right: 2rem;
+  min-height: 1.65em;
+}
+
+.lined > *::before {
+  content: counter(line);
+  position: absolute;
+  left: 0;
+  width: 3.5rem;
+  text-align: right;
+  color: var(--line-number);
+  font-size: 14px;
+  user-select: none;
+  pointer-events: none;
+}
+
+/* empty lines — use <p>&nbsp;</p> in content for blank lines */
+.lined > p:empty {
+  min-height: 1.65em;
+}
+
+/* === PROSE === */
+.page,
+.note {
+  max-width: none;
+}
+
+.page a,
+.note a {
   color: var(--accent);
   text-decoration: underline;
   text-underline-offset: 2px;
   text-decoration-thickness: 1px;
 }
 
-.note-content a:hover,
-.page a:hover {
+.page a:hover,
+.note a:hover {
   color: var(--accent-hover);
 }
 
-.note-content ul,
-.note-content ol,
-.page ul,
-.page ol {
-  margin-bottom: 1.25rem;
-  padding-left: 1.5rem;
-}
-
-.note-content li,
-.page li {
-  margin-bottom: 0.4rem;
-}
-
-.note-content blockquote,
-.page blockquote {
-  border-left: 2px solid var(--accent);
-  padding-left: 1rem;
-  margin: 1.5rem 0;
-  color: var(--text-dim);
-  font-style: italic;
-}
-
-.note-content code,
-.page code {
-  font-family: inherit;
-  background: var(--code-bg);
-  padding: 0.15rem 0.4rem;
-  border-radius: 3px;
-  font-size: 0.9em;
-}
-
-.note-content pre,
-.page pre {
-  background: var(--code-bg);
-  padding: 1.25rem;
-  border-radius: 4px;
-  overflow-x: auto;
-  margin: 1.5rem 0;
-  border: 1px solid var(--border);
-}
-
-.note-content pre code,
-.page pre code {
-  background: none;
-  padding: 0;
-  border-radius: 0;
-}
-
-.note-content img,
-.page img {
-  max-width: 100%;
-  height: auto;
-  border-radius: 4px;
-  margin: 1.5rem 0;
-}
-
-.note-content hr,
-.page hr {
-  border: none;
-  border-top: 1px solid var(--border);
-  margin: 2rem 0;
-}
-
-/* --- page-specific: homepage --- */
-.page h1 {
-  font-size: 1.5rem;
+.page h1,
+.note h1 {
+  font-size: 14px;
   font-weight: 700;
   color: var(--text-bright);
-  margin-bottom: 1.5rem;
   text-transform: lowercase;
 }
 
-/* --- photos --- */
-.photo-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-  gap: 1rem;
+.page h2,
+.note h2 {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--text-bright);
+  margin-top: 0;
+  text-transform: lowercase;
 }
 
-.photo-grid-item {
-  overflow: hidden;
-  border-radius: 4px;
+.page h3,
+.note h3 {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--text-bright);
+  text-transform: lowercase;
+}
+
+.page p,
+.note p {
+  margin-bottom: 0;
+}
+
+.page ul,
+.note ul,
+.page ol,
+.note ol {
+  list-style: none;
+}
+
+.page li,
+.note li {
+  padding-left: 0;
+}
+
+.page li::before {
+  content: '— ';
+  color: var(--text-dim);
+}
+
+.page blockquote,
+.note blockquote {
+  border-left: none;
+  padding-left: 0;
+  font-style: italic;
+  color: var(--text-dim);
+}
+
+.page code,
+.note code {
+  font-family: inherit;
+  color: var(--accent);
+}
+
+.page pre,
+.note pre {
+  background: var(--surface);
+  padding: 1rem;
+  overflow-x: auto;
+  border: 1px solid var(--border);
+  border-radius: 0;
+}
+
+.page pre code,
+.note pre code {
+  color: var(--text);
+}
+
+.page img,
+.note img {
+  max-width: 100%;
+  height: auto;
+  margin: 0.5rem 0;
+}
+
+.page hr,
+.note hr {
+  border: none;
+  border-top: none;
+  margin: 0;
+}
+
+.page hr::before {
+  content: '---';
+  color: var(--text-dim);
+}
+
+/* dim class */
+.dim {
+  color: var(--text-dim);
+}
+
+/* === NOTES INDEX === */
+.notes-list a {
+  color: var(--text);
+  text-decoration: none;
+}
+
+.notes-list a:hover {
+  color: var(--accent);
+}
+
+/* === PHOTOS === */
+.photo-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 0.5rem;
+  padding: 1rem 4.5rem 1rem;
 }
 
 .photo-grid-item img {
   width: 100%;
-  height: 250px;
+  height: 200px;
   object-fit: cover;
   display: block;
-  transition: opacity 0.2s;
 }
 
-.photo-grid-item:hover img {
-  opacity: 0.85;
-}
-
-.photo-grid-item a {
-  text-decoration: none;
-}
-
-.photo-meta {
-  font-size: 13px;
-  color: var(--text-dim);
-  margin-bottom: 2rem;
-}
-
-/* --- search modal --- */
+/* === SEARCH MODAL === */
 .search-modal {
   position: fixed;
   inset: 0;
@@ -492,10 +496,8 @@ body {
   position: relative;
   background: var(--bg);
   border: 1px solid var(--border);
-  border-radius: 8px;
   width: 90%;
-  max-width: 550px;
-  box-shadow: 0 16px 48px var(--shadow);
+  max-width: 500px;
   overflow: hidden;
 }
 
@@ -503,7 +505,7 @@ body {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0.75rem 1rem;
+  padding: 0.5rem 1rem;
   border-bottom: 1px solid var(--border);
   font-size: 13px;
   color: var(--text-dim);
@@ -515,13 +517,12 @@ body {
   color: var(--text-dim);
   font-family: inherit;
   font-size: 11px;
-  padding: 0.15rem 0.5rem;
-  border-radius: 3px;
+  padding: 0.1rem 0.4rem;
   cursor: pointer;
 }
 
 #search-ui {
-  padding: 1rem;
+  padding: 0.75rem;
 }
 
 /* pagefind overrides */
@@ -530,7 +531,6 @@ body {
   background: var(--surface) !important;
   border: 1px solid var(--border) !important;
   color: var(--text) !important;
-  border-radius: 4px !important;
   font-size: 14px !important;
 }
 
@@ -544,19 +544,18 @@ body {
   color: var(--text-dim) !important;
 }
 
-/* --- newsletter --- */
+/* === NEWSLETTER === */
 .newsletter-form {
-  margin-top: 1.5rem;
+  margin-top: 0;
 }
 
 .newsletter-form input[type="email"] {
   font-family: inherit;
   font-size: 14px;
-  padding: 0.5rem 0.75rem;
+  padding: 0.4rem 0.6rem;
   background: var(--surface);
   border: 1px solid var(--border);
   color: var(--text);
-  border-radius: 4px;
   width: 100%;
   max-width: 300px;
 }
@@ -568,26 +567,20 @@ body {
 .newsletter-form button {
   font-family: inherit;
   font-size: 14px;
-  padding: 0.5rem 1rem;
+  padding: 0.4rem 0.8rem;
   background: var(--accent);
   color: var(--bg);
   border: none;
-  border-radius: 4px;
   cursor: pointer;
-  margin-top: 0.5rem;
   font-weight: 700;
+  margin-top: 0.25rem;
 }
 
 .newsletter-form button:hover {
   background: var(--accent-hover);
 }
 
-/* --- utility --- */
-.text-dim {
-  color: var(--text-dim);
-}
-
-/* --- responsive --- */
+/* === RESPONSIVE === */
 @media (max-width: 768px) {
   .layout {
     grid-template-columns: 1fr;
@@ -595,13 +588,11 @@ body {
 
   .sidebar {
     position: fixed;
-    left: -280px;
+    left: -260px;
     top: 0;
-    width: 280px;
+    width: 260px;
     z-index: 150;
-    transition: left 0.25s ease;
-    border-right: 1px solid var(--border);
-    box-shadow: 4px 0 16px var(--shadow);
+    transition: left 0.2s ease;
   }
 
   .sidebar.open {
@@ -611,8 +602,8 @@ body {
   .sidebar-close {
     display: block;
     position: absolute;
-    top: 1rem;
-    right: 1rem;
+    top: 0.5rem;
+    right: 0.75rem;
     background: none;
     border: none;
     color: var(--text-dim);
@@ -625,37 +616,38 @@ body {
     display: flex;
   }
 
-  .content {
-    padding: 3rem 1.5rem 2rem;
+  .editor-header {
+    padding-left: 3rem;
+  }
+
+  .lined > * {
+    padding-left: 3rem;
+    padding-right: 1rem;
+  }
+
+  .lined > *::before {
+    width: 2rem;
   }
 }
 
 @media (max-width: 480px) {
-  .content {
-    padding: 3rem 1rem 2rem;
-  }
-
   body {
     font-size: 13px;
   }
 
-  .note-header h1,
-  .page h1 {
-    font-size: 1.3rem;
+  .lined > * {
+    padding-left: 2.5rem;
+    padding-right: 0.75rem;
   }
 
-  .photo-grid {
-    grid-template-columns: 1fr;
+  .lined > *::before {
+    width: 1.75rem;
+    font-size: 12px;
   }
 }
 
-/* --- reduced motion --- */
 @media (prefers-reduced-motion: reduce) {
   * {
     transition: none !important;
-  }
-
-  html {
-    scroll-behavior: auto;
   }
 }

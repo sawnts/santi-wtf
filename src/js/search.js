@@ -52,7 +52,10 @@
     }
   });
 
+  var triggerFooter = document.getElementById('search-trigger-footer');
+
   if (trigger) trigger.addEventListener('click', openSearch);
+  if (triggerFooter) triggerFooter.addEventListener('click', openSearch);
   if (backdrop) backdrop.addEventListener('click', closeSearch);
   if (closeBtn) closeBtn.addEventListener('click', closeSearch);
 })();

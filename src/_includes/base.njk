@@ -23,9 +23,27 @@
   <div class="layout">
     {% include "partials/sidebar.njk" %}
 
-    <main class="content">
-      {{ content | safe }}
-    </main>
+    <div class="editor">
+      <header class="editor-header">
+        <span class="editor-filename">{{ title or "readme" }}</span>
+        <div class="editor-actions">
+          <button class="search-trigger" id="search-trigger" aria-label="search">
+            <span class="search-icon">/</span>
+          </button>
+        </div>
+      </header>
+
+      <main class="editor-content">
+        {{ content | safe }}
+      </main>
+
+      <footer class="editor-statusbar">
+        <span class="status-left">
+          <button class="search-trigger-footer" id="search-trigger-footer" aria-label="filter">⚡ filter</button>
+        </span>
+        <span class="status-right">santi.wtf</span>
+      </footer>
+    </div>
   </div>
 
   {% include "partials/search.njk" %}
