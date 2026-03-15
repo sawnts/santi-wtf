@@ -1,220 +1,341 @@
 <style>
   .navigator {
-    display: none;
+    display: flex;
     flex-direction: column;
     position: fixed;
     top: 0;
     left: 0;
     bottom: 0;
-    width: var(--size-navigator);
+    height: 100dvh;
+    overflow-x: hidden;
+    overflow-y: scroll;
     background: var(--neutral-base-normal);
     border-right: 1px solid var(--neutral-border-soft);
-    z-index: 10;
-    overflow-y: auto;
+    font-size: var(--font-size-3);
+    z-index: 999;
+    width: 100dvw;
+    max-width: 100dvw;
+    transform: translateX(-100%);
     transition: transform 0.3s ease-in-out;
-  }
-
-  .navigator.open {
-    display: flex;
-    transform: translateX(0);
-  }
-
-  .navigator.closed {
-    transform: translateX(calc(-1 * var(--size-navigator)));
   }
 
   @media screen and (min-width: 768px) {
     .navigator {
-      display: flex;
-    }
-
-    .navigator.closed {
-      display: none;
+      min-width: var(--size-navigator);
+      width: var(--size-navigator);
+      transform: translateX(0);
     }
   }
 
-  .nav-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 0 var(--space);
-    min-height: var(--size-chrome);
-    border-bottom: 1px solid var(--neutral-border-soft);
-    font-size: var(--font-size-2);
-    color: var(--neutral-text-contrast);
+  .navigator.no-transition {
+    transition: none;
+  }
+
+  .navigator.open {
+    transform: translateX(0);
+  }
+
+  .navigator.closed {
+    transform: translateX(-100%);
+  }
+
+  .navigator-header {
     position: sticky;
+    z-index: 999;
     top: 0;
+    left: 0;
+    right: 0;
+    justify-content: space-between;
+    align-items: center;
+    display: flex;
+    gap: 4px;
     background: var(--neutral-base-normal);
-    z-index: 1;
+    border-top: 1px solid var(--neutral-border-soft);
+    border-bottom: 1px solid var(--neutral-border-soft);
+    font-size: var(--font-size-3);
+    min-height: var(--size-chrome);
+    height: var(--size-chrome);
+    padding-left: var(--space);
+    padding-right: var(--space);
   }
 
-  .nav-header-title {
+  .navigator-header a {
+    color: var(--neutral-text-contrast);
+    text-decoration: none;
+  }
+
+  .navigator-header-profile {
+    user-select: none;
     display: flex;
     align-items: center;
+    gap: var(--space);
+    color: var(--neutral-text-soft);
+  }
+
+  .navigator-buttons {
+    display: flex;
     gap: var(--space-half);
   }
 
-  .nav-directory {
-    flex: 1;
-    overflow-y: auto;
-    padding: var(--space-half) 0;
-  }
-
-  .nav-folder {
-    border: none;
-    font: inherit;
-    cursor: pointer;
-  }
-
-  .nav-folder summary {
+  .directory {
     display: flex;
-    align-items: center;
-    gap: var(--space-half);
-    padding: var(--space-half) var(--space);
-    font-size: var(--font-size-2);
-    color: var(--neutral-text-normal);
-    list-style: none;
+    flex-direction: column;
+    padding: var(--space-half);
     user-select: none;
   }
 
-  .nav-folder summary::-webkit-details-marker {
-    display: none;
+  .directory a {
+    text-decoration: none;
   }
 
-  .nav-folder summary:hover {
-    background: var(--neutral-base-contrast);
+  .directory a:hover,
+  .directory a:focus {
+    background: var(--neutral-highlight-normal);
     color: var(--neutral-text-contrast);
   }
 
-  .nav-folder summary svg {
-    fill: var(--neutral-text-soft);
-    flex-shrink: 0;
+  .directory a:hover iconcontainer svg,
+  .directory a:focus iconcontainer svg {
+    fill: var(--neutral-text-contrast);
   }
 
-  .nav-folder summary .folder-icon-open {
-    display: none;
+  .directory .active,
+  .directory .active:hover,
+  .directory .active:focus {
+    background: var(--primary-highlight-normal);
+    color: var(--primary-text-contrast);
   }
 
-  .nav-folder[open] summary .folder-icon-closed {
-    display: none;
+  .directory .active iconcontainer svg {
+    fill: var(--primary-text-contrast);
   }
 
-  .nav-folder[open] summary .folder-icon-open {
-    display: block;
+  .directory details {
+    height: 1.75rem;
+    min-height: 1.75rem;
+    position: relative;
+    width: 100%;
   }
 
-  .nav-list {
+  .directory details[open] {
+    top: 0;
+    height: initial;
+    min-height: initial;
+  }
+
+  .list-item-group {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    width: 100%;
+    height: 1.75rem;
+    min-height: 1.75rem;
     list-style: none;
-    padding: 0;
-    margin: 0;
   }
 
-  .nav-item a {
+  .list-item-group::-webkit-details-marker {
+    display: none;
+  }
+
+  .list-item-group a {
+    height: 1.75rem;
+    min-height: 1.75rem;
+    width: 100%;
+    position: absolute;
+    left: 0;
+    right: 0;
+    padding-left: 1rem;
+    padding-right: var(--space);
+    border-radius: var(--border-radius);
     display: flex;
     align-items: center;
-    gap: var(--space-half);
-    padding: var(--space-half) var(--space);
-    padding-left: calc(var(--space) * 2.5);
-    font-size: var(--font-size-2);
-    color: var(--neutral-text-normal);
+  }
+
+  .list-item-group::before {
+    content: '';
+    position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    top: 6px;
+    left: 2px;
+    height: 16px;
+    width: 14px;
+    z-index: 8;
+    cursor: pointer;
+    background-color: var(--neutral-text-soft);
+    mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 256 256'%3E%3Cpath d='M184.49,136.49l-80,80a12,12,0,0,1-17-17L159,128,87.51,56.49a12,12,0,1,1,17-17l80,80A12,12,0,0,1,184.49,136.49Z'/%3E%3C/svg%3E");
+    mask-size: contain;
+    mask-repeat: no-repeat;
+    mask-position: center;
+    padding: 6px;
+  }
+
+  details[open] > .list-item-group::before {
+    mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 256 256'%3E%3Cpath d='M216.49,104.49l-80,80a12,12,0,0,1-17,0l-80-80a12,12,0,0,1,17-17L128,159l71.51-71.52a12,12,0,0,1,17,17Z'/%3E%3C/svg%3E");
+  }
+
+  .list-item-wrapper {
+    display: flex;
+    flex-direction: column;
+    list-style: none;
+    margin-top: 1.75rem;
+    padding: 0;
+  }
+
+  .list-item {
+    display: flex;
+    white-space: nowrap;
+    min-height: 1.75rem;
+    align-items: center;
+    width: 100%;
+    position: relative;
+  }
+
+  .list-item a {
+    border-radius: var(--border-radius);
+    padding-left: 24px;
+    padding-right: var(--space);
     text-decoration: none;
+    display: flex;
+    align-items: center;
+    width: 100%;
+    min-width: 100%;
+    z-index: 5;
+    text-overflow: ellipsis;
+    height: 1.75rem;
+  }
+
+  iconcontainer {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    position: relative;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  iconcontainer h3 {
+    position: relative;
+    top: 1px;
+    font-size: inherit;
+    font-weight: 400;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
   }
 
-  .nav-item a:hover,
-  .nav-item a[aria-current="page"] {
-    background: var(--neutral-base-contrast);
-    color: var(--neutral-text-contrast);
-  }
-
-  .nav-item a svg {
-    fill: var(--neutral-text-soft);
+  iconcontainer svg {
+    position: relative;
+    top: 1px;
     flex-shrink: 0;
+    fill: var(--neutral-text-normal);
   }
 
-  .nav-single-link {
-    display: flex;
-    align-items: center;
-    gap: var(--space-half);
-    padding: var(--space-half) var(--space);
-    font-size: var(--font-size-2);
-    color: var(--neutral-text-normal);
-    text-decoration: none;
-  }
-
-  .nav-single-link:hover,
-  .nav-single-link[aria-current="page"] {
-    background: var(--neutral-base-contrast);
-    color: var(--neutral-text-contrast);
-  }
-
-  .nav-single-link svg {
-    fill: var(--neutral-text-soft);
-    flex-shrink: 0;
-  }
-
-  .nav-footer {
-    display: flex;
-    align-items: center;
-    gap: var(--space-half);
-    padding: 0 var(--space);
-    min-height: var(--size-chrome);
-    border-top: 1px solid var(--neutral-border-soft);
+  .navigator-footer {
+    margin-top: auto;
     position: sticky;
+    z-index: 999;
     bottom: 0;
+    left: 0;
+    right: 0;
+    border-top: 1px solid var(--neutral-border-soft);
     background: var(--neutral-base-normal);
+    display: flex;
+    align-items: center;
+    gap: var(--space);
+    min-height: var(--size-chrome);
+    height: var(--size-chrome);
+    padding-left: var(--space);
+    padding-right: var(--space);
   }
 
-  .filter-input {
-    flex: 1;
+  .navigator-footer svg {
+    margin-left: var(--space-half);
+    pointer-events: none;
+    fill: var(--neutral-text-soft);
+  }
+
+  .navigator-footer input {
+    width: 100%;
+    padding: 0;
+    outline: none;
+    display: flex;
+    align-items: center;
     background: transparent;
     border: none;
-    outline: none;
     color: var(--neutral-text-normal);
-    font-size: var(--font-size-2);
     font-family: inherit;
-    padding: var(--space-half) 0;
+    font-size: inherit;
   }
 
-  .filter-input::placeholder {
-    color: var(--neutral-text-soft);
+  .directory.searching .filtered-out {
+    display: none;
+  }
+
+  .directory.searching .list-item-group {
+    display: none;
+  }
+
+  .directory.searching .list-item-wrapper {
+    margin-top: 0;
+  }
+
+  .directory.searching .list-item a {
+    padding-left: var(--space) !important;
   }
 </style>
 
 <section class="navigator">
-  <div class="nav-header">
-    <span class="nav-header-title">santi / v1</span>
-  </div>
+  <section class="navigator-header">
+    <div class="navigator-header-profile">
+      <a href="/">santi</a> / v1
+    </div>
+    <div class="navigator-buttons">
+      <button class="btn btn-icon btn-subtle toggle-sidebar" aria-label="toggle sidebar" type="button">
+        <svg height="20" width="20"><use href="#sidebar-simple"></use></svg>
+      </button>
+    </div>
+  </section>
 
-  <nav class="nav-directory">
-    <a class="nav-single-link" href="/" {% if page.url == "/" %}aria-current="page"{% endif %}>
-      <svg width="16" height="16"><use href="#file-md"></use></svg>
-      readme
-    </a>
-
-    <details class="nav-folder" open>
-      <summary>
-        <svg width="16" height="16" class="folder-icon-closed"><use href="#folder"></use></svg>
-        <svg width="16" height="16" class="folder-icon-open"><use href="#folder-open"></use></svg>
-        notes
+  <nav class="directory">
+    <ul style="list-style: none; padding: 0; margin: 0;">
+      <li class="list-item">
+        <a href="/" {% if page.url == "/" %}class="active"{% endif %}>
+          <iconcontainer>
+            <svg class="icon" height="18" width="18"><use href="#file-md"></use></svg>
+            <h3>README</h3>
+          </iconcontainer>
+        </a>
+      </li>
+    </ul>
+    <details {% if page.url.startsWith('/notes/') and page.url != '/notes/' %}open{% endif %}>
+      <summary class="list-item-group">
+        <a href="/notes/" {% if page.url == "/notes/" %}class="active"{% endif %}>
+          <iconcontainer>
+            <svg class="icon" height="18" width="18"><use href="#folder"></use></svg>
+            <h3>Notes</h3>
+          </iconcontainer>
+        </a>
       </summary>
-      <ul class="nav-list">
+      <ol class="list-item-wrapper">
         {% for post in collections.notesByTitle %}
-        <li class="nav-item">
-          <a href="{{ post.url }}" {% if page.url == post.url %}aria-current="page"{% endif %}>
-            <svg width="14" height="14"><use href="#file-md"></use></svg>
-            {{ post.data.title }}
-          </a>
-        </li>
+          <li class="list-item">
+            <a href="{{ post.url }}" {% if page.url == post.url %}class="active"{% endif %}>
+              <iconcontainer>
+                <svg class="icon" height="18" width="18"><use href="#note"></use></svg>
+                <h3>{{ post.data.title }}</h3>
+              </iconcontainer>
+            </a>
+          </li>
         {% endfor %}
-      </ul>
+      </ol>
     </details>
   </nav>
 
-  <div class="nav-footer">
-    <svg width="16" height="16" fill="currentColor"><use href="#funnel-simple"></use></svg>
-    <input type="text" class="filter-input" placeholder="filter...">
-  </div>
+  <section class="navigator-footer">
+    <svg height="18" width="18"><use href="#funnel-simple"></use></svg>
+    <input type="text" class="filter-input" placeholder="Filter">
+  </section>
 </section>

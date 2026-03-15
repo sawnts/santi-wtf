@@ -40,7 +40,7 @@
 
   <div class="file">
     <header class="file-header">
-      <button class="btn btn-icon title-sidebar-btn" id="sidebar-toggle" aria-label="toggle sidebar">
+      <button class="btn btn-icon title-sidebar-btn toggle-sidebar" aria-label="toggle sidebar">
         <svg width="18" height="18"><use href="#sidebar-simple"></use></svg>
       </button>
       <h1>{{ title or "readme" }}</h1>
@@ -87,53 +87,111 @@
       document.documentElement.style.colorScheme = saved || preferred;
     })();
 
-    // --- sidebar toggle ---
+    // --- sidebar ---
     (function() {
-      const btn = document.getElementById('sidebar-toggle');
-      const nav = document.querySelector('.navigator');
-      if (!btn || !nav) return;
+      const sidebar = document.querySelector('.navigator');
+      if (!sidebar) return;
 
-      const STORAGE_KEY = 'sidebar-closed';
+      const breakpoint = 768;
+      function isSmallScreen() { return window.innerWidth < breakpoint; }
 
-      // restore state
-      if (localStorage.getItem(STORAGE_KEY) === 'true') {
-        nav.classList.add('closed');
+      function restoreSidebarState(skipTransition) {
+        if (skipTransition) {
+          sidebar.classList.add('no-transition');
+          document.querySelectorAll('.file, .file-header, .content-footer').forEach(el => el && el.classList.add('no-transition'));
+        }
+        sidebar.classList.remove('open', 'closed');
+        if (isSmallScreen()) {
+          if (localStorage.getItem('sidebarOpenSmall') !== 'true') {
+            // stay closed (default on mobile)
+          } else {
+            sidebar.classList.add('open');
+          }
+        } else {
+          if (localStorage.getItem('sidebarClosedLarge') === 'true') {
+            sidebar.classList.add('closed');
+          }
+        }
+        if (skipTransition) {
+          requestAnimationFrame(() => {
+            requestAnimationFrame(() => {
+              sidebar.classList.remove('no-transition');
+              document.querySelectorAll('.file, .file-header, .content-footer').forEach(el => el && el.classList.remove('no-transition'));
+            });
+          });
+        }
       }
 
-      // on mobile, start closed
-      if (window.innerWidth < 768) {
-        nav.classList.add('closed');
-      }
+      restoreSidebarState(true);
 
-      btn.addEventListener('click', () => {
-        nav.classList.toggle('closed');
-        nav.classList.toggle('open');
-        localStorage.setItem(STORAGE_KEY, nav.classList.contains('closed'));
+      document.querySelectorAll('.toggle-sidebar').forEach(btn => {
+        btn.addEventListener('click', () => {
+          if (isSmallScreen()) {
+            sidebar.classList.toggle('open');
+            localStorage.setItem('sidebarOpenSmall', sidebar.classList.contains('open'));
+          } else {
+            sidebar.classList.toggle('closed');
+            localStorage.setItem('sidebarClosedLarge', sidebar.classList.contains('closed'));
+          }
+        });
       });
 
-      // close sidebar on mobile when clicking a link
-      nav.addEventListener('click', (e) => {
-        if (window.innerWidth < 768 && e.target.closest('a')) {
-          nav.classList.add('closed');
-          nav.classList.remove('open');
+      let wasSmall = isSmallScreen();
+      window.addEventListener('resize', () => {
+        const nowSmall = isSmallScreen();
+        if (wasSmall !== nowSmall) { restoreSidebarState(); wasSmall = nowSmall; }
+      });
+
+      // close sidebar on mobile link click
+      sidebar.addEventListener('click', (e) => {
+        if (e.target.closest('a') && isSmallScreen()) {
+          sidebar.classList.remove('open');
+          localStorage.setItem('sidebarOpenSmall', 'false');
         }
+      });
+
+      // prevent summary click from toggling details when clicking the link
+      document.querySelectorAll('.directory summary').forEach(summary => {
+        summary.addEventListener('click', (e) => {
+          if (e.target.tagName === 'A' || e.target.closest('a')) {
+            e.preventDefault();
+            const link = e.target.tagName === 'A' ? e.target : e.target.closest('a');
+            window.location.href = link.href;
+          }
+        });
       });
     })();
 
     // --- sidebar filter ---
     (function() {
       const input = document.querySelector('.filter-input');
-      if (!input) return;
-      const items = document.querySelectorAll('.nav-item');
+      const directory = document.querySelector('.directory');
+      if (!input || !directory) return;
 
-      input.addEventListener('input', () => {
-        const query = input.value.toLowerCase().trim();
-        let visible = 0;
-        items.forEach(item => {
-          const text = item.textContent.toLowerCase();
-          const match = !query || text.includes(query);
-          item.style.display = match ? '' : 'none';
-          if (match) visible++;
+      input.addEventListener('input', (e) => {
+        const query = e.target.value.toLowerCase().trim();
+
+        if (!query) {
+          directory.classList.remove('searching');
+          directory.querySelectorAll('li, details').forEach(el => el.classList.remove('filtered-out'));
+          return;
+        }
+
+        directory.classList.add('searching');
+        directory.querySelectorAll('details').forEach(d => d.open = true);
+
+        let hasResults = false;
+        directory.querySelectorAll('.list-item a').forEach(link => {
+          const li = link.closest('li');
+          if (!li || link.closest('summary')) return;
+          const match = link.textContent.toLowerCase().includes(query);
+          li.classList.toggle('filtered-out', !match);
+          if (match) hasResults = true;
+        });
+
+        directory.querySelectorAll('details').forEach(d => {
+          const visible = d.querySelectorAll('li:not(.filtered-out)').length;
+          d.classList.toggle('filtered-out', visible === 0);
         });
       });
     })();
