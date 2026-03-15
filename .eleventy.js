@@ -1,6 +1,28 @@
 import markdownIt from "markdown-it";
+import { execSync } from "child_process";
 
 export default function (eleventyConfig) {
+  // git metadata — exposed as global data for templates
+  eleventyConfig.addGlobalData("git", () => {
+    try {
+      const hash = execSync("git rev-parse --short HEAD").toString().trim();
+      const fullHash = execSync("git rev-parse HEAD").toString().trim();
+      return { hash, fullHash };
+    } catch {
+      return { hash: "------", fullHash: "" };
+    }
+  });
+
+  // prev/next navigation filter
+  eleventyConfig.addFilter("getPrevNext", function (page, collection) {
+    if (!collection) return { prev: null, next: null };
+    const idx = collection.findIndex((item) => item.url === page.url);
+    if (idx === -1) return { prev: null, next: null };
+    return {
+      prev: idx > 0 ? collection[idx - 1] : null,
+      next: idx < collection.length - 1 ? collection[idx + 1] : null,
+    };
+  });
   // copy static assets
   eleventyConfig.addPassthroughCopy("public");
   eleventyConfig.addPassthroughCopy("src/css");

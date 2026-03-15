@@ -1,53 +1,67 @@
-// theme toggle
+// theme toggle — uses colorScheme instead of data-theme
 (function () {
   var toggle = document.getElementById('theme-toggle');
   if (!toggle) return;
 
+  // set initial icon visibility
+  function updateIcons(scheme) {
+    var sun = toggle.querySelector('.theme-icon-sun');
+    var moon = toggle.querySelector('.theme-icon-moon');
+    if (sun) sun.style.display = scheme === 'dark' ? 'block' : 'none';
+    if (moon) moon.style.display = scheme === 'light' ? 'block' : 'none';
+  }
+
+  // determine current scheme
+  var current = document.documentElement.style.colorScheme ||
+    (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+  updateIcons(current);
+
   toggle.addEventListener('click', function () {
-    var current = document.documentElement.getAttribute('data-theme');
-    var next = current === 'dark' ? 'light' : 'dark';
-    document.documentElement.setAttribute('data-theme', next);
+    var cur = document.documentElement.style.colorScheme || 'dark';
+    var next = cur === 'dark' ? 'light' : 'dark';
+    document.documentElement.style.colorScheme = next;
     localStorage.setItem('theme', next);
+    updateIcons(next);
   });
 })();
 
 // sidebar: hide/show toggle (desktop)
 (function () {
-  var layout = document.getElementById('layout');
+  var sidebar = document.getElementById('sidebar');
   var hideBtn = document.getElementById('hide-sidebar');
   var showBtn = document.getElementById('sidebar-toggle');
+  var overlay = document.getElementById('sidebar-overlay');
 
-  if (!layout) return;
+  if (!sidebar) return;
 
-  // restore collapsed state
-  if (localStorage.getItem('sidebar-collapsed') === 'true') {
-    layout.classList.add('sidebar-collapsed');
+  // restore collapsed state on desktop
+  if (window.innerWidth > 768 && localStorage.getItem('sidebar-closed') === 'true') {
+    sidebar.classList.add('closed');
   }
 
   if (hideBtn) {
     hideBtn.addEventListener('click', function () {
-      layout.classList.add('sidebar-collapsed');
-      localStorage.setItem('sidebar-collapsed', 'true');
+      sidebar.classList.add('closed');
+      localStorage.setItem('sidebar-closed', 'true');
     });
   }
 
   if (showBtn) {
     showBtn.addEventListener('click', function () {
-      // on desktop: uncollapse. on mobile: open drawer.
       if (window.innerWidth > 768) {
-        layout.classList.remove('sidebar-collapsed');
-        localStorage.setItem('sidebar-collapsed', 'false');
+        // desktop: uncollapse
+        sidebar.classList.remove('closed');
+        localStorage.setItem('sidebar-closed', 'false');
       } else {
-        var sidebar = document.getElementById('sidebar');
-        var overlay = document.getElementById('sidebar-overlay');
-        if (sidebar) sidebar.classList.add('open');
+        // mobile: open drawer
+        sidebar.classList.add('open');
         if (overlay) overlay.classList.add('visible');
       }
     });
   }
 })();
 
-// sidebar: mobile drawer
+// sidebar: mobile drawer close
 (function () {
   var sidebar = document.getElementById('sidebar');
   var closeBtn = document.getElementById('sidebar-close');
@@ -85,6 +99,9 @@
     if (icon) {
       icon.setAttribute('href', expanded ? '#icon-collapse' : '#icon-expand');
     }
+
+    // save folder state
+    saveFolderState();
   });
 })();
 
@@ -97,5 +114,79 @@
   btn.addEventListener('click', function () {
     input.focus();
     input.scrollIntoView({ block: 'nearest' });
+  });
+})();
+
+// sidebar: scroll position persistence
+(function () {
+  var tree = document.getElementById('file-tree');
+  if (!tree) return;
+
+  // restore saved scroll position
+  var saved = sessionStorage.getItem('sidebar-scroll');
+  if (saved !== null) {
+    tree.scrollTop = parseInt(saved, 10);
+  } else {
+    // scroll active item into view on first visit
+    var active = tree.querySelector('.tree-item.active');
+    if (active) {
+      active.scrollIntoView({ block: 'nearest', behavior: 'instant' });
+    }
+  }
+
+  // save scroll position on link clicks (before navigation)
+  tree.querySelectorAll('a').forEach(function (link) {
+    link.addEventListener('click', function () {
+      sessionStorage.setItem('sidebar-scroll', tree.scrollTop);
+    });
+  });
+})();
+
+// sidebar: folder expand/collapse state persistence
+function saveFolderState() {
+  var state = {};
+  document.querySelectorAll('.tree-folder').forEach(function (folder) {
+    var summary = folder.querySelector('summary');
+    if (summary) {
+      var text = summary.textContent.trim();
+      state[text] = folder.hasAttribute('open');
+    }
+  });
+  localStorage.setItem('folder-state', JSON.stringify(state));
+}
+
+(function () {
+  var saved = localStorage.getItem('folder-state');
+  if (!saved) return;
+
+  try {
+    var state = JSON.parse(saved);
+    document.querySelectorAll('.tree-folder').forEach(function (folder) {
+      var summary = folder.querySelector('summary');
+      if (summary) {
+        var text = summary.textContent.trim();
+        if (state.hasOwnProperty(text)) {
+          if (state[text]) {
+            folder.setAttribute('open', '');
+          } else {
+            folder.removeAttribute('open');
+          }
+        }
+      }
+    });
+  } catch (e) {
+    // ignore parse errors
+  }
+
+  // auto-open folder containing active page
+  var active = document.querySelector('.tree-item.active');
+  if (active) {
+    var parent = active.closest('.tree-folder');
+    if (parent) parent.setAttribute('open', '');
+  }
+
+  // listen for toggle events to save state
+  document.querySelectorAll('.tree-folder').forEach(function (folder) {
+    folder.addEventListener('toggle', saveFolderState);
   });
 })();

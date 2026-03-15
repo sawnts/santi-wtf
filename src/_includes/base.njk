@@ -1,17 +1,18 @@
 <!doctype html>
-<html lang="en" data-theme="dark">
+<html lang="en">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>{% if title %}{{ title }} — {{ site.title }}{% else %}{{ site.title }}{% endif %}</title>
   <meta name="description" content="{{ description or site.description }}">
+  <meta name="color-scheme" content="light dark">
 
   <!-- prevent flash of wrong theme -->
   <script>
     (function() {
       var saved = localStorage.getItem('theme');
       var preferred = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
-      document.documentElement.setAttribute('data-theme', saved || preferred);
+      document.documentElement.style.colorScheme = saved || preferred;
     })();
   </script>
 
@@ -22,7 +23,7 @@
 </head>
 <body>
   {% include "partials/icons.njk" %}
-  <div class="layout" id="layout">
+  <div class="layout">
     {% include "partials/sidebar.njk" %}
 
     <div class="editor">
@@ -34,6 +35,17 @@
           <span class="editor-filename">{{ title or "readme" }}</span>
         </div>
         <div class="editor-actions">
+          {% set nav = page | getPrevNext(collections.notesByTitle) %}
+          {% if nav.prev %}
+          <a href="{{ nav.prev.url }}" class="nav-btn" aria-label="previous note" title="{{ nav.prev.data.title }}">
+            <svg class="header-icon"><use href="#icon-chevron-left"/></svg>
+          </a>
+          {% endif %}
+          {% if nav.next %}
+          <a href="{{ nav.next.url }}" class="nav-btn" aria-label="next note" title="{{ nav.next.data.title }}">
+            <svg class="header-icon"><use href="#icon-chevron-right"/></svg>
+          </a>
+          {% endif %}
           <button class="theme-toggle" id="theme-toggle" aria-label="toggle theme">
             <svg class="header-icon theme-icon-sun"><use href="#icon-sun"/></svg>
             <svg class="header-icon theme-icon-moon"><use href="#icon-moon"/></svg>
@@ -48,9 +60,13 @@
       <footer class="editor-statusbar">
         <span class="status-left">
           <svg class="status-icon"><use href="#icon-clock"/></svg>
-          {% if updated %}{{ updated | readableDateTime }}{% elif date %}{{ date | readableDateTime }}{% else %}—{% endif %}
+          {% if updated %}{{ updated | readableDate }}{% elif date %}{{ date | readableDate }}{% else %}—{% endif %}
         </span>
+        {% if git and git.hash %}
+        <a class="status-link" href="https://github.com/sawnts/santi-wtf/commit/{{ git.fullHash }}" target="_blank" rel="noopener">{{ git.hash }}</a>
+        {% else %}
         <span class="status-right">santi.wtf</span>
+        {% endif %}
       </footer>
     </div>
   </div>

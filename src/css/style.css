@@ -1,20 +1,27 @@
 /* ============================================
    santi.wtf — editorial digital garden
 
-   fixed-frame architecture:
-   - body: overflow hidden, height 100vh — no page scroll
-   - .layout: 2-column CSS grid fills viewport exactly
-   - .sidebar: flexbox column, file-tree scrolls independently
-   - .editor: flexbox column, height 100% of grid cell
-     - header: flex-shrink 0 (locked top)
-     - content: flex 1 + overflow-y auto (scrolls)
-     - statusbar: flex-shrink 0 (locked bottom)
+   layout architecture (robin rendle pattern):
+   - sidebar: position fixed, full viewport height
+   - editor-header: position fixed, top 0
+   - editor-statusbar: position fixed, bottom 0
+   - body scrolls naturally — no overflow containment
+   - content has padding-top/bottom for fixed chrome
+
+   color system:
+   - light-dark() with color-scheme property
+   - theme toggle sets html.style.colorScheme
    ============================================ */
 
 /* --- fonts --- */
 :root {
   --font-body: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
   --font-mono: 'SF Mono', 'Fira Code', 'Cascadia Code', ui-monospace, monospace;
+
+  /* layout dimensions */
+  --size-navigator: 300px;
+  --size-chrome: 44px;
+  --size-statusbar: 30px;
 }
 
 @supports (font-variation-settings: normal) {
@@ -23,47 +30,27 @@
   }
 }
 
-/* --- color tokens --- */
-[data-theme="dark"] {
-  --bg: #191919;
-  --bg-sidebar: #141414;
-  --bg-header: #191919;
-  --bg-statusbar: #141414;
-  --text: #999;
-  --text-dim: #555;
-  --text-bright: #e0e0e0;
-  --accent: #e0e0e0;
-  --accent-hover: #fff;
-  --border: #2a2a2a;
-  --surface: #1e1e1e;
-  --line-number: #444;
-  --selection: rgba(200, 200, 200, 0.08);
-  --active-bg: #1e1e1e;
-  --sidebar-hover: #1c1c1c;
-  --blockquote-border: #444;
-  --blockquote-text: #bbb;
-  --scrollbar-thumb: #333;
-}
-
-[data-theme="light"] {
-  --bg: #f8f8f8;
-  --bg-sidebar: #f0f0f0;
-  --bg-header: #f8f8f8;
-  --bg-statusbar: #f0f0f0;
-  --text: #555;
-  --text-dim: #aaa;
-  --text-bright: #1a1a1a;
-  --accent: #1a1a1a;
-  --accent-hover: #000;
-  --border: #e0e0e0;
-  --surface: #eee;
-  --line-number: #ccc;
-  --selection: rgba(0, 0, 0, 0.05);
-  --active-bg: #e8e8e8;
-  --sidebar-hover: #e8e8e8;
-  --blockquote-border: #ccc;
-  --blockquote-text: #666;
-  --scrollbar-thumb: #bbb;
+/* --- color tokens (light-dark) --- */
+:root {
+  color-scheme: light dark;
+  --bg: light-dark(#f8f8f8, #191919);
+  --bg-sidebar: light-dark(#f0f0f0, #141414);
+  --bg-header: light-dark(#f8f8f8, #191919);
+  --bg-statusbar: light-dark(#f0f0f0, #141414);
+  --text: light-dark(#555, #999);
+  --text-dim: light-dark(#aaa, #555);
+  --text-bright: light-dark(#1a1a1a, #e0e0e0);
+  --accent: light-dark(#1a1a1a, #e0e0e0);
+  --accent-hover: light-dark(#000, #fff);
+  --border: light-dark(#e0e0e0, #2a2a2a);
+  --surface: light-dark(#eee, #1e1e1e);
+  --line-number: light-dark(#ccc, #444);
+  --selection: light-dark(rgba(0, 0, 0, 0.05), rgba(200, 200, 200, 0.08));
+  --active-bg: light-dark(#e8e8e8, #1e1e1e);
+  --sidebar-hover: light-dark(#e8e8e8, #1c1c1c);
+  --blockquote-border: light-dark(#ccc, #444);
+  --blockquote-text: light-dark(#666, #bbb);
+  --scrollbar-thumb: light-dark(#bbb, #333);
 }
 
 /* --- reset --- */
@@ -90,17 +77,11 @@ body {
   line-height: 1.65;
   color: var(--text);
   background: var(--bg);
-  height: 100vh;
-  height: 100dvh;
-  overflow: hidden;
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
 }
 
-/* --- scrollbar theming ---
-   thin dark scrollbar that blends with the editorial aesthetic.
-   always visible but subtle — no transparency tricks.
-*/
+/* --- scrollbar theming --- */
 * {
   scrollbar-width: thin;
   scrollbar-color: var(--scrollbar-thumb) transparent;
@@ -120,27 +101,22 @@ body {
   border-radius: 3px;
 }
 
-/* --- layout --- */
+/* --- layout ---
+   .layout is a plain wrapper (no grid).
+   sidebar is position:fixed, editor offsets via margin-left.
+*/
 .layout {
-  display: grid;
-  grid-template-columns: 300px 1fr;
-  height: 100%;
-  overflow: hidden;
-  transition: grid-template-columns 0.2s ease;
+  /* no grid — sidebar and editor position themselves */
 }
 
-.layout.sidebar-collapsed {
-  grid-template-columns: 0px 1fr;
-}
-
-.layout.sidebar-collapsed .sidebar {
-  transform: translateX(-100%);
-  opacity: 0;
-  pointer-events: none;
-}
-
-/* === SIDEBAR === */
+/* === SIDEBAR === position: fixed, full viewport height */
 .sidebar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  width: var(--size-navigator);
+  height: 100dvh;
   display: flex;
   flex-direction: column;
   background: var(--bg-sidebar);
@@ -148,8 +124,13 @@ body {
   overflow: hidden;
   font-family: var(--font-body);
   font-size: 13px;
-  transition: transform 0.2s ease, opacity 0.2s ease;
-  min-height: 0;
+  z-index: 100;
+  transition: transform 0.2s ease;
+}
+
+/* sidebar closed state — slides off-screen */
+.sidebar.closed {
+  transform: translateX(-100%);
 }
 
 .sidebar-header {
@@ -157,9 +138,13 @@ body {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  height: 44px;
-  flex: 0 0 44px;
+  height: var(--size-chrome);
+  min-height: var(--size-chrome);
   border-bottom: 1px solid var(--border);
+  position: sticky;
+  top: 0;
+  background: var(--bg-sidebar);
+  z-index: 10;
 }
 
 .site-name {
@@ -215,7 +200,7 @@ body {
   line-height: 1;
 }
 
-/* file tree — independent scrolling */
+/* file tree — scrolls independently within the fixed sidebar */
 .file-tree {
   flex: 1 1 0;
   min-height: 0;
@@ -339,15 +324,17 @@ body {
   cursor: default;
 }
 
-/* sidebar search — docked at bottom */
+/* sidebar search — docked at bottom via sticky */
 .sidebar-search {
   padding: 0.5rem 0.75rem;
   border-top: 1px solid var(--border);
-  flex: 0 0 auto;
   display: flex;
   align-items: center;
   gap: 0.5rem;
   background: var(--bg-sidebar);
+  position: sticky;
+  bottom: 0;
+  z-index: 10;
 }
 
 .search-input-icon {
@@ -391,7 +378,7 @@ body {
   position: fixed;
   inset: 0;
   background: rgba(0, 0, 0, 0.5);
-  z-index: 140;
+  z-index: 90;
 }
 
 .sidebar-overlay.visible {
@@ -399,27 +386,43 @@ body {
 }
 
 /* === EDITOR ===
-   flexbox column: header and statusbar are flex-shrink: 0 (locked),
-   content is flex: 1 with overflow-y: auto (scrolls independently).
-   height: 100% fills the grid cell from .layout.
+   normal flow element, offset by sidebar width.
+   body scrolls the content naturally.
 */
 .editor {
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-  overflow: hidden;
-  min-height: 0;
+  margin-left: var(--size-navigator);
+  padding-top: var(--size-chrome);
+  padding-bottom: var(--size-statusbar);
+  min-height: 100dvh;
+  transition: margin-left 0.2s ease;
 }
 
-/* editor header — locked top */
+/* when sidebar is closed, editor fills full width */
+.sidebar.closed ~ .editor {
+  margin-left: 0;
+}
+
+/* editor header — position: fixed, locked top */
 .editor-header {
+  position: fixed;
+  top: 0;
+  left: var(--size-navigator);
+  width: calc(100% - var(--size-navigator));
+  height: var(--size-chrome);
   display: flex;
   align-items: center;
   justify-content: space-between;
   padding: 0 2rem;
   border-bottom: 1px solid var(--border);
   background: var(--bg-header);
-  flex: 0 0 44px;
+  z-index: 50;
+  transition: left 0.2s ease, width 0.2s ease;
+}
+
+/* when sidebar is closed, header fills full width */
+.sidebar.closed ~ .editor .editor-header {
+  left: 0;
+  width: 100%;
 }
 
 .editor-header-left {
@@ -437,7 +440,7 @@ body {
 
 .editor-actions {
   display: flex;
-  gap: 0.5rem;
+  gap: 0.25rem;
   align-items: center;
 }
 
@@ -458,12 +461,27 @@ body {
   color: var(--text-bright);
 }
 
-[data-theme="dark"] .theme-icon-sun { display: block; }
-[data-theme="dark"] .theme-icon-moon { display: none; }
-[data-theme="light"] .theme-icon-sun { display: none; }
-[data-theme="light"] .theme-icon-moon { display: block; }
+/* theme icon visibility — JS swaps href, hide the inactive one */
+.theme-icon-sun { display: none; }
+.theme-icon-moon { display: none; }
 
-/* sidebar toggle — visible only when sidebar is collapsed */
+/* prev/next navigation buttons */
+.nav-btn {
+  color: var(--text-dim);
+  padding: 0.35rem;
+  border-radius: 3px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  transition: color 0.15s;
+}
+
+.nav-btn:hover {
+  color: var(--text-bright);
+}
+
+/* sidebar toggle — visible only when sidebar is closed */
 .sidebar-toggle {
   display: none;
   background: none;
@@ -478,21 +496,24 @@ body {
   color: var(--text-bright);
 }
 
-.layout.sidebar-collapsed .sidebar-toggle {
+.sidebar.closed ~ .editor .sidebar-toggle {
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
-/* editor content — the only part that scrolls */
+/* editor content — plain block, body scrolls it */
 .editor-content {
-  flex: 1 1 0;
-  overflow-y: auto;
-  min-height: 0;
+  /* no flex, no overflow — body scrolls naturally */
 }
 
-/* editor status bar — locked bottom */
+/* editor status bar — position: fixed, locked bottom */
 .editor-statusbar {
+  position: fixed;
+  bottom: 0;
+  left: var(--size-navigator);
+  width: calc(100% - var(--size-navigator));
+  height: var(--size-statusbar);
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -503,13 +524,31 @@ body {
   font-size: 11px;
   letter-spacing: 0.02em;
   color: var(--text-dim);
-  flex: 0 0 30px;
+  z-index: 50;
+  transition: left 0.2s ease, width 0.2s ease;
+}
+
+/* when sidebar is closed, statusbar fills full width */
+.sidebar.closed ~ .editor .editor-statusbar {
+  left: 0;
+  width: 100%;
 }
 
 .status-left {
   display: flex;
   align-items: center;
   gap: 0.35rem;
+}
+
+.status-link {
+  color: var(--text-dim);
+  text-decoration: none;
+  font-family: var(--font-mono);
+  transition: color 0.15s;
+}
+
+.status-link:hover {
+  color: var(--text);
 }
 
 /* === LINE NUMBERS === */
@@ -738,49 +777,39 @@ body {
 
 /* === RESPONSIVE === */
 @media (max-width: 768px) {
-  body {
-    overflow: auto;
-    height: auto;
-  }
-
-  .layout {
-    grid-template-columns: 1fr;
-    height: auto;
-    overflow: visible;
-  }
-
-  .editor {
-    height: auto;
-    overflow: visible;
-  }
-
-  .editor-content {
-    overflow-y: visible;
-  }
-
-  #toggle-folders,
-  #hide-sidebar,
-  #focus-search {
-    display: none;
-  }
-
+  /* sidebar becomes overlay drawer */
   .sidebar {
-    position: fixed;
-    left: 0;
-    top: 0;
     width: 300px;
     z-index: 150;
     transform: translateX(-100%);
-    transition: transform 0.2s ease;
-    border-right: 1px solid var(--border);
-    height: 100vh;
-    height: 100dvh;
   }
 
   .sidebar.open {
     transform: translateX(0);
   }
 
+  /* sidebar is never "inline" on mobile — always overlay */
+  .sidebar.closed {
+    transform: translateX(-100%);
+  }
+
+  /* editor fills full width (sidebar is overlay, not pushing) */
+  .editor {
+    margin-left: 0;
+  }
+
+  .editor-header {
+    left: 0;
+    width: 100%;
+    padding-left: 1.5rem;
+  }
+
+  .editor-statusbar {
+    left: 0;
+    width: 100%;
+  }
+
+  /* always show sidebar toggle on mobile */
   .sidebar-toggle {
     display: flex;
     align-items: center;
@@ -791,8 +820,10 @@ body {
     display: block;
   }
 
-  .editor-header {
-    padding-left: 1.5rem;
+  #toggle-folders,
+  #hide-sidebar,
+  #focus-search {
+    display: none;
   }
 
   .lined > * {
