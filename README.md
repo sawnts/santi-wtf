@@ -2,6 +2,7 @@
 layout: layouts/note.njk
 title: readme
 date: 2026-01-01
+permalink: /
 ---
 
 howdy — santi here.
