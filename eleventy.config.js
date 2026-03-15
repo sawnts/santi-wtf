@@ -105,6 +105,18 @@ export default function (eleventyConfig) {
       });
   });
 
+  eleventyConfig.addCollection("newsletter", (collectionApi) => {
+    return collectionApi
+      .getFilteredByGlob("newsletter/**/*.md")
+      .sort((a, b) => b.date - a.date);
+  });
+
+  eleventyConfig.addCollection("photos", (collectionApi) => {
+    return collectionApi
+      .getFilteredByGlob("photos/**/*.md")
+      .sort((a, b) => b.date - a.date);
+  });
+
   // --- markdown ---
   const mdLib = markdownIt({
     html: true,

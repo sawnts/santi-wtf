@@ -332,6 +332,50 @@
         {% endfor %}
       </ol>
     </details>
+    <details {% if page.url.startsWith('/newsletter/') and page.url != '/newsletter/' %}open{% endif %}>
+      <summary class="list-item-group">
+        <a href="/newsletter/" {% if page.url == "/newsletter/" %}class="active"{% endif %}>
+          <iconcontainer>
+            <svg class="icon" height="18" width="18"><use href="#folder"></use></svg>
+            <h3>Newsletter</h3>
+          </iconcontainer>
+        </a>
+      </summary>
+      <ol class="list-item-wrapper">
+        {% for post in collections.newsletter %}
+          <li class="list-item">
+            <a href="{{ post.url }}" {% if page.url == post.url %}class="active"{% endif %}>
+              <iconcontainer>
+                <svg class="icon" height="18" width="18"><use href="#envelope"></use></svg>
+                <h3>{{ post.data.title }}</h3>
+              </iconcontainer>
+            </a>
+          </li>
+        {% endfor %}
+      </ol>
+    </details>
+    <details {% if page.url.startsWith('/photos/') and page.url != '/photos/' %}open{% endif %}>
+      <summary class="list-item-group">
+        <a href="/photos/" {% if page.url == "/photos/" %}class="active"{% endif %}>
+          <iconcontainer>
+            <svg class="icon" height="18" width="18"><use href="#folder"></use></svg>
+            <h3>Photos</h3>
+          </iconcontainer>
+        </a>
+      </summary>
+      <ol class="list-item-wrapper">
+        {% for post in collections.photos %}
+          <li class="list-item">
+            <a href="{{ post.url }}" {% if page.url == post.url %}class="active"{% endif %}>
+              <iconcontainer>
+                <svg class="icon" height="18" width="18"><use href="#image"></use></svg>
+                <h3>{{ post.data.title }}</h3>
+              </iconcontainer>
+            </a>
+          </li>
+        {% endfor %}
+      </ol>
+    </details>
   </nav>
 
   <section class="navigator-footer">
