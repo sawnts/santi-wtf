@@ -1,0 +1,55 @@
+<style>
+  .content-footer {
+    display: flex;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    background: var(--neutral-base-normal);
+    justify-content: space-between;
+    align-items: center;
+    border-top: 1px solid var(--neutral-border-soft);
+    font-size: var(--font-size-3);
+    min-height: var(--size-chrome);
+    height: var(--size-chrome);
+    padding-left: var(--space);
+    padding-right: var(--space);
+    transition: width 0.3s ease-in-out;
+
+    @media screen and (min-width: 768px) {
+      .navigator:not(.closed) ~ .file & {
+        width: calc(100% - var(--size-navigator));
+      }
+    }
+  }
+
+  .content-footer-info {
+    display: flex;
+    gap: var(--space-1);
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    font-variant-numeric: tabular-nums;
+
+    li {
+      display: flex;
+      gap: var(--space-half);
+      align-items: center;
+      line-height: 1;
+      font-size: var(--font-size-2);
+
+      svg {
+        fill: var(--neutral-text-normal);
+      }
+    }
+  }
+</style>
+
+<footer class="content-footer">
+  <ul class="content-footer-info">
+    <li>
+      <svg height="17" width="17"><use href="#calendar-blank"></use></svg>
+      <time datetime="{{ date | htmlDateString }}">{{ date | dinkyDate }}</time>
+    </li>
+  </ul>
+  <span style="font-size: var(--font-size-2); color: var(--neutral-text-soft);">santi.wtf</span>
+</footer>

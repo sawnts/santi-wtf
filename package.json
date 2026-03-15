@@ -1,16 +1,25 @@
 {
   "name": "santi-wtf",
-  "version": "2.0.0",
+  "version": "1.0.0",
   "type": "module",
-  "description": "santi.wtf — personal site",
+  "description": "santi's digital garden",
   "scripts": {
-    "dev": "eleventy --serve",
-    "build": "eleventy && pagefind --site _site",
-    "build:eleventy": "eleventy"
+    "build": "npx @11ty/eleventy",
+    "serve": "npx @11ty/eleventy --serve",
+    "start": "npx @11ty/eleventy --serve"
   },
+  "author": {
+    "name": "santi",
+    "url": "https://santi.wtf/"
+  },
+  "license": "ISC",
   "dependencies": {
     "@11ty/eleventy": "^3.1.2",
-    "markdown-it": "^14.1.1",
-    "pagefind": "^1.4.0"
+    "@11ty/eleventy-plugin-bundle": "^1.0.4",
+    "@11ty/eleventy-plugin-rss": "^1.1.2",
+    "@11ty/eleventy-plugin-syntaxhighlight": "^4.0.0",
+    "luxon": "^2.4.0",
+    "markdown-it": "^13.0.1",
+    "markdown-it-anchor": "^8.6.4"
   }
 }

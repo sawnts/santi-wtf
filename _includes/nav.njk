@@ -1,0 +1,207 @@
+<style>
+  .navigator {
+    display: none;
+    flex-direction: column;
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    width: var(--size-navigator);
+    background: var(--neutral-base-normal);
+    border-right: 1px solid var(--neutral-border-soft);
+    z-index: 10;
+    overflow-y: auto;
+    transition: transform 0.3s ease-in-out;
+  }
+
+  .navigator.open {
+    display: flex;
+    transform: translateX(0);
+  }
+
+  .navigator.closed {
+    transform: translateX(calc(-1 * var(--size-navigator)));
+  }
+
+  @media screen and (min-width: 768px) {
+    .navigator {
+      display: flex;
+    }
+
+    .navigator.closed {
+      display: none;
+    }
+  }
+
+  .nav-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 var(--space);
+    min-height: var(--size-chrome);
+    border-bottom: 1px solid var(--neutral-border-soft);
+    font-size: var(--font-size-2);
+    color: var(--neutral-text-contrast);
+    position: sticky;
+    top: 0;
+    background: var(--neutral-base-normal);
+    z-index: 1;
+  }
+
+  .nav-header-title {
+    display: flex;
+    align-items: center;
+    gap: var(--space-half);
+  }
+
+  .nav-directory {
+    flex: 1;
+    overflow-y: auto;
+    padding: var(--space-half) 0;
+  }
+
+  .nav-folder {
+    border: none;
+    font: inherit;
+    cursor: pointer;
+  }
+
+  .nav-folder summary {
+    display: flex;
+    align-items: center;
+    gap: var(--space-half);
+    padding: var(--space-half) var(--space);
+    font-size: var(--font-size-2);
+    color: var(--neutral-text-normal);
+    list-style: none;
+    user-select: none;
+  }
+
+  .nav-folder summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .nav-folder summary:hover {
+    background: var(--neutral-base-contrast);
+    color: var(--neutral-text-contrast);
+  }
+
+  .nav-folder summary svg {
+    fill: var(--neutral-text-soft);
+    flex-shrink: 0;
+  }
+
+  .nav-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .nav-item a {
+    display: flex;
+    align-items: center;
+    gap: var(--space-half);
+    padding: var(--space-half) var(--space);
+    padding-left: calc(var(--space) * 2.5);
+    font-size: var(--font-size-2);
+    color: var(--neutral-text-normal);
+    text-decoration: none;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .nav-item a:hover,
+  .nav-item a[aria-current="page"] {
+    background: var(--neutral-base-contrast);
+    color: var(--neutral-text-contrast);
+  }
+
+  .nav-item a svg {
+    fill: var(--neutral-text-soft);
+    flex-shrink: 0;
+  }
+
+  .nav-single-link {
+    display: flex;
+    align-items: center;
+    gap: var(--space-half);
+    padding: var(--space-half) var(--space);
+    font-size: var(--font-size-2);
+    color: var(--neutral-text-normal);
+    text-decoration: none;
+  }
+
+  .nav-single-link:hover,
+  .nav-single-link[aria-current="page"] {
+    background: var(--neutral-base-contrast);
+    color: var(--neutral-text-contrast);
+  }
+
+  .nav-single-link svg {
+    fill: var(--neutral-text-soft);
+    flex-shrink: 0;
+  }
+
+  .nav-footer {
+    display: flex;
+    align-items: center;
+    gap: var(--space-half);
+    padding: 0 var(--space);
+    min-height: var(--size-chrome);
+    border-top: 1px solid var(--neutral-border-soft);
+    position: sticky;
+    bottom: 0;
+    background: var(--neutral-base-normal);
+  }
+
+  .filter-input {
+    flex: 1;
+    background: transparent;
+    border: none;
+    outline: none;
+    color: var(--neutral-text-normal);
+    font-size: var(--font-size-2);
+    font-family: inherit;
+    padding: var(--space-half) 0;
+  }
+
+  .filter-input::placeholder {
+    color: var(--neutral-text-soft);
+  }
+</style>
+
+<section class="navigator">
+  <div class="nav-header">
+    <span class="nav-header-title">santi / v1</span>
+  </div>
+
+  <nav class="nav-directory">
+    <a class="nav-single-link" href="/" {% if page.url == "/" %}aria-current="page"{% endif %}>
+      <svg width="16" height="16"><use href="#file-md"></use></svg>
+      readme
+    </a>
+
+    <details class="nav-folder" open>
+      <summary>
+        <svg width="16" height="16"><use href="#note"></use></svg>
+        notes
+      </summary>
+      <ul class="nav-list">
+        {% for post in collections.notesByTitle %}
+        <li class="nav-item">
+          <a href="{{ post.url }}" {% if page.url == post.url %}aria-current="page"{% endif %}>
+            <svg width="14" height="14"><use href="#file-md"></use></svg>
+            {{ post.data.title }}
+          </a>
+        </li>
+        {% endfor %}
+      </ul>
+    </details>
+  </nav>
+
+  <div class="nav-footer">
+    <svg width="16" height="16" fill="currentColor"><use href="#funnel-simple"></use></svg>
+    <input type="text" class="filter-input" placeholder="filter...">
+  </div>
+</section>
