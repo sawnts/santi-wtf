@@ -91,6 +91,18 @@
     flex-shrink: 0;
   }
 
+  .nav-folder summary .folder-icon-open {
+    display: none;
+  }
+
+  .nav-folder[open] summary .folder-icon-closed {
+    display: none;
+  }
+
+  .nav-folder[open] summary .folder-icon-open {
+    display: block;
+  }
+
   .nav-list {
     list-style: none;
     padding: 0;
@@ -184,7 +196,8 @@
 
     <details class="nav-folder" open>
       <summary>
-        <svg width="16" height="16"><use href="#note"></use></svg>
+        <svg width="16" height="16" class="folder-icon-closed"><use href="#folder"></use></svg>
+        <svg width="16" height="16" class="folder-icon-open"><use href="#folder-open"></use></svg>
         notes
       </summary>
       <ul class="nav-list">
