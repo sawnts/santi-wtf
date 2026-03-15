@@ -73,12 +73,21 @@ regular paragraph text. just type normally.
 
 ## adding images
 
+your site has two folders involved with photos:
+
+- **`public/images/`** — where the actual image files go (`.jpg`, `.png`, etc.)
+- **`photos/`** — where photo *posts* go (`.md` files that display those images)
+
+to add an image to any post:
+
 1. put your image file in the `public/images/` folder
 2. reference it in your post like this:
 
 ```markdown
 ![description of the image](/public/images/your-image.jpg)
 ```
+
+this works in notes, newsletters, and photo posts — any post can include images.
 
 ---
 
@@ -156,7 +165,11 @@ here's what i've been up to this month...
 
 ### a photo post
 
-create `photos/seattle-morning.md`:
+two steps — first add the image, then create the post:
+
+1. put `seattle-morning.jpg` in the `public/images/` folder
+2. create `photos/seattle-morning.md`:
+
 ```
 ---
 title: seattle morning
