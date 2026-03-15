@@ -1,233 +1,130 @@
 # CLAUDE.md
 
-This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
+guidance for claude code when working in this repo.
 
-## Project Overview
+## project overview
 
-Static personal website with a terminal-themed interface. No build process except for content sync. Red background frames a floating dark terminal window.
+static personal site built with eleventy 3.x. file-browser UI with a fixed sidebar navigator, light/dark theme, and monospace content area. hosted on github pages at santi.wtf.
 
-**Key Principle: Obsidian is the source of truth.** All content lives in the Obsidian vault (`/Users/santi/Desktop/Areas/Jots/santi.wtf/public`). The site pulls from it via `npm run sync`. Never hardcode content that should come from Obsidian.
+homepage copy lives in `README.md` (with `permalink: /` in frontmatter).
 
-## Commands
+## commands
 
 ```bash
-# Sync content from Obsidian (full sync with git push)
-cd terminal && npm run sync
+# dev server (port 8080, hot reload)
+npm run serve
 
-# Quick sync without git (for testing builds)
-cd terminal && npm run sync:mini
+# build to _site/
+npm run build
 
-# Local development server
-python3 -m http.server 8000
-# Then open http://localhost:8000
-
-# Validate JavaScript syntax
-node --check terminal/app.js
-
-# Lint CSS
-npx stylelint terminal/styles.css --fix
-
-# Deploy (GitHub Pages)
+# deploy (github pages auto-builds on push)
 git push origin main
 ```
 
-## Architecture
+## architecture
 
-**Single-page terminal app** (`terminal/app.js`):
-- Hidden `<input>` captures all keystrokes globally
-- Typing `/` shows slash menu with quick actions
-- Commands execute and render output to `#output` div
-- `explore` command opens force-directed graph visualization on canvas
-- URL routing via `history.pushState` + 404.html redirect pattern
-- ~2800 lines, manages state, command dispatch, and all UI interactions
+**eleventy static site** — no custom build pipeline, no external content source. all content is local markdown.
 
-**Content pipeline** (`terminal/build.js`):
-1. Reads all `.md` files from Obsidian vault (skips files/folders starting with `_`)
-2. Parses frontmatter with gray-matter
-3. Builds filename → slug lookup table (folders become collection tags, filenames become slugs)
-4. **First pass**: Collects note metadata, extracts frontmatter, detects special content types (`habit-tracker`, `now` page)
-5. **Second pass**: Converts markdown to HTML with marked, resolves `[[wikilinks]]` to `data-note` links, handles `![[image.png]]` embeds (copies images to `/terminal/images/`)
-6. **Third pass**: Computes backlinks (which notes link TO each note)
-7. Outputs:
-   - `content/*.html` — One file per note
-   - `data/index.json` — Complete note index with metadata, links, backlinks, excerpts
-   - `data/now-data.json` — Dashboard data (location, reading, mood, energy, etc.)
-   - `data/habits-config.json` — Habits with completion tracking
+**three collections:**
 
-**Flat slug structure**:
-- Folders in Obsidian become "collection" tags (e.g., `1. thinking/my-note.md` → collection: "thinking", slug: "my-note")
-- All notes are stored flat in `terminal/content/` as `{slug}.html`
-- Wikilinks resolve via slug lookup (case-insensitive, spaces → hyphens)
-- Private content: Files in folders/files starting with `_` are skipped entirely
+| collection | folder | url pattern | directory config |
+|-----------|--------|-------------|-----------------|
+| notes | `notes/` | `/notes/{slug}/` | `notes/notes.json` |
+| newsletter | `newsletter/` | `/newsletter/{slug}/` | `newsletter/newsletter.json` |
+| photos | `photos/` | `/photos/{slug}/` | `photos/photos.json` |
 
-**SPA routing for GitHub Pages**:
-- `404.html` stores path in `sessionStorage.pendingRoute`, redirects to `/`
-- `app.js` checks `sessionStorage.pendingRoute` on load and handles routing
-- Allows direct linking to notes via URL (e.g., `/my-note` → resolves via 404.html)
+each collection's `.json` file sets `layout`, `tags`, and `permalink` pattern.
 
-## Key Files
+**layouts** (`_includes/`):
+- `layouts/base.njk` — root HTML shell: inline SVG sprite, meta tags, theme toggle, header with prev/next nav, sidebar management
+- `layouts/note.njk` — wraps content in `.content-area` div
+- `nav.njk` — sidebar navigator with folder tree and search/filter
+- `footer.njk` — fixed footer with published date (calendar) and last-updated date (clock, from git)
 
-| File | Purpose |
+**archive pages** (root-level `.njk` files):
+- `notes.njk` → `/notes/` — table of all notes
+- `newsletter.njk` → `/newsletter/` — table of all newsletters
+- `photos.njk` → `/photos/` — table of all photos
+
+## key files
+
+| file | purpose |
 |------|---------|
-| `index.html` | Root entry point, loads terminal interface |
-| `terminal/app.js` | Command system, graph visualization, newsletter whisper, animations, routing (~2800 lines) |
-| `terminal/build.js` | Obsidian vault parser and HTML converter |
-| `terminal/index.html` | Terminal interface template |
-| `terminal/styles.css` | Dark theme, JetBrains Mono, CSS variables |
-| `terminal/data/index.json` | Complete note index: titles, collections, stages, links, backlinks, excerpts |
-| `404.html` | GitHub Pages SPA redirect handler |
+| `README.md` | homepage content (`permalink: /`) |
+| `eleventy.config.js` | plugins, filters, collections, markdown config |
+| `_includes/layouts/base.njk` | root HTML template with SVG sprite, theme toggle, header |
+| `_includes/nav.njk` | sidebar navigator with folder tree and filter |
+| `_includes/footer.njk` | content footer with dates |
+| `public/css/base.css` | all styles, design tokens, responsive layout |
+| `.eleventyignore` | excludes `CLAUDE.md` and `README.md` from build |
 
-## Command System
+## content
 
-**Essential commands:**
-- `explore` / `ls` — Force-directed graph of all notes with full-text search
-- `cat [note]` / `read [note]` — Display a note's HTML content with backlinks
-- `search [term]` — Full-text search across all notes
-- `random` — Load a random note
-- `now` — Show dashboard with location, reading, mood, habits
-- `about` — About santi
-- `info` — About this site
-- `letters` — Subscribe to newsletter (Buttondown integration, also via whisper popup)
-- `help` — List all commands
-- **Direct title**: Type any note title to load it (e.g., `digital garden`)
-
-**Dispatch logic**: `app.js` evaluates input as:
-1. Slash commands (`/explore`, `/now`)
-2. Registered commands (`cat`, `search`)
-3. Direct note lookup via slug fuzzy match
-4. If unrecognized, triggers "not found" message
-
-## Digital Garden
-
-**Frontmatter (all lowercase for consistency):**
+**frontmatter:**
 ```yaml
 ---
-title: note title
-stage: seedling | growing | evergreen
-planted: 2026-01-24
-tended: 2026-01-24
-tags: [tag1, tag2]
+title: lowercase title
+date: 2026-03-15
 ---
 ```
 
-**Growth stages:**
-- 🌱 **seedling** — New, unpolished idea
-- 🌿 **growing** — Developing, needs more work
-- 🌲 **evergreen** — Mature, reference-worthy (used in header)
+`title` and `date` are required. filenames become URL slugs.
 
-**Wikilinks** (resolved to notes via slug lookup):
-- `[[note-name]]` → Link to `note-name` note
-- `[[note-name|display text]]` → Link with custom display text
-- Private/missing links show: `display text 🔒`
+**images:** put files in `public/images/`, reference as `![alt](/public/images/filename.jpg)`.
 
-**Image embeds:**
-- `![[image.png]]` — Automatically copied from vault to `/terminal/images/`
-- Converted to standard markdown image links with proper paths
-- Supported formats: png, jpg, jpeg, gif, webp, svg
+**all content must be lowercase** — titles, headings, body text. this is a core aesthetic.
 
-**Private content:**
-- Files or folders starting with `_` are skipped during build
-- Use `_drafts/`, `_private/`, etc. to exclude content
-- Private wikilinks (to `_*` notes) show as locked (🔒)
+see `PUBLISHING.md` for the full publishing guide with examples.
 
-## Now Dashboard
+## eleventy config highlights
 
-The `now.md` note (frontmatter only) drives the dashboard displayed via `now` command.
+**plugins:** rss, syntax highlight, bundle
 
-**Expected frontmatter:**
-```yaml
-location: seattle, wa
-status: null
-reading:
-  title: book title
-  author: author name
-  progress: 76
-mood: building
-energy: null
-caffeine: null
-habits:
-  - name: meditation
-    goal: daily stillness
-  - name: exercise
-    goal: daily movement
-```
+**filters:**
+- date formatting: `readableDate`, `shortDate`, `dinkyDate`, `fullDate`, `htmlDateString`, `time`
+- `gitCommitDate` / `gitCommitHash` — git metadata for a file's last commit
+- `filterTagList` — strips internal tags
+- `getPrevNext` — prev/next note navigation
 
-**Habits tracking:**
-- Can be defined in `now.md` OR in a separate note with `type: habit-tracker`
-- Completion data stored in code block: ` ```habits\nmeditation: 1-10, 15\nexercise: 1-28\n``` `
-- `app.js` renders visual completion calendar for current year
-- Days specified as ranges (`1-10`) or individual (`1, 5, 15`)
+**collections:**
+- `notes` — by date desc
+- `notesByTitle` — alphabetical (sidebar)
+- `newsletter` — by date desc
+- `photos` — by date desc
 
-## Newsletter Whisper
+**markdown:** markdown-it with anchor plugin (h1-h4), HTML enabled, linkify enabled
 
-A subtle newsletter signup prompt that appears while reading notes.
+## css architecture (`public/css/base.css`)
 
-**Behavior:**
-- Floating envelope (✉) appears after 15 seconds of reading a note
-- Desktop: bottom-right corner, hover to expand
-- Mobile: middle-right of screen, tap to expand
-- Submits directly to Buttondown API with `whisper` tag for tracking
-- Dismissed state persists per session via `sessionStorage`
-- Does NOT appear during: vim mode, snake game, graph view, or letters mode
+**design tokens (css variables):**
+- colors: neutral scale (100-1200) + primary, using `light-dark()` for dark mode
+- fonts: `--font-mono` (SF Mono / ui-monospace), `--font-sans` (Inter)
+- spacing: `--space-half` through `--space-5`
+- sizing: `--size-navigator` (20rem), `--size-content-width` (40rem), `--size-chrome` (2.25rem)
 
-**Key constants** (`app.js`):
-- `WHISPER_DELAY` — Time before whisper appears (15000ms)
-- `WHISPER_SESSION_KEY` — sessionStorage key for dismissed state
+**layout:**
+- desktop (768px+): fixed sidebar left + content area
+- mobile (<768px): sidebar hidden, toggleable overlay
+- line numbers rendered via CSS counters on `.content-area`
+- view transitions enabled
 
-**Integration points:**
-- `startWhisperTimer()` — Called in `loadNote()` after `isReading = true`
-- `hideWhisper()` — Called in `goHome()`, `clearForCommand()`, `openGraph()`, `startVimTrap()`, `startSnakeGame()`
-- `shouldShowWhisper()` — Guards against showing in wrong states
+## deployment
 
-**Styling** (`styles.css`):
-- `.newsletter-whisper` — Fixed position container
-- `.whisper-envelope` — Animated floating/glowing envelope
-- `.whisper-message` — Expandable form panel
-- Respects `prefers-reduced-motion`
+github actions (`.github/workflows/deploy.yml`):
+1. push to `main` triggers build
+2. `npm ci` + `npm run build`
+3. uploads `_site/` and deploys to github pages
 
-## Content Style
+passthrough copies: `public/`, `images/`, `CNAME`, `.nojekyll`
 
-**All content must be lowercase** — titles, headings, body text, dates. This is a core aesthetic principle and should be consistent across all notes.
+## common tasks
 
-## Mobile & Responsive Design
+**add a note:** create `notes/my-note.md` with frontmatter, commit, push.
 
-**Breakpoints:**
-- `768px` — Tablet layout changes
-- `480px` — Phone layout changes
+**add an image:** drop file in `public/images/`, reference in markdown.
 
-**Mobile-specific behavior:**
-- ASCII banners and complex layouts hidden on phones
-- Command palette moved to bottom of screen for thumb reach
-- Swipe right gesture to navigate back
-- Touch-optimized terminal interface
-- Graph: tap node to select/show title, tap selected node to open (use × button to close)
-- Newsletter whisper appears at middle-right of screen
+**css changes:** edit `public/css/base.css`. design tokens at the top. mobile breakpoint at 768px.
 
-## Security
+**preview locally:** `npm run serve` → `http://localhost:8080`
 
-- `escapeHtml()` and `escapeAttr()` in `app.js` sanitize dynamic content before rendering
-- No hardcoded secrets — all external integrations (e.g., Buttondown newsletter) use client-safe credentials
-- GitHub Pages static hosting — no server-side processing
-- HTML output is pre-built and stateless
-
-## Common Development Tasks
-
-**After syncing content from Obsidian:**
-1. Check that all links resolved: `npm run sync` will log warnings for broken wikilinks
-2. Verify images copied: Check `terminal/images/` for new images
-3. Test note loading: Use `explore` command to verify all notes appear
-4. Check data files: `terminal/data/index.json` should contain all notes with correct metadata
-
-**Debugging wikilinks:**
-- Wikilink resolution is case-insensitive and converts spaces to hyphens
-- If a link shows 🔒, check: (1) Note exists in vault, (2) File doesn't start with `_`, (3) Slug matches filename (not folder path)
-- The slug lookup is built in first pass of `build.js` — re-run sync if adding new notes
-
-**Testing a single note build:**
-- Edit `terminal/build.js` to temporarily filter to one note for faster iteration
-- Or run full sync and check `terminal/content/{slug}.html` directly
-
-**CSS changes:**
-- All colors and fonts defined as CSS variables at top of `terminal/styles.css`
-- Run `npx stylelint terminal/styles.css --fix` before committing
-- Mobile breakpoints: see `@media (max-width: 480px)` sections
+**update homepage:** edit `README.md` in repo root.

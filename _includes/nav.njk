@@ -1,0 +1,392 @@
+<style>
+  .navigator {
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    height: 100dvh;
+    overflow-x: hidden;
+    overflow-y: scroll;
+    background: var(--neutral-base-normal);
+    border-right: 1px solid var(--neutral-border-soft);
+    font-size: var(--font-size-3);
+    z-index: 999;
+    width: 100dvw;
+    max-width: 100dvw;
+    transform: translateX(-100%);
+    transition: transform 0.3s ease-in-out;
+  }
+
+  @media screen and (min-width: 768px) {
+    .navigator {
+      min-width: var(--size-navigator);
+      width: var(--size-navigator);
+      transform: translateX(0);
+    }
+  }
+
+  .navigator.no-transition {
+    transition: none;
+  }
+
+  .navigator.open {
+    transform: translateX(0);
+  }
+
+  .navigator.closed {
+    transform: translateX(-100%);
+  }
+
+  .navigator-header {
+    position: sticky;
+    z-index: 999;
+    top: 0;
+    left: 0;
+    right: 0;
+    justify-content: space-between;
+    align-items: center;
+    display: flex;
+    gap: 4px;
+    background: var(--neutral-base-normal);
+    border-top: 1px solid var(--neutral-border-soft);
+    border-bottom: 1px solid var(--neutral-border-soft);
+    font-size: var(--font-size-3);
+    min-height: var(--size-chrome);
+    height: var(--size-chrome);
+    padding-left: var(--space);
+    padding-right: var(--space);
+  }
+
+  .navigator-header a {
+    color: var(--neutral-text-contrast);
+    text-decoration: none;
+  }
+
+  .navigator-header-profile {
+    user-select: none;
+    display: flex;
+    align-items: center;
+    gap: var(--space);
+    color: var(--neutral-text-soft);
+  }
+
+  .navigator-buttons {
+    display: flex;
+    gap: var(--space-half);
+  }
+
+  .directory {
+    display: flex;
+    flex-direction: column;
+    padding: var(--space-half);
+    user-select: none;
+  }
+
+  .directory a {
+    text-decoration: none;
+  }
+
+  .directory a:hover,
+  .directory a:focus {
+    background: var(--neutral-highlight-normal);
+    color: var(--neutral-text-contrast);
+  }
+
+  .directory a:hover iconcontainer svg,
+  .directory a:focus iconcontainer svg {
+    fill: var(--neutral-text-contrast);
+  }
+
+  .directory .active,
+  .directory .active:hover,
+  .directory .active:focus {
+    background: var(--primary-highlight-normal);
+    color: var(--primary-text-contrast);
+  }
+
+  .directory .active iconcontainer svg {
+    fill: var(--primary-text-contrast);
+  }
+
+  .directory details {
+    height: 1.75rem;
+    min-height: 1.75rem;
+    position: relative;
+    width: 100%;
+  }
+
+  .directory details[open] {
+    top: 0;
+    height: initial;
+    min-height: initial;
+  }
+
+  .list-item-group {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    width: 100%;
+    height: 1.75rem;
+    min-height: 1.75rem;
+    list-style: none;
+  }
+
+  .list-item-group::-webkit-details-marker {
+    display: none;
+  }
+
+  .list-item-group a {
+    height: 1.75rem;
+    min-height: 1.75rem;
+    width: 100%;
+    position: absolute;
+    left: 0;
+    right: 0;
+    padding-left: 1rem;
+    padding-right: var(--space);
+    border-radius: var(--border-radius);
+    display: flex;
+    align-items: center;
+  }
+
+  .list-item-group::before {
+    content: '';
+    position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    top: 6px;
+    left: 2px;
+    height: 16px;
+    width: 14px;
+    z-index: 8;
+    cursor: pointer;
+    background-color: var(--neutral-text-soft);
+    mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 256 256'%3E%3Cpath d='M184.49,136.49l-80,80a12,12,0,0,1-17-17L159,128,87.51,56.49a12,12,0,1,1,17-17l80,80A12,12,0,0,1,184.49,136.49Z'/%3E%3C/svg%3E");
+    mask-size: contain;
+    mask-repeat: no-repeat;
+    mask-position: center;
+    padding: 6px;
+  }
+
+  details[open] > .list-item-group::before {
+    mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 256 256'%3E%3Cpath d='M216.49,104.49l-80,80a12,12,0,0,1-17,0l-80-80a12,12,0,0,1,17-17L128,159l71.51-71.52a12,12,0,0,1,17,17Z'/%3E%3C/svg%3E");
+  }
+
+  .list-item-wrapper {
+    display: flex;
+    flex-direction: column;
+    list-style: none;
+    margin-top: 1.75rem;
+    padding: 0;
+  }
+
+  .list-item {
+    display: flex;
+    white-space: nowrap;
+    min-height: 1.75rem;
+    align-items: center;
+    width: 100%;
+    position: relative;
+  }
+
+  .list-item a {
+    border-radius: var(--border-radius);
+    padding-left: 1rem;
+    padding-right: var(--space);
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    width: 100%;
+    min-width: 100%;
+    z-index: 5;
+    text-overflow: ellipsis;
+    height: 1.75rem;
+  }
+
+  details .list-item a {
+    padding-left: 24px;
+  }
+
+  iconcontainer {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    position: relative;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  iconcontainer h3 {
+    position: relative;
+    top: 1px;
+    font-size: inherit;
+    font-weight: 400;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  iconcontainer svg {
+    position: relative;
+    top: 1px;
+    flex-shrink: 0;
+    fill: var(--neutral-text-normal);
+  }
+
+  .navigator-footer {
+    margin-top: auto;
+    position: sticky;
+    z-index: 999;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    border-top: 1px solid var(--neutral-border-soft);
+    background: var(--neutral-base-normal);
+    display: flex;
+    align-items: center;
+    gap: var(--space);
+    min-height: var(--size-chrome);
+    height: var(--size-chrome);
+    padding-left: var(--space);
+    padding-right: var(--space);
+  }
+
+  .navigator-footer svg {
+    margin-left: var(--space-half);
+    pointer-events: none;
+    fill: var(--neutral-text-soft);
+  }
+
+  .navigator-footer input {
+    width: 100%;
+    padding: 0;
+    outline: none;
+    display: flex;
+    align-items: center;
+    background: transparent;
+    border: none;
+    color: var(--neutral-text-normal);
+    font-family: inherit;
+    font-size: inherit;
+  }
+
+  .directory.searching .filtered-out {
+    display: none;
+  }
+
+  .directory.searching .list-item-group {
+    display: none;
+  }
+
+  .directory.searching .list-item-wrapper {
+    margin-top: 0;
+  }
+
+  .directory.searching .list-item a {
+    padding-left: var(--space) !important;
+  }
+</style>
+
+<section class="navigator">
+  <section class="navigator-header">
+    <div class="navigator-header-profile">
+      <a href="/">santi villanueva</a> / v3
+    </div>
+    <div class="navigator-buttons">
+      <button class="btn btn-icon btn-subtle toggle-details" aria-label="collapse/expand all" type="button">
+        <svg height="20" width="20"><use href="#arrows-out-line-vertical"></use></svg>
+      </button>
+      <button class="btn btn-icon btn-subtle toggle-sidebar" aria-label="toggle sidebar" type="button">
+        <svg height="20" width="20"><use href="#sidebar-simple"></use></svg>
+      </button>
+    </div>
+  </section>
+
+  <nav class="directory">
+    <ul style="list-style: none; padding: 0; margin: 0;">
+      <li class="list-item">
+        <a href="/" {% if page.url == "/" %}class="active"{% endif %}>
+          <iconcontainer>
+            <svg class="icon" height="18" width="18"><use href="#file-md"></use></svg>
+            <h3>README</h3>
+          </iconcontainer>
+        </a>
+      </li>
+    </ul>
+    <details {% if page.url.startsWith('/notes/') and page.url != '/notes/' %}open{% endif %}>
+      <summary class="list-item-group">
+        <a href="/notes/" {% if page.url == "/notes/" %}class="active"{% endif %}>
+          <iconcontainer>
+            <svg class="icon" height="18" width="18"><use href="#folder"></use></svg>
+            <h3>Notes</h3>
+          </iconcontainer>
+        </a>
+      </summary>
+      <ol class="list-item-wrapper">
+        {% for post in collections.notesByTitle %}
+          <li class="list-item">
+            <a href="{{ post.url }}" {% if page.url == post.url %}class="active"{% endif %}>
+              <iconcontainer>
+                <svg class="icon" height="18" width="18"><use href="#note"></use></svg>
+                <h3>{{ post.data.title }}</h3>
+              </iconcontainer>
+            </a>
+          </li>
+        {% endfor %}
+      </ol>
+    </details>
+    <details {% if page.url.startsWith('/newsletter/') and page.url != '/newsletter/' %}open{% endif %}>
+      <summary class="list-item-group">
+        <a href="/newsletter/" {% if page.url == "/newsletter/" %}class="active"{% endif %}>
+          <iconcontainer>
+            <svg class="icon" height="18" width="18"><use href="#folder"></use></svg>
+            <h3>Newsletter</h3>
+          </iconcontainer>
+        </a>
+      </summary>
+      <ol class="list-item-wrapper">
+        {% for post in collections.newsletter %}
+          <li class="list-item">
+            <a href="{{ post.url }}" {% if page.url == post.url %}class="active"{% endif %}>
+              <iconcontainer>
+                <svg class="icon" height="18" width="18"><use href="#envelope"></use></svg>
+                <h3>{{ post.data.title }}</h3>
+              </iconcontainer>
+            </a>
+          </li>
+        {% endfor %}
+      </ol>
+    </details>
+    <details {% if page.url.startsWith('/photos/') and page.url != '/photos/' %}open{% endif %}>
+      <summary class="list-item-group">
+        <a href="/photos/" {% if page.url == "/photos/" %}class="active"{% endif %}>
+          <iconcontainer>
+            <svg class="icon" height="18" width="18"><use href="#folder"></use></svg>
+            <h3>Photos</h3>
+          </iconcontainer>
+        </a>
+      </summary>
+      <ol class="list-item-wrapper">
+        {% for post in collections.photos %}
+          <li class="list-item">
+            <a href="{{ post.url }}" {% if page.url == post.url %}class="active"{% endif %}>
+              <iconcontainer>
+                <svg class="icon" height="18" width="18"><use href="#image"></use></svg>
+                <h3>{{ post.data.title }}</h3>
+              </iconcontainer>
+            </a>
+          </li>
+        {% endfor %}
+      </ol>
+    </details>
+  </nav>
+
+  <section class="navigator-footer">
+    <svg height="18" width="18"><use href="#funnel-simple"></use></svg>
+    <input type="text" class="filter-input" placeholder="Filter">
+  </section>
+</section>
