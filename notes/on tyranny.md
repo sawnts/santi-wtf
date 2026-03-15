@@ -1,15 +1,11 @@
 ---
-title: on tyranny — timothy snyder
+title: on tyranny
 date: 2026-03-09
 ---
 
-# on tyranny — timothy snyder
+on tyranny by timothy snyder is a short, urgent book about how authoritarians seize power through the very democratic structures designed to prevent them — and what citizens can do about it.
 
-a short, urgent book about how authoritarians seize power through the very democratic structures designed to prevent them — and what citizens can do about it.
-
-## core argument
-
-institutions don't defend themselves. people do. snyder's thesis is simple: if citizens don't actively protect democratic norms, authoritarians will exploit that passivity to dismantle them from within.
+in it, snyder makes the argument that institutions don't defend themselves. people do. his thesis is simple: if citizens don't actively protect democratic norms, authoritarians will exploit that passivity to dismantle them from within.
 
 ## history as a cautionary tale
 
