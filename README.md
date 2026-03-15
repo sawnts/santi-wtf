@@ -5,7 +5,7 @@ date: 2026-01-01
 permalink: /
 ---
 
-howdy — santi here.
+yo — santi here.
 
 i'm obsessed with the creative process. i write, take photos, and build shit i like.
 
