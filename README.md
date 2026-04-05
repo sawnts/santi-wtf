@@ -5,7 +5,7 @@ date: 2026-01-01
 permalink: /
 ---
 
-!(/public/images/amsterdam-thrift-store.jpg)
+!(/images/amsterdam-thrift-store.jpg)
 
 yo — santi here.
 
