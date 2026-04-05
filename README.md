@@ -5,6 +5,8 @@ date: 2026-01-01
 permalink: /
 ---
 
+!(/public/images/amsterdam-thrift-store.jpg)
+
 yo — santi here.
 
 i'm a peruvian-born creative based in seattle.
