@@ -7,12 +7,14 @@ permalink: /
 
 yo — santi here.
 
-i'm obsessed with the creative process. i write, take photos, and build shit i like.
+i'm a peruvian-born creative based in seattle.
 
-i spend my days slinging software and exploring the intersection between creativity, philosophy, and business. when i'm not working, you'll catch me soaking in art, moving my body, and pushing pawns.
+i spend most of my days overcaffeinated, slinging software and bleeding on my keyboard. 
 
-this site is my digital garden — my thinking made visible.
+when i'm not working, you'll catch me soaking in art, riding my bike around the city, and pushing pawns.
+
+this site is a collection of scribbles, images, and god knows what.
 
 ---
 
-say hi at [hi@santi.wtf](mailto:hi@santi.wtf)
+come say hi at [hi@santi.wtf](mailto:hi@santi.wtf)
