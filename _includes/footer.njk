@@ -50,13 +50,21 @@
       <svg height="17" width="17"><use href="#calendar-blank"></use></svg>
       <time datetime="{{ date | htmlDateString }}">{{ date | dinkyDate }}</time>
     </li>
-    {% set lastUpdated = page.inputPath | gitCommitDate %}
-    {% if lastUpdated %}
     <li>
       <svg height="17" width="17"><use href="#clock"></use></svg>
-      <time datetime="{{ lastUpdated | htmlDateString }}">{{ lastUpdated | dinkyDate }}</time>
+      <time id="local-time"></time>
     </li>
-    {% endif %}
   </ul>
   <span style="font-size: var(--font-size-2); color: var(--neutral-text-soft);">santi.wtf</span>
 </footer>
+<script>
+(function() {
+  const el = document.getElementById('local-time');
+  function update() {
+    const now = new Date();
+    el.textContent = now.toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' }).toLowerCase();
+  }
+  update();
+  setInterval(update, 60000);
+})();
+</script>
