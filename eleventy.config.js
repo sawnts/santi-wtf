@@ -5,6 +5,7 @@ import pluginRss from "@11ty/eleventy-plugin-rss";
 import pluginSyntaxHighlight from "@11ty/eleventy-plugin-syntaxhighlight";
 import pluginBundle from "@11ty/eleventy-plugin-bundle";
 import { execSync } from "child_process";
+import Image from "@11ty/eleventy-img";
 
 export default function (eleventyConfig) {
   // --- passthrough copies ---
@@ -115,6 +116,53 @@ export default function (eleventyConfig) {
     return collectionApi
       .getFilteredByGlob("photos/**/*.md")
       .sort((a, b) => b.date - a.date);
+  });
+
+  // --- image optimization ---
+  eleventyConfig.addShortcode("image", async function (src, alt) {
+    const metadata = await Image(src, {
+      widths: [800, 1600],
+      formats: ["webp", "jpeg"],
+      outputDir: "./_site/images/",
+      urlPath: "/images/",
+    });
+    const img = metadata.jpeg[metadata.jpeg.length - 1];
+    return `<picture>
+      <source type="image/webp" srcset="${metadata.webp.map(e => `${e.url} ${e.width}w`).join(", ")}">
+      <img src="${img.url}" width="${img.width}" height="${img.height}" alt="${alt || ''}" loading="lazy" decoding="async">
+    </picture>`;
+  });
+
+  eleventyConfig.addTransform("optimizeImages", async function (content) {
+    if (!this.page.outputPath || !this.page.outputPath.endsWith(".html")) {
+      return content;
+    }
+    const imgRegex = /<img\s+[^>]*src="(\/images\/[^"]+)"[^>]*alt="([^"]*)"[^>]*>/g;
+    let match;
+    const replacements = [];
+    while ((match = imgRegex.exec(content)) !== null) {
+      const [fullMatch, src, alt] = match;
+      try {
+        const metadata = await Image(`./public${src}`, {
+          widths: [800, 1600],
+          formats: ["webp", "jpeg"],
+          outputDir: "./_site/images/",
+          urlPath: "/images/",
+        });
+        const img = metadata.jpeg[metadata.jpeg.length - 1];
+        const picture = `<picture>
+          <source type="image/webp" srcset="${metadata.webp.map(e => `${e.url} ${e.width}w`).join(", ")}">
+          <img src="${img.url}" width="${img.width}" height="${img.height}" alt="${alt || ''}" loading="lazy" decoding="async">
+        </picture>`;
+        replacements.push({ from: fullMatch, to: picture });
+      } catch (e) {
+        // skip if image not found
+      }
+    }
+    for (const r of replacements) {
+      content = content.replace(r.from, r.to);
+    }
+    return content;
   });
 
   // --- markdown ---
