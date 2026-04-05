@@ -8,7 +8,7 @@ import { execSync } from "child_process";
 
 export default function (eleventyConfig) {
   // --- passthrough copies ---
-  eleventyConfig.addPassthroughCopy("public");
+  eleventyConfig.addPassthroughCopy({ "public": "/" });
   eleventyConfig.addPassthroughCopy("images");
   eleventyConfig.addPassthroughCopy("CNAME");
   eleventyConfig.addPassthroughCopy(".nojekyll");
