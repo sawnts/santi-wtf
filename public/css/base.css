@@ -1,0 +1,599 @@
+/* ============================================
+   santi.wtf — robin rendle pattern
+   ============================================ */
+
+:root {
+  color-scheme: light dark;
+
+  --font-mono:
+    "SF Mono", ui-monospace, "DejaVu Sans Mono", Menlo, Consolas, monospace;
+  --font-sans:
+    "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji",
+    "Segoe UI Symbol";
+  --font-title:
+    "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    Helvetica, Arial, sans-serif;
+
+  --neutral-100: light-dark(#fcfcfd, #111113);
+  --neutral-200: light-dark(#f9f9fb, #19191b);
+  --neutral-300: light-dark(#eff0f3, #222325);
+  --neutral-400: light-dark(#e7e8ec, #292a2e);
+  --neutral-500: light-dark(#e0e1e6, #303136);
+  --neutral-600: light-dark(#d8d9e0, #393a3f);
+  --neutral-700: light-dark(#cdced7, #46484f);
+  --neutral-800: light-dark(#b9bbc6, #5f606a);
+  --neutral-900: light-dark(#8b8d98, #6c6e79);
+  --neutral-1000: light-dark(#80828d, #797b86);
+  --neutral-1100: light-dark(#62636c, #b2b3bd);
+  --neutral-1200: light-dark(#1e1f24, #eeeef0);
+
+  --primary-100: light-dark(#fcfdfe, #10111c);
+  --primary-200: light-dark(#f6fafe, #111725);
+  --primary-300: light-dark(#eaf3ff, #172447);
+  --primary-400: light-dark(#dceaff, #1d2e61);
+  --primary-500: light-dark(#cbe0ff, #243a74);
+  --primary-600: light-dark(#b5d3ff, #2d4484);
+  --primary-700: light-dark(#9dc1fd, #375098);
+  --primary-800: light-dark(#7aa8f4, #3f5eb2);
+  --primary-900: light-dark(#0056d6, #3e63dd);
+  --primary-1000: light-dark(#0045c5, #3f5bb0);
+  --primary-1100: light-dark(#1c5ece, #92b4ff);
+  --primary-1200: light-dark(#132f5f, #d4e2ff);
+
+  --neutral-text-soft: var(--neutral-900);
+  --neutral-text-normal: var(--neutral-1100);
+  --neutral-text-contrast: var(--neutral-1200);
+  --neutral-border-soft: var(--neutral-500);
+  --neutral-border-normal: var(--neutral-600);
+  --neutral-border-contrast: var(--neutral-800);
+  --neutral-base-soft: var(--neutral-100);
+  --neutral-base-normal: var(--neutral-200);
+  --neutral-base-contrast: var(--neutral-300);
+  --neutral-highlight-soft: var(--neutral-400);
+  --neutral-highlight-normal: var(--neutral-500);
+  --neutral-highlight-contrast: var(--neutral-600);
+  --neutral-btn-normal: var(--neutral-400);
+  --neutral-btn-contrast: var(--neutral-700);
+
+  --primary-text-soft: var(--primary-900);
+  --primary-text-normal: var(--primary-1100);
+  --primary-text-contrast: var(--primary-1200);
+  --primary-border-soft: var(--primary-500);
+  --primary-border-normal: var(--primary-600);
+  --primary-border-contrast: var(--primary-800);
+  --primary-base-soft: var(--primary-100);
+  --primary-base-normal: var(--primary-200);
+  --primary-base-contrast: var(--primary-300);
+  --primary-highlight-soft: var(--primary-400);
+  --primary-highlight-normal: var(--primary-500);
+  --primary-highlight-contrast: var(--primary-600);
+  --primary-btn-normal: var(--primary-400);
+  --primary-btn-contrast: var(--primary-700);
+
+  --space-half: 0.25rem;
+  --space: 0.5rem;
+  --space-flow: 1.25rem;
+  --space-1: 1rem;
+  --space-2: 2rem;
+  --space-3: 3rem;
+  --space-4: 4rem;
+  --space-5: 5rem;
+
+  --size-navigator: 20rem;
+  --size-content-width: 40rem;
+  --size-chrome: 2.25rem;
+
+  --border-radius: 0.375rem;
+
+  --font-size-base: 1rem;
+  --font-size-1: 0.75rem;
+  --font-size-2: 0.875rem;
+  --font-size-3: 0.9375rem;
+}
+
+@view-transition {
+  navigation: auto;
+}
+
+/* --- reset --- */
+
+html {
+  -moz-text-size-adjust: none;
+  -webkit-text-size-adjust: none;
+  text-size-adjust: none;
+  min-height: 100%;
+  font-size: 110%;
+}
+
+@media screen and (min-width: 768px) {
+  html {
+    font-size: 100%;
+  }
+}
+
+body,
+h1, h2, h3, h4, h5, h6,
+address, p, hr, pre, blockquote,
+ol, ul, li, dl, dt, dd,
+figure, figcaption, div,
+table, caption, form, fieldset {
+  margin: 0;
+}
+
+input, button, textarea, select {
+  font-family: inherit;
+  font-size: inherit;
+}
+
+a {
+  color: inherit;
+}
+
+*, *:after, *:before {
+  box-sizing: border-box;
+}
+
+body, html {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background: var(--neutral-base-contrast);
+  overflow-x: hidden;
+  position: relative;
+  font-size: 100%;
+  font-family: var(--font-sans);
+  color: var(--neutral-text-normal);
+  line-height: 1.45;
+  text-decoration-skip-ink: auto;
+  font-optical-sizing: auto;
+  font-variant-ligatures: common-ligatures no-discretionary-ligatures no-historical-ligatures contextual;
+  font-kerning: normal;
+}
+
+@media screen and (min-width: 768px) {
+  body {
+    display: flex;
+  }
+}
+
+ul, ol {
+  padding-left: 0;
+}
+
+h1, h2, h3, h4, h5 {
+  font-size: inherit;
+  font-weight: 400;
+}
+
+.visually-hidden:not(:focus):not(:active) {
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  height: 1px;
+  overflow: hidden;
+  position: absolute;
+  white-space: nowrap;
+  width: 1px;
+}
+
+iframe, img, video {
+  max-width: 100%;
+  width: 100%;
+  height: auto;
+}
+
+figure {
+  margin: 0;
+}
+
+figcaption {
+  color: var(--neutral-text-soft);
+  margin-top: 3px;
+}
+
+figcaption a {
+  color: inherit;
+  text-decoration-color: var(--neutral-text-soft);
+}
+
+figcaption a:hover,
+figcaption a:focus {
+  text-decoration-color: var(--neutral-text-soft) !important;
+}
+
+/* --- layout --- */
+
+.title-sidebar-btn {
+  display: block;
+  margin-right: var(--space-half);
+}
+
+.navigator.open ~ .file .title-sidebar-btn {
+  display: none;
+}
+
+@media screen and (min-width: 768px) {
+  .navigator:not(.closed) ~ .file .title-sidebar-btn {
+    display: none;
+  }
+}
+
+.file {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  padding-top: var(--size-chrome);
+  left: 0;
+  transition: left 0.3s ease-in-out, width 0.3s ease-in-out;
+}
+
+@media screen and (min-width: 768px) {
+  .navigator:not(.closed) ~ .file {
+    left: var(--size-navigator);
+    width: calc(100% - var(--size-navigator));
+  }
+}
+
+/* --- main content --- */
+
+main {
+  padding-bottom: 2.2rem;
+  background: var(--neutral-base-soft);
+  font-size: var(--font-size-3);
+  min-height: 100dvh;
+}
+
+main.note {
+  padding-top: 1rem;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  font-family: var(--font-mono);
+  color: var(--neutral-text-contrast);
+  position: relative;
+}
+
+@media screen and (min-width: 768px) {
+  main.note {
+    padding-left: 3.2rem;
+    padding-right: 2rem;
+  }
+}
+
+main.note .content-area {
+  position: relative;
+}
+
+main.note blockquote {
+  color: var(--neutral-text-normal);
+  padding: 0 1lh;
+}
+
+main.note blockquote p:last-child {
+  margin-bottom: 0;
+}
+
+main.note img {
+  border-radius: 4px;
+}
+
+main.photo .content-area {
+  max-width: 100%;
+}
+
+main.photo img {
+  width: 100%;
+  max-width: none;
+  border-radius: 4px;
+}
+
+main.note ul,
+main.note ol {
+  padding-left: var(--space-2);
+}
+
+main.note ul li::marker,
+main.note ol li::marker {
+  color: var(--neutral-text-soft);
+}
+
+main.note a {
+  text-decoration-color: var(--neutral-text-soft);
+}
+
+main.note a:hover {
+  text-decoration-color: var(--neutral-text-contrast);
+}
+
+main.note hr {
+  border: none;
+  padding: 0;
+  margin-bottom: 1lh;
+  display: flex;
+  align-items: center;
+}
+
+main.note hr:before {
+  height: 1lh;
+  content: "–––";
+  display: block;
+  width: 100%;
+  color: var(--neutral-text-soft);
+}
+
+/* line numbers */
+@media screen and (min-width: 768px) {
+  main.note:before {
+    content: "1\A 2\A 3\A 4\A 5\A 6\A 7\A 8\A 9\A 10\A 11\A 12\A 13\A 14\A 15\A 16\A 17\A 18\A 19\A 20\A 21\A 22\A 23\A 24\A 25\A 26\A 27\A 28\A 29\A 30\A 31\A 32\A 33\A 34\A 35\A 36\A 37\A 38\A 39\A 40\A 41\A 42\A 43\A 44\A 45\A 46\A 47\A 48\A 49\A 50\A 51\A 52\A 53\A 54\A 55\A 56\A 57\A 58\A 59\A 60\A 61\A 62\A 63\A 64\A 65\A 66\A 67\A 68\A 69\A 70\A 71\A 72\A 73\A 74\A 75\A 76\A 77\A 78\A 79\A 80\A 81\A 82\A 83\A 84\A 85\A 86\A 87\A 88\A 89\A 90\A 91\A 92\A 93\A 94\A 95\A 96\A 97\A 98\A 99\A 100\A 101\A 102\A 103\A 104\A 105\A 106\A 107\A 108\A 109\A 110\A 111\A 112\A 113\A 114\A 115\A 116\A 117\A 118\A 119\A 120\A 121\A 122\A 123\A 124\A 125\A 126\A 127\A 128\A 129\A 130\A 131\A 132\A 133\A 134\A 135\A 136\A 137\A 138\A 139\A 140\A 141\A 142\A 143\A 144\A 145\A 146\A 147\A 148\A 149\A 150\A 151\A 152\A 153\A 154\A 155\A 156\A 157\A 158\A 159\A 160\A 161\A 162\A 163\A 164\A 165\A 166\A 167\A 168\A 169\A 170\A 171\A 172\A 173\A 174\A 175\A 176\A 177\A 178\A 179\A 180\A 181\A 182\A 183\A 184\A 185\A 186\A 187\A 188\A 189\A 190\A 191\A 192\A 193\A 194\A 195\A 196\A 197\A 198\A 199\A 200\A 201\A 202\A 203\A 204\A 205\A 206\A 207\A 208\A 209\A 210\A 211\A 212\A 213\A 214\A 215\A 216\A 217\A 218\A 219\A 220\A 221\A 222\A 223\A 224\A 225\A 226\A 227\A 228\A 229\A 230\A 231\A 232\A 233\A 234\A 235\A 236\A 237\A 238\A 239\A 240\A 241\A 242\A 243\A 244\A 245\A 246\A 247\A 248\A 249\A 250\A 251\A 252\A 253\A 254\A 255\A 256\A 257\A 258\A 259\A 260\A 261\A 262\A 263\A 264\A 265\A 266\A 267\A 268\A 269\A 270\A 271\A 272\A 273\A 274\A 275\A 276\A 277\A 278\A 279\A 280\A 281\A 282\A 283\A 284\A 285\A 286\A 287\A 288\A 289\A 290\A 291\A 292\A 293\A 294\A 295\A 296\A 297\A 298\A 299\A 300";
+    width: 32px;
+    display: flex;
+    position: absolute;
+    top: 1rem;
+    left: 6px;
+    bottom: 0;
+    color: var(--neutral-text-soft);
+    opacity: 0.5;
+    white-space: pre-line;
+    text-align: right;
+    font-family: var(--font-mono);
+    font-size: 1em;
+    line-height: 1.45;
+    padding-right: 12px;
+    overflow: hidden;
+  }
+}
+
+main.note picture {
+  display: block;
+}
+
+main.note p,
+main.note ul,
+main.note ol,
+main.note figure,
+main.note pre,
+main.note blockquote,
+main.note picture {
+  max-width: var(--size-content-width);
+  margin-bottom: 1lh;
+}
+
+main.note h2,
+main.note h3 {
+  margin-bottom: 1lh;
+  font-style: italic;
+}
+
+main.note pre[class*="language-"] {
+  padding: 1lh;
+  background: var(--neutral-base-contrast);
+  color: var(--neutral-text-normal);
+  font-size: var(--font-size-3);
+  margin: 1lh 0;
+}
+
+/* --- file header --- */
+
+.file-header {
+  position: fixed;
+  top: 0;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  background: var(--neutral-base-normal);
+  border-bottom: 1px solid var(--neutral-border-soft);
+  border-top: 1px solid var(--neutral-border-soft);
+  color: var(--neutral-text-contrast);
+  font-size: var(--font-size-3);
+  min-height: var(--size-chrome);
+  height: var(--size-chrome);
+  padding-left: calc(var(--space) * 1.5);
+  padding-right: var(--space);
+  width: 100%;
+  transition: width 0.3s ease-in-out;
+}
+
+.file-header h1 {
+  display: flex;
+  gap: 4px;
+  align-items: center;
+}
+
+.file-header h1:before {
+  content: "";
+  position: relative;
+  display: block;
+  height: 12px;
+  width: 1px;
+  color: var(--neutral-text-soft);
+  background: var(--neutral-text-soft);
+  margin-right: 4px;
+}
+
+@media screen and (min-width: 768px) {
+  .navigator:not(.closed) ~ .file .file-header {
+    width: calc(100% - var(--size-navigator));
+  }
+
+  .navigator:not(.closed) ~ .file .file-header h1:before {
+    content: none;
+  }
+}
+
+.file-header-actions {
+  display: flex;
+  margin-left: auto;
+  gap: var(--space);
+}
+
+/* --- selection --- */
+
+::selection {
+  background: var(--primary-highlight-normal);
+}
+
+/* --- buttons --- */
+
+.btn {
+  background: var(--neutral-btn-normal);
+  color: var(--neutral-text-normal);
+  fill: var(--neutral-text-normal);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  gap: var(--space-half);
+  border-radius: var(--border-radius);
+  cursor: pointer;
+  padding: var(--space-half) var(--space);
+  text-decoration: none;
+  line-height: 1;
+  height: 1.5rem;
+}
+
+.btn:hover {
+  background: var(--neutral-btn-contrast);
+  fill: var(--neutral-text-contrast);
+  color: var(--neutral-text-contrast);
+}
+
+.btn svg {
+  pointer-events: none;
+}
+
+.btn-icon {
+  padding: var(--space-half);
+  width: 1.5rem;
+  height: 1.5rem;
+}
+
+.btn-subtle {
+  background: transparent;
+}
+
+.btn-subtle:hover {
+  background: var(--neutral-btn-normal);
+}
+
+/* --- archive list --- */
+
+.archive-list {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, auto));
+}
+
+.archive-head,
+.archive-row {
+  gap: var(--space);
+  display: grid;
+  grid-template-columns: subgrid;
+  grid-column: 1 / -1;
+  border-bottom: 1px solid var(--neutral-border-soft);
+  padding: 0 var(--space);
+  align-items: center;
+  height: var(--size-chrome);
+}
+
+.archive-head {
+  position: sticky;
+  top: var(--size-chrome);
+  background: var(--neutral-base-normal);
+}
+
+.archive-row {
+  background: var(--neutral-base-soft);
+  text-decoration: none;
+}
+
+.archive-row:hover,
+.archive-row:focus {
+  background: var(--neutral-base-contrast);
+  color: var(--neutral-text-contrast);
+}
+
+.archive-column {
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+
+.align-right {
+  text-align: right;
+}
+
+.visited-marker {
+  display: flex;
+  align-items: center;
+  gap: var(--space);
+}
+
+.visited-marker:before {
+  content: "";
+  display: block;
+  height: var(--space);
+  width: var(--space);
+  background: var(--primary-800);
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.archive-row:visited .visited-marker:before {
+  background: var(--neutral-800);
+}
+
+/* --- direct link --- */
+
+.direct-link {
+  display: none;
+}
+
+/* --- theme toggle icons --- */
+
+.theme-icon-moon {
+  display: none;
+}
+
+[style*="color-scheme: dark"] .theme-icon-sun {
+  display: none;
+}
+
+[style*="color-scheme: dark"] .theme-icon-moon {
+  display: block;
+}
+
+/* --- code --- */
+
+code {
+  font-family: var(--font-mono);
+}
+
+code[class*="language-"],
+pre[class*="language-"] {
+  font-family: var(--font-mono);
+  line-height: 1lh;
+  direction: ltr;
+  text-align: left;
+  white-space: pre;
+  word-spacing: normal;
+  word-break: normal;
+  -moz-tab-size: 4;
+  tab-size: 4;
+  -webkit-hyphens: none;
+  hyphens: none;
+  background: var(--neutral-base-contrast);
+  color: var(--neutral-text-normal);
+}
+
+pre[class*="language-"] {
+  padding: 1lh;
+  overflow-x: auto;
+}
+
+:not(pre) > code {
+  background: var(--neutral-base-contrast);
+  padding: 0.1em 0.3em;
+  border-radius: 3px;
+  font-size: 0.9em;
+}

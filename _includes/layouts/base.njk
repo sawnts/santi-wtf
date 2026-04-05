@@ -1,0 +1,218 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% if title %}{{ title }} · santi.wtf{% else %}santi.wtf{% endif %}</title>
+  <meta name="description" content="{{ description or 'santi\'s digital garden — ideas growing in public.' }}">
+  <meta name="color-scheme" content="light dark">
+
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://santi.wtf{{ page.url }}">
+  <meta property="og:title" content="{% if title %}{{ title }} · santi.wtf{% else %}santi.wtf{% endif %}">
+  <meta property="og:description" content="{{ description or 'santi\'s digital garden — ideas growing in public.' }}">
+
+  <link rel="preconnect" href="https://rsms.me/">
+  <link rel="stylesheet" href="https://rsms.me/inter/inter.css">
+  <link rel="stylesheet" href="/public/css/base.css">
+  <link rel="alternate" type="application/rss+xml" title="santi.wtf" href="/feed.xml">
+</head>
+<body>
+
+  {% include "nav.njk" %}
+
+  <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" style="display: none;">
+    <symbol id="caret-left" viewBox="0 0 256 256"><path d="M165.66,202.34a8,8,0,0,1-11.32,11.32l-80-80a8,8,0,0,1,0-11.32l80-80a8,8,0,0,1,11.32,11.32L91.31,128Z"/></symbol>
+    <symbol id="caret-right" viewBox="0 0 256 256"><path d="M181.66,133.66l-80,80a8,8,0,0,1-11.32-11.32L164.69,128,90.34,53.66a8,8,0,0,1,11.32-11.32l80,80A8,8,0,0,1,181.66,133.66Z"/></symbol>
+    <symbol id="moon" viewBox="0 0 256 256"><path d="M233.54,142.23a8,8,0,0,0-8-2,88.08,88.08,0,0,1-109.8-109.8,8,8,0,0,0-10-10,104.84,104.84,0,0,0-52.91,37A104,104,0,0,0,136,224a103.09,103.09,0,0,0,62.52-20.88,104.84,104.84,0,0,0,37-52.91A8,8,0,0,0,233.54,142.23Z"/></symbol>
+    <symbol id="sun" viewBox="0 0 256 256"><path d="M120,40V16a8,8,0,0,1,16,0V40a8,8,0,0,1-16,0Zm72,88a64,64,0,1,1-64-64A64.07,64.07,0,0,1,192,128Zm-16,0a48,48,0,1,0-48,48A48.05,48.05,0,0,0,176,128ZM58.34,69.66A8,8,0,0,0,69.66,58.34l-16-16A8,8,0,0,0,42.34,53.66Zm0,116.68-16,16a8,8,0,0,0,11.32,11.32l16-16a8,8,0,0,0-11.32-11.32ZM192,72a8,8,0,0,0,5.66-2.34l16-16a8,8,0,0,0-11.32-11.32l-16,16A8,8,0,0,0,192,72Zm5.66,114.34a8,8,0,0,0-11.32,11.32l16,16a8,8,0,0,0,11.32-11.32ZM48,128a8,8,0,0,0-8-8H16a8,8,0,0,0,0,16H40A8,8,0,0,0,48,128Zm80,80a8,8,0,0,0-8,8v24a8,8,0,0,0,16,0V216A8,8,0,0,0,128,208Zm112-88H216a8,8,0,0,0,0,16h24a8,8,0,0,0,0-16Z"/></symbol>
+    <symbol id="sidebar-simple" viewBox="0 0 256 256"><path d="M216,40H40A16,16,0,0,0,24,56V200a16,16,0,0,0,16,16H216a16,16,0,0,0,16-16V56A16,16,0,0,0,216,40ZM40,56H80V200H40ZM216,200H96V56H216V200Z"/></symbol>
+    <symbol id="arrows-out-line-vertical" viewBox="0 0 256 256"><path d="M224,128a8,8,0,0,1-8,8H40a8,8,0,0,1,0-16H216A8,8,0,0,1,224,128ZM101.66,53.66,120,35.31V96a8,8,0,0,0,16,0V35.31l18.34,18.35a8,8,0,0,0,11.32-11.32l-32-32a8,8,0,0,0-11.32,0l-32,32a8,8,0,0,0,11.32,11.32Zm52.68,148.68L136,220.69V160a8,8,0,0,0-16,0v60.69l-18.34-18.35a8,8,0,0,0-11.32,11.32l32,32a8,8,0,0,0,11.32,0l32-32a8,8,0,0,0-11.32-11.32Z"/></symbol>
+    <symbol id="file-md" viewBox="0 0 256 256"><path d="M213.66,82.34l-56-56A8,8,0,0,0,152,24H56A16,16,0,0,0,40,40v72a8,8,0,0,0,16,0V40h88V88a8,8,0,0,0,8,8h48V224a8,8,0,0,0,16,0V88A8,8,0,0,0,213.66,82.34ZM160,51.31,188.69,80H160ZM144,144H128a8,8,0,0,0-8,8v56a8,8,0,0,0,8,8h16a36,36,0,0,0,0-72Zm0,56h-8V160h8a20,20,0,0,1,0,40Zm-40-48v56a8,8,0,0,1-16,0V177.38L74.55,196.59a8,8,0,0,1-13.1,0L48,177.38V208a8,8,0,0,1-16,0V152a8,8,0,0,1,14.55-4.59L68,178.05l21.45-30.64A8,8,0,0,1,104,152Z"/></symbol>
+    <symbol id="note" viewBox="0 0 256 256"><path d="M208,32H48A16,16,0,0,0,32,48V208a16,16,0,0,0,16,16H156.69A15.86,15.86,0,0,0,168,219.31L219.31,168A15.86,15.86,0,0,0,224,156.69V48A16,16,0,0,0,208,32ZM48,48H208V152H160a8,8,0,0,0-8,8v48H48ZM196.69,168,168,196.69V168Z"/></symbol>
+    <symbol id="calendar-blank" viewBox="0 0 256 256"><path d="M208,32H184V24a8,8,0,0,0-16,0v8H88V24a8,8,0,0,0-16,0v8H48A16,16,0,0,0,32,48V208a16,16,0,0,0,16,16H208a16,16,0,0,0,16-16V48A16,16,0,0,0,208,32Zm0,176H48V48H72v8a8,8,0,0,0,16,0V48h80v8a8,8,0,0,0,16,0V48h24V208Z"/></symbol>
+    <symbol id="clock" viewBox="0 0 256 256"><path d="M128,24A104,104,0,1,0,232,128,104.11,104.11,0,0,0,128,24Zm0,192a88,88,0,1,1,88-88A88.1,88.1,0,0,1,128,216Zm64-88a8,8,0,0,1-8,8H128a8,8,0,0,1-8-8V72a8,8,0,0,1,16,0v48h48A8,8,0,0,1,192,128Z"/></symbol>
+    <symbol id="git-commit" viewBox="0 0 256 256"><path d="M248,120H183.42a56,56,0,0,0-110.84,0H8a8,8,0,0,0,0,16H72.58a56,56,0,0,0,110.84,0H248a8,8,0,0,0,0-16ZM128,168a40,40,0,1,1,40-40A40,40,0,0,1,128,168Z"/></symbol>
+    <symbol id="magnifying-glass" viewBox="0 0 256 256"><path d="M229.66,218.34l-50.07-50.06a88.11,88.11,0,1,0-11.31,11.31l50.06,50.07a8,8,0,0,0,11.32-11.32ZM40,112a72,72,0,1,1,72,72A72.08,72.08,0,0,1,40,112Z"/></symbol>
+    <symbol id="funnel-simple" viewBox="0 0 256 256"><path d="M200,128a8,8,0,0,1-8,8H64a8,8,0,0,1,0-16H192A8,8,0,0,1,200,128ZM232,72H24a8,8,0,0,0,0,16H232a8,8,0,0,0,0-16Zm-72,112H96a8,8,0,0,0,0,16h64a8,8,0,0,0,0-16Z"/></symbol>
+    <symbol id="folder" viewBox="0 0 256 256"><path d="M216,72H131.31L104,44.69A15.86,15.86,0,0,0,92.69,40H40A16,16,0,0,0,24,56V200.62A15.4,15.4,0,0,0,39.38,216H216.89A15.13,15.13,0,0,0,232,200.89V88A16,16,0,0,0,216,72ZM40,56H92.69l16,16H40ZM216,200H40V88H216Z"/></symbol>
+    <symbol id="folder-open" viewBox="0 0 256 256"><path d="M245,110.64A16,16,0,0,0,232,104H216V88a16,16,0,0,0-16-16H131.31L104,44.69A15.86,15.86,0,0,0,92.69,40H40A16,16,0,0,0,24,56V200.62A15.4,15.4,0,0,0,39.38,216H216.89a15.13,15.13,0,0,0,14.54-11.12l16.27-64.33A16,16,0,0,0,245,110.64ZM92.69,56l27.31,27.31L131.31,72H200v32H69.77a16,16,0,0,0-15.44,11.84L40,163.22V56ZM215.89,200H43.12l18.46-72H232Z"/></symbol>
+    <symbol id="image" viewBox="0 0 256 256"><path d="M216,40H40A16,16,0,0,0,24,56V200a16,16,0,0,0,16,16H216a16,16,0,0,0,16-16V56A16,16,0,0,0,216,40Zm0,16V158.75l-26.07-26.06a16,16,0,0,0-22.63,0l-20,20-44-44a16,16,0,0,0-22.62,0L40,149.37V56ZM40,172l52-52,80,80H40Zm176,28H194.63l-36-36,20-20L216,181.38V200ZM144,100a12,12,0,1,1,12,12A12,12,0,0,1,144,100Z"/></symbol>
+    <symbol id="envelope" viewBox="0 0 256 256"><path d="M224,48H32a8,8,0,0,0-8,8V192a16,16,0,0,0,16,16H216a16,16,0,0,0,16-16V56A8,8,0,0,0,224,48ZM203.43,64,128,133.15,52.57,64ZM216,192H40V74.19l82.59,75.71a8,8,0,0,0,10.82,0L216,74.19V192Z"/></symbol>
+  </svg>
+
+  <div class="file">
+    <header class="file-header">
+      <button class="btn btn-icon title-sidebar-btn toggle-sidebar" aria-label="toggle sidebar">
+        <svg width="18" height="18"><use href="#sidebar-simple"></use></svg>
+      </button>
+      <h1>{{ title or "readme" }}</h1>
+      <div class="file-header-actions">
+        {% set nav = page | getPrevNext(collections.notesByTitle) %}
+        {% if nav.prev %}
+        <a href="{{ nav.prev.url }}" class="btn btn-icon" aria-label="previous note" title="{{ nav.prev.data.title }}">
+          <svg width="18" height="18"><use href="#caret-left"></use></svg>
+        </a>
+        {% endif %}
+        {% if nav.next %}
+        <a href="{{ nav.next.url }}" class="btn btn-icon" aria-label="next note" title="{{ nav.next.data.title }}">
+          <svg width="18" height="18"><use href="#caret-right"></use></svg>
+        </a>
+        {% endif %}
+        <button class="btn btn-icon" id="theme-toggle" aria-label="toggle theme">
+          <svg width="18" height="18" class="theme-icon-sun"><use href="#sun"></use></svg>
+          <svg width="18" height="18" class="theme-icon-moon"><use href="#moon"></use></svg>
+        </button>
+      </div>
+    </header>
+
+    <main class="{{ template or 'note' }}">
+      {{ content | safe }}
+    </main>
+
+    {% include "footer.njk" %}
+  </div>
+
+  <script>
+    // --- theme toggle ---
+    (function() {
+      const toggle = document.getElementById('theme-toggle');
+      if (!toggle) return;
+      toggle.addEventListener('click', () => {
+        const current = document.documentElement.style.colorScheme;
+        const next = current === 'dark' ? 'light' : 'dark';
+        document.documentElement.style.colorScheme = next;
+        localStorage.setItem('theme', next);
+      });
+
+      const saved = localStorage.getItem('theme');
+      const preferred = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+      document.documentElement.style.colorScheme = saved || preferred;
+    })();
+
+    // --- sidebar ---
+    (function() {
+      const sidebar = document.querySelector('.navigator');
+      if (!sidebar) return;
+
+      const breakpoint = 768;
+      function isSmallScreen() { return window.innerWidth < breakpoint; }
+
+      function restoreSidebarState(skipTransition) {
+        if (skipTransition) {
+          sidebar.classList.add('no-transition');
+          document.querySelectorAll('.file, .file-header, .content-footer').forEach(el => el && el.classList.add('no-transition'));
+        }
+        sidebar.classList.remove('open', 'closed');
+        if (isSmallScreen()) {
+          if (localStorage.getItem('sidebarOpenSmall') !== 'true') {
+            // stay closed (default on mobile)
+          } else {
+            sidebar.classList.add('open');
+          }
+        } else {
+          if (localStorage.getItem('sidebarClosedLarge') === 'true') {
+            sidebar.classList.add('closed');
+          }
+        }
+        if (skipTransition) {
+          requestAnimationFrame(() => {
+            requestAnimationFrame(() => {
+              sidebar.classList.remove('no-transition');
+              document.querySelectorAll('.file, .file-header, .content-footer').forEach(el => el && el.classList.remove('no-transition'));
+            });
+          });
+        }
+      }
+
+      restoreSidebarState(true);
+
+      document.querySelectorAll('.toggle-sidebar').forEach(btn => {
+        btn.addEventListener('click', () => {
+          if (isSmallScreen()) {
+            sidebar.classList.toggle('open');
+            localStorage.setItem('sidebarOpenSmall', sidebar.classList.contains('open'));
+          } else {
+            sidebar.classList.toggle('closed');
+            localStorage.setItem('sidebarClosedLarge', sidebar.classList.contains('closed'));
+          }
+        });
+      });
+
+      const toggleDetails = document.querySelector('.toggle-details');
+      if (toggleDetails) {
+        toggleDetails.addEventListener('click', () => {
+          const details = sidebar.querySelectorAll('details');
+          const allOpen = [...details].every(d => d.open);
+          details.forEach(d => d.open = !allOpen);
+        });
+      }
+
+      let wasSmall = isSmallScreen();
+      window.addEventListener('resize', () => {
+        const nowSmall = isSmallScreen();
+        if (wasSmall !== nowSmall) { restoreSidebarState(); wasSmall = nowSmall; }
+      });
+
+      // close sidebar on mobile link click
+      sidebar.addEventListener('click', (e) => {
+        if (e.target.closest('a') && isSmallScreen()) {
+          sidebar.classList.remove('open');
+          localStorage.setItem('sidebarOpenSmall', 'false');
+        }
+      });
+
+      // prevent summary click from toggling details when clicking the link
+      document.querySelectorAll('.directory summary').forEach(summary => {
+        summary.addEventListener('click', (e) => {
+          if (e.target.tagName === 'A' || e.target.closest('a')) {
+            e.preventDefault();
+            const link = e.target.tagName === 'A' ? e.target : e.target.closest('a');
+            window.location.href = link.href;
+          }
+        });
+      });
+    })();
+
+    // --- sidebar filter ---
+    (function() {
+      const input = document.querySelector('.filter-input');
+      const directory = document.querySelector('.directory');
+      if (!input || !directory) return;
+
+      input.addEventListener('input', (e) => {
+        const query = e.target.value.toLowerCase().trim();
+
+        if (!query) {
+          directory.classList.remove('searching');
+          directory.querySelectorAll('li, details').forEach(el => el.classList.remove('filtered-out'));
+          return;
+        }
+
+        directory.classList.add('searching');
+        directory.querySelectorAll('details').forEach(d => d.open = true);
+
+        let hasResults = false;
+        directory.querySelectorAll('.list-item a').forEach(link => {
+          const li = link.closest('li');
+          if (!li || link.closest('summary')) return;
+          const match = link.textContent.toLowerCase().includes(query);
+          li.classList.toggle('filtered-out', !match);
+          if (match) hasResults = true;
+        });
+
+        directory.querySelectorAll('details').forEach(d => {
+          const visible = d.querySelectorAll('li:not(.filtered-out)').length;
+          d.classList.toggle('filtered-out', visible === 0);
+        });
+      });
+    })();
+  </script>
+<script>
+document.querySelectorAll('.content-area a[href^="http"]').forEach(a => {
+  a.setAttribute('target', '_blank');
+  a.setAttribute('rel', 'noopener');
+});
+</script>
+</body>
+</html>

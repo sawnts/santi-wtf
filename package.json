@@ -1,0 +1,26 @@
+{
+  "name": "santi-wtf",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "santi's digital garden",
+  "scripts": {
+    "build": "npx @11ty/eleventy",
+    "serve": "npx @11ty/eleventy --serve",
+    "start": "npx @11ty/eleventy --serve"
+  },
+  "author": {
+    "name": "santi",
+    "url": "https://santi.wtf/"
+  },
+  "license": "ISC",
+  "dependencies": {
+    "@11ty/eleventy": "^3.1.2",
+    "@11ty/eleventy-img": "^6.0.4",
+    "@11ty/eleventy-plugin-bundle": "^1.0.4",
+    "@11ty/eleventy-plugin-rss": "^1.1.2",
+    "@11ty/eleventy-plugin-syntaxhighlight": "^4.0.0",
+    "luxon": "^2.4.0",
+    "markdown-it": "^13.0.1",
+    "markdown-it-anchor": "^8.6.4"
+  }
+}
