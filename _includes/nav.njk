@@ -13,10 +13,33 @@
     border-right: 1px solid var(--neutral-border-soft);
     font-size: var(--font-size-3);
     z-index: 999;
-    width: 100dvw;
-    max-width: 100dvw;
+    width: 85dvw;
+    max-width: 22rem;
     transform: translateX(-100%);
     transition: transform 0.3s ease-in-out;
+  }
+
+  .sidebar-backdrop {
+    position: fixed;
+    inset: 0;
+    z-index: 998;
+    background: rgba(0, 0, 0, 0.45);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease-in-out;
+  }
+
+  body:has(.navigator.open) .sidebar-backdrop {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  @media screen and (min-width: 768px) {
+    .sidebar-backdrop {
+      display: none;
+    }
   }
 
   @media screen and (min-width: 768px) {

@@ -70,7 +70,7 @@ date: 2026-03-15
 
 `title` and `date` are required. filenames become URL slugs.
 
-**images:** put files in `public/images/`, reference as `![alt](/public/images/filename.jpg)`.
+**images:** put files in `public/images/`, reference as `![alt](/images/filename.jpg)`.
 
 **all content must be lowercase** — titles, headings, body text. this is a core aesthetic.
 

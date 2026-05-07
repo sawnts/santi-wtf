@@ -58,7 +58,7 @@ regular paragraph text. just type normally.
 
 [link text](https://example.com)
 
-![image description](/public/images/your-image.jpg)
+![image description](/images/your-image.jpg)
 
 - bullet point
 - another bullet point
@@ -84,7 +84,7 @@ to add an image to any post:
 2. reference it in your post like this:
 
 ```markdown
-![description of the image](/public/images/your-image.jpg)
+![description of the image](/images/your-image.jpg)
 ```
 
 this works in notes, newsletters, and photo posts — any post can include images.
@@ -176,7 +176,7 @@ title: seattle morning
 date: 2026-03-15
 ---
 
-![fog rolling over the puget sound](/public/images/seattle-morning.jpg)
+![fog rolling over the puget sound](/images/seattle-morning.jpg)
 
 caught this on my walk to the coffee shop.
 ```
