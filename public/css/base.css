@@ -254,7 +254,7 @@ figcaption a:focus {
 /* --- main content --- */
 
 main {
-  padding-bottom: 2.2rem;
+  padding-bottom: 4rem;
   background: var(--neutral-base-soft);
   font-size: var(--font-size-3);
   min-height: 100dvh;
