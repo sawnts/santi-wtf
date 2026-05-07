@@ -21,7 +21,7 @@ this site is a collection of scribbles, images, and god knows what.
 
 <section class="subscribe-inline">
   <p class="subscribe-prompt">say hi at <a href="mailto:hi@santi.wtf">hi@santi.wtf</a> or meet me in your inbox</p>
-  <form action="https://buttondown.com/api/emails/embed-subscribe/sawnts" method="post" class="subscribe-form" target="popupwindow" onsubmit="window.open('https://buttondown.com/sawnts', 'popupwindow')">
+  <form action="https://buttondown.com/api/emails/embed-subscribe/sawnts" method="post" class="subscribe-form">
     <input type="email" name="email" placeholder="you@example.com" required class="subscribe-input" autocomplete="email">
     <button type="submit" class="subscribe-btn">subscribe</button>
   </form>
