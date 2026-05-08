@@ -11,9 +11,9 @@ yo — santi here.
 
 i'm a peruvian-born creative based in seattle.
 
-i spend most of my days overcaffeinated, slinging software and bleeding on my keyboard. 
+i spend most of my days overcaffeinated, slinging software, and bleeding on my keyboard. 
 
-when i'm not working, you'll catch me soaking in art, riding my bike around the city, and [pushing pawns](https://www.chess.com/member/sawnts).
+when i'm not working, you'll catch me soaking in art, riding my bike around the city, and [pushing pawns](https://lichess.org/@/sawnts).
 
 this site is a collection of scribbles, images, and god knows what.
 
