@@ -312,6 +312,41 @@
   .directory.searching .list-item a {
     padding-left: var(--space) !important;
   }
+
+  .sidebar-resize-handle {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 6px;
+    height: 100%;
+    cursor: ew-resize;
+    z-index: 1000;
+    user-select: none;
+    touch-action: none;
+  }
+
+  .sidebar-resize-handle::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    width: 1px;
+    background: transparent;
+    transition: background 0.15s ease, width 0.15s ease;
+  }
+
+  .sidebar-resize-handle:hover::after,
+  .sidebar-resize-handle.resizing::after {
+    background: var(--primary-900);
+    width: 2px;
+  }
+
+  @media (max-width: 767px) {
+    .sidebar-resize-handle { display: none; }
+  }
+
+  .navigator.closed .sidebar-resize-handle { display: none; }
 </style>
 
 <section class="navigator">
@@ -412,4 +447,6 @@
     <svg height="18" width="18"><use href="#funnel-simple"></use></svg>
     <input type="text" class="filter-input" placeholder="Filter">
   </section>
+
+  <div class="sidebar-resize-handle" data-resize-sidebar aria-hidden="true"></div>
 </section>

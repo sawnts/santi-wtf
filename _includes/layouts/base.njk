@@ -216,6 +216,67 @@
       });
     })();
 
+    // --- sidebar resize ---
+    (function() {
+      const handle = document.querySelector('[data-resize-sidebar]');
+      if (!handle) return;
+      const root = document.documentElement;
+      const MIN_REM = 14;
+      const MAX_REM = 40;
+
+      // restore saved width
+      const saved = localStorage.getItem('sidebarWidth');
+      if (saved) {
+        const n = parseFloat(saved);
+        if (!isNaN(n) && n >= MIN_REM && n <= MAX_REM) {
+          root.style.setProperty('--size-navigator', n + 'rem');
+        }
+      }
+
+      let dragging = false;
+      let startX = 0;
+      let startWidthPx = 0;
+
+      function rootFontSize() {
+        return parseFloat(getComputedStyle(root).fontSize);
+      }
+
+      handle.addEventListener('pointerdown', (e) => {
+        if (window.innerWidth < 768) return;
+        dragging = true;
+        startX = e.clientX;
+        startWidthPx = document.querySelector('.navigator').getBoundingClientRect().width;
+        document.body.classList.add('is-resizing-sidebar');
+        handle.classList.add('resizing');
+        try { handle.setPointerCapture(e.pointerId); } catch (_) {}
+        e.preventDefault();
+      });
+
+      handle.addEventListener('pointermove', (e) => {
+        if (!dragging) return;
+        const newPx = startWidthPx + (e.clientX - startX);
+        const fs = rootFontSize();
+        const remValue = newPx / fs;
+        const clamped = Math.max(MIN_REM, Math.min(MAX_REM, remValue));
+        root.style.setProperty('--size-navigator', clamped + 'rem');
+      });
+
+      function endDrag(e) {
+        if (!dragging) return;
+        dragging = false;
+        document.body.classList.remove('is-resizing-sidebar');
+        handle.classList.remove('resizing');
+        const current = root.style.getPropertyValue('--size-navigator');
+        if (current) localStorage.setItem('sidebarWidth', parseFloat(current));
+        if (e && e.pointerId !== undefined) {
+          try { handle.releasePointerCapture(e.pointerId); } catch (_) {}
+        }
+      }
+
+      handle.addEventListener('pointerup', endDrag);
+      handle.addEventListener('pointercancel', endDrag);
+    })();
+
     // --- command palette ---
     (function() {
       const palette = document.getElementById('palette');

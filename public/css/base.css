@@ -251,6 +251,20 @@ figcaption a:focus {
   }
 }
 
+/* --- sidebar resize (active drag state) --- */
+
+body.is-resizing-sidebar {
+  cursor: ew-resize;
+  user-select: none;
+}
+
+body.is-resizing-sidebar .navigator,
+body.is-resizing-sidebar .file,
+body.is-resizing-sidebar .file-header,
+body.is-resizing-sidebar .content-footer {
+  transition: none !important;
+}
+
 /* --- main content --- */
 
 main {
