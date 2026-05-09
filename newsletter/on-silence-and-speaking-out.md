@@ -7,10 +7,10 @@ dear reader,
 
 it’s been a while.
 
-i took a well-deserved break to take care of my mind, soul, and body, and think through a question i got after ~[my last email](https://letters.santi.wtf/archive/class-notes-on-tyranny/)~.
+i took a well-deserved break to take care of my mind, soul, and body, and think through a question i got after [my last email](https://letters.santi.wtf/archive/class-notes-on-tyranny/).
 a long-time reader asked, “you went from writing about creativity to politics. what’s with the switch up?”
 
-you can blame *~[the handmaid's tale](https://bookshop.org/p/books/the-handmaid-s-tale-a-novel-margaret-atwood/63245a7f10b38c79?ean=9780385490818&next=t)~* by margaret atwood.
+you can blame *[the handmaid's tale](https://bookshop.org/p/books/the-handmaid-s-tale-a-novel-margaret-atwood/63245a7f10b38c79?ean=9780385490818&next=t)* by margaret atwood.
 
 i won’t spoil the read for you, but in it, the narrator uses the frog-in-boiling-water metaphor to explain how the tyrannical regime of gilead came to power — the idea that if the temperature rises slowly enough, the frog in the pot doesn't notice it and cooks to death.
 
