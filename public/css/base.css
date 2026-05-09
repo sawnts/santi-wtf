@@ -177,7 +177,7 @@ ul, ol {
   padding-left: 0;
 }
 
-h1, h2, h3, h4, h5 {
+h1, h2, h3, h4, h5, h6 {
   font-size: inherit;
   font-weight: 400;
 }
@@ -374,10 +374,29 @@ main.note picture {
   margin-bottom: 1lh;
 }
 
-main.note h2,
+main.note {
+  --body-lh: calc(var(--font-size-3) * 1.45);
+}
+
+main.note h2 {
+  font-size: 1.35em;
+  font-weight: 600;
+  line-height: calc(2 * var(--body-lh));
+  margin-top: var(--body-lh);
+  margin-bottom: 0;
+}
+
 main.note h3 {
-  margin-bottom: 1lh;
-  font-style: italic;
+  font-size: 1.15em;
+  font-weight: 600;
+  line-height: calc(2 * var(--body-lh));
+  margin-top: var(--body-lh);
+  margin-bottom: 0;
+}
+
+main.note h2:first-child,
+main.note h3:first-child {
+  margin-top: 0;
 }
 
 main.note pre[class*="language-"] {
