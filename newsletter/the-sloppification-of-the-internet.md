@@ -9,7 +9,7 @@ dear reader,
 i’ve been off social media for over a month — again.
 on top of its endless list of negative side effects, i got tired of seeing the internet get taken over by ai slop.
 
-~[over 50% of articles in the last few years have been written by ai.](https://barrettmedia.com/2025/10/15/ai-generated-articles-now-more-than-50-of-all-web-stories-graphite-data-shows/)~
+[over 50% of articles in the last few years have been written by ai.](https://barrettmedia.com/2025/10/15/ai-generated-articles-now-more-than-50-of-all-web-stories-graphite-data-shows/)
 the number *has* to be higher on social apps. i see it everywhere and gag every time.
 
 we used to be distracted by content other people made — funny memes, rage bait, tragedy p0rn. but now our attention is being pillaged by robots. some of it is funny as fuck, but most of it is bullshit.
@@ -28,4 +28,4 @@ it’s important for creatives to have a place where their work lives and no one
 
 ownership gives you the freedom to say what you want to say, how you want to say it. permission to share unique, high-quality ideas, making the internet a place worth frequenting again.
 
-p.s. — been watching a lot of this lately. a great antidote to the slop: ~[objects with a soul](https://www.youtube.com/watch?v=G7Ues1-pl5I)~
+p.s. — been watching a lot of this lately. a great antidote to the slop: [objects with a soul](https://www.youtube.com/watch?v=G7Ues1-pl5I)

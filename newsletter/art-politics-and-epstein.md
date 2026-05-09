@@ -13,9 +13,9 @@ but one thing i keep coming back to: sometimes the most powerful creative act is
 
 which brings me to a project i came across last week.
 
-~[riley walz](https://walzr.com/?utm_source=sawnts&utm_medium=email&utm_campaign=art-politics-and-epstein)~, a software engineer and artist, built ~[a gmail-style interface for browsing epstein's emails](https://jmail.world/?utm_source=sawnts&utm_medium=email&utm_campaign=art-politics-and-epstein)~ — over 1.4 million files archived, searchable just like your inbox. it even has "jemini," a gemini clone that lets you interact with the files directly. waaaaaay more usable than the raw DOJ dumps.
+[riley walz](https://walzr.com/?utm_source=sawnts&utm_medium=email&utm_campaign=art-politics-and-epstein), a software engineer and artist, built [a gmail-style interface for browsing epstein's emails](https://jmail.world/?utm_source=sawnts&utm_medium=email&utm_campaign=art-politics-and-epstein) — over 1.4 million files archived, searchable just like your inbox. it even has "jemini," a gemini clone that lets you interact with the files directly. waaaaaay more usable than the raw DOJ dumps.
 this is creativity in service of transparency.
 
 with all the fear mongering, manipulation, and hype that define media today, i think there's something valuable in going straight to the source when you can. not to "do your own research" in the conspiracy theorist sense, but to sit with primary documents and form your own questions and conclusions before letting someone else frame them for you.
 
-~[check it out](https://jmail.world/?utm_source=sawnts&utm_medium=email&utm_campaign=art-politics-and-epstein)~ — and let me know what sort of weird shit you run into.
+[check it out](https://jmail.world/?utm_source=sawnts&utm_medium=email&utm_campaign=art-politics-and-epstein) — and let me know what sort of weird shit you run into.
