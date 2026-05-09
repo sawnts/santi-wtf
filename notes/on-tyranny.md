@@ -7,7 +7,7 @@ on tyranny by timothy snyder is a short, urgent book about how authoritarians se
 
 in it, snyder makes the argument that institutions don't defend themselves. people do. his thesis is simple: if citizens don't actively protect democratic norms, authoritarians will exploit that passivity to dismantle them from within.
 
-history serves as a cautionary tale. snyder's primary lens is 20th century europe.
+snyder's primary lens is 20th century europe, using history as a cautionary tale.
 
 hitler rose to power through democratic means, then used the reichstag fire — an arson attack on the german parliament — as a pretext to suspend civil freedoms, crush the communists, and consolidate control. the playbook: manufacture a crisis, then use it to justify seizing power.
 
