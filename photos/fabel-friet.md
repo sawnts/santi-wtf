@@ -1,5 +1,5 @@
 ---
-title: fabel friet.jpg
+title: fabel-friet.jpg
 date: 2026-05-10
 ---
 
