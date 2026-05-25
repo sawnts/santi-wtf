@@ -19,9 +19,9 @@ early this year, i went to my local bike shop, picked up a new bike, and, a coup
 
 i spent most of the 90s and early 2000s, like most boys, staring at CRT screens, LAN partying, and teabaging noobs. gaming was life. until my late teens when i stumbled onto the self-help industry and got seduced by modern hustle culture. long story short: grind culture's obsession with productivity, optimization, and material success beat my love for gaming out of me.
 
-it wasn't until last year, when kai, my 33 year-old girlfriend who never in her life had used a right stick, picked up a nintendo switch and started pouring hours into "stardew valley," that i was reminded of how much genuine joy a console and a game can bring to someone no matter their age, gender, or experience. watching her lose her worries, wearing a smile she'd never worn before, reminded me of how much of growing up is forgetting about the kid, and how much of healing is remembering them.
+it wasn't until last year, when kai, my 33 year-old girlfriend who never in her life had used a right stick, picked up a nintendo switch and started pouring hours into "stardew valley," that i was reminded how much genuine joy a console and a game can bring to someone no matter their age, gender, or experience. watching her lose her worries — wandering her farm, watering her crops, wearing a smile she'd never worn before — reminded me how much of growing up is forgetting about the kid, and how much of healing is remembering them.
 
-a few weeks ago, i finally pulled the trigger on a nintendo switch 2 and got lost in the magic of “zelda: breath of the wild.” about 100 hours into the game, i’m happy to announce that princess zelda is home safe, and my love for this art form has been rekindled and reimagined — hell, i didn’t even consider it an art form before.
+a few weeks ago, i finally pulled the trigger on a nintendo switch 2 and got lost in the magic of “zelda: breath of the wild.” about 100 hours into the game, i’m happy to announce that princess zelda is home safe and my love for this art form has been rekindled and reimagined — hell, i didn’t even consider it an art form before.
 
 as soon as the ball dropped, i deleted social media and became obsessed with the indie web, personal sites, and re-experiencing the internet that once was — before the apps killed it.
 
