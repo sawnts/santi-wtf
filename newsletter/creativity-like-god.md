@@ -9,7 +9,7 @@ i prioritize it as much as possible — writing, sketching, collaging, photograp
 
 starving.
 
-i've spent most of the year in a weird creative block — a fairly depressing one. but after my tortured artist tantrum, i decided to reframe this curse into a positive. [i wrote about it](https://santi.wtf/newsletter/creative-blocks-arent-optional/), and while i believe a lot of what i wrote — there are no creative blocks, just incubation — i was missing something critical: perspective.
+most of the year i was in a weird creative block — a fairly depressing one. but after my tortured artist tantrum, i decided to reframe this curse into a positive. [i wrote about it](https://santi.wtf/newsletter/creative-blocks-arent-optional/), and while i believe a lot of what i wrote — there are no creative blocks, just incubation — i was missing something critical: perspective.
 
 creativity is unexpected yet omnipresent.
 
