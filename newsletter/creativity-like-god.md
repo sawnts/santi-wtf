@@ -5,7 +5,7 @@ date: 2026-05-26
 
 creativity keeps me sane.
 
-i prioritize it as much as possible — writing, sketching, collaging, photographing are familiar pastures — but for a good chunk of the year, i’ve hardly grazed them.
+i prioritize it as much as possible — writing, sketching, collaging, photographing are familiar pastures. but for a good chunk of the year, i've hardly grazed them.
 
 starving.
 
