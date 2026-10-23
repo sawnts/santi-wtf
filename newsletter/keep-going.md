@@ -15,7 +15,7 @@ there’s a walking pad in my closet covered in 2 years worth of dust. i bought 
 
 that may morning, my health app helped me connect a few dots: the 30 extra pounds i was carrying, the aches and pains covering my body, and the mental fog clouding my days were all connected to my lack of movement.
 
-i have a demanding day job, a serious relationship, a few hobbies, and a handful of friends i love dearly but often leave on read way longer than they deserve. where was i going to find the 90 minutes for the remaining 7,000 steps?
+i have a demanding day job, a few hobbies, and a handful of friends i love dearly but often leave on read way longer than they deserve. where was i going to find the 90 minutes for the remaining 7,000 steps?
 
 a sick idea popped into my head.
 
