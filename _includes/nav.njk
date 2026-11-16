@@ -374,6 +374,14 @@
           </iconcontainer>
         </a>
       </li>
+      <li class="list-item">
+        <a href="/move-well/" {% if page.url == "/move-well/" %}class="active" aria-current="page"{% endif %}>
+          <iconcontainer>
+            <svg class="icon" height="18" width="18"><use href="#sun"></use></svg>
+            <h3>move well</h3>
+          </iconcontainer>
+        </a>
+      </li>
     </ul>
     <details {% if page.url.startsWith('/notes/') and page.url != '/notes/' %}open{% endif %}>
       <summary class="list-item-group">

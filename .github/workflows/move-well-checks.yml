@@ -1,0 +1,25 @@
+name: move well checks
+on:
+  pull_request:
+    paths:
+      - 'move-well.njk'
+      - 'public/js/move-well*'
+      - 'public/css/move-well.css'
+      - 'scripts/move-well*'
+      - 'tests/**'
+      - 'package*.json'
+      - '.github/workflows/move-well-checks.yml'
+permissions:
+  contents: read
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+      - run: npm ci
+      - run: npm test
+      - run: npm run build

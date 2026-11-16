@@ -7,6 +7,7 @@ export default class SearchIndex {
   }
   render({ collections }) {
     const items = [
+      { title: "move well", url: "/move-well/", section: "notes" },
       ...collections.notesByTitle.map((p) => ({
         title: p.data.title,
         url: p.url,
