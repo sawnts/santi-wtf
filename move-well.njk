@@ -1,0 +1,104 @@
+---
+layout: layouts/base.njk
+template: move-well
+title: move well
+description: a little companion for a sustainable practice of movement and care.
+date: 2026-11-15
+permalink: /move-well/
+---
+<link rel="stylesheet" href="/css/move-well.css">
+<div class="mw" id="move-well">
+  <div class="mw-kicker"><span class="mw-dot"></span> a practice, in progress <span class="mw-version">avatar lab / 01</span></div>
+  <header class="mw-heading">
+    <div><h2>move well<span class="mw-period">.</span></h2><p>little by little, a little becomes a lot.</p></div>
+    <span class="mw-badge" id="mw-audience">synthetic preview</span>
+  </header>
+
+  <div class="mw-preview-bar">
+    <label for="mw-scenario">try a chapter</label>
+    <select id="mw-scenario">
+      <option value="steady">finding a rhythm</option><option value="starting">just beginning</option>
+      <option value="rest">taking a rest</option><option value="injury">making room to heal</option>
+      <option value="stale">an overdue sync</option><option value="missing">waiting for data</option>
+    </select>
+    <button type="button" id="mw-private" hidden>open owner preview</button>
+  </div>
+  <p class="mw-context" id="mw-context">an interactive sketch with invented data. your health records stay private.</p>
+  <p class="mw-error" id="mw-error" role="alert" hidden></p>
+
+  <section class="mw-companion" aria-labelledby="mw-stage-name">
+    <div class="mw-landscape" id="mw-avatar" data-stage="seed" data-mode="build">
+      <div class="mw-landscape-caption"><span id="mw-chapter">chapter 01</span><span>growing at your pace</span></div>
+      <svg viewBox="0 0 560 270" role="img" aria-labelledby="mw-avatar-title" class="mw-scene">
+        <title id="mw-avatar-title">a small green companion, growing with your practice</title>
+        <defs><pattern id="mw-grid" width="20" height="20" patternUnits="userSpaceOnUse"><path d="M20 0H0V20" fill="none" stroke="currentColor" stroke-width=".5"/></pattern></defs>
+        <rect width="560" height="270" fill="url(#mw-grid)" class="mw-grid"/>
+        <circle cx="425" cy="64" r="23" class="mw-sun"/>
+        <path d="M0 219L82 186L174 210L280 173L392 211L477 182L560 206V270H0Z" class="mw-hill-back"/>
+        <path d="M0 238Q134 213 280 234Q430 250 560 223V270H0Z" class="mw-hill"/>
+        <path d="M267 270Q310 250 280 230" class="mw-trail"/>
+        <g class="mw-grass" fill="none" stroke="currentColor" stroke-width="2"><path d="M106 230v-12m0 8-5-5m5 2 5-6M435 239v-12m0 7-5-5m5 2 5-6M167 246v-7m0 3-4-3"/></g>
+        <ellipse cx="280" cy="230" rx="49" ry="8" class="mw-shadow"/>
+        <g class="mw-creature">
+          <g class="mw-canopy"><path d="M280 127Q250 86 230 97Q237 122 280 127M280 125Q312 77 331 95Q326 122 280 125"/><path d="M277 122Q256 58 280 58Q307 66 284 122"/></g>
+          <g class="mw-sprout"><path d="M280 133V104" fill="none" stroke="currentColor" stroke-width="5"/><path d="M280 117Q245 116 249 91Q277 89 280 117M280 109Q284 83 308 84Q315 107 280 109"/></g>
+          <g class="mw-flower"><path d="M280 93V78" stroke="currentColor" stroke-width="4"/><circle cx="280" cy="68" r="17"/><circle cx="280" cy="68" r="6" class="mw-flower-center"/></g>
+          <g class="mw-leg"><path d="M259 202V220H247M300 202V220H312" fill="none" stroke="currentColor" stroke-width="12" stroke-linejoin="round" stroke-linecap="round"/></g>
+          <path d="M244 169Q226 163 231 189M315 169Q334 163 332 185" class="mw-arms" fill="none" stroke="currentColor" stroke-width="10" stroke-linecap="round"/>
+          <path d="M243 143Q280 121 316 144L323 188Q319 211 280 211Q240 211 237 188Z" class="mw-body"/>
+          <path d="M251 186Q280 197 309 186" class="mw-belly" fill="none" stroke-width="9" stroke-linecap="round"/>
+          <g class="mw-eyes"><path d="M263 158V166M297 158V166" stroke="currentColor" stroke-width="5" stroke-linecap="round"/></g>
+          <path d="M275 178Q280 182 285 178" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>
+          <g class="mw-cheeks"><ellipse cx="251" cy="174" rx="6" ry="3"/><ellipse cx="308" cy="174" rx="6" ry="3"/></g>
+          <g class="mw-cup"><path d="M307 183H328V202Q318 209 307 202Z"/><path d="M328 187Q341 187 332 198" fill="none" stroke="currentColor" stroke-width="3"/><path d="M315 177q-5-5 0-10m8 10q-5-5 0-10" fill="none" stroke="currentColor" stroke-width="2"/></g>
+        </g>
+        <g class="mw-spark" fill="currentColor"><path d="M183 107v10m-5-5h10M365 144v10m-5-5h10"/><circle cx="354" cy="81" r="2"/></g>
+      </svg>
+      <button type="button" class="mw-motion" id="mw-motion" aria-pressed="false">pause animation</button>
+    </div>
+    <div class="mw-companion-info">
+      <div class="mw-level"><span id="mw-level">level 1</span><span id="mw-mode">building</span></div>
+      <h3 id="mw-stage-name">seed</h3>
+      <p id="mw-stage-copy">every practice starts somewhere.</p>
+      <div class="mw-xp-label"><span id="mw-xp">0 xp earned</span><span id="mw-next">100 to next level</span></div>
+      <progress id="mw-progress" max="100" value="0" aria-label="progress to next level"></progress>
+      <p class="mw-gentle" id="mw-gentle">earned growth stays with you. rest is part of the practice.</p>
+    </div>
+  </section>
+
+  <div class="mw-freshness" role="status"><span class="mw-dot" id="mw-fresh-dot"></span><span id="mw-freshness">waiting for a data check</span></div>
+
+  <section class="mw-section" aria-labelledby="mw-pillars-heading">
+    <div class="mw-section-heading"><h3 id="mw-pillars-heading">what helps you grow</h3><span>evidence, not a health score</span></div>
+    <div class="mw-pillars" id="mw-pillars"></div>
+  </section>
+  <section class="mw-section" aria-labelledby="mw-history-heading">
+    <div class="mw-section-heading"><h3 id="mw-history-heading">small things, over time</h3><span>last 28 days</span></div>
+    <ol class="mw-history" id="mw-history" aria-label="daily evidence, last 28 days"></ol>
+    <div class="mw-legend"><span><i data-kind="activity"></i>movement</span><span><i data-kind="recovery"></i>care</span><span><i data-kind="rest"></i>rest</span><span><i data-kind="unknown"></i>unknown</span></div>
+    <p class="mw-note">empty days mean unknown. they never mean failure.</p>
+  </section>
+
+  <details class="mw-rules" open>
+    <summary>the rules are part of the design <span>adjust preview ↓</span></summary>
+    <p>movement credit is capped once per day, regardless of distance, speed, or intensity. physiology never earns or loses points. a recovery check-in is an action; sleep hours and hrv are context. verified improvements are personal milestones, not automatic pace comparisons.</p>
+    <form id="mw-rules-form" class="mw-rule-inputs">
+      <label>movement xp<input type="number" name="activityXp" min="0" max="30" value="10" required></label>
+      <label>consistency xp<input type="number" name="consistencyXp" min="0" max="30" value="5" required></label>
+      <label>care xp<input type="number" name="recoveryXp" min="0" max="30" value="5" required></label>
+      <label>milestone xp<input type="number" name="improvementXp" min="0" max="30" value="10" required></label>
+      <label>weekly credit cap<input type="number" name="weeklyTarget" min="1" max="7" value="3" required><small>care days count during rest or injury</small></label>
+      <label>xp per level<input type="number" name="xpPerLevel" min="50" max="500" step="10" value="100" required></label>
+      <div class="mw-rule-actions"><button type="submit">try these rules</button><button type="button" id="mw-reset">reset</button><span id="mw-rule-state" role="status">preview only · nothing saved</span></div>
+    </form>
+    <p class="mw-note">growth: seed at level 1 → sprout at 2 → bloom at 3 → canopy at 5. missed days never subtract xp. source corrections can change evidence; previously earned xp is retained privately.</p>
+  </details>
+
+  <section class="mw-section" aria-labelledby="mw-sources-heading">
+    <div class="mw-section-heading"><h3 id="mw-sources-heading">a hub with room to grow</h3><span>source connections</span></div>
+    <ul class="mw-sources" id="mw-sources"></ul>
+    <p class="mw-note" id="mw-boundary">this public preview uses invented data. the owner preview reads an allowlisted local projection. publishing personal avatar data requires approval of the exact fields.</p>
+  </section>
+  <noscript><p class="mw-error">enable javascript to explore the animated avatar and progression rules. this page uses synthetic data.</p></noscript>
+</div>
+<script type="module" src="/js/move-well.js"></script>

@@ -4,6 +4,8 @@
   "type": "module",
   "description": "santi's digital garden",
   "scripts": {
+    "test": "node --test tests/*.test.js",
+    "preview:move-well": "node scripts/move-well-preview.mjs",
     "build": "npx @11ty/eleventy",
     "serve": "npx @11ty/eleventy --serve",
     "start": "npx @11ty/eleventy --serve"
