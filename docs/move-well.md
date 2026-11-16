@@ -1,5 +1,7 @@
 # move well / avatar lab
 
+![synthetic desktop preview](move-well-preview.jpg)
+
 ## working milestone
 
 `move-well.njk` adds an avatar to the existing eleventy shell, sidebar, and command palette. the companion breathes, blinks, and visibly changes from seed to sprout, bloom and canopy. animation can be paused and respects reduced motion. six synthetic scenarios demonstrate a beginning, steady practice, rest, injury, stale data and missing data. no external services or new frontend dependencies are required.
