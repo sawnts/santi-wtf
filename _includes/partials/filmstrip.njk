@@ -1,0 +1,3 @@
+<div class="index-filmstrip {{ filmstripClass }}" role="group" aria-label="{{ filmstripLabel }}" data-filmstrip>
+  {% for photo in collections.photos %}<a class="index-photo" href="{{ photo.url }}" aria-label="open photograph: {{ photo.inputPath | photoAlt }}">{% photograph photo.inputPath, filmstripMode or 'thumbnail' %}</a>{% endfor %}
+</div>

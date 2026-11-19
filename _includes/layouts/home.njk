@@ -1,0 +1,22 @@
+---
+layout: layouts/base.njk
+---
+<main class="index-stage" id="main-content">
+  <header class="index-intro">
+    <h1>{{ site.name }}</h1>
+    {{ content | safe }}
+    <nav class="index-links" aria-label="explore santi's site">
+      {% for link in site.homeLinks %}<a href="{{ link.url }}"{% if link.external %} target="_blank" rel="noopener noreferrer"{% endif %}>{{ link.title }}</a>{% endfor %}
+    </nav>
+  </header>
+  <section class="index-gallery" aria-label="selected photographs">
+    {% set filmstripClass = '' %}
+    {% set filmstripLabel = 'photographs, scroll horizontally' %}
+    {% include "partials/filmstrip.njk" %}
+    <footer class="index-footer">
+      <a href="/photos/">photographs</a>
+      <details class="index-about"><summary>[about]</summary><div class="index-about-copy">{{ site.about | safe }}</div></details>
+      <span class="index-status">santi.wtf</span>
+    </footer>
+  </section>
+</main>

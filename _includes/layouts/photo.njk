@@ -1,0 +1,23 @@
+---
+layout: layouts/base.njk
+template: photo
+---
+<main class="page" id="main-content">
+  {% include "nav.njk" %}
+  <header class="page-header">
+    <h1>{{ title }}</h1>
+    <time datetime="{{ date | htmlDateString }}">published {{ date | personalDate }}</time>
+  </header>
+  <figure class="photo-figure">
+    {% photograph page.inputPath, 'full' %}
+    <figcaption>{{ page.inputPath | photoAlt }}</figcaption>
+  </figure>
+  {% set photoBody = content | withoutLeadImage | trim %}
+  {% if photoBody %}<div class="prose photo-body">{{ photoBody | safe }}</div>{% endif %}
+  {% set adjacent = page | getPrevNext(collections.photos) %}
+  <footer class="article-footer">
+    <a href="/photos/">[all photographs]</a>
+    {% if adjacent.prev %}<a href="{{ adjacent.prev.url }}">[newer photograph]</a>{% endif %}
+    {% if adjacent.next %}<a href="{{ adjacent.next.url }}">[older photograph]</a>{% endif %}
+  </footer>
+</main>

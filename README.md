@@ -1,28 +1,10 @@
 ---
-layout: layouts/note.njk
-title: readme
-date: 2026-01-01
+layout: layouts/home.njk
+title: santi villanueva
 permalink: /
 ---
 
-![me at a thrift store in amsterdam](/images/amsterdam-thrift-store.jpg)
+yo — santi here. peruvian-born, seattle-based.
 
-yo — santi here.
-
-i'm a peruvian-born creative based in seattle.
-
-i spend most of my days overcaffeinated, slinging software, and bleeding on my keyboard. 
-
-when i'm not working, you'll catch me soaking in art, riding my bike around the city, and [pushing pawns](https://lichess.org/@/sawnts).
-
-this site is a collection of scribbles, images, and god knows what.
-
----
-
-<section class="subscribe-inline">
-  <p class="subscribe-prompt">say hi at <a href="mailto:hi@santi.wtf">hi@santi.wtf</a> or meet me in your inbox</p>
-  <form action="https://buttondown.com/api/emails/embed-subscribe/sawnts" method="post" class="subscribe-form">
-    <input type="email" name="email" placeholder="you@example.com" required class="subscribe-input" autocomplete="email">
-    <button type="submit" class="subscribe-btn">subscribe</button>
-  </form>
-</section>
+art, tech, culture.
+overly caffeinated.

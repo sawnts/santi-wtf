@@ -1,21 +1,13 @@
 ---
 layout: layouts/base.njk
 permalink: /photos/
-title: photos
-template: archive
+title: photographs
 ---
-
-<section class="archive-list">
-  <div class="archive-head">
-    <div class="archive-head-item">title</div>
-    <div class="archive-head-item align-right">published</div>
-  </div>
-  {% for post in collections.photos %}
-    <a class="archive-row" href="{{ post.url }}">
-        <div class="archive-column visited-marker">
-          {{ post.data.title }}
-        </div>
-        <div class="archive-column align-right"><time datetime="{{ post.data.date | htmlDateString }}">{{ post.data.date | dinkyDate }}</time></div>
-    </a>
-  {% endfor %}
-</section>
+<main class="page" id="main-content">
+  {% include "nav.njk" %}
+  <header class="page-header"><h1>{{ title }}</h1></header>
+  {% set filmstripClass = 'photographs-strip' %}
+  {% set filmstripMode = 'gallery' %}
+  {% set filmstripLabel = 'photographs, scroll horizontally' %}
+  {% include "partials/filmstrip.njk" %}
+</main>

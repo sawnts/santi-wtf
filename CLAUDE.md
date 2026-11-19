@@ -1,130 +1,42 @@
-# CLAUDE.md
-
-guidance for claude code when working in this repo.
-
-## project overview
-
-static personal site built with eleventy 3.x. file-browser UI with a fixed sidebar navigator, light/dark theme, and monospace content area. hosted on github pages at santi.wtf.
-
-homepage copy lives in `README.md` (with `permalink: /` in frontmatter).
-
-## commands
-
-```bash
-# dev server (port 8080, hot reload)
-npm run serve
-
-# build to _site/
-npm run build
-
-# deploy (github pages auto-builds on push)
-git push origin main
-```
+# working on santi.wtf
 
 ## architecture
 
-**eleventy static site** — no custom build pipeline, no external content source. all content is local markdown.
+native eleventy 3.x personal site. no client framework, iframe, exported visualization runtime, or client-side router. keep navigation as ordinary anchors.
 
-**three collections:**
+- `README.md` renders `/` through `layouts/home.njk`.
+- notes and newsletter posts remain local markdown with their existing URLs and prose.
+- `photos/*.md` use `layouts/photo.njk`. the first markdown image supplies each gallery image, alt text, and caption.
+- `_data/site.json` owns navigation and the short about text.
+- `_includes/layouts/base.njk` owns document metadata and shared asset links.
+- `_includes/partials/filmstrip.njk` renders the photo collection on the homepage and photo archive.
+- `public/css/base.css` is the shared design system; `public/js/site.js` adds keyboard movement through filmstrips.
+- `_lib/photographs.js` generates responsive webp images with intrinsic dimensions through eleventy image. metadata is derived from source images, including future portrait photographs.
 
-| collection | folder | url pattern | directory config |
-|-----------|--------|-------------|-----------------|
-| notes | `notes/` | `/notes/{slug}/` | `notes/notes.json` |
-| newsletter | `newsletter/` | `/newsletter/{slug}/` | `newsletter/newsletter.json` |
-| photos | `photos/` | `/photos/{slug}/` | `photos/photos.json` |
+## preview
 
-each collection's `.json` file sets `layout`, `tags`, and `permalink` pattern.
+```bash
+npm ci
+npm run serve
+npm run build:site
+```
 
-**layouts** (`_includes/`):
-- `layouts/base.njk` — root HTML shell: inline SVG sprite, meta tags, theme toggle, header with prev/next nav, sidebar management
-- `layouts/note.njk` — wraps content in `.content-area` div
-- `nav.njk` — sidebar navigator with folder tree and search/filter
-- `footer.njk` — fixed footer with published date (calendar) and last-updated date (clock, from git)
+the full site outputs to `_site/`. during the current deployment phase, `npm run build` produces the production construction site and `npm run build:site` produces the complete native preview. keep production's build choice on construction until the user explicitly approves launching v4. do not assume a successful preview or a push to main authorizes the launch.
 
-**archive pages** (root-level `.njk` files):
-- `notes.njk` → `/notes/` — table of all notes
-- `newsletter.njk` → `/newsletter/` — table of all newsletters
-- `photos.njk` → `/photos/` — table of all photos
+## visual contract
 
-## key files
+the approved personal index is light, sparse, compact, and monospace. the native canvas is centered at a maximum width of 736px, with the approved 56px top/14px horizontal content padding and 13px typography. retain the real photographs, lowercase voice, and restrained amber hover/focus color.
 
-| file | purpose |
-|------|---------|
-| `README.md` | homepage content (`permalink: /`) |
-| `eleventy.config.js` | plugins, filters, collections, markdown config |
-| `_includes/layouts/base.njk` | root HTML template with SVG sprite, theme toggle, header |
-| `_includes/nav.njk` | sidebar navigator with folder tree and filter |
-| `_includes/footer.njk` | content footer with dates |
-| `public/css/base.css` | all styles, design tokens, responsive layout |
-| `.eleventyignore` | excludes `CLAUDE.md` and `README.md` from build |
+photo strips use a shared height and natural image widths. never crop photographs into fixed-width or square tiles. preserve `width: auto`, `flex: 0 0 auto`, horizontal overflow, and intrinsic width/height attributes. container queries preserve the approved mobile behavior at a 500px canvas width. photo detail pages contain the full image.
 
 ## content
 
-**frontmatter:**
-```yaml
----
-title: lowercase title
-date: 2026-03-15
----
-```
+preserve existing article and photo markdown bodies. keep source punctuation, wording, links, and formatting. dates are publication dates, not capture dates. the homepage's approved copy is `art, tech, culture.` and `overly caffeinated.`.
 
-`title` and `date` are required. filenames become URL slugs.
+new posts require `title` and `date: YYYY-MM-DD`. filenames determine URLs. write photo alt text in the markdown image; do not add a separate hardcoded gallery list. the collections are `notes`, `newsletter`, and `photos`, newest first, with stable filename ordering for equal dates.
 
-**images:** put files in `public/images/`, reference as `![alt](/images/filename.jpg)`.
+## checks
 
-**all content must be lowercase** — titles, headings, body text. this is a core aesthetic.
+build the full site, verify original deep routes, and inspect desktop/mobile before calling a change complete. ensure external asset paths resolve, photo ratios remain natural, keyboard focus is visible, and subscription/404 pages remain available. docs, construction input, and helper scripts are excluded by `.eleventyignore`.
 
-see `PUBLISHING.md` for the full publishing guide with examples.
-
-## eleventy config highlights
-
-**plugins:** rss, syntax highlight, bundle
-
-**filters:**
-- date formatting: `readableDate`, `shortDate`, `dinkyDate`, `fullDate`, `htmlDateString`, `time`
-- `gitCommitDate` / `gitCommitHash` — git metadata for a file's last commit
-- `filterTagList` — strips internal tags
-- `getPrevNext` — prev/next note navigation
-
-**collections:**
-- `notes` — by date desc
-- `notesByTitle` — alphabetical (sidebar)
-- `newsletter` — by date desc
-- `photos` — by date desc
-
-**markdown:** markdown-it with anchor plugin (h1-h4), HTML enabled, linkify enabled
-
-## css architecture (`public/css/base.css`)
-
-**design tokens (css variables):**
-- colors: neutral scale (100-1200) + primary, using `light-dark()` for dark mode
-- fonts: `--font-mono` (SF Mono / ui-monospace), `--font-sans` (Inter)
-- spacing: `--space-half` through `--space-5`
-- sizing: `--size-navigator` (20rem), `--size-content-width` (40rem), `--size-chrome` (2.25rem)
-
-**layout:**
-- desktop (768px+): fixed sidebar left + content area
-- mobile (<768px): sidebar hidden, toggleable overlay
-- line numbers rendered via CSS counters on `.content-area`
-- view transitions enabled
-
-## deployment
-
-github actions (`.github/workflows/deploy.yml`):
-1. push to `main` triggers build
-2. `npm ci` + `npm run build`
-3. uploads `_site/` and deploys to github pages
-
-passthrough copies: `public/`, `images/`, `CNAME`, `.nojekyll`
-
-## common tasks
-
-**add a note:** create `notes/my-note.md` with frontmatter, commit, push.
-
-**add an image:** drop file in `public/images/`, reference in markdown.
-
-**css changes:** edit `public/css/base.css`. design tokens at the top. mobile breakpoint at 768px.
-
-**preview locally:** `npm run serve` → `http://localhost:8080`
-
-**update homepage:** edit `README.md` in repo root.
+the frozen v3 source is retained on `archive/v3` in github. never recreate a public v3 archive without the user's request.

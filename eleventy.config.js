@@ -1,195 +1,89 @@
-import { DateTime } from "luxon";
-import markdownIt from "markdown-it";
-import markdownItAnchor from "markdown-it-anchor";
-import pluginRss from "@11ty/eleventy-plugin-rss";
-import pluginSyntaxHighlight from "@11ty/eleventy-plugin-syntaxhighlight";
-import pluginBundle from "@11ty/eleventy-plugin-bundle";
-import { execSync } from "child_process";
-import Image from "@11ty/eleventy-img";
+import { DateTime } from 'luxon';
+import markdownIt from 'markdown-it';
+import markdownItAnchor from 'markdown-it-anchor';
+import pluginRss from '@11ty/eleventy-plugin-rss';
+import pluginSyntaxHighlight from '@11ty/eleventy-plugin-syntaxhighlight';
+import pluginBundle from '@11ty/eleventy-plugin-bundle';
+import { photograph, photoSource, renderImage } from './_lib/photographs.js';
 
 export default function (eleventyConfig) {
-  // --- passthrough copies ---
-  eleventyConfig.addPassthroughCopy({ "public": "/" });
-  eleventyConfig.addPassthroughCopy("images");
-  eleventyConfig.addPassthroughCopy("CNAME");
-  eleventyConfig.addPassthroughCopy(".nojekyll");
-
-  // --- plugins ---
+  eleventyConfig.addPassthroughCopy({ public: '/' });
+  eleventyConfig.addPassthroughCopy('CNAME');
+  eleventyConfig.addPassthroughCopy('.nojekyll');
+  eleventyConfig.addWatchTarget('public/images/');
   eleventyConfig.addPlugin(pluginRss);
   eleventyConfig.addPlugin(pluginSyntaxHighlight);
   eleventyConfig.addPlugin(pluginBundle);
 
-  // --- filters ---
-  eleventyConfig.addFilter("readableDate", (dateObj) => {
-    return DateTime.fromJSDate(dateObj, { zone: "utc" }).toFormat(
-      "LLLL d, yyyy"
-    );
-  });
-
-  eleventyConfig.addFilter("shortDate", (dateObj) => {
-    return DateTime.fromJSDate(dateObj, { zone: "utc" }).toFormat("LLL d");
-  });
-
-  eleventyConfig.addFilter("dinkyDate", (dateObj) => {
-    return DateTime.fromJSDate(dateObj, { zone: "utc" }).toFormat(
-      "LLL dd, yyyy"
-    );
-  });
-
-  eleventyConfig.addFilter("htmlDateString", (dateObj) => {
-    return DateTime.fromJSDate(dateObj, { zone: "utc" }).toISO();
-  });
-
-  eleventyConfig.addFilter("time", (dateObj) => {
-    return DateTime.fromJSDate(dateObj, { zone: "utc" }).toFormat("h:mm a");
-  });
-
-  eleventyConfig.addFilter("fullDate", (dateObj) => {
-    return DateTime.fromJSDate(dateObj, { zone: "utc" }).toFormat(
-      "EEEE, LLLL d, yyyy"
-    );
-  });
-
-  eleventyConfig.addFilter("filterTagList", (tags) => {
-    return (tags || []).filter(
-      (tag) => ["all", "nav", "posts"].indexOf(tag) === -1
-    );
-  });
-
-  eleventyConfig.addFilter("getPrevNext", (page, collection) => {
-    if (!collection) return { prev: null, next: null };
+  const asDateTime = (value) => {
+    if (value instanceof Date) return DateTime.fromJSDate(value, { zone: 'utc' });
+    return value ? DateTime.fromISO(String(value), { zone: 'utc' }) : null;
+  };
+  const format = (value, pattern) => {
+    const date = asDateTime(value);
+    return date?.isValid ? date.toFormat(pattern) : '';
+  };
+  eleventyConfig.addFilter('htmlDateString', (value) => format(value, 'yyyy-MM-dd'));
+  eleventyConfig.addFilter('personalDate', (value) => format(value, 'LLL dd, yyyy').toLowerCase());
+  eleventyConfig.addFilter('readableDate', (value) => format(value, 'LLLL d, yyyy'));
+  eleventyConfig.addFilter('shortDate', (value) => format(value, 'LLL d'));
+  eleventyConfig.addFilter('dinkyDate', (value) => format(value, 'LLL dd, yyyy'));
+  eleventyConfig.addFilter('fullDate', (value) => format(value, 'EEEE, LLLL d, yyyy'));
+  eleventyConfig.addFilter('time', (value) => format(value, 'h:mm a'));
+  eleventyConfig.addFilter('filterTagList', (tags = []) => tags.filter((tag) => !['all', 'nav', 'posts'].includes(tag)));
+  eleventyConfig.addFilter('getPrevNext', (page, collection = []) => {
     const index = collection.findIndex((item) => item.url === page.url);
-    return {
-      prev: index > 0 ? collection[index - 1] : null,
-      next: index < collection.length - 1 ? collection[index + 1] : null,
-    };
+    return { prev: index > 0 ? collection[index - 1] : null, next: index >= 0 ? collection[index + 1] : null };
   });
+  eleventyConfig.addFilter('photoAlt', (inputPath) => photoSource(inputPath).alt);
+  eleventyConfig.addFilter('withoutLeadImage', (content) => content
+    .replace(/<img\b[^>]*>/i, '')
+    .replace(/<p>\s*(?:<br\s*\/?>\s*)*<\/p>/gi, '')
+    .replace(/<p>\s*<br\s*\/?>/i, '<p>'));
+  eleventyConfig.addAsyncShortcode('photograph', photograph);
+  eleventyConfig.addAsyncShortcode('image', (src, alt) => renderImage(src.replace(/^\.\/public/, ''), alt));
 
-  // --- git filters ---
-  eleventyConfig.addFilter("gitCommitHash", (inputPath) => {
-    try {
-      return execSync(`git log -1 --format="%h" -- "${inputPath}"`)
-        .toString()
-        .trim();
-    } catch {
-      return "";
+  const newestFirst = (a, b) => b.date - a.date || a.inputPath.localeCompare(b.inputPath);
+  eleventyConfig.addCollection('notes', (api) => api.getFilteredByGlob('notes/**/*.md').sort(newestFirst));
+  eleventyConfig.addCollection('notesByTitle', (api) => api.getFilteredByGlob('notes/**/*.md').sort((a, b) => a.data.title.localeCompare(b.data.title)));
+  eleventyConfig.addCollection('newsletter', (api) => api.getFilteredByGlob('newsletter/**/*.md').sort(newestFirst));
+  eleventyConfig.addCollection('photos', (api) => api.getFilteredByGlob('photos/**/*.md').sort(newestFirst));
+
+  const markdown = markdownIt({ html: true, breaks: true, linkify: true }).use(markdownItAnchor, {
+    permalink: markdownItAnchor.permalink.ariaHidden({ placement: 'after', class: 'direct-link', symbol: '#' }),
+    level: [1, 2, 3, 4],
+    slugify: eleventyConfig.getFilter('slugify'),
+  });
+  const defaultLink = markdown.renderer.rules.link_open || ((tokens, index, options, env, renderer) => renderer.renderToken(tokens, index, options));
+  markdown.renderer.rules.link_open = (tokens, index, options, env, renderer) => {
+    const link = tokens[index];
+    const href = link.attrGet('href');
+    if (/^https:\/\/santi\.wtf(?:\/|$)/.test(href)) {
+      const url = new URL(href);
+      link.attrSet('href', url.pathname + url.search + url.hash);
+    } else if (/^https?:/.test(href)) {
+      link.attrSet('target', '_blank');
+      link.attrSet('rel', 'noopener noreferrer');
     }
-  });
+    return defaultLink(tokens, index, options, env, renderer);
+  };
+  eleventyConfig.setLibrary('md', markdown);
 
-  eleventyConfig.addFilter("gitCommitDate", (inputPath) => {
-    try {
-      const date = execSync(
-        `git log -1 --format="%ai" -- "${inputPath}"`
-      )
-        .toString()
-        .trim();
-      return date ? new Date(date) : null;
-    } catch {
-      return null;
-    }
-  });
-
-  // --- collections ---
-  eleventyConfig.addCollection("notes", (collectionApi) => {
-    return collectionApi
-      .getFilteredByGlob("notes/**/*.md")
-      .sort((a, b) => b.date - a.date);
-  });
-
-  eleventyConfig.addCollection("notesByTitle", (collectionApi) => {
-    return collectionApi
-      .getFilteredByGlob("notes/**/*.md")
-      .sort((a, b) => {
-        const titleA = (a.data.title || "").toLowerCase();
-        const titleB = (b.data.title || "").toLowerCase();
-        return titleA.localeCompare(titleB);
-      });
-  });
-
-  eleventyConfig.addCollection("newsletter", (collectionApi) => {
-    return collectionApi
-      .getFilteredByGlob("newsletter/**/*.md")
-      .sort((a, b) => b.date - a.date);
-  });
-
-  eleventyConfig.addCollection("photos", (collectionApi) => {
-    return collectionApi
-      .getFilteredByGlob("photos/**/*.md")
-      .sort((a, b) => b.date - a.date);
-  });
-
-  // --- image optimization ---
-  eleventyConfig.addShortcode("image", async function (src, alt) {
-    const metadata = await Image(src, {
-      widths: [800, 1600],
-      formats: ["webp", "jpeg"],
-      outputDir: "./_site/images/",
-      urlPath: "/images/",
-    });
-    const img = metadata.jpeg[metadata.jpeg.length - 1];
-    return `<picture>
-      <source type="image/webp" srcset="${metadata.webp.map(e => `${e.url} ${e.width}w`).join(", ")}">
-      <img src="${img.url}" width="${img.width}" height="${img.height}" alt="${alt || ''}" loading="lazy" decoding="async">
-    </picture>`;
-  });
-
-  eleventyConfig.addTransform("optimizeImages", async function (content) {
-    if (!this.page.outputPath || !this.page.outputPath.endsWith(".html")) {
-      return content;
-    }
-    const imgRegex = /<img\s+[^>]*src="(\/images\/[^"]+)"[^>]*alt="([^"]*)"[^>]*>/g;
-    let match;
-    const replacements = [];
-    while ((match = imgRegex.exec(content)) !== null) {
-      const [fullMatch, src, alt] = match;
-      try {
-        const metadata = await Image(`./public${src}`, {
-          widths: [800, 1600],
-          formats: ["webp", "jpeg"],
-          outputDir: "./_site/images/",
-          urlPath: "/images/",
-        });
-        const img = metadata.jpeg[metadata.jpeg.length - 1];
-        const picture = `<picture>
-          <source type="image/webp" srcset="${metadata.webp.map(e => `${e.url} ${e.width}w`).join(", ")}">
-          <img src="${img.url}" width="${img.width}" height="${img.height}" alt="${alt || ''}" loading="lazy" decoding="async">
-        </picture>`;
-        replacements.push({ from: fullMatch, to: picture });
-      } catch (e) {
-        // skip if image not found
-      }
-    }
-    for (const r of replacements) {
-      content = content.replace(r.from, r.to);
+  eleventyConfig.addTransform('optimizeContentImages', async function (content) {
+    if (!this.page.outputPath?.endsWith('.html')) return content;
+    const images = [...content.matchAll(/<img\b[^>]*\bsrc="(\/images\/[^\"]+)"[^>]*>/g)];
+    for (const [tag, src] of images) {
+      if (src.startsWith('/images/generated/')) continue;
+      const alt = markdown.utils.unescapeAll(tag.match(/\balt="([^\"]*)"/)?.[1] || '');
+      content = content.replace(tag, await renderImage(src, alt));
     }
     return content;
   });
 
-  // --- markdown ---
-  const mdLib = markdownIt({
-    html: true,
-    breaks: true,
-    linkify: true,
-  }).use(markdownItAnchor, {
-    permalink: markdownItAnchor.permalink.ariaHidden({
-      placement: "after",
-      class: "direct-link",
-      symbol: "#",
-    }),
-    level: [1, 2, 3, 4],
-    slugify: eleventyConfig.getFilter("slugify"),
-  });
-
-  eleventyConfig.setLibrary("md", mdLib);
-
   return {
-    templateFormats: ["md", "njk", "html", "11ty.js"],
-    markdownTemplateEngine: "njk",
-    htmlTemplateEngine: "njk",
-    dir: {
-      input: ".",
-      includes: "_includes",
-      output: "_site",
-    },
+    templateFormats: ['md', 'njk', 'html', '11ty.js'],
+    markdownTemplateEngine: 'njk',
+    htmlTemplateEngine: 'njk',
+    dir: { input: '.', includes: '_includes', data: '_data', output: '_site' },
   };
 }

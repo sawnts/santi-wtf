@@ -1,179 +1,39 @@
 # how to publish
 
-a quick guide for adding content to your site.
+the site keeps its content in local markdown. notes, letters, and photographs each have a folder:
 
----
-
-## the basics
-
-your site has three sections. each one is just a folder with markdown files:
-
-| section | folder | url |
+| content | folder | url |
 |---------|--------|-----|
 | notes | `notes/` | `/notes/your-title/` |
-| newsletter | `newsletter/` | `/newsletter/your-title/` |
-| photos | `photos/` | `/photos/your-title/` |
+| letters | `newsletter/` | `/newsletter/your-title/` |
+| photographs | `photos/` | `/photos/your-title/` |
 
-to publish something, you just:
-1. create a `.md` file in the right folder
-2. commit and push to github
+## write a post
 
-that's it. github pages builds and deploys automatically.
+create a markdown file with a title and publication date:
 
----
-
-## writing a post
-
-every post starts with a little header block called "frontmatter." here's all you need:
-
-```
+```markdown
 ---
 title: your title here
-date: 2026-03-15
+date: 2026-11-19
 ---
 
-your content goes here. just write normally.
+your words go here.
 ```
 
-**rules:**
-- keep everything lowercase (that's the site's style)
-- `title` and `date` are required
-- date format is `YYYY-MM-DD` (year-month-day)
-- the filename becomes the url (e.g., `my-cool-post.md` → `/notes/my-cool-post/`)
+keep the site's lowercase voice. the filename becomes the URL, so retain it when editing an existing post to avoid breaking links. existing prose, punctuation, and links should stay intact unless you intend to edit them.
 
----
+markdown supports paragraphs, headings, bold/italic text, links, lists, quotes, and images. line breaks are preserved. notes and letters appear automatically in their archives, newest first.
 
-## formatting cheat sheet
+## add a photograph
+
+1. put the original file in `public/images/`.
+2. create a corresponding markdown post in `photos/`:
 
 ```markdown
-## heading
-
-### smaller heading
-
-regular paragraph text. just type normally.
-
-**bold text**
-
-*italic text*
-
-[link text](https://example.com)
-
-![image description](/images/your-image.jpg)
-
-- bullet point
-- another bullet point
-
-1. numbered item
-2. another numbered item
-
-> a quote or callout
-```
-
----
-
-## adding images
-
-your site has two folders involved with photos:
-
-- **`public/images/`** — where the actual image files go (`.jpg`, `.png`, etc.)
-- **`photos/`** — where photo *posts* go (`.md` files that display those images)
-
-to add an image to any post:
-
-1. put your image file in the `public/images/` folder
-2. reference it in your post like this:
-
-```markdown
-![description of the image](/images/your-image.jpg)
-```
-
-this works in notes, newsletters, and photo posts — any post can include images.
-
----
-
-## publishing with git (step by step)
-
-open your terminal and run these commands:
-
-```bash
-# 1. see what's changed
-git status
-
-# 2. add your new files
-git add notes/my-new-post.md
-#  or for images too:
-git add notes/my-new-post.md public/images/photo.jpg
-
-# 3. save your changes (the message describes what you did)
-git commit -m "add: my new post title"
-
-# 4. push to github (this triggers the deploy)
-git push origin main
-```
-
-**if you're adding multiple files at once:**
-```bash
-git add .
-git commit -m "add: a few new posts"
-git push origin main
-```
-
----
-
-## preview before publishing
-
-want to see how it looks before going live?
-
-```bash
-npm run serve
-```
-
-then open `http://localhost:8080` in your browser. it auto-refreshes as you edit.
-
----
-
-## examples
-
-### a note
-
-create `notes/on-minimalism.md`:
-```
----
-title: on minimalism
-date: 2026-03-15
----
-
-less is more. or so they say.
-
-i've been thinking about what it means to own less, and whether
-the act of letting go is itself a form of holding on.
-```
-
-### a newsletter
-
-create `newsletter/march-update.md`:
-```
----
-title: march update
-date: 2026-03-15
----
-
-hey friends,
-
-here's what i've been up to this month...
-```
-
-### a photo post
-
-two steps — first add the image, then create the post:
-
-1. put `seattle-morning.jpg` in the `public/images/` folder
-2. create `photos/seattle-morning.md`:
-
-```
 ---
 title: seattle morning
-date: 2026-03-15
+date: 2026-11-19
 ---
 
 ![fog rolling over the puget sound](/images/seattle-morning.jpg)
@@ -181,15 +41,38 @@ date: 2026-03-15
 caught this on my walk to the coffee shop.
 ```
 
----
+the **first markdown image** is used for the homepage filmstrip, the photograph archive, and the full photo page. its alt text also supplies the visible caption. additional prose and images remain on the photo page.
 
-## quick reference
+no gallery array or dimensions need updating. eleventy image creates 320px, 640px, and up-to-1600px webp versions at build time, retaining the original aspect ratio. landscape and portrait images work through the same workflow. generated files stay in `_site/images/generated/`; do not commit them. the original file remains available at its `/images/...` URL.
 
-| what you want to do | command |
-|---------------------|---------|
-| preview the site locally | `npm run serve` |
-| check what files changed | `git status` |
-| stage files for commit | `git add <filename>` |
-| commit your changes | `git commit -m "your message"` |
-| push to github (deploy) | `git push origin main` |
-| pull latest changes | `git pull origin main` |
+use meaningful alt text and a real publication date. the date is not presented as a capture date. images in notes and letters use the same `/images/...` markdown syntax and are optimized during the build.
+
+## homepage and navigation
+
+edit the homepage introduction in `README.md`. navigation and the short about text live in `_data/site.json`. the approved introduction ends:
+
+```text
+art, tech, culture.
+overly caffeinated.
+```
+
+## preview and build
+
+```bash
+npm ci
+npm run serve
+```
+
+open `http://localhost:8080`. to produce the full static preview:
+
+```bash
+npm run build:site
+```
+
+the result is in `_site/`. preview a new photo in the filmstrip and on its full page, and check both desktop and phone sizes.
+
+## release
+
+the redesign is being prepared on a separate v4 branch while production shows the construction page. in this phase, `npm run build` produces that construction site; `npm run build:site` produces the full native preview. pushing to main does not publish new notes or launch v4 while construction mode remains selected. review the current branch and deployment mode before pushing. switching the production build to the full redesign requires explicit release approval.
+
+v3 is preserved as source on github's `archive/v3` branch.
