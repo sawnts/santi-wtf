@@ -5,7 +5,7 @@ template: article
 <main class="page" id="main-content">
   {% include "nav.njk" %}
   <header class="page-header">
-    <h1>{{ title }}</h1>
+    <h1 id="page-title" tabindex="-1">{{ title }}</h1>
     {% if date and (page.url.startsWith('/notes/') or page.url.startsWith('/newsletter/')) %}<time datetime="{{ date | htmlDateString }}">{{ date | personalDate }}</time>{% endif %}
   </header>
   <article class="prose">{{ content | safe }}</article>

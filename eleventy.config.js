@@ -1,4 +1,6 @@
 import { DateTime } from 'luxon';
+import { readFileSync } from 'node:fs';
+import { createHash } from 'node:crypto';
 import markdownIt from 'markdown-it';
 import markdownItAnchor from 'markdown-it-anchor';
 import pluginRss from '@11ty/eleventy-plugin-rss';
@@ -7,6 +9,8 @@ import pluginBundle from '@11ty/eleventy-plugin-bundle';
 import { photograph, photoSource, renderImage } from './_lib/photographs.js';
 
 export default function (eleventyConfig) {
+  eleventyConfig.addFilter('assetVersion', (url) => createHash('sha256')
+    .update(readFileSync(`public${url}`)).digest('hex').slice(0, 12));
   eleventyConfig.addPassthroughCopy({ public: '/' });
   eleventyConfig.addPassthroughCopy('CNAME');
   eleventyConfig.addPassthroughCopy('.nojekyll');

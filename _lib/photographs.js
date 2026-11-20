@@ -41,6 +41,7 @@ export async function optimizedImage(src) {
   const modified = fs.statSync(source).mtimeMs;
   const key = `${source}:${modified}`;
   if (!images.has(key)) images.set(key, Image(source, {
+    fixOrientation: true,
     widths: [320, 640, 1600],
     formats: ['webp'],
     outputDir: './_site/images/generated/',

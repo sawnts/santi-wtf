@@ -15,11 +15,11 @@
   <meta name="twitter:card" content="summary_large_image">
   <link rel="icon" type="image/svg+xml" href="/favicon.svg">
   <link rel="preload" href="/fonts/MonaspaceNeonVar.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="stylesheet" href="/css/base.css">
-  <script src="/js/site.js" defer></script>
+  <link rel="stylesheet" href="/css/base.css?v={{ '/css/base.css' | assetVersion }}">
+  <script src="/js/site.js?v={{ '/js/site.js' | assetVersion }}" defer></script>
 </head>
 <body>
-  <a class="skip-link" href="#main-content">skip to content</a>
+  <a class="skip-link" href="#page-title">skip to content</a>
   <div class="site-canvas"><div id="santi-linus-home">{{ content | safe }}</div></div>
 </body>
 </html>
