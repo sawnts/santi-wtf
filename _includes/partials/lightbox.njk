@@ -1,0 +1,28 @@
+<dialog class="photo-lightbox" data-photo-lightbox aria-labelledby="photo-lightbox-title">
+  <div class="photo-lightbox-backdrop" data-lightbox-backdrop aria-hidden="true"></div>
+  <div class="photo-lightbox-shell" data-lightbox-shell>
+    <header class="photo-lightbox-header">
+      <span class="photo-lightbox-counter" data-lightbox-counter></span>
+      <button class="photo-lightbox-control" type="button" data-lightbox-close autofocus>[close]</button>
+    </header>
+    <div class="photo-lightbox-frame" data-lightbox-frame aria-busy="false">
+      <img class="photo-lightbox-image" data-lightbox-image alt="" decoding="async" hidden>
+      <div class="photo-lightbox-status" data-lightbox-status>
+        <p data-lightbox-status-copy>loading photograph…</p>
+        <button class="photo-lightbox-control" type="button" data-lightbox-retry hidden>[try again]</button>
+      </div>
+    </div>
+    <footer class="photo-lightbox-footer">
+      <div class="photo-lightbox-caption">
+        <h2 id="photo-lightbox-title" data-lightbox-title>photograph</h2>
+        <p class="photo-lightbox-date" data-lightbox-date hidden></p>
+        <a class="photo-lightbox-page" data-lightbox-page>photo page</a>
+      </div>
+      <nav class="photo-lightbox-navigation" data-lightbox-navigation aria-label="photographs">
+        <button class="photo-lightbox-control" type="button" data-lightbox-previous aria-label="previous photograph">[previous]</button>
+        <button class="photo-lightbox-control" type="button" data-lightbox-next aria-label="next photograph">[next]</button>
+      </nav>
+    </footer>
+    <p class="photo-lightbox-announcement" data-lightbox-announcement role="status" aria-live="polite" aria-atomic="true"></p>
+  </div>
+</dialog>

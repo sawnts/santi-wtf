@@ -41,7 +41,7 @@ date: 2026-11-19
 caught this on my walk to the coffee shop.
 ```
 
-the **first markdown image** is used for the homepage filmstrip, the photograph archive, and the full photo page. its alt text also supplies the visible caption. additional prose and images remain on the photo page.
+the **first markdown image** is used for the homepage filmstrip, the photographs gallery wall, the enlarged popup, and the full photo page. its alt text supplies the image description. additional prose and images remain on the canonical photo page, available through the popup's `photo page` link. ordinary modifier-clicks and javascript-disabled navigation still open that page directly.
 
 no gallery array or dimensions need updating. eleventy image creates 320px, 640px, and up-to-1600px webp versions at build time, retaining the original aspect ratio. landscape and portrait images work through the same workflow. generated files stay in `_site/images/generated/`; do not commit them. the original file remains available at its `/images/...` URL.
 
@@ -55,6 +55,8 @@ edit the homepage introduction in `README.md`. navigation and the short about te
 art, tech, culture.
 overly caffeinated.
 ```
+
+the compact subscribe form appears on the homepage and letters archive. `_includes/partials/subscribe.njk` submits a native POST to the existing personal buttondown newsletter (`sawnts`). buttondown handles confirmation, validation, and any captcha on its own page; no API key or custom backend is needed. do not test it by subscribing someone without their request.
 
 ## preview and build
 

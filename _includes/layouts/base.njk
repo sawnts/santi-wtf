@@ -1,3 +1,5 @@
+{% set hasSignup = page.url == '/' or page.url == '/newsletter/' %}
+{% set hasLightbox = page.url == '/' or page.url == '/photos/' %}
 <!doctype html>
 <html lang="en">
 <head>
@@ -16,10 +18,15 @@
   <link rel="icon" type="image/svg+xml" href="/favicon.svg">
   <link rel="preload" href="/fonts/MonaspaceNeonVar.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="/css/base.css?v={{ '/css/base.css' | assetVersion }}">
+  {% if hasSignup %}<link rel="stylesheet" href="/css/subscribe.css?v={{ '/css/subscribe.css' | assetVersion }}">{% endif %}
+  {% if template == 'gallery' %}<link rel="stylesheet" href="/css/gallery.css?v={{ '/css/gallery.css' | assetVersion }}">{% endif %}
+  {% if hasLightbox %}<link rel="stylesheet" href="/css/lightbox.css?v={{ '/css/lightbox.css' | assetVersion }}">{% endif %}
   <script src="/js/site.js?v={{ '/js/site.js' | assetVersion }}" defer></script>
+  {% if hasLightbox %}<script src="/js/lightbox.js?v={{ '/js/lightbox.js' | assetVersion }}" defer></script>{% endif %}
 </head>
 <body>
   <a class="skip-link" href="#page-title">skip to content</a>
-  <div class="site-canvas"><div id="santi-linus-home">{{ content | safe }}</div></div>
+  <div class="site-canvas{% if template == 'gallery' %} site-canvas--gallery{% endif %}"><div id="santi-linus-home">{{ content | safe }}</div></div>
+  {% if hasLightbox %}{% include "partials/lightbox.njk" %}{% endif %}
 </body>
 </html>

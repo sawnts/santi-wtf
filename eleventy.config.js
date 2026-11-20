@@ -6,7 +6,7 @@ import markdownItAnchor from 'markdown-it-anchor';
 import pluginRss from '@11ty/eleventy-plugin-rss';
 import pluginSyntaxHighlight from '@11ty/eleventy-plugin-syntaxhighlight';
 import pluginBundle from '@11ty/eleventy-plugin-bundle';
-import { photograph, photoSource, renderImage } from './_lib/photographs.js';
+import { photograph, photoSource, renderImage, photoLightbox } from './_lib/photographs.js';
 
 export default function (eleventyConfig) {
   eleventyConfig.addFilter('assetVersion', (url) => createHash('sha256')
@@ -45,6 +45,7 @@ export default function (eleventyConfig) {
     .replace(/<p>\s*(?:<br\s*\/?>\s*)*<\/p>/gi, '')
     .replace(/<p>\s*<br\s*\/?>/i, '<p>'));
   eleventyConfig.addAsyncShortcode('photograph', photograph);
+  eleventyConfig.addAsyncShortcode('photoLightbox', photoLightbox);
   eleventyConfig.addAsyncShortcode('image', (src, alt) => renderImage(src.replace(/^\.\/public/, ''), alt));
 
   const newestFirst = (a, b) => b.date - a.date || a.inputPath.localeCompare(b.inputPath);

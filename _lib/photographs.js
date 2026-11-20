@@ -54,18 +54,35 @@ export async function optimizedImage(src) {
 export async function renderImage(src, alt, mode = 'full') {
   const variants = await optimizedImage(src);
   const full = variants[variants.length - 1];
-  const thumbnail = mode === 'thumbnail' || mode === 'gallery';
+  const thumbnail = mode === 'thumbnail';
+  const wall = mode === 'wall';
   const ratio = full.width / full.height;
-  const mobileHeight = mode === 'gallery' ? 160 : 68;
-  const desktopHeight = mode === 'gallery' ? 240 : 76;
-  const image = thumbnail ? variants.find((variant) => variant.width >= desktopHeight * ratio) || full : full;
-  const sizes = thumbnail
-    ? `(max-width: 532px) ${Math.ceil(mobileHeight * ratio)}px, ${Math.ceil(desktopHeight * ratio)}px`
-    : '(max-width: 768px) calc(100vw - 60px), 708px';
-  return `<img src="${image.url}" srcset="${variants.map((variant) => `${variant.url} ${variant.width}w`).join(', ')}" sizes="${sizes}" width="${image.width}" height="${image.height}" alt="${escapeHtml(alt)}" loading="${thumbnail ? 'lazy' : 'eager'}" decoding="async">`;
+  const image = wall
+    ? variants.find((variant) => variant.width >= 522) || full
+    : thumbnail ? variants.find((variant) => variant.width >= 76 * ratio) || full : full;
+  const sizes = wall
+    ? '(max-width: 732px) calc(100vw - 60px), (max-width: 1152px) calc((100vw - 108px) / 2), 522px'
+    : thumbnail ? `(max-width: 532px) ${Math.ceil(68 * ratio)}px, ${Math.ceil(76 * ratio)}px`
+      : '(max-width: 768px) calc(100vw - 60px), 708px';
+  return `<img src="${image.url}" srcset="${variants.map((variant) => `${variant.url} ${variant.width}w`).join(', ')}" sizes="${sizes}" width="${image.width}" height="${image.height}" alt="${escapeHtml(alt)}" loading="${thumbnail || wall ? 'lazy' : 'eager'}" decoding="async">`;
 }
 
 export async function photograph(inputPath, mode) {
   const photo = photoSource(inputPath);
   return renderImage(photo.src, photo.alt, mode);
+}
+
+export async function photoLightbox(inputPath, title, date) {
+  const photo = photoSource(inputPath);
+  const variants = await optimizedImage(photo.src);
+  const full = variants[variants.length - 1];
+  return Object.entries({
+    'data-lightbox': 'photographs',
+    'data-photo-src': full.url,
+    'data-photo-alt': photo.alt,
+    'data-photo-title': title,
+    'data-photo-date': `published ${date}`,
+    'data-photo-width': full.width,
+    'data-photo-height': full.height,
+  }).map(([key, value]) => `${key}="${escapeHtml(value)}"`).join(' ');
 }

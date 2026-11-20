@@ -9,5 +9,6 @@ title: letters
   <ul class="archive">
     {% for post in collections.newsletter %}<li><a href="{{ post.url }}"><span>{{ post.data.title }}</span><time datetime="{{ post.date | htmlDateString }}">{{ post.date | personalDate }}</time></a></li>{% endfor %}
   </ul>
-  <p class="subscribe"><a href="https://buttondown.com/sawnts" target="_blank" rel="noopener noreferrer">meet me in your inbox — subscribe</a></p>
+  {% set subscribeId = 'letters-subscribe' %}
+  {% include "partials/subscribe.njk" %}
 </main>

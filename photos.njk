@@ -2,12 +2,18 @@
 layout: layouts/base.njk
 permalink: /photos/
 title: photographs
+template: gallery
 ---
 <main class="page" id="main-content">
   {% include "nav.njk" %}
   <header class="page-header"><h1 id="page-title" tabindex="-1">{{ title }}</h1></header>
-  {% set filmstripClass = 'photographs-strip' %}
-  {% set filmstripMode = 'gallery' %}
-  {% set filmstripLabel = 'photographs, scroll horizontally' %}
-  {% include "partials/filmstrip.njk" %}
+  <section class="gallery-wall" aria-label="photograph gallery">
+    {% for photo in collections.photos %}
+      {% set publishedDate = photo.date | personalDate %}
+      <figure class="gallery-piece">
+        <a class="gallery-photo" href="{{ photo.url }}" {% photoLightbox photo.inputPath, photo.data.title, publishedDate %} aria-label="enlarge photograph: {{ photo.inputPath | photoAlt }}">{% photograph photo.inputPath, 'wall' %}</a>
+        <figcaption>{{ photo.data.title }}</figcaption>
+      </figure>
+    {% endfor %}
+  </section>
 </main>

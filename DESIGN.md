@@ -7,7 +7,10 @@ the accepted direction follows the quiet density and left-aligned content of lin
 - homepage spacing: 56px top, 14px horizontal, minimum 650px stage. the photo strip sits after generous quiet space, with 76px-high images and natural widths.
 - at a 500px canvas width, use 38px top padding and a 68px-high homepage strip. coarse pointers receive 44px text-link targets.
 - shared subpages use the same small navigation and quiet article/photo headings. photographs are never cropped; full images fit the canvas and a 72vh maximum height.
-- ordinary anchors own navigation and browser history. the about disclosure works without javascript; javascript only improves filmstrip keyboard navigation.
+- the photographs page opens onto a wider 1120px gallery wall: two columns, a 48px gutter, generous vertical spacing, square image edges, and natural image ratios. at a 732px viewport it becomes one column. no card frames, cropping, or decorative shadows.
+- the homepage and letters archive include a compact, labelled email form with restrained borders. it submits to the existing personal buttondown newsletter.
+- ordinary anchors retain native page navigation and modifier-click behavior. photo activation on the homepage and wall is enhanced with a shared lightbox; the canonical detail page remains the no-javascript fallback.
+- the lightbox uses a nearly white backdrop, uncropped image, quiet filename/publication metadata, and small text controls. opening takes 260ms, closing 220ms; reduced motion uses a 70ms fade without spatial movement. no autoplay.
 
 ## image provenance
 

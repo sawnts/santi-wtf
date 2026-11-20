@@ -8,6 +8,8 @@ layout: layouts/base.njk
     <nav class="index-links" aria-label="explore santi's site">
       {% for link in site.homeLinks %}<a href="{{ link.url }}"{% if link.external %} target="_blank" rel="noopener noreferrer"{% endif %}>{{ link.title }}</a>{% endfor %}
     </nav>
+    {% set subscribeId = 'home-subscribe' %}
+    {% include "partials/subscribe.njk" %}
   </header>
   <section class="index-gallery" aria-label="selected photographs">
     {% set filmstripClass = '' %}

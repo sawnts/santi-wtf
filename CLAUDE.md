@@ -9,7 +9,9 @@ native eleventy 3.x personal site. no client framework, iframe, exported visuali
 - `photos/*.md` use `layouts/photo.njk`. the first markdown image supplies each gallery image, alt text, and caption.
 - `_data/site.json` owns navigation and the short about text.
 - `_includes/layouts/base.njk` owns document metadata and shared asset links.
-- `_includes/partials/filmstrip.njk` renders the photo collection on the homepage and photo archive.
+- `_includes/partials/filmstrip.njk` renders the homepage photo strip; `photos.njk` renders the wider gallery wall.
+- `_includes/partials/lightbox.njk` and `public/js/lightbox.js` enhance photo links on those two pages with one native dialog. keep canonical hrefs, modifier clicks, focus/scroll restoration, loading/error handling, and reduced motion.
+- `_includes/partials/subscribe.njk` is the shared native buttondown signup. do not replace its POST with fetch, expose API keys, or show a fake subscription success state.
 - `public/css/base.css` is the shared design system; `public/js/site.js` adds keyboard movement through filmstrips.
 - `_lib/photographs.js` generates responsive webp images with intrinsic dimensions through eleventy image. metadata is derived from source images, including future portrait photographs.
 
@@ -27,7 +29,7 @@ the full site outputs to `_site/`. during the current deployment phase, `npm run
 
 the approved personal index is light, sparse, compact, and monospace. the native canvas is centered at a maximum width of 736px, with the approved 56px top/14px horizontal content padding and 13px typography. retain the real photographs, lowercase voice, and restrained amber hover/focus color.
 
-photo strips use a shared height and natural image widths. never crop photographs into fixed-width or square tiles. preserve `width: auto`, `flex: 0 0 auto`, horizontal overflow, and intrinsic width/height attributes. container queries preserve the approved mobile behavior at a 500px canvas width. photo detail pages contain the full image.
+the homepage strip uses a shared height and natural image widths: `width: auto`, `flex: 0 0 auto`, horizontal overflow, and intrinsic dimensions. the gallery wall uses two natural-ratio columns in a 1120px canvas, collapsing to one column on small screens. keep wall images `width: 100%; height: auto`; do not leak the strip's fixed heights into the wall. never crop photographs into square tiles. photo detail URLs remain available behind every lightbox trigger.
 
 ## content
 

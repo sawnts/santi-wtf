@@ -67,8 +67,6 @@ a:hover { color: var(--index-accent); text-decoration: underline; }
 .archive { list-style: none; padding: 0; max-width: 620px; display: grid; gap: 16px; }
 .archive a { display: flex; justify-content: space-between; align-items: baseline; gap: 12px 32px; padding: 4px 0; font-size: 14px; line-height: 1.6; }
 .archive time { flex: none; color: var(--index-muted); font-size: 12px; font-variant-numeric: tabular-nums; }
-.subscribe { margin-top: 38px; font-size: 13px; }
-.subscribe a { text-decoration: underline; }
 .prose { font-size: 16px; line-height: 1.8; max-width: 64ch; overflow-wrap: anywhere; }
 .prose :is(p, ul, ol, blockquote, pre) { margin: 0 0 1.5em; }
 .prose :is(h1, h2, h3, h4) { font: 500 1em/1.6 santi-index-mono, ui-monospace, monospace; margin: 2.5em 0 1em; }
@@ -84,7 +82,6 @@ a:hover { color: var(--index-accent); text-decoration: underline; }
 .direct-link { display: none; }
 .article-footer { display: flex; flex-wrap: wrap; gap: 16px 32px; max-width: 64ch; margin-top: 56px; font-size: 13px; }
 .article-footer a { text-decoration: underline; }
-.photographs-strip { margin-top: 90px; --index-strip-height: 240px; }
 .photo-figure { margin: 0; }
 .photo-figure img { display: block; width: auto; height: auto; max-width: 100%; max-height: 72vh; object-fit: contain; object-position: left top; }
 .photo-figure figcaption { font-size: 13px; margin-top: 14px; }
@@ -105,12 +102,12 @@ a:hover { color: var(--index-accent); text-decoration: underline; }
   .archive a { display: block; }
   .archive time { display: block; margin-top: 3px; }
   .prose { line-height: 1.75; }
-  .photographs-strip { margin-top: 58px; --index-strip-height: 160px; }
-  .photographs-strip .index-photo img { height: var(--index-strip-height); }
 }
 
 @media (pointer: coarse) {
-  .index-links a, .index-footer > a, .index-about > summary, .page-nav a, .archive a, .article-footer a, .subscribe a { min-height: 44px; }
-  .index-links a, .index-footer > a, .index-about > summary, .subscribe a { display: inline-flex; align-items: center; }
+  .index-links a, .index-footer > a, .index-about > summary, .page-nav a, .archive a, .article-footer a { min-height: 44px; }
+  .index-links a, .index-footer > a, .index-about > summary { display: inline-flex; align-items: center; }
   .index-stage { min-height: 730px; }
 }
+
+.index-photo[data-lightbox] { cursor: zoom-in; }
