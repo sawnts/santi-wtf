@@ -11,6 +11,7 @@ the accepted direction follows the quiet density and left-aligned content of lin
 - the homepage and letters archive include a compact joined email form with one square outer border and no gap between the field and action. a hidden accessible label names the email field; the charcoal `#45453f` button reads `i’m in!` in white. both controls have a 34px minimum height; supporting text uses muted gray, and coarse pointers receive 44px targets. the intro stays `meet me in your inbox.` and the form submits to the existing personal buttondown newsletter.
 - ordinary anchors retain native page navigation and modifier-click behavior. photo activation on the homepage and wall is enhanced with a shared lightbox; the canonical detail page remains the no-javascript fallback.
 - the lightbox uses a nearly white backdrop, uncropped image, quiet filename/publication metadata, and small text controls. opening takes 260ms, closing 220ms; reduced motion uses a 70ms fade without spatial movement. no autoplay.
+- browser Back dismisses the lightbox with focus/scroll restoration; Forward and reload preserve the selected photo. photo changes share one history entry and leave the underlying URL unchanged.
 
 ## image provenance
 

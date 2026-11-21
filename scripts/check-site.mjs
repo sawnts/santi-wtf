@@ -48,6 +48,16 @@ function inspectHtml(source) {
   return { elements, ids, duplicates };
 }
 
+function articleProseOwner(node) {
+  let prose = false;
+  for (let ancestor = node.parentNode; ancestor; ancestor = ancestor.parentNode) {
+    const classes = ancestor.attrs?.find(({ name }) => name === 'class')?.value.split(/\s+/) || [];
+    if (classes.includes('prose')) prose = true;
+    if (ancestor.tagName === 'article') return prose ? ancestor : undefined;
+  }
+  return undefined;
+}
+
 const files = filesIn(output);
 const pages = new Map(files.filter((file) => file.endsWith('.html')).map((file) => [file, inspectHtml(fs.readFileSync(file, 'utf8'))]));
 let referenceCount = 0;
@@ -137,6 +147,18 @@ for (const [file, page] of pages) {
   }
   if (!elements.find(({ tag, attrs }) => tag === 'html' && attrs.lang)) fail(`${label(file)}: missing document language.`);
   if (!elements.find(({ tag, node }) => tag === 'title' && node.childNodes.some((child) => child.value?.trim()))) fail(`${label(file)}: missing document title.`);
+  // The page header owns h1; article prose starts at h2 and may deepen one level at a time.
+  const articleHeadingLevels = new Map();
+  for (const { tag, attrs, node } of elements.filter(({ tag }) => /^h[1-6]$/.test(tag))) {
+    const article = articleProseOwner(node);
+    if (!article) continue;
+    const previousHeadingLevel = articleHeadingLevels.get(article) || 1;
+    const level = Number(tag.slice(1));
+    const heading = `${tag}${attrs.id ? `#${attrs.id}` : ''}`;
+    if (level === 1) fail(`${label(file)}: ${heading} in article prose must be below the page h1.`);
+    else if (level > previousHeadingLevel + 1) fail(`${label(file)}: ${heading} skips h${previousHeadingLevel + 1} after h${previousHeadingLevel} in the article outline.`);
+    articleHeadingLevels.set(article, level);
+  }
   for (const { tag, attrs } of elements) {
     for (const attribute of ['href', 'src', 'poster', 'action', 'data-photo-src']) {
       if (attribute in attrs) checkReference(attrs[attribute], file, `${tag}[${attribute}]`, ['src', 'poster'].includes(attribute));

@@ -29,13 +29,62 @@
   let motionGeneration = 0;
   let animations = [];
   let backdropPress = false;
+  const historyKey = '__santiPhotoLightbox';
+  let historyBackPending = false;
+
+  function photoHistory(state = history.state) {
+    const entry = state?.[historyKey];
+    return entry?.version === 1 && entry.page === location.href
+      && typeof entry.photo === 'string' && typeof entry.opener === 'string'
+      && typeof entry.group === 'string' ? entry : null;
+  }
+
+  function historyState() {
+    return history.state && typeof history.state === 'object' && !Array.isArray(history.state)
+      ? { ...history.state } : {};
+  }
+
+  function writePhotoHistory(replace = false) {
+    // One entry belongs to the whole viewing session, including photo changes.
+    const state = historyState();
+    state[historyKey] = {
+      version: 1,
+      page: location.href,
+      photo: items[index].href,
+      opener: opener.href,
+      group: opener.dataset.lightbox || '',
+      scroll: { x: scrollLock.x, y: scrollLock.y },
+    };
+    try {
+      history[replace ? 'replaceState' : 'pushState'](state, '', location.href);
+    } catch { /* Viewing and ordinary dismissal still work if history is unavailable. */ }
+  }
+
+  function clearPhotoHistory() {
+    if (!photoHistory()) return;
+    const state = historyState();
+    delete state[historyKey];
+    try { history.replaceState(state, '', location.href); } catch { /* Best effort. */ }
+  }
+
+  function leavePhotoHistory() {
+    if (!photoHistory() || history.length < 2) return false;
+    historyBackPending = true;
+    try {
+      history.back();
+      return true;
+    } catch {
+      historyBackPending = false;
+      return false;
+    }
+  }
 
   const setPhase = (value) => {
     phase = value;
     dialog.dataset.phase = value;
   };
 
-  function lockScroll() {
+  function lockScroll(position) {
     if (scrollLock) return;
     const body = document.body;
     const html = document.documentElement;
@@ -43,7 +92,8 @@
     const bodyStyles = Object.fromEntries(properties.map((property) => [property, body.style[property]]));
     const gap = Math.max(0, window.innerWidth - html.clientWidth);
     const padding = Number.parseFloat(getComputedStyle(body).paddingRight) || 0;
-    scrollLock = { x: window.scrollX, y: window.scrollY, bodyStyles, overflow: html.style.overflow };
+    const restored = Number.isFinite(position?.x) && Number.isFinite(position?.y) ? position : null;
+    scrollLock = { x: restored?.x ?? window.scrollX, y: restored?.y ?? window.scrollY, bodyStyles, overflow: html.style.overflow };
     body.style.position = 'fixed';
     body.style.top = `${-scrollLock.y}px`;
     body.style.left = '0';
@@ -127,7 +177,10 @@
   }
 
   function requestClose() {
-    if (!dialog.open || phase === 'closing') return;
+    if (!dialog.open || phase === 'closing' || historyBackPending) return;
+    // Escape, backdrop, and the close button consume the same entry as browser Back.
+    if (leavePhotoHistory()) return;
+    clearPhotoHistory();
     void animateDialog(false);
   }
 
@@ -183,7 +236,7 @@
     request.src = item.src;
   }
 
-  function open(trigger) {
+  function open(trigger, restoredEntry = null) {
     const group = trigger.dataset.lightbox;
     const triggers = [...document.querySelectorAll('a[data-lightbox][data-photo-src]')]
       .filter((anchor) => !group || anchor.dataset.lightbox === group);
@@ -191,8 +244,10 @@
     if (selected < 0) return false;
     const fresh = !dialog.open;
     if (fresh) {
-      opener = trigger;
-      lockScroll();
+      opener = restoredEntry
+        ? triggers.find((anchor) => anchor.href === restoredEntry.opener) || trigger
+        : trigger;
+      lockScroll(restoredEntry?.scroll);
       try { dialog.showModal(); } catch {
         unlockScroll();
         opener = null;
@@ -207,6 +262,7 @@
       href: anchor.href,
     }));
     index = selected;
+    if (!restoredEntry) writePhotoHistory(!fresh && Boolean(photoHistory()));
     loadCurrent();
     void animateDialog(true, fresh);
     if (fresh) closeButton.focus({ preventScroll: true });
@@ -214,9 +270,25 @@
   }
 
   function move(direction) {
-    if (!dialog.open || phase === 'closing' || items.length < 2) return;
+    if (!dialog.open || phase === 'closing' || historyBackPending || items.length < 2) return;
     index = (index + direction + items.length) % items.length;
+    if (photoHistory()) writePhotoHistory(true);
     loadCurrent();
+  }
+
+  function restorePhotoHistory() {
+    historyBackPending = false;
+    const entry = photoHistory();
+    if (entry) {
+      const trigger = [...document.querySelectorAll('a[data-lightbox][data-photo-src]')]
+        .find((anchor) => anchor.href === entry.photo && (anchor.dataset.lightbox || '') === entry.group);
+      if (trigger) {
+        if (dialog.open && phase !== 'closing' && items[index]?.href === entry.photo) return;
+        if (open(trigger, entry)) return;
+      }
+      clearPhotoHistory();
+    }
+    if (dialog.open) void animateDialog(false);
   }
 
   document.addEventListener('click', (event) => {
@@ -233,7 +305,10 @@
     requestClose();
   });
   dialog.addEventListener('close', () => {
-    if (!dialog.open && phase !== 'closed') finishClose();
+    if (!dialog.open && phase !== 'closed') {
+      finishClose();
+      if (!leavePhotoHistory()) clearPhotoHistory();
+    }
   });
   dialog.addEventListener('pointerdown', (event) => {
     backdropPress = event.button === 0 && (event.target === backdrop || event.target === dialog);
@@ -249,4 +324,10 @@
       move(event.key === 'ArrowRight' ? 1 : -1);
     }
   });
+  window.addEventListener('popstate', restorePhotoHistory);
+  window.addEventListener('pageshow', (event) => {
+    if (event.persisted) restorePhotoHistory();
+  });
+  // History state survives reload; the URL and canonical photo links remain unchanged.
+  restorePhotoHistory();
 })();

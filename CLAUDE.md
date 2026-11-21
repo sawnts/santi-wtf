@@ -11,6 +11,7 @@ native eleventy 3.x personal site. no client framework, iframe, exported visuali
 - `_includes/layouts/base.njk` owns document metadata and shared asset links.
 - `_includes/partials/filmstrip.njk` renders the homepage photo strip; `photos.njk` renders the wider gallery wall.
 - `_includes/partials/lightbox.njk` and `public/js/lightbox.js` enhance photo links on those two pages with one native dialog. keep canonical hrefs, modifier clicks, focus/scroll restoration, loading/error handling, and reduced motion.
+- the lightbox owns one same-URL history entry per viewing session. browser Back and every dismissal consume it; next/previous replace its selected photo. Forward and reload restore that selection and the original opener/scroll position. preserve unrelated history state and the underlying URL.
 - `_includes/partials/subscribe.njk` is the shared native buttondown signup. do not replace its POST with fetch, expose API keys, or show a fake subscription success state.
 - `public/css/base.css` is the shared design system; `public/js/site.js` adds keyboard movement through filmstrips.
 - `_lib/photographs.js` generates responsive webp images with intrinsic dimensions through eleventy image. metadata is derived from source images, including future portrait photographs.
@@ -41,6 +42,8 @@ the homepage strip uses a shared height and natural image widths: `width: auto`,
 preserve existing article and photo markdown bodies. keep source punctuation, wording, links, and formatting. dates are publication dates, not capture dates. the homepage's approved copy is `art, tech, culture.` and `overly caffeinated.`.
 
 new posts require `title` and `date: YYYY-MM-DD`. filenames determine URLs. write photo alt text in the markdown image; do not add a separate hardcoded gallery list. the collections are `notes`, `newsletter`, and `photos`, newest first, with stable filename ordering for equal dates.
+
+the layout supplies the article h1. start body sections at `##` and nest one level at a time; generated-output checks reject skipped heading levels.
 
 add a concise page-specific `description` in frontmatter for metadata and RSS summaries. keep descriptions factual and preserve the article body. photo social previews use the first markdown photograph and its alt text; publication dates remain publication dates. noindex/draft/exclusion flags must keep utility or private pages out of feeds and the sitemap.
 
