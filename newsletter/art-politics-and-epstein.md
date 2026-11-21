@@ -1,5 +1,6 @@
 ---
 title: art, politics, and epstein
+description: a letter on creativity, civic engagement, and making primary sources accessible through riley walz’s jmail project.
 date: 2026-02-24
 ---
 

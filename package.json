@@ -12,10 +12,11 @@
     "build:site": "eleventy",
     "serve": "eleventy --serve",
     "start": "eleventy --serve",
-    "check:site": "node scripts/check-site.mjs",
+    "check:site": "node scripts/check-site.mjs && node scripts/check-discovery.mjs",
     "check:construction": "node scripts/check-site.mjs --mode=construction",
     "test:browser": "playwright test",
-    "check": "npm run build:site && npm run check:site && npm run test:browser && npm run build && npm run check:construction"
+    "test:unit": "node --test tests/*.test.js",
+    "check": "npm run test:unit && npm run build:site && npm run check:site && npm run test:browser && npm run build && npm run check:construction"
   },
   "author": {
     "name": "santi",
@@ -33,6 +34,7 @@
   },
   "devDependencies": {
     "@playwright/test": "^1.65.1",
-    "parse5": "^8.1.1"
+    "parse5": "^8.1.1",
+    "saxes": "^6.0.0"
   }
 }

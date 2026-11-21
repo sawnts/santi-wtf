@@ -16,12 +16,15 @@ create a markdown file with a title and publication date:
 ---
 title: your title here
 date: 2026-11-19
+description: a concise summary of this post for search, social links, and rss readers.
 ---
 
 your words go here.
 ```
 
 keep the site's lowercase voice. the filename becomes the URL, so retain it when editing an existing post to avoid breaking links. existing prose, punctuation, and links should stay intact unless you intend to edit them.
+
+give each post a factual, page-specific `description`. it supplies search/social previews and the RSS summary without changing the body. photo pages also get a compact jpeg social preview from their first image, with its original aspect ratio and alt text.
 
 markdown supports paragraphs, headings, bold/italic text, links, lists, quotes, and images. line breaks are preserved. notes and letters appear automatically in their archives, newest first.
 
@@ -82,7 +85,9 @@ npx playwright install chromium
 npm run check
 ```
 
-this validates full-site routes, assets, and fragments; exercises desktop/mobile photo and signup behavior; and finally rebuilds and validates the construction page. it never subscribes a reader or deploys anything. the final `_site/` is construction output, so run `npm run build:site` again before continuing a full-site preview.
+this validates full-site routes, assets, fragments, page metadata, font assets, RSS XML, and sitemap membership; exercises desktop/mobile photo and signup behavior; and finally rebuilds and validates the construction page. it never subscribes a reader or deploys anything. the final `_site/` is construction output, so run `npm run build:site` again before continuing a full-site preview.
+
+the full preview includes `/feed.xml` for notes and letters together, `/notes/feed.xml`, `/newsletter/feed.xml`, `/sitemap.xml`, and `/robots.txt`. feeds include complete posts with absolute links and publication dates. the sitemap excludes confirmation and error pages. these discovery files remain unpublished while production is in construction mode.
 
 ## release
 

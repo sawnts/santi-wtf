@@ -6,17 +6,31 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="color-scheme" content="light">
-  <title>{{ title or site.name }}{% if page.url != '/' %} — santi.wtf{% endif %}</title>
-  <meta name="description" content="{{ description or site.description }}">
-  <link rel="canonical" href="{{ site.url }}{{ page.url }}">
-  <meta property="og:type" content="{% if template == 'article' %}article{% else %}website{% endif %}">
-  <meta property="og:url" content="{{ site.url }}{{ page.url }}">
-  <meta property="og:title" content="{{ title or site.name }}">
-  <meta property="og:description" content="{{ description or site.description }}">
-  <meta property="og:image" content="{{ site.url }}/og.png">
+  <title>{{ seo.title | escape }}</title>
+  <meta name="description" content="{{ seo.description | escape }}">
+  <link rel="canonical" href="{{ seo.canonical | escape }}">
+  {% if seo.noindex %}<meta name="robots" content="noindex, follow">{% endif %}
+  <meta property="og:type" content="{{ seo.type }}">
+  <meta property="og:site_name" content="{{ site.name | escape }}">
+  <meta property="og:url" content="{{ seo.canonical | escape }}">
+  <meta property="og:title" content="{{ seo.title | escape }}">
+  <meta property="og:description" content="{{ seo.description | escape }}">
+  <meta property="og:image" content="{{ seo.image.url | escape }}">
+  <meta property="og:image:type" content="{{ seo.image.type }}">
+  <meta property="og:image:width" content="{{ seo.image.width }}">
+  <meta property="og:image:height" content="{{ seo.image.height }}">
+  <meta property="og:image:alt" content="{{ seo.image.alt | escape }}">
+  {% if seo.publishedTime %}<meta property="article:published_time" content="{{ seo.publishedTime }}">{% endif %}
   <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="{{ seo.title | escape }}">
+  <meta name="twitter:description" content="{{ seo.description | escape }}">
+  <meta name="twitter:image" content="{{ seo.image.url | escape }}">
+  <meta name="twitter:image:alt" content="{{ seo.image.alt | escape }}">
+  <link rel="alternate" type="application/rss+xml" title="{{ site.name | escape }} — notes &amp; letters" href="{{ site.url }}/feed.xml">
+  <link rel="alternate" type="application/rss+xml" title="{{ site.name | escape }} — notes" href="{{ site.url }}/notes/feed.xml">
+  <link rel="alternate" type="application/rss+xml" title="{{ site.name | escape }} — letters" href="{{ site.url }}/newsletter/feed.xml">
   <link rel="icon" type="image/svg+xml" href="/favicon.svg">
-  <link rel="preload" href="/fonts/MonaspaceNeonVar.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="{{ fonts.preload | escape }}" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="/css/base.css?v={{ '/css/base.css' | assetVersion }}">
   {% if hasSignup %}<link rel="stylesheet" href="/css/subscribe.css?v={{ '/css/subscribe.css' | assetVersion }}">{% endif %}
   {% if template == 'gallery' %}<link rel="stylesheet" href="/css/gallery.css?v={{ '/css/gallery.css' | assetVersion }}">{% endif %}

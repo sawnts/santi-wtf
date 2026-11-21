@@ -1,5 +1,6 @@
 ---
 title: keep going
+description: three months of running, an injury, and a new way of thinking about consistency, perfectionism, and starting again.
 date: 2026-08-31
 ---
 

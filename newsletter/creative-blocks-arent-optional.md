@@ -1,5 +1,6 @@
 ---
 title: creative blocks aren’t optional
+description: a reflection on creative blocks as seasons of preparation, incubation, making, and release.
 date: 2026-05-07
 ---
 

@@ -3,7 +3,7 @@
 the accepted direction follows the quiet density and left-aligned content of linus rogge's personal site, within the approved 736px centered canvas. it carries santi's lowercase voice and original writing/photography.
 
 - white `#fff` canvas; ink `#20201d`; muted text `#6b6b64`; amber hover/focus `#916018`.
-- self-hosted monaspace neon variable font. 13px index/navigation text, 16px article text with 1.8 line height and a 64ch measure.
+- self-hosted monaspace neon appearance, delivered through the optimized santi index mono derivative with weights 400–600 and a full-character fallback. original source fonts remain intact. 13px index/navigation text, 16px article text with 1.8 line height and a 64ch measure.
 - homepage spacing: 56px top, 14px horizontal, minimum 650px stage. the photo strip sits after generous quiet space, with 76px-high images and natural widths.
 - at a 500px canvas width, use 38px top padding and a 68px-high homepage strip. coarse pointers receive 44px text-link targets.
 - shared subpages use the same small navigation and quiet article/photo headings. photographs are never cropped; full images fit the canvas and a 72vh maximum height.

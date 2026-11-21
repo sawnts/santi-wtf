@@ -1,6 +1,8 @@
 ---
 layout: layouts/note.njk
 title: in
+description: your subscription to santi’s letters is confirmed. explore the site while you wait for the next email.
+noindex: true
 permalink: /confirmed/
 date: 2026-05-07
 eleventyExcludeFromCollections: true

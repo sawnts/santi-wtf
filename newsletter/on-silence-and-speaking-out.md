@@ -1,5 +1,6 @@
 ---
 title: on silence and speaking out
+description: why santi began writing about politics, the cost of staying silent, and the fears that make speaking out difficult.
 date: 2026-03-31
 ---
 

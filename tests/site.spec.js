@@ -90,6 +90,25 @@ test('newsletter forms use native email validation without sending a subscriptio
   expect(posts).toEqual([]);
 });
 
+test('the homepage loads the optimized font without downloading the original', async ({ page }) => {
+  const fonts = [];
+  page.on('response', (response) => {
+    if (new URL(response.url()).pathname.endsWith('.woff2')) fonts.push(response);
+  });
+  await page.goto('/');
+  await page.evaluate(() => document.fonts.ready);
+  expect(await page.evaluate(() => [...document.fonts].some((face) => face.family === 'santi-index-mono' && face.status === 'loaded'))).toBe(true);
+  expect(fonts.some((response) => response.url().includes('/fonts/santi-index-latin.woff2'))).toBe(true);
+  expect(fonts.some((response) => response.url().includes('/fonts/MonaspaceNeonVar.woff2'))).toBe(false);
+  let bytes = 0;
+  for (const response of fonts) {
+    expect(response.ok()).toBe(true);
+    bytes += (await response.body()).length;
+  }
+  // Protect the gain on a real page, including any fallback font it requests.
+  expect(bytes).toBeLessThan(150_000);
+});
+
 test.describe('without JavaScript', () => {
   test.use({ javaScriptEnabled: false });
 

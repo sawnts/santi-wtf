@@ -1,5 +1,6 @@
 ---
 title: the sloppification of the internet
+description: on ai-generated content, reclaiming attention, and making a personal corner of the internet beyond social media.
 date: 2026-04-07
 ---
 
