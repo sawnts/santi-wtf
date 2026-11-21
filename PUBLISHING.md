@@ -60,6 +60,8 @@ the compact subscribe form appears on the homepage and letters archive. `_includ
 
 ## preview and build
 
+use Node 24 LTS, recorded in `.nvmrc`.
+
 ```bash
 npm ci
 npm run serve
@@ -72,6 +74,15 @@ npm run build:site
 ```
 
 the result is in `_site/`. preview a new photo in the filmstrip and on its full page, and check both desktop and phone sizes.
+
+to run the same checks as CI, install the browser once and run the suite:
+
+```bash
+npx playwright install chromium
+npm run check
+```
+
+this validates full-site routes, assets, and fragments; exercises desktop/mobile photo and signup behavior; and finally rebuilds and validates the construction page. it never subscribes a reader or deploys anything. the final `_site/` is construction output, so run `npm run build:site` again before continuing a full-site preview.
 
 ## release
 

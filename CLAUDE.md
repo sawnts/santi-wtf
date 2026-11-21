@@ -17,6 +17,8 @@ native eleventy 3.x personal site. no client framework, iframe, exported visuali
 
 ## preview
 
+use Node 24 LTS (`.nvmrc`); the dependency set requires Node 24 or newer.
+
 ```bash
 npm ci
 npm run serve
@@ -38,6 +40,10 @@ preserve existing article and photo markdown bodies. keep source punctuation, wo
 new posts require `title` and `date: YYYY-MM-DD`. filenames determine URLs. write photo alt text in the markdown image; do not add a separate hardcoded gallery list. the collections are `notes`, `newsletter`, and `photos`, newest first, with stable filename ordering for equal dates.
 
 ## checks
+
+`npm run check` builds the complete site, validates source routes/assets/fragments, runs desktop and mobile Chromium regressions, then builds and validates the construction output. install the test browser once with `npx playwright install chromium` after `npm ci`. the final `_site/` contains the construction page; these checks do not launch v4. `npm run build:site` restores the full local preview afterward.
+
+the read-only `site checks` workflow runs this suite and a dependency audit on pull requests and v4 pushes. production deployment remains main-only and uses `npm run build`. keep test code and reports excluded from Eleventy and Git output as configured. weekly dependency update configuration targets v4; GitHub activates its schedule only once that config also exists on the default branch.
 
 build the full site, verify original deep routes, and inspect desktop/mobile before calling a change complete. ensure external asset paths resolve, photo ratios remain natural, keyboard focus is visible, and subscription/404 pages remain available. docs, construction input, and helper scripts are excluded by `.eleventyignore`.
 

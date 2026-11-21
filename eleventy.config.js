@@ -5,7 +5,6 @@ import markdownIt from 'markdown-it';
 import markdownItAnchor from 'markdown-it-anchor';
 import pluginRss from '@11ty/eleventy-plugin-rss';
 import pluginSyntaxHighlight from '@11ty/eleventy-plugin-syntaxhighlight';
-import pluginBundle from '@11ty/eleventy-plugin-bundle';
 import { photograph, photoSource, renderImage, photoLightbox } from './_lib/photographs.js';
 
 export default function (eleventyConfig) {
@@ -17,7 +16,6 @@ export default function (eleventyConfig) {
   eleventyConfig.addWatchTarget('public/images/');
   eleventyConfig.addPlugin(pluginRss);
   eleventyConfig.addPlugin(pluginSyntaxHighlight);
-  eleventyConfig.addPlugin(pluginBundle);
 
   const asDateTime = (value) => {
     if (value instanceof Date) return DateTime.fromJSDate(value, { zone: 'utc' });
