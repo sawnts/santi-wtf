@@ -1,0 +1,18 @@
+{
+  "name": "santi villanueva",
+  "url": "https://santi.wtf",
+  "description": "art, tech, culture. overly caffeinated.",
+  "homeLinks": [
+    { "title": "notes", "url": "/notes/" },
+    { "title": "letters", "url": "/newsletter/" },
+    { "title": "letterboxd", "url": "https://letterboxd.com/santivillanueva/", "external": true },
+    { "title": "contact", "url": "mailto:hi@santi.wtf" }
+  ],
+  "pageLinks": [
+    { "title": "[home]", "url": "/" },
+    { "title": "notes", "url": "/notes/" },
+    { "title": "letters", "url": "/newsletter/" },
+    { "title": "photographs", "url": "/photos/" }
+  ],
+  "about": "this site is a collection of scribbles, images, and god knows what. when i'm not working, you'll catch me soaking in art, riding my bike around the city, and <a href=\"https://lichess.org/@/sawnts\" target=\"_blank\" rel=\"noopener noreferrer\">pushing pawns</a>."
+}

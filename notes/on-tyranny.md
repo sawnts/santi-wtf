@@ -1,5 +1,6 @@
 ---
 title: on tyranny
+description: notes on timothy snyder’s on tyranny, democratic responsibility, and the limits of his argument.
 date: 2026-03-09
 ---
 

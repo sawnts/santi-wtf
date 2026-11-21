@@ -1,5 +1,6 @@
 ---
 title: creativity, like god
+description: finding creativity again through bicycles, video games, personal websites, and the joy of making.
 date: 2026-05-26
 ---
 

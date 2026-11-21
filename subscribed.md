@@ -1,6 +1,8 @@
 ---
 layout: layouts/note.njk
 title: almost in
+description: check your inbox to confirm your subscription to santi’s letters.
+noindex: true
 permalink: /subscribed/
 date: 2026-05-07
 eleventyExcludeFromCollections: true

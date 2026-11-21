@@ -1,5 +1,6 @@
 ---
 title: creative blocks aren’t optional
+description: a reflection on creative blocks as seasons of preparation, incubation, making, and release.
 date: 2026-05-07
 ---
 
@@ -19,16 +20,16 @@ the carbon cycle, the nitrogen cycle, the water cycle — none of them move in s
 
 the creative process is no different. psychologists have mapped it in four stages — preparation, incubation, illumination, verification — but look closely and you'll see a seasonal rhythm. and the stage most people fear, the quiet one, is the one doing the deepest work.
 
-### winter
+## winter
 the fallow period when things go underground. the default mode network fires quietly in the subconscious, making connections the conscious mind can't force.
 
-### spring
+## spring
 gathering, absorbing, wandering, hunting. the time to accumulate raw material without obvious purpose.
 
-### summer
+## summer
 execution. the time to make the work visible — and to recognize it carries the weight of everything that came before it.
 
-### autumn
+## autumn
 harvest and release. the period of finishing and letting go. the decay of what's done becomes the soil for what's next.
 
 the mistake isn't entering winter. the mistake is not recognizing it for what it is — and either forcing summer before it's time, or thinking that summer will never come again.

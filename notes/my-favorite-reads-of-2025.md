@@ -1,5 +1,6 @@
 ---
 title: my favorite reads of 2025
+description: five favorite books from 2025, from tolstoy and pierce brown to gary keller and donna tartt.
 date: 2026-01-01
 ---
 the first one is 70 pages long. number two will get anybody out of a reading slump. the third one is muber two’s sequel and far better. the fourth one is the only personal development book you need. and number 5 is tea.

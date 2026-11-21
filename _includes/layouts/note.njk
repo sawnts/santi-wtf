@@ -1,8 +1,26 @@
 ---
 layout: layouts/base.njk
-template: note
+template: article
 ---
-
-<div class="content-area">
-  {{ content | safe }}
-</div>
+<main class="page" id="main-content">
+  {% include "nav.njk" %}
+  <header class="page-header">
+    <h1 id="page-title" tabindex="-1">{{ title }}</h1>
+    {% if date and (page.url.startsWith('/notes/') or page.url.startsWith('/newsletter/')) %}<time datetime="{{ date | htmlDateString }}">{{ date | personalDate }}</time>{% endif %}
+  </header>
+  <article class="prose">{{ content | safe }}</article>
+  {% if page.url.startsWith('/notes/') %}
+    {% set adjacent = page | getPrevNext(collections.notes) %}
+    {% set archiveUrl = '/notes/' %}
+    {% set archiveTitle = 'notes' %}
+  {% elif page.url.startsWith('/newsletter/') %}
+    {% set adjacent = page | getPrevNext(collections.newsletter) %}
+    {% set archiveUrl = '/newsletter/' %}
+    {% set archiveTitle = 'letters' %}
+  {% endif %}
+  {% if archiveUrl %}<footer class="article-footer">
+    <a href="{{ archiveUrl }}">[all {{ archiveTitle }}]</a>
+    {% if adjacent.prev %}<a href="{{ adjacent.prev.url }}">newer: {{ adjacent.prev.data.title }}</a>{% endif %}
+    {% if adjacent.next %}<a href="{{ adjacent.next.url }}">older: {{ adjacent.next.data.title }}</a>{% endif %}
+  </footer>{% endif %}
+</main>

@@ -1,0 +1,15 @@
+.site-canvas--gallery { max-width: 1120px; }
+.gallery-wall {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  align-items: start;
+  gap: 72px 48px;
+  margin-top: 56px;
+}
+.gallery-piece { min-width: 0; }
+.gallery-photo { display: block; cursor: zoom-in; }
+.gallery-photo img { display: block; width: 100%; height: auto; max-width: 100%; }
+.gallery-piece figcaption { margin-top: 12px; color: var(--index-muted); font-size: 12px; overflow-wrap: anywhere; }
+@container site (max-width: 700px) {
+  .gallery-wall { grid-template-columns: minmax(0, 1fr); gap: 48px; margin-top: 42px; }
+}
