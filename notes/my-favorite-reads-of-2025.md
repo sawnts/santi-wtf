@@ -3,30 +3,26 @@ title: my favorite reads of 2025
 description: five favorite books from 2025, from tolstoy and pierce brown to gary keller and donna tartt.
 date: 2026-01-01
 ---
-the first one is 70 pages long. number two will get anybody out of a reading slump. the third one is muber two’s sequel and far better. the fourth one is the only personal development book you need. and number 5 is tea.
+i finished maybe 20 books in 2025, down from 50-plus the year before. vanity metrics aside, these are the five i'd actually put in your hands.
 
-this year, i must've finished no more than 20. a sad number compared to last year's 50+
+**1. [the death of ivan ilyich](https://bookshop.org/p/books/the-death-of-ivan-ilyich-leo-nikolayevich-tolstoy/c1e4a3a128bdf51c?ean=9781452854489&next=t) · leo tolstoy**
 
-but vanity metrics aside, these were my absolute top 5.
+i read this razor-thin book on a flight from portland to seattle and it sliced me wide open. dostoevsky, nabokov, chekhov, and now tolstoy: these guys always leave me wanting more out of life.
 
-**1\. [the death of ivan ilyich](https://bookshop.org/p/books/the-death-of-ivan-ilyich-leo-nikolayevich-tolstoy/c1e4a3a128bdf51c?ean=9781452854489&next=t) - leo tolstoy**
-
-i read this razor thin book on a flight from portland to seattle and it sliced me wide open. my affairs with russian authors — dostoevsky, nabokov, checkov and now tolstoy — have been nothing short of extraordinary. they make me want more. and the story of dying ivan left me wanting more out of life.
 **warning:** this book may trigger the existential crisis you've been putting off.
 
-**2\. [red rising](https://bookshop.org/p/books/red-rising-pierce-brown/b6c32560ae828f3f?ean=9780345539809&next=t) - pierce brown**
+**2. [red rising](https://bookshop.org/p/books/red-rising-pierce-brown/b6c32560ae828f3f?ean=9780345539809&next=t) · pierce brown**
 
-think "hunger games" meets "game of thrones" in space. this book is fucking dope. the pages turn themselves. you cheer. you curse. you cry. it never slows down. and the social criticism is sick. might be a little too violent for some, but not for me. ten out of ten.
+think *hunger games* meets *game of thrones* in space. this book is fucking dope. the pages turn themselves. you cheer. you curse. you cry. and somewhere in all that, it has a lot to say about class. if you're in a reading slump, start here.
 
-**3\. [golden son](https://bookshop.org/p/books/golden-son-pierce-brown/5a6bf9690989397d?ean=9780345539830&next=t) - pierce brown**
+**3. [golden son](https://bookshop.org/p/books/golden-son-pierce-brown/5a6bf9690989397d?ean=9780345539830&next=t) · pierce brown**
 
-i just put this one down. picked it up right after i closed the last one. didn't even have time to buy a physical copy. pierce brown is my kind of writer. short, unpretentious sentences that pack a punch and pull you into the world and story head-first. is this one better than the first one? yes. think of the first one as the prologue. this is where shit hits the fan.
-oh, and i'm reading book III as i type this, in case you were wondering.
+i picked this up as soon as i put down *red rising*. didn't even have time to buy a physical copy. brown writes short, unpretentious sentences that pull you into the story headfirst. is it better than the first one? yes. think of book one as the prologue. this is where the story begins.
 
-**4\. [the one thing](https://bookshop.org/p/books/the-one-thing-the-surprisingly-simple-truth-about-extraordinary-results-gary-keller/8465f712bbe6ddeb?ean=9781885167774&next=t) - gary w. keller**
+**4. [the one thing](https://bookshop.org/p/books/the-one-thing-the-surprisingly-simple-truth-about-extraordinary-results-gary-keller/8465f712bbe6ddeb?ean=9781885167774&next=t) · gary keller and jay papasan**
 
-i used to be a self-help junkie. i've read 50 out of ~[this best 100 list](https://www.shortform.com/best-books/genre/best-self-help-books-of-all-time)~. that should tell you something. i will save my rant about the personal development industry for a future note, but the principle covered in this book and the surrounding strategies and case studies make the dirty looks you'll get browsing the self-help aisle totally worth it.
+i used to be a self-help junkie. i've read about 50 of the books on [this top 100 list](https://www.shortform.com/best-books/genre/best-self-help-books-of-all-time), which should tell you something. i'll save my rant about the industry for another note. this one asks a useful question: what could you do that would make everything else easier or unnecessary? worth the dirty looks you'll get in the self-help aisle.
 
-**5\. [the secret history](https://bookshop.org/p/books/the-secret-history-donna-tartt/de5042f1caf6ae3a?ean=9781400031702&next=t) - donna tartt**
+**5. [the secret history](https://bookshop.org/p/books/the-secret-history-donna-tartt/de5042f1caf6ae3a?ean=9781400031702&next=t) · donna tartt**
 
-i'm ashamed to admit i didn't know of donna tartt until the nerdy girl at barnes & noble recommended her to me. "if you like [the TV show] succession you'll like the secret history." she said, waving the personal copy she kept next to the register. rich white people drama, i thought. she was not wrong. this whole book is tea.
+a bookseller at barnes & noble waved the personal copy she kept next to the register. “if you like *succession*, you'll like *the secret history*,” she said. rich white people drama, i thought. she was not wrong. this whole book is tea.
