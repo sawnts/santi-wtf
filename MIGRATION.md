@@ -1,11 +1,9 @@
 # site versions
 
-- production: `main` currently publishes the temporary construction page at `https://santi.wtf/`.
+- production: `main` publishes the native v4 site at `https://santi.wtf/`.
 - v3: the exact previous source is preserved on `archive/v3` at `5870272ff8813a5597775fd9e3d00cfb45f900bf`. leave this branch unchanged.
-- v4: the native redesign is developed separately on `v4-redesign`.
+- construction: the temporary holding page is kept in `construction/` as a fallback.
 
-`npm run build` cleans `_site/` and publishes only the construction page, custom 404, font, stylesheet, favicon, and existing custom domain files. the deployment workflow and domain remain unchanged.
+`npm run build` cleans `_site/` and builds the complete eleventy site. the github pages workflow uses `npm run build`.
 
-`npm run build:site` builds the complete eleventy site for local design review. this output must not be deployed while construction mode is intended. the github pages workflow uses `npm run build`.
-
-when v4 is approved, merge its source into `main` and explicitly change the production build command back to the full eleventy build. retain the v3 archive branch. all source content and original image files remain in git.
+`npm run build:construction` outputs only the holding page, custom 404, font, stylesheet, favicon, and custom domain files. to put the site back under construction, point the deploy workflow's build step at `npm run build:construction` (or swap the two scripts in `package.json`) and push to `main`. retain the v3 archive branch. all source content and original image files remain in git.

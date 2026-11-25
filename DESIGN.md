@@ -19,4 +19,4 @@ all shipping photography comes from santi's existing `public/images/` originals 
 
 ## release boundary
 
-this is the native v4 design implementation. production construction mode and the preserved `archive/v3` source branch are managed outside these templates. do not publish the complete design without release approval.
+this is the native v4 design implementation and the production site. the fallback construction page and the preserved `archive/v3` source branch are managed outside these templates.

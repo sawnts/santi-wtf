@@ -77,7 +77,7 @@ npm run serve
 open `http://localhost:8080`. to produce the full static preview:
 
 ```bash
-npm run build:site
+npm run build
 ```
 
 the result is in `_site/`. preview a new photo in the filmstrip and on its full page, and check both desktop and phone sizes.
@@ -89,12 +89,12 @@ npx playwright install chromium
 npm run check
 ```
 
-this validates full-site routes, assets, fragments, page metadata, font assets, RSS XML, and sitemap membership; exercises desktop/mobile photo and signup behavior; and finally rebuilds and validates the construction page. it never subscribes a reader or deploys anything. the final `_site/` is construction output, so run `npm run build:site` again before continuing a full-site preview.
+this validates full-site routes, assets, fragments, page metadata, font assets, RSS XML, and sitemap membership; exercises desktop/mobile photo and signup behavior; and validates the fallback construction page. it never subscribes a reader or deploys anything. the final `_site/` is the full site.
 
-the full preview includes `/feed.xml` for notes and letters together, `/notes/feed.xml`, `/newsletter/feed.xml`, `/sitemap.xml`, and `/robots.txt`. feeds include complete posts with absolute links and publication dates. the sitemap excludes confirmation and error pages. these discovery files remain unpublished while production is in construction mode.
+the full preview includes `/feed.xml` for notes and letters together, `/notes/feed.xml`, `/newsletter/feed.xml`, `/sitemap.xml`, and `/robots.txt`. feeds include complete posts with absolute links and publication dates. the sitemap excludes confirmation and error pages.
 
 ## release
 
-the redesign is being prepared on a separate v4 branch while production shows the construction page. in this phase, `npm run build` produces that construction site; `npm run build:site` produces the full native preview. pushing to main does not publish new notes or launch v4 while construction mode remains selected. review the current branch and deployment mode before pushing. switching the production build to the full redesign requires explicit release approval.
+pushing to `main` builds the full site with `npm run build` and publishes it to github pages. run `npm run check` before pushing. the construction page remains available as a fallback through `npm run build:construction`; see `MIGRATION.md`.
 
 v3 is preserved as source on github's `archive/v3` branch.

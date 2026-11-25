@@ -16,7 +16,7 @@ native eleventy 3.x personal site. no client framework, iframe, exported visuali
 - `public/css/base.css` is the shared design system; `public/js/site.js` adds keyboard movement through filmstrips.
 - `_lib/photographs.js` generates responsive webp images with intrinsic dimensions through eleventy image. metadata is derived from source images, including future portrait photographs.
 - `_data/eleventyComputed.js` and `_lib/metadata.js` build shared search/social metadata from each page's `description`. `_lib/social-images.js` makes natural-ratio jpeg previews for photo pages.
-- `feeds.11ty.js` emits combined notes/letters RSS plus section feeds. `sitemap.11ty.js` includes indexable canonical pages; confirmation/error pages stay out. `robots.11ty.js` advertises the sitemap. these files ship only in a full preview build.
+- `feeds.11ty.js` emits combined notes/letters RSS plus section feeds. `sitemap.11ty.js` includes indexable canonical pages; confirmation/error pages stay out. `robots.11ty.js` advertises the sitemap. these files ship with the full build.
 - `_data/fonts.json` records the optimized font preload and checksums. the Latin font is preferred; the full-coverage fallback preserves other characters. source fonts and construction assets stay intact.
 
 ## preview
@@ -26,10 +26,10 @@ use Node 24 LTS (`.nvmrc`); the dependency set requires Node 24 or newer.
 ```bash
 npm ci
 npm run serve
-npm run build:site
+npm run build
 ```
 
-the full site outputs to `_site/`. during the current deployment phase, `npm run build` produces the production construction site and `npm run build:site` produces the complete native preview. keep production's build choice on construction until the user explicitly approves launching v4. do not assume a successful preview or a push to main authorizes the launch.
+the full site outputs to `_site/`. production deploys `npm run build` from `main`, so a push to `main` publishes. `npm run build:construction` produces the fallback holding page; see `MIGRATION.md` to switch production back to it.
 
 ## visual contract
 
@@ -49,11 +49,11 @@ add a concise page-specific `description` in frontmatter for metadata and RSS su
 
 ## checks
 
-`npm run check` builds the complete site, validates source routes/assets/fragments, runs desktop and mobile Chromium regressions, then builds and validates the construction output. install the test browser once with `npx playwright install chromium` after `npm ci`. the final `_site/` contains the construction page; these checks do not launch v4. `npm run build:site` restores the full local preview afterward.
+`npm run check` builds and validates the fallback construction output, then builds the complete site, validates source routes/assets/fragments, and runs desktop and mobile Chromium regressions. install the test browser once with `npx playwright install chromium` after `npm ci`. the final `_site/` is the full site.
 
 the suite also runs metadata/discovery unit tests and validates generated RSS XML, sitemap membership, social metadata and font checksums. Python is only needed to regenerate the committed font assets, following the pinned font-tool instructions in `scripts/`; ordinary builds and CI use the generated fonts directly.
 
-the read-only `site checks` workflow runs this suite and a dependency audit on pull requests and v4 pushes. production deployment remains main-only and uses `npm run build`. keep test code and reports excluded from Eleventy and Git output as configured. weekly dependency update configuration targets v4; GitHub activates its schedule only once that config also exists on the default branch.
+the read-only `site checks` workflow runs this suite and a dependency audit on pull requests to and pushes on `main`. production deployment is main-only and uses `npm run build`. keep test code and reports excluded from Eleventy and Git output as configured. weekly dependency updates target `main`.
 
 build the full site, verify original deep routes, and inspect desktop/mobile before calling a change complete. ensure external asset paths resolve, photo ratios remain natural, keyboard focus is visible, and subscription/404 pages remain available. docs, construction input, and helper scripts are excluded by `.eleventyignore`.
 

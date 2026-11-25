@@ -2,9 +2,9 @@ name: site checks
 
 on:
   pull_request:
-    branches: [main, v4-redesign]
+    branches: [main]
   push:
-    branches: [v4-redesign]
+    branches: [main]
   workflow_dispatch:
 
 permissions:
@@ -16,7 +16,7 @@ concurrency:
 
 jobs:
   verify:
-    name: full site and construction checks
+    name: site and fallback checks
     runs-on: ubuntu-latest
     timeout-minutes: 20
     steps:
