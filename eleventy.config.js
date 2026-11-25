@@ -4,18 +4,17 @@ import { createHash } from 'node:crypto';
 import markdownIt from 'markdown-it';
 import markdownItAnchor from 'markdown-it-anchor';
 import pluginRss from '@11ty/eleventy-plugin-rss';
-import pluginSyntaxHighlight from '@11ty/eleventy-plugin-syntaxhighlight';
 import { photograph, photoSource, renderImage, photoLightbox } from './_lib/photographs.js';
 
 export default function (eleventyConfig) {
   eleventyConfig.addFilter('assetVersion', (url) => createHash('sha256')
     .update(readFileSync(`public${url}`)).digest('hex').slice(0, 12));
-  eleventyConfig.addPassthroughCopy({ public: '/' });
+  // Originals in public/images/ are build inputs only; pages use the generated derivatives.
+  eleventyConfig.addPassthroughCopy({ public: '/' }, { filter: (file) => !/^images\/[^/]+\.(?:jpe?g|png|webp)$/i.test(file) });
   eleventyConfig.addPassthroughCopy('CNAME');
   eleventyConfig.addPassthroughCopy('.nojekyll');
   eleventyConfig.addWatchTarget('public/images/');
   eleventyConfig.addPlugin(pluginRss);
-  eleventyConfig.addPlugin(pluginSyntaxHighlight);
 
   const asDateTime = (value) => {
     if (value instanceof Date) return DateTime.fromJSDate(value, { zone: 'utc' });
@@ -27,12 +26,6 @@ export default function (eleventyConfig) {
   };
   eleventyConfig.addFilter('htmlDateString', (value) => format(value, 'yyyy-MM-dd'));
   eleventyConfig.addFilter('personalDate', (value) => format(value, 'LLL dd, yyyy').toLowerCase());
-  eleventyConfig.addFilter('readableDate', (value) => format(value, 'LLLL d, yyyy'));
-  eleventyConfig.addFilter('shortDate', (value) => format(value, 'LLL d'));
-  eleventyConfig.addFilter('dinkyDate', (value) => format(value, 'LLL dd, yyyy'));
-  eleventyConfig.addFilter('fullDate', (value) => format(value, 'EEEE, LLLL d, yyyy'));
-  eleventyConfig.addFilter('time', (value) => format(value, 'h:mm a'));
-  eleventyConfig.addFilter('filterTagList', (tags = []) => tags.filter((tag) => !['all', 'nav', 'posts'].includes(tag)));
   eleventyConfig.addFilter('getPrevNext', (page, collection = []) => {
     const index = collection.findIndex((item) => item.url === page.url);
     return { prev: index > 0 ? collection[index - 1] : null, next: index >= 0 ? collection[index + 1] : null };
@@ -48,7 +41,6 @@ export default function (eleventyConfig) {
 
   const newestFirst = (a, b) => b.date - a.date || a.inputPath.localeCompare(b.inputPath);
   eleventyConfig.addCollection('notes', (api) => api.getFilteredByGlob('notes/**/*.md').sort(newestFirst));
-  eleventyConfig.addCollection('notesByTitle', (api) => api.getFilteredByGlob('notes/**/*.md').sort((a, b) => a.data.title.localeCompare(b.data.title)));
   eleventyConfig.addCollection('newsletter', (api) => api.getFilteredByGlob('newsletter/**/*.md').sort(newestFirst));
   eleventyConfig.addCollection('photos', (api) => api.getFilteredByGlob('photos/**/*.md').sort(newestFirst));
 

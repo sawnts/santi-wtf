@@ -235,13 +235,6 @@ if (mode === 'site') {
     expectedRoutes++;
     checkReference(route, path.join(output, 'index.html'), `source route from ${path.relative(root, file)}`);
   }
-
-  const searchIndex = path.join(output, 'search-index.json');
-  if (fs.existsSync(searchIndex)) {
-    const data = JSON.parse(fs.readFileSync(searchIndex, 'utf8'));
-    if (!Array.isArray(data.items)) fail('search-index.json: expected an items array.');
-    else for (const item of data.items) checkReference(item.url, searchIndex, 'search result');
-  }
 } else {
   const expected = new Map([
     ['index.html', 'construction/index.html'], ['404.html', 'construction/404.html'],
