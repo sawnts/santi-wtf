@@ -14,7 +14,7 @@
     { "title": "photographs", "url": "/photos/" },
     { "title": "elsewhere", "url": "/elsewhere/" }
   ],
-  "about": "this site is a collection of scribbles, images, and god knows what. when i'm not working, you'll catch me soaking in art, riding my bike around the city, and <a href=\"https://lichess.org/@/sawnts\" target=\"_blank\" rel=\"noopener noreferrer\">pushing pawns</a>. the rest of me lives <a href=\"/elsewhere/\">elsewhere</a>.",
+  "about": "this site is a collection of scribbles and images, things i noticed by looking closely. when i'm not working, you'll catch me soaking in art, riding my bike around the city, and <a href=\"https://lichess.org/@/sawnts\" target=\"_blank\" rel=\"noopener noreferrer\">pushing pawns</a>. the rest of me lives <a href=\"/elsewhere/\">elsewhere</a>.",
   "elsewhere": [
     { "title": "instagram", "url": "https://www.instagram.com/yosawnts", "note": "my visual journal", "me": true },
     { "title": "threads", "url": "https://www.threads.com/@yosawnts", "note": "thoughts i didn’t write a note about", "me": true },
