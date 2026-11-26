@@ -16,7 +16,7 @@ export function buildSeo(data, socialImage) {
   const robots = Array.isArray(data.robots) ? data.robots.join(',') : String(data.robots || '');
   const noindex = Boolean(data.noindex || data.draft || data.seoExclude || utilityRoutes.has(route) || /\bnoindex\b/i.test(robots));
   const excluded = Boolean(data.seoExclude || data.draft || noindex || !/\/$|\.html$/.test(route));
-  const article = /^\/(?:notes|newsletter)\/.+\/$/.test(route) && !excluded;
+  const article = /^\/notes\/.+\/$/.test(route) && !excluded;
   let publishedTime;
   if (article && data.date) {
     const date = data.date instanceof Date ? data.date : new Date(data.date);

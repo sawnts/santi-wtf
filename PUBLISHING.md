@@ -1,11 +1,10 @@
 # how to publish
 
-the site keeps its content in local markdown. notes, letters, and photographs each have a folder:
+the site keeps its content in local markdown. notes and photographs each have a folder:
 
 | content | folder | url |
 |---------|--------|-----|
 | notes | `notes/` | `/notes/your-title/` |
-| letters | `newsletter/` | `/newsletter/your-title/` |
 | photographs | `photos/` | `/photos/your-title/` |
 
 ## write a post
@@ -26,7 +25,7 @@ keep the site's lowercase voice. the filename becomes the URL, so retain it when
 
 give each post a factual, page-specific `description`. it supplies search/social previews and the RSS summary without changing the body. photo pages also get a compact jpeg social preview from their first image, with its original aspect ratio and alt text.
 
-markdown supports paragraphs, headings, bold/italic text, links, lists, quotes, and images. line breaks are preserved. notes and letters appear automatically in their archives, newest first.
+markdown supports paragraphs, headings, bold/italic text, links, lists, quotes, and images. line breaks are preserved. notes appear automatically in their archive, newest first.
 
 the post title is the page's main heading. start sections with `##`, then use `###` for subsections without skipping levels.
 
@@ -52,7 +51,7 @@ browser Back closes the popup after any number of photo changes; Forward and rel
 
 no gallery array or dimensions need updating. eleventy image creates 320px, 640px, and up-to-1600px webp versions at build time, retaining the original aspect ratio. landscape and portrait images work through the same workflow. generated files stay in `_site/images/generated/`; do not commit them. the original file remains available at its `/images/...` URL.
 
-use meaningful alt text and a real publication date. the date is not presented as a capture date. images in notes and letters use the same `/images/...` markdown syntax and are optimized during the build.
+use meaningful alt text and a real publication date. the date is not presented as a capture date. images in notes use the same `/images/...` markdown syntax and are optimized during the build.
 
 ## homepage and navigation
 
@@ -64,7 +63,7 @@ art, tech, culture
 and god knows what
 ```
 
-the compact subscribe form appears on the homepage and letters archive. `_includes/partials/subscribe.njk` submits a native POST to the existing personal buttondown newsletter (`sawnts`). buttondown handles confirmation, validation, and any captcha on its own page; no API key or custom backend is needed. do not test it by subscribing someone without their request.
+the compact subscribe form appears on the homepage. `_includes/partials/subscribe.njk` submits a native POST to the existing personal buttondown newsletter (`sawnts`). buttondown handles confirmation, validation, and any captcha on its own page; no API key or custom backend is needed. do not test it by subscribing someone without their request.
 
 ## preview and build
 
@@ -92,7 +91,7 @@ npm run check
 
 this validates full-site routes, assets, fragments, page metadata, font assets, RSS XML, and sitemap membership; exercises desktop/mobile photo and signup behavior; and validates the fallback construction page. it never subscribes a reader or deploys anything. the final `_site/` is the full site.
 
-the full preview includes `/feed.xml` for notes and letters together, `/notes/feed.xml`, `/newsletter/feed.xml`, `/sitemap.xml`, and `/robots.txt`. feeds include complete posts with absolute links and publication dates. the sitemap excludes confirmation and error pages.
+the full preview includes `/feed.xml` and `/notes/feed.xml` for notes, `/sitemap.xml`, and `/robots.txt`. feeds include complete posts with absolute links and publication dates. the sitemap excludes confirmation and error pages.
 
 ## release
 

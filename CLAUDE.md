@@ -5,7 +5,7 @@
 native eleventy 3.x personal site. no client framework, iframe, exported visualization runtime, or client-side router. keep navigation as ordinary anchors.
 
 - `README.md` renders `/` through `layouts/home.njk`.
-- notes and newsletter posts remain local markdown with their existing URLs and prose.
+- notes remain local markdown with their existing URLs and prose. the best former letters now live in `notes/`.
 - `photos/*.md` use `layouts/photo.njk`. the first markdown image supplies each gallery image, alt text, and caption.
 - `_data/site.json` owns navigation and the short about text.
 - `_includes/layouts/base.njk` owns document metadata and shared asset links.
@@ -16,7 +16,9 @@ native eleventy 3.x personal site. no client framework, iframe, exported visuali
 - `public/css/base.css` is the shared design system; `public/js/site.js` adds keyboard movement through filmstrips.
 - `_lib/photographs.js` generates responsive webp images with intrinsic dimensions through eleventy image. metadata is derived from source images, including future portrait photographs.
 - `_data/eleventyComputed.js` and `_lib/metadata.js` build shared search/social metadata from each page's `description`. `_lib/social-images.js` makes natural-ratio jpeg previews for photo pages.
-- `feeds.11ty.js` emits combined notes/letters RSS plus section feeds. `sitemap.11ty.js` includes indexable canonical pages; confirmation/error pages stay out. `robots.11ty.js` advertises the sitemap. these files ship with the full build.
+- `feeds.11ty.js` emits the notes RSS at `/feed.xml` and `/notes/feed.xml`.
+- the letters section is retired. `_data/redirects.json` and `redirects.11ty.js` keep old `/newsletter/` URLs working with noindex meta-refresh pages; add an entry there whenever a public URL moves.
+- `sitemap.11ty.js` includes indexable canonical pages; confirmation/error pages stay out. `robots.11ty.js` advertises the sitemap. these files ship with the full build.
 - `_data/fonts.json` records the optimized font preload and checksums. the Latin font is preferred; the full-coverage fallback preserves other characters. source fonts and construction assets stay intact.
 
 ## preview
@@ -41,7 +43,7 @@ the homepage strip uses a shared height and natural image widths: `width: auto`,
 
 preserve existing article and photo markdown bodies. keep source punctuation, wording, links, and formatting. dates are publication dates, not capture dates. the homepage's approved copy is `peruvian-born, seattle-based`, `art, tech, culture`, and `and god knows what`.
 
-new posts require `title` and `date: YYYY-MM-DD`. filenames determine URLs. write photo alt text in the markdown image; do not add a separate hardcoded gallery list. the collections are `notes`, `newsletter`, and `photos`, newest first, with stable filename ordering for equal dates.
+new posts require `title` and `date: YYYY-MM-DD`. filenames determine URLs. write photo alt text in the markdown image; do not add a separate hardcoded gallery list. the collections are `notes` and `photos`, newest first, with stable filename ordering for equal dates.
 
 the layout supplies the article h1. start body sections at `##` and nest one level at a time; generated-output checks reject skipped heading levels.
 

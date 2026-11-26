@@ -6,12 +6,12 @@ const site = { url: 'https://santi.wtf', name: 'santi villanueva', description: 
 const pageData = (url, extra = {}) => ({ site, page: { url }, ...extra });
 
 test('articles expose an authored summary, canonical URL, and UTC publication date', () => {
-  const seo = buildSeo(pageData('/newsletter/keep-going/', {
+  const seo = buildSeo(pageData('/notes/keep-going/', {
     title: 'keep going', description: 'running, consistency, and starting again.', date: new Date('2026-08-31T00:00:00Z'),
   }));
   assert.equal(seo.title, 'keep going — santi.wtf');
   assert.equal(seo.description, 'running, consistency, and starting again.');
-  assert.equal(seo.canonical, 'https://santi.wtf/newsletter/keep-going/');
+  assert.equal(seo.canonical, 'https://santi.wtf/notes/keep-going/');
   assert.equal(seo.type, 'article');
   assert.equal(seo.publishedTime, '2026-08-31T00:00:00.000Z');
   assert.equal(seo.excludeFromSitemap, false);
@@ -54,7 +54,7 @@ test('feeds, explicit exclusions, and drafts never become sitemap pages', () => 
 });
 
 test('archive and homepage metadata never borrow a publication date', () => {
-  for (const url of ['/', '/notes/', '/newsletter/', '/photos/']) {
+  for (const url of ['/', '/notes/', '/photos/']) {
     const seo = buildSeo(pageData(url, { date: '2026-01-01' }));
     assert.equal(seo.type, 'website', url);
     assert.equal(seo.publishedTime, undefined, url);

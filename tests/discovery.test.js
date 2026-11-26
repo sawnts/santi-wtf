@@ -24,14 +24,14 @@ function parseXml(source) {
   return nodes;
 }
 
-test('feeds combine eligible dated posts newest first and retain section boundaries', () => {
+test('feeds list eligible dated notes newest first and skip drafts and hidden posts', () => {
   const older = post('/notes/older/', '2026-01-01', { title: 'older' });
-  const newer = post('/newsletter/newer/', '2026-02-01', { title: 'newer' });
+  const newer = post('/notes/newer/', '2026-02-01', { title: 'newer' });
   const draft = post('/notes/draft/', '2026-03-01', { draft: true });
   const hidden = post('/notes/hidden/', '2026-04-01', { seo: { noindex: true } });
-  const collections = { notes: [older, draft, hidden], newsletter: [newer] };
+  const collections = { notes: [older, draft, hidden, newer] };
   assert.deepEqual(feedPosts(collections).map((item) => item.url), [newer.url, older.url]);
-  assert.deepEqual(feedPosts(collections, 'notes').map((item) => item.url), [older.url]);
+  assert.deepEqual(feedPosts(collections, 'notes').map((item) => item.url), [newer.url, older.url]);
 });
 
 test('RSS preserves XML-sensitive metadata and full HTML with absolute image and link URLs', async () => {

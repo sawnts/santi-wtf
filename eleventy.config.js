@@ -41,7 +41,6 @@ export default function (eleventyConfig) {
 
   const newestFirst = (a, b) => b.date - a.date || a.inputPath.localeCompare(b.inputPath);
   eleventyConfig.addCollection('notes', (api) => api.getFilteredByGlob('notes/**/*.md').sort(newestFirst));
-  eleventyConfig.addCollection('newsletter', (api) => api.getFilteredByGlob('newsletter/**/*.md').sort(newestFirst));
   eleventyConfig.addCollection('photos', (api) => api.getFilteredByGlob('photos/**/*.md').sort(newestFirst));
 
   const markdown = markdownIt({ html: true, breaks: true, linkify: true }).use(markdownItAnchor, {

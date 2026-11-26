@@ -214,7 +214,7 @@ if (mode === 'site') {
   }
 
   const sources = fs.readdirSync(root).filter((name) => /\.(?:md|njk|html|11ty\.js)$/.test(name) && !ignored.includes(name)).map((name) => ({ file: path.join(root, name) }));
-  for (const directory of ['notes', 'newsletter', 'photos']) {
+  for (const directory of ['notes', 'photos']) {
     const collectionData = JSON.parse(fs.readFileSync(path.join(root, directory, `${directory}.json`), 'utf8'));
     for (const file of filesIn(path.join(root, directory)).filter((file) => file.endsWith('.md'))) sources.push({ file, inherited: collectionData.permalink });
   }

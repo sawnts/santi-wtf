@@ -6,11 +6,10 @@ export default class Feeds {
       layout: false,
       seoExclude: true,
       eleventyExcludeFromCollections: true,
-      eleventyImport: { collections: ['notes', 'newsletter'] },
+      eleventyImport: { collections: ['notes'] },
       feeds: [
-        { path: '/feed.xml', home: '/', title: 'notes & letters' },
+        { path: '/feed.xml', home: '/', title: 'notes' },
         { path: '/notes/feed.xml', home: '/notes/', title: 'notes', section: 'notes' },
-        { path: '/newsletter/feed.xml', home: '/newsletter/', title: 'letters', section: 'newsletter' },
       ],
       pagination: { data: 'feeds', size: 1, alias: 'feed' },
       permalink: ({ feed }) => feed.path,

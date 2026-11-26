@@ -6,17 +6,13 @@ template: article
   {% include "nav.njk" %}
   <header class="page-header">
     <h1 id="page-title" tabindex="-1">{{ title }}</h1>
-    {% if date and (page.url.startsWith('/notes/') or page.url.startsWith('/newsletter/')) %}<time datetime="{{ date | htmlDateString }}">{{ date | personalDate }}</time>{% endif %}
+    {% if date and page.url.startsWith('/notes/') %}<time datetime="{{ date | htmlDateString }}">{{ date | personalDate }}</time>{% endif %}
   </header>
   <article class="prose">{{ content | safe }}</article>
   {% if page.url.startsWith('/notes/') %}
     {% set adjacent = page | getPrevNext(collections.notes) %}
     {% set archiveUrl = '/notes/' %}
     {% set archiveTitle = 'notes' %}
-  {% elif page.url.startsWith('/newsletter/') %}
-    {% set adjacent = page | getPrevNext(collections.newsletter) %}
-    {% set archiveUrl = '/newsletter/' %}
-    {% set archiveTitle = 'letters' %}
   {% endif %}
   {% if archiveUrl %}<footer class="article-footer">
     <a href="{{ archiveUrl }}">[all {{ archiveTitle }}]</a>

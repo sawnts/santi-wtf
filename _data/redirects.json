@@ -1,0 +1,9 @@
+[
+  { "from": "/newsletter/", "to": "/notes/", "title": "letters" },
+  { "from": "/newsletter/keep-going/", "to": "/notes/keep-going/", "title": "keep going" },
+  { "from": "/newsletter/creative-blocks-arent-optional/", "to": "/notes/creative-blocks-arent-optional/", "title": "creative blocks aren’t optional" },
+  { "from": "/newsletter/creativity-like-god/", "to": "/notes/creativity-like-god/", "title": "creativity, like god" },
+  { "from": "/newsletter/art-politics-and-epstein/", "to": "/notes/", "title": "art, politics, and epstein" },
+  { "from": "/newsletter/on-silence-and-speaking-out/", "to": "/notes/", "title": "on silence and speaking out" },
+  { "from": "/newsletter/the-sloppification-of-the-internet/", "to": "/notes/", "title": "the sloppification of the internet" }
+]

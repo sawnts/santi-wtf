@@ -16,7 +16,7 @@ export function isDiscoverable(item) {
 }
 
 export function feedPosts(collections, section) {
-  const posts = section ? collections[section] || [] : [...(collections.notes || []), ...(collections.newsletter || [])];
+  const posts = section ? collections[section] || [] : collections.notes || [];
   return posts.filter(isDiscoverable).sort((a, b) => b.date - a.date || a.url.localeCompare(b.url));
 }
 

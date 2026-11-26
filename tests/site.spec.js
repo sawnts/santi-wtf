@@ -158,7 +158,7 @@ test('newsletter forms use native email validation without sending a subscriptio
   // Any accidental submission stays inside the test; no address reaches Buttondown.
   await page.route('https://buttondown.com/**', (route) => route.abort('blockedbyclient'));
 
-  for (const path of ['/', '/newsletter/']) {
+  for (const path of ['/']) {
     await page.goto(path);
     const email = page.getByRole('textbox', { name: 'your email', exact: true });
     const submit = page.getByRole('button', { name: 'i’m in!', exact: true });
@@ -232,3 +232,10 @@ for (const [name, path] of [['homepage', '/'], ['photograph gallery', '/photos/'
     expect(await page.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth)).toBeLessThanOrEqual(1);
   });
 }
+
+test('retired letter URLs forward to their new home', async ({ page }) => {
+  for (const [from, to] of [['/newsletter/keep-going/', '/notes/keep-going/'], ['/newsletter/', '/notes/'], ['/newsletter/art-politics-and-epstein/', '/notes/']]) {
+    await page.goto(from);
+    await expect(page).toHaveURL(new RegExp(`${to.replaceAll('/', '\\/')}$`));
+  }
+});

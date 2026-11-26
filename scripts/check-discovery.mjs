@@ -53,7 +53,7 @@ const pages = allFiles(output).filter((file) => file.endsWith('.html')).map((fil
   const noindex = metas('robots').some(({ attrs }) => /\bnoindex\b/i.test(attrs.content));
   const pathname = new URL(canonical).pathname;
   if (['/404.html', '/subscribed/', '/confirmed/'].includes(pathname)) assert(noindex, `${pathname}: utility pages must be noindex`);
-  const section = pathname.match(/^\/(notes|newsletter)\/[^/]+\/$/)?.[1];
+  const section = noindex ? undefined : pathname.match(/^\/(notes)\/[^/]+\/$/)?.[1];
   if (section) {
     assert.equal(meta('og:type'), 'article', `${pathname}: writing should have article metadata`);
     const published = meta('article:published_time');
@@ -67,7 +67,7 @@ const pages = allFiles(output).filter((file) => file.endsWith('.html')).map((fil
   }
   const feeds = dom.filter(({ tag, attrs }) => tag === 'link' && attrs.rel === 'alternate' && attrs.type === 'application/rss+xml').map(({ attrs }) => new URL(attrs.href, canonical).href);
   assert(feeds.includes(`${origin}/feed.xml`), `${pathname}: missing main RSS discovery link`);
-  if (section || ['/notes/', '/newsletter/'].includes(pathname)) {
+  if (section || pathname === '/notes/') {
     const folder = section || pathname.split('/')[1];
     assert(feeds.includes(`${origin}/${folder}/feed.xml`), `${pathname}: missing section RSS discovery link`);
   }
@@ -98,7 +98,7 @@ const one = (node, name, uri = '') => {
   assert.equal(matches.length, 1, `Expected one ${name} element in ${node.name}`);
   return matches[0];
 };
-for (const [file, section] of [['feed.xml', null], ['notes/feed.xml', 'notes'], ['newsletter/feed.xml', 'newsletter']]) {
+for (const [file, section] of [['feed.xml', null], ['notes/feed.xml', 'notes']]) {
   const feed = xml(file);
   assert.equal(feed.name, 'rss');
   assert.equal(feed.attrs.version, '2.0');
@@ -149,4 +149,4 @@ for (const asset of fonts.assets) {
   assert.equal(bytes.length, asset.sizeBytes, `Font size differs from its manifest: ${asset.url}`);
   assert.equal(createHash('sha256').update(bytes).digest('hex'), asset.sha256, `Font checksum differs from its manifest: ${asset.url}`);
 }
-console.log(`Validated discovery: ${pages.length} page metadata records, 3 RSS feeds, ${locations.length} sitemap URLs, and optimized font assets.`);
+console.log(`Validated discovery: ${pages.length} page metadata records, 2 RSS feeds, ${locations.length} sitemap URLs, and optimized font assets.`);
