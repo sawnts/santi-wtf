@@ -3,13 +3,13 @@
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   align-items: start;
-  gap: 72px 48px;
-  margin-top: 56px;
+  gap: var(--fib-89) var(--fib-55);
+  margin-top: var(--fib-55);
 }
 .gallery-piece { min-width: 0; }
 .gallery-photo { display: block; cursor: zoom-in; }
 .gallery-photo img { display: block; width: 100%; height: auto; max-width: 100%; }
-.gallery-piece figcaption { margin-top: 12px; color: var(--index-muted); font-size: 12px; overflow-wrap: anywhere; }
+.gallery-piece figcaption { margin-top: var(--fib-13); color: var(--index-muted); font-size: 12px; overflow-wrap: anywhere; }
 @container site (max-width: 700px) {
-  .gallery-wall { grid-template-columns: minmax(0, 1fr); gap: 48px; margin-top: 42px; }
+  .gallery-wall { grid-template-columns: minmax(0, 1fr); gap: var(--fib-55); margin-top: var(--fib-34); }
 }
