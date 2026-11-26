@@ -48,7 +48,7 @@ running used to be punishment for what my body couldn’t do. now it’s a celeb
 
 ## one foot in front of the other
 
-the perfectionist doesn’t only show up on runs. for almost two years, i send an email to thousands of strangers on the internet every week. when i fucked up my streak, i decided that showing up late was worse than not showing up at all, so i disappeared for months. this is me showing up late, imperfectly.
+the perfectionist doesn’t only show up on runs. for almost two years, i sent an email to thousands of strangers on the internet every week. when i fucked up my streak, i decided that showing up late was worse than not showing up at all, so i disappeared for months. this is me showing up late, imperfectly.
 
 running has taught me that perfect is an illusion we manufacture to avoid the dirty work. it doesn’t matter how you start, where you start, or when you start — as long as you start, and you keep going.
 
