@@ -1,4 +1,4 @@
-const utilityRoutes = new Set(['/404.html', '/subscribed/', '/confirmed/']);
+const utilityRoutes = new Set(['/404.html']);
 
 const plainText = (value) => String(value || '').replace(/\s+/g, ' ').trim();
 

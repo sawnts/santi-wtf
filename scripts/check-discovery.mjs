@@ -52,7 +52,7 @@ const pages = allFiles(output).filter((file) => file.endsWith('.html')).map((fil
   for (const dimension of ['width', 'height']) assert(Number(meta(`og:image:${dimension}`)) > 0, `${file}: missing social image dimensions`);
   const noindex = metas('robots').some(({ attrs }) => /\bnoindex\b/i.test(attrs.content));
   const pathname = new URL(canonical).pathname;
-  if (['/404.html', '/subscribed/', '/confirmed/'].includes(pathname)) assert(noindex, `${pathname}: utility pages must be noindex`);
+  if (pathname === '/404.html') assert(noindex, `${pathname}: utility pages must be noindex`);
   const section = noindex ? undefined : pathname.match(/^\/(notes)\/[^/]+\/$/)?.[1];
   if (section) {
     assert.equal(meta('og:type'), 'article', `${pathname}: writing should have article metadata`);

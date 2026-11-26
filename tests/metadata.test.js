@@ -28,8 +28,8 @@ test('photo sharing uses the specific JPEG and preserves description text', () =
   assert.equal(seo.publishedTime, undefined);
 });
 
-test('signup and not-found routes stay out of search and the sitemap', () => {
-  for (const url of ['/404.html', '/subscribed/', '/confirmed/']) {
+test('the not-found route stays out of search and the sitemap', () => {
+  for (const url of ['/404.html']) {
     const seo = buildSeo(pageData(url, { date: '2026-05-07' }));
     assert.equal(seo.noindex, true, url);
     assert.equal(seo.excludeFromSitemap, true, url);

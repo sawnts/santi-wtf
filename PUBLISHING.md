@@ -63,7 +63,7 @@ art, tech, culture
 and god knows what
 ```
 
-the compact subscribe form appears on the homepage. `_includes/partials/subscribe.njk` submits a native POST to the existing personal buttondown newsletter (`sawnts`). buttondown handles confirmation, validation, and any captcha on its own page; no API key or custom backend is needed. do not test it by subscribing someone without their request.
+the newsletter, *fwd:*, lives on substack. the site has no signup form; the homepage's `fwd:` link in `_data/site.json` is the only pointer to it.
 
 ## preview and build
 
@@ -89,7 +89,7 @@ npx playwright install chromium
 npm run check
 ```
 
-this validates full-site routes, assets, fragments, page metadata, font assets, RSS XML, and sitemap membership; exercises desktop/mobile photo and signup behavior; and validates the fallback construction page. it never subscribes a reader or deploys anything. the final `_site/` is the full site.
+this validates full-site routes, assets, fragments, page metadata, font assets, RSS XML, and sitemap membership; exercises desktop/mobile photo behavior and the old-URL redirects; and validates the fallback construction page. it never deploys anything. the final `_site/` is the full site.
 
 the full preview includes `/feed.xml` and `/notes/feed.xml` for notes, `/sitemap.xml`, and `/robots.txt`. feeds include complete posts with absolute links and publication dates. the sitemap excludes confirmation and error pages.
 

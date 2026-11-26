@@ -150,37 +150,6 @@ test('a failed enlarged photograph can be retried', async ({ page }) => {
   await expect(dialog.getByRole('button', { name: '[try again]', exact: true })).not.toBeVisible();
 });
 
-test('newsletter forms use native email validation without sending a subscription', async ({ page }) => {
-  const posts = [];
-  page.on('request', (request) => {
-    if (request.method() === 'POST') posts.push(request.url());
-  });
-  // Any accidental submission stays inside the test; no address reaches Buttondown.
-  await page.route('https://buttondown.com/**', (route) => route.abort('blockedbyclient'));
-
-  for (const path of ['/']) {
-    await page.goto(path);
-    const email = page.getByRole('textbox', { name: 'your email', exact: true });
-    const submit = page.getByRole('button', { name: 'i’m in!', exact: true });
-    const form = page.locator('form').filter({ has: email });
-    const initialUrl = page.url();
-    await expect(form).toHaveAttribute('method', /post/i);
-    await expect(form).toHaveAttribute('action', 'https://buttondown.com/api/emails/embed-subscribe/sawnts');
-
-    await submit.click();
-    await expect(email).toBeFocused();
-    expect(await email.evaluate((element) => element.validity.valueMissing)).toBe(true);
-    await email.fill('not-an-email');
-    await submit.click();
-    await expect(email).toBeFocused();
-    expect(await email.evaluate((element) => element.validity.typeMismatch)).toBe(true);
-    await email.fill('reader@example.test');
-    expect(await email.evaluate((element) => element.checkValidity())).toBe(true);
-    await expect(page).toHaveURL(initialUrl);
-  }
-  expect(posts).toEqual([]);
-});
-
 test('the homepage loads the optimized font without downloading the original', async ({ page }) => {
   const fonts = [];
   page.on('response', (response) => {

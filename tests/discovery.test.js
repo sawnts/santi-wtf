@@ -68,8 +68,6 @@ test('sitemap includes unique public HTML canonicals without manufactured modifi
     post('/notes/', '2026-01-01'),
     post('/notes/alias/', '2026-01-01', { seo: { canonical: 'https://santi.wtf/notes/' } }),
     post('/404.html', '2026-01-01'),
-    post('/subscribed/', '2026-01-01'),
-    post('/confirmed/', '2026-01-01'),
     post('/draft/', '2026-01-01', { draft: true }),
     post('/private/', '2026-01-01', { robots: 'noindex, nofollow' }),
     post('/excluded/', '2026-01-01', { seo: { excludeFromSitemap: true } }),

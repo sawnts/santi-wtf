@@ -1,6 +1,6 @@
 import { convertHtmlToAbsoluteUrls, dateToRfc822 } from '@11ty/eleventy-plugin-rss';
 
-const utilityPaths = new Set(['/404.html', '/subscribed/', '/confirmed/']);
+const utilityPaths = new Set(['/404.html']);
 const xml = (value = '') => String(value).replace(/[&<>"']/g, (character) => ({
   '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&apos;',
 })[character]);

@@ -5,5 +5,7 @@
   { "from": "/newsletter/creativity-like-god/", "to": "/notes/creativity-like-god/", "title": "creativity, like god" },
   { "from": "/newsletter/art-politics-and-epstein/", "to": "/notes/", "title": "art, politics, and epstein" },
   { "from": "/newsletter/on-silence-and-speaking-out/", "to": "/notes/", "title": "on silence and speaking out" },
-  { "from": "/newsletter/the-sloppification-of-the-internet/", "to": "/notes/", "title": "the sloppification of the internet" }
+  { "from": "/newsletter/the-sloppification-of-the-internet/", "to": "/notes/", "title": "the sloppification of the internet" },
+  { "from": "/subscribed/", "to": "/", "title": "almost in" },
+  { "from": "/confirmed/", "to": "/", "title": "you’re in" }
 ]

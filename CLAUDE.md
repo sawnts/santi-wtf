@@ -12,7 +12,7 @@ native eleventy 3.x personal site. no client framework, iframe, exported visuali
 - `_includes/partials/filmstrip.njk` renders the homepage photo strip; `photos.njk` renders the wider gallery wall.
 - `_includes/partials/lightbox.njk` and `public/js/lightbox.js` enhance photo links on those two pages with one native dialog. keep canonical hrefs, modifier clicks, focus/scroll restoration, loading/error handling, and reduced motion.
 - the lightbox owns one same-URL history entry per viewing session. browser Back and every dismissal consume it; next/previous replace its selected photo. Forward and reload restore that selection and the original opener/scroll position. preserve unrelated history state and the underlying URL.
-- `_includes/partials/subscribe.njk` is the shared native buttondown signup. do not replace its POST with fetch, expose API keys, or show a fake subscription success state.
+- the site has no signup forms. the newsletter, *fwd:*, lives on substack; its only link is the homepage's `fwd:` entry in `_data/site.json`.
 - `public/css/base.css` is the shared design system; `public/js/site.js` adds keyboard movement through filmstrips.
 - `_lib/photographs.js` generates responsive webp images with intrinsic dimensions through eleventy image. metadata is derived from source images, including future portrait photographs.
 - `_data/eleventyComputed.js` and `_lib/metadata.js` build shared search/social metadata from each page's `description`. `_lib/social-images.js` makes natural-ratio jpeg previews for photo pages.
@@ -57,6 +57,6 @@ the suite also runs metadata/discovery unit tests and validates generated RSS XM
 
 the read-only `site checks` workflow runs this suite and a dependency audit on pull requests to and pushes on `main`. production deployment is main-only and uses `npm run build`. keep test code and reports excluded from Eleventy and Git output as configured. weekly dependency updates target `main`.
 
-build the full site, verify original deep routes, and inspect desktop/mobile before calling a change complete. ensure external asset paths resolve, photo ratios remain natural, keyboard focus is visible, and subscription/404 pages remain available. docs, construction input, and helper scripts are excluded by `.eleventyignore`.
+build the full site, verify original deep routes, and inspect desktop/mobile before calling a change complete. ensure external asset paths resolve, photo ratios remain natural, keyboard focus is visible, and the 404 page remains available. docs, construction input, and helper scripts are excluded by `.eleventyignore`.
 
 the frozen v3 source is retained on `archive/v3` in github. never recreate a public v3 archive without the user's request.
