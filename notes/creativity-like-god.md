@@ -24,7 +24,7 @@ it wasn’t until last year when my then girlfriend — who had never in her lif
 
 a few weeks ago, i finally pulled the trigger on a nintendo switch 2 and got lost in the magic of _zelda: breath of the wild_. about 100 hours in, i’m happy to announce that princess zelda is home safe, and my love for this art form has been rekindled and reimagined. hell, i didn’t even consider it an art form before.
 
-as soon as the ball dropped this year, i deleted social media for a while and got obsessed with the indie web, personal sites, and re-experiencing the internet that once was — before apps killed it.
+as soon as the ball dropped this year, i deleted social media for a while and became obsessed with the indie web, personal sites, and re-experiencing the internet that once was — before apps killed it.
 
 i’m no web designer or developer, but i’ve got a lot of myspace under my belt, and this year alone i’ve redesigned this site three times. i don’t spend nearly as much time on the site as i do pedaling around the city or slaying lynels, but the few hours spent turning a vision into something real, in an unfamiliar medium, have been a real treat.
 
