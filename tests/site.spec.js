@@ -38,7 +38,7 @@ test('gallery supports keyboard navigation and restores the opener and scroll po
 
 test('Back closes one gallery overlay and Forward restores its selected photograph', async ({ page }) => {
   await page.goto('/');
-  await page.getByRole('link', { name: 'photographs', exact: true }).click();
+  await page.getByRole('link', { name: 'photos', exact: true }).click();
   await page.evaluate(() => history.replaceState({ ...history.state, navigationProbe: 'retained' }, '', '?view=all#page-title'));
   const galleryUrl = page.url();
   const photos = photoLinks(page);
@@ -77,7 +77,7 @@ test('Escape, close, and backdrop dismissal leave the next Back for the previous
   await page.goto('/');
   for (const method of ['Escape', 'close', 'backdrop']) {
     await test.step(method, async () => {
-      await page.getByRole('link', { name: 'photographs', exact: true }).click();
+      await page.getByRole('link', { name: 'photos', exact: true }).click();
       const galleryUrl = page.url();
       await photoLinks(page).first().click();
       const dialog = lightbox(page);
@@ -98,7 +98,7 @@ test('Escape, close, and backdrop dismissal leave the next Back for the previous
 
 test('reloading an open gallery retains the selected photograph and one overlay history entry', async ({ page, baseURL }) => {
   await page.goto('/');
-  await page.getByRole('link', { name: 'photographs', exact: true }).click();
+  await page.getByRole('link', { name: 'photos', exact: true }).click();
   const galleryUrl = page.url();
   const opener = photoLinks(page).last();
   const selectedHref = new URL(await photoLinks(page).first().getAttribute('href'), galleryUrl).href;
