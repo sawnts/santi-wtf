@@ -11,7 +11,8 @@
   "pageLinks": [
     { "title": "[home]", "url": "/" },
     { "title": "notes", "url": "/notes/" },
-    { "title": "photographs", "url": "/photos/" }
+    { "title": "photographs", "url": "/photos/" },
+    { "title": "elsewhere", "url": "/elsewhere/" }
   ],
   "about": "this site is a collection of scribbles, images, and god knows what. when i'm not working, you'll catch me soaking in art, riding my bike around the city, and <a href=\"https://lichess.org/@/sawnts\" target=\"_blank\" rel=\"noopener noreferrer\">pushing pawns</a>. the rest of me lives <a href=\"/elsewhere/\">elsewhere</a>.",
   "elsewhere": [

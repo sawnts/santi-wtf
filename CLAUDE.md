@@ -7,7 +7,7 @@ native eleventy 3.x personal site. no client framework, iframe, exported visuali
 - `README.md` renders `/` through `layouts/home.njk`.
 - notes remain local markdown with their existing URLs and prose. the best former letters now live in `notes/`.
 - `photos/*.md` use `layouts/photo.njk`. the first markdown image supplies each gallery image, alt text, and caption.
-- `_data/site.json` owns navigation, the short about text, and the `elsewhere` accounts. `elsewhere.njk` lists them at `/elsewhere/` (linked from `[about]`); each external account gets `rel="me"` there and in the homepage head.
+- `_data/site.json` owns navigation, the short about text, and the `elsewhere` accounts. `elsewhere.njk` lists them at `/elsewhere/` (linked from `[about]` and the top nav); each external account gets `rel="me"` there and in the homepage head.
 - `_includes/layouts/base.njk` owns document metadata and shared asset links.
 - `_includes/partials/filmstrip.njk` renders the homepage photo strip; `photos.njk` renders the wider gallery wall.
 - `_includes/partials/lightbox.njk` and `public/js/lightbox.js` enhance photo links on those two pages with one native dialog. keep canonical hrefs, modifier clicks, focus/scroll restoration, loading/error handling, and reduced motion.
