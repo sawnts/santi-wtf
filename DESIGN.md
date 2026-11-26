@@ -4,8 +4,8 @@ the accepted direction follows the quiet density and left-aligned content of lin
 
 - white `#fff` canvas; ink `#20201d`; muted text `#6b6b64`; amber hover/focus `#916018`.
 - self-hosted monaspace neon appearance, delivered through the optimized santi index mono derivative with weights 400–600 and a full-character fallback. original source fonts remain intact. 13px index/navigation text, 16px article text with 1.8 line height and a 64ch measure.
-- homepage spacing: 56px top, 14px horizontal, minimum 650px stage. the photo strip sits after generous quiet space, with 76px-high images and natural widths.
-- at a 500px canvas width, use 38px top padding and a 68px-high homepage strip. coarse pointers receive 44px text-link targets.
+- homepage spacing follows fibonacci steps around the 13px type: 55px top, a 233px-wide e-ink portrait, 34px to the name, 13px to the intro, 21px intro line height, 21px to the links, and 89px of quiet space before an 89px-high photo strip with natural widths. 14px horizontal padding, minimum 650px stage.
+- at a 500px canvas width, use 34px top padding and 55px before the strip. coarse pointers receive 44px text-link targets.
 - shared subpages use the same small navigation and quiet article/photo headings. photographs are never cropped; full images fit the canvas and a 72vh maximum height.
 - the photographs page opens onto a wider 1120px gallery wall: two columns, a 48px gutter, generous vertical spacing, square image edges, and natural image ratios. at a 732px viewport it becomes one column. no card frames, cropping, or decorative shadows.
 - there are no signup forms. the homepage links to the newsletter, *fwd:*, on substack.

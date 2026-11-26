@@ -35,7 +35,7 @@ the full site outputs to `_site/`. production deploys `npm run build` from `main
 
 ## visual contract
 
-the approved personal index is light, sparse, compact, and monospace. the native canvas is centered at a maximum width of 736px, with the approved 56px top/14px horizontal content padding and 13px typography. retain the real photographs, lowercase voice, and restrained amber hover/focus color.
+the approved personal index is light, sparse, compact, and monospace. the native canvas is centered at a maximum width of 736px, with 14px horizontal content padding and 13px typography. the homepage's vertical rhythm uses fibonacci steps around the type (`--fib-*` tokens in `base.css`: 13, 21, 34, 55, 89, 233): a 233px e-ink portrait, 21px intro line height, and an 89px photo strip. retain the real photographs, lowercase voice, and restrained amber hover/focus color.
 
 the homepage strip uses a shared height and natural image widths: `width: auto`, `flex: 0 0 auto`, horizontal overflow, and intrinsic dimensions. the gallery wall uses two natural-ratio columns in a 1120px canvas, collapsing to one column on small screens. keep wall images `width: 100%; height: auto`; do not leak the strip's fixed heights into the wall. never crop photographs into square tiles. photo detail URLs remain available behind every lightbox trigger.
 
