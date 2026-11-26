@@ -6,5 +6,4 @@ permalink: /
 ---
 
 peruvian-born, seattle-based
-art, tech, culture
-and god knows what
+looking closely

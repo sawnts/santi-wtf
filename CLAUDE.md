@@ -41,7 +41,7 @@ the homepage strip uses a shared height and natural image widths: `width: auto`,
 
 ## content
 
-preserve existing article and photo markdown bodies. keep source punctuation, wording, links, and formatting. dates are publication dates, not capture dates. the homepage's approved copy is `peruvian-born, seattle-based`, `art, tech, culture`, and `and god knows what`.
+preserve existing article and photo markdown bodies. keep source punctuation, wording, links, and formatting. dates are publication dates, not capture dates. the homepage's approved copy is `peruvian-born, seattle-based` and `looking closely`.
 
 new posts require `title` and `date: YYYY-MM-DD`. filenames determine URLs. write photo alt text in the markdown image; do not add a separate hardcoded gallery list. the collections are `notes` and `photos`, newest first, with stable filename ordering for equal dates.
 

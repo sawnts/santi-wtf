@@ -59,8 +59,7 @@ edit the homepage introduction in `README.md`. navigation and the short about te
 
 ```text
 peruvian-born, seattle-based
-art, tech, culture
-and god knows what
+looking closely
 ```
 
 the newsletter, *fwd:*, lives on substack. the site has no signup form; the homepage's `fwd:` link in `_data/site.json` is the only pointer to it.
