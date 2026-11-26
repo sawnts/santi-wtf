@@ -80,6 +80,8 @@ a:hover { color: var(--index-accent); text-decoration: underline; }
 .archive { list-style: none; padding: 0; max-width: 620px; display: grid; gap: 16px; }
 .archive a { display: flex; justify-content: space-between; align-items: baseline; gap: 12px 32px; padding: 4px 0; font-size: 14px; line-height: 1.6; }
 .archive :is(time, .archive-note) { flex: none; color: var(--index-muted); font-size: 12px; font-variant-numeric: tabular-nums; }
+.archive--elsewhere a { justify-content: flex-start; }
+.archive--elsewhere a > :first-child { flex: 0 0 14ch; }
 .page-intro { max-width: 64ch; margin: -14px 0 28px; color: var(--index-muted); font-size: 13px; }
 .prose { font-size: 16px; line-height: 1.8; max-width: 64ch; overflow-wrap: anywhere; }
 .prose :is(p, ul, ol, blockquote, pre) { margin: 0 0 1.5em; }

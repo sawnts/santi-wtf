@@ -6,7 +6,6 @@
     { "title": "notes", "url": "/notes/" },
     { "title": "photos", "url": "/photos/" },
     { "title": "fwd:", "url": "https://fowrd.substack.com/", "external": true, "italic": true },
-    { "title": "letterboxd", "url": "https://letterboxd.com/santivillanueva/", "external": true },
     { "title": "email", "url": "mailto:hi@santi.wtf" }
   ],
   "pageLinks": [
@@ -16,12 +15,11 @@
   ],
   "about": "this site is a collection of scribbles, images, and god knows what. when i'm not working, you'll catch me soaking in art, riding my bike around the city, and <a href=\"https://lichess.org/@/sawnts\" target=\"_blank\" rel=\"noopener noreferrer\">pushing pawns</a>. the rest of me lives <a href=\"/elsewhere/\">elsewhere</a>.",
   "elsewhere": [
-    { "title": "instagram", "url": "https://www.instagram.com/yosawnts", "note": "photos, sporadically", "me": true },
+    { "title": "instagram", "url": "https://www.instagram.com/yosawnts", "note": "my visual journal", "me": true },
     { "title": "threads", "url": "https://www.threads.com/@yosawnts", "note": "thoughts i didn’t write a note about", "me": true },
-    { "title": "x", "url": "https://x.com/yosawnts", "note": "mostly lurking", "me": true },
-    { "title": "fwd:", "url": "https://fowrd.substack.com/", "note": "my newsletter, on substack", "italic": true, "me": true },
-    { "title": "letterboxd", "url": "https://letterboxd.com/santivillanueva/", "note": "every movie, rated too harshly", "me": true },
-    { "title": "lichess", "url": "https://lichess.org/@/sawnts", "note": "pushing pawns", "me": true },
+    { "title": "x", "url": "https://x.com/yosawnts", "note": "my most honest self", "me": true },
+    { "title": "fwd:", "url": "https://fowrd.substack.com/", "note": "a weekly email for friends", "italic": true, "me": true },
+    { "title": "letterboxd", "url": "https://letterboxd.com/santivillanueva/", "note": "my movie log", "me": true },
     { "title": "email", "url": "mailto:hi@santi.wtf", "note": "the best way to reach me" }
   ]
 }
