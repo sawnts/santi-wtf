@@ -5,7 +5,6 @@ description: the personal site of santi villanueva, a peruvian-born creative in 
 permalink: /
 ---
 
-yo — santi here. peruvian-born, seattle-based.
-
-art, tech, culture.
-overly caffeinated.
+peruvian-born, seattle-based
+art, tech, culture
+and god knows what

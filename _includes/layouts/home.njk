@@ -7,7 +7,7 @@ layout: layouts/base.njk
       <h1 id="page-title" tabindex="-1">{{ site.name }}</h1>
       {{ content | safe }}
       <nav class="index-links" aria-label="explore santi's site">
-        {% for link in site.homeLinks %}<a href="{{ link.url }}"{% if link.external %} target="_blank" rel="noopener noreferrer"{% endif %}>{{ link.title }}</a>{% endfor %}
+        {% for link in site.homeLinks %}<a href="{{ link.url }}"{% if link.external %} target="_blank" rel="noopener noreferrer"{% endif %}>{% if link.italic %}<em>{{ link.title }}</em>{% else %}{{ link.title }}{% endif %}</a>{% endfor %}
       </nav>
       {% set subscribeId = 'home-subscribe' %}
       {% include "partials/subscribe.njk" %}

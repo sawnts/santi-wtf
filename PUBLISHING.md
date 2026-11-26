@@ -59,8 +59,9 @@ use meaningful alt text and a real publication date. the date is not presented a
 edit the homepage introduction in `README.md`. navigation and the short about text live in `_data/site.json`. the approved introduction ends:
 
 ```text
-art, tech, culture.
-overly caffeinated.
+peruvian-born, seattle-based
+art, tech, culture
+and god knows what
 ```
 
 the compact subscribe form appears on the homepage and letters archive. `_includes/partials/subscribe.njk` submits a native POST to the existing personal buttondown newsletter (`sawnts`). buttondown handles confirmation, validation, and any captcha on its own page; no API key or custom backend is needed. do not test it by subscribing someone without their request.

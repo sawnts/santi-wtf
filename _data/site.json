@@ -1,12 +1,13 @@
 {
   "name": "santi villanueva",
   "url": "https://santi.wtf",
-  "description": "art, tech, culture. overly caffeinated.",
+  "description": "art, tech, culture, and god knows what.",
   "homeLinks": [
     { "title": "notes", "url": "/notes/" },
-    { "title": "letters", "url": "/newsletter/" },
+    { "title": "photos", "url": "/photos/" },
+    { "title": "fwd:", "url": "https://fowrd.substack.com/", "external": true, "italic": true },
     { "title": "letterboxd", "url": "https://letterboxd.com/santivillanueva/", "external": true },
-    { "title": "contact", "url": "mailto:hi@santi.wtf" }
+    { "title": "email", "url": "mailto:hi@santi.wtf" }
   ],
   "pageLinks": [
     { "title": "[home]", "url": "/" },
