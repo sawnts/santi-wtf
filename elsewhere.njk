@@ -1,0 +1,14 @@
+---
+layout: layouts/base.njk
+permalink: /elsewhere/
+title: elsewhere
+description: "where else to find santi villanueva online — instagram, threads, x, the fwd: newsletter, letterboxd, and email."
+---
+<main class="page" id="main-content">
+  {% include "nav.njk" %}
+  <header class="page-header"><h1 id="page-title" tabindex="-1">{{ title }}</h1></header>
+  <p class="page-intro">where else to find me on the internet.</p>
+  <ul class="archive archive--elsewhere">
+    {% for link in site.elsewhere %}<li><a href="{{ link.url }}"{% if link.url.startsWith('http') %} target="_blank" rel="{% if link.me %}me {% endif %}noopener noreferrer"{% endif %}><span>{% if link.italic %}<em>{{ link.title }}</em>{% else %}{{ link.title }}{% endif %}</span><span class="archive-note">{{ link.note }}</span></a></li>{% endfor %}
+  </ul>
+</main>

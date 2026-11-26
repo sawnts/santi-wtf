@@ -1,0 +1,6 @@
+<div class="index-filmstrip {{ filmstripClass }}" role="group" aria-label="{{ filmstripLabel }}" data-filmstrip>
+  {% for photo in collections.photos %}
+    {% set publishedDate = photo.date | personalDate %}
+    <a class="index-photo" href="{{ photo.url }}" {% photoLightbox photo.inputPath, photo.data.title, publishedDate %} aria-label="enlarge photograph: {{ photo.inputPath | photoAlt }}">{% photograph photo.inputPath, filmstripMode or 'thumbnail' %}</a>
+  {% endfor %}
+</div>

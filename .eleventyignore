@@ -1,5 +1,14 @@
 CLAUDE.md
+PUBLISHING.md
+DESIGN.md
+PRODUCT.md
+MIGRATION.md
+.impeccable/
 
 construction/
+
 scripts/
-MIGRATION.md
+tests/
+playwright.config.js
+playwright-report/
+test-results/

@@ -4,7 +4,7 @@ import { fileURLToPath } from 'node:url';
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const output = path.join(root, '_site');
-// Only this generated directory is cleared; all v3 content remains in Git.
+// Fallback holding page. Only this generated directory is cleared; all site content remains in Git.
 await rm(output, { recursive: true, force: true });
 await mkdir(path.join(output, 'css'), { recursive: true });
 await mkdir(path.join(output, 'fonts'), { recursive: true });
@@ -16,4 +16,4 @@ await cp(path.join(root, 'public/fonts/MonaspaceNeonVar.woff2'), path.join(outpu
 await cp(path.join(root, 'public/favicon.svg'), path.join(output, 'favicon.svg'));
 await cp(path.join(root, 'CNAME'), path.join(output, 'CNAME'));
 await cp(path.join(root, '.nojekyll'), path.join(output, '.nojekyll'));
-console.log('Built the construction page. v4 remains unpublished.');
+console.log('Built the construction page. Deploy it only by switching the production build to build:construction.');

@@ -1,51 +1,17 @@
 ---
 title: on tyranny
+description: notes on timothy snyder’s on tyranny, democratic responsibility, and the limits of his argument.
 date: 2026-03-09
 ---
 
-on tyranny by timothy snyder is a short, urgent book about how authoritarians seize power through the very democratic structures designed to prevent them — and what citizens can do about it.
+democracy works when citizens show up. but what happens when they show up to take away somebody else's rights?
 
-in it, snyder makes the argument that institutions don't defend themselves. people do. his thesis is simple: if citizens don't actively protect democratic norms, authoritarians will exploit that passivity to dismantle them from within.
+that's the question i kept coming back to after reading [*on tyranny*](https://timothysnyder.org/on-tyranny), timothy snyder's short book about how authoritarians come to power and what ordinary people can do about it. his argument is simple: institutions don't defend themselves. people do.
 
-snyder's primary lens is 20th century europe, using history as a cautionary tale.
+[in 1933, germany's president appointed hitler chancellor](https://encyclopedia.ushmm.org/content/en/article/hitler-comes-to-power). a month later, the nazis used the reichstag fire as a pretext for [a decree that suspended basic freedoms](https://encyclopedia.ushmm.org/content/en/article/reichstag-fire-decree) and gave them cover to arrest political opponents. the machinery was already there. look at who got to use it, and what they did with it.
 
-hitler rose to power through democratic means, then used the reichstag fire — an arson attack on the german parliament — as a pretext to suspend civil freedoms, crush the communists, and consolidate control. the playbook: manufacture a crisis, then use it to justify seizing power.
+but what exactly does it mean to show up? snyder gives some useful answers. don't obey in advance. back a newspaper that does its own reporting. check what you're about to share. organize with people outside your usual circle. [poland's solidarity movement](https://en.wikipedia.org/wiki/Solidarity_%28Polish_trade_union%29) was people showing the fuck up.
 
-**propaganda is the engine of authoritarianism.**
+but why do so many give up on democracy? sure, some inequality is a byproduct of a free economy, but where's the line between “some inequality” and a system where enough people feel like they don't matter?
 
-stalin demonized wealthy farmers to justify collectivization. the nazis weaponized emerging media to flood the public with lies until people lost the ability to distinguish truth from manipulation. snyder calls this the first stage of fascism.
-
-authoritarian regimes also relied on security forces to do their dirty work — stalin's NKVD, hitler's SS. judicial and enforcement systems weren't checks on power; they became tools of it.
-
-the takeaway: these democracies weren't destroyed from the outside — they were hollowed out from within.
-
-failing democracies are the ones to blame.
-
-when democracies fail to address inequality, people feel powerless. that helplessness makes them susceptible to authoritarian promises of order and pride. communist regimes rose on exactly this dynamic — and snyder argues today's democracies are far from immune to tyranny — shocker.
-
-the founding fathers were well aware of this. they studied previous democratic and republican failures, and understood inequality breeds tyrants and free expression can be weaponized against itself. so they designed the system of checks and balances to prevent any single person or group from concentrating power.
-
-but there's a catch: the system only works if people maintain it. freedom isn't a one-time achievement — it's an ongoing responsibility.
-
-in other words, democracy works when citizens show up.
-
-what does it mean to show up?
-
-- **refuse compliance.** passive obedience enables authoritarians. when people don't challenge oppressive demands, they reinforce them.
-- **oppose hate.** actively resist symbols and rhetoric of hatred. create alternative narratives. celebrate the richness of language.
-- **build coalitions.** grassroots movements across sectors of society reinforce democratic principles. poland's solidarity labor movement is snyder's go-to example.
-- **defend independent media.** support trustworthy journalism. recognize propaganda. take responsibility for what you share online.
-
-vigilance underpins liberty — not succumbing to fear, but actively resisting tyranny.
-
----
-
-## my take
-
-something worth noting is not all authoritarian regimes came to power through democratic means. military coups and foreign intervention have played their part too. and democratic governments themselves have engaged in propaganda, especially during wartime.
-
-snyder frames inequality as purely a threat, but a certain level of inequality can be a byproduct of a free and dynamic economy. the question is where the line sits.
-
-civic engagement matters — but it can also lead to the tyranny of the majority if not balanced with protections for individual rights. the oppressed becomes the oppressor.
-
-and grassroots movements, while powerful, can be co-opted by special interests that don't represent the will of the majority. the solidarity labor movement worked, but not every movement does.
+and when a movement wins, what happens to the rights of the people who opposed it?
