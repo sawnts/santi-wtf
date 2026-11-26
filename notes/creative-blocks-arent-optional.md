@@ -16,7 +16,7 @@ the creative process works the same way. it moves in seasons, and the one most o
 
 ## winter
 
-the fallow season, when things go underground. your brain’s default mode network keeps firing below the surface, making connections the conscious mind can’t force. on the surface, it looks like nothing is happening. everything is.
+the fallow season, when things go underground. your brain’s default mode network keeps firing below the surface, making connections the conscious mind can’t force. from the outside, it looks like nothing is happening. everything is.
 
 ## spring
 
