@@ -49,7 +49,9 @@ a:hover { color: var(--index-accent); text-decoration: underline; }
 .skip-link:focus { transform: none; }
 
 .index-stage { display: flex; flex-direction: column; min-height: 650px; padding: 56px 14px 12px; }
-.index-intro { max-width: 55ch; }
+.index-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 28px; }
+.index-intro { max-width: 55ch; min-width: 0; }
+.index-portrait { flex: none; display: block; width: 200px; height: auto; image-rendering: pixelated; }
 .index-intro h1 { margin-bottom: 13px; }
 .index-intro p { max-width: 52ch; }
 .index-links { display: flex; flex-direction: column; align-items: flex-start; margin-top: 17px; }
@@ -100,7 +102,9 @@ a:hover { color: var(--index-accent); text-decoration: underline; }
 
 @container site (max-width: 500px) {
   .index-stage { padding: 38px 14px 12px; min-height: 660px; }
+  .index-top { flex-direction: column-reverse; gap: 24px; }
   .index-intro { max-width: 100%; }
+  .index-portrait { width: 160px; image-rendering: auto; }
   .index-gallery { padding-top: 65px; }
   .index-filmstrip { gap: 6px; }
   .index-photo img { height: 68px; }
