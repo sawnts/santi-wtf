@@ -1,6 +1,7 @@
 # site versions
 
 - production: `main` publishes the native v4 site at `https://santi.wtf/`.
+- v2: the earlier "garden" site history (january 2026) is preserved on `archive/v2` at `4e998b0`. leave this branch unchanged.
 - v3: the exact previous source is preserved on `archive/v3` at `5870272ff8813a5597775fd9e3d00cfb45f900bf`. leave this branch unchanged.
 - construction: the temporary holding page is kept in `construction/` as a fallback.
 

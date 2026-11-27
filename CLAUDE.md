@@ -59,4 +59,4 @@ the read-only `site checks` workflow runs this suite and a dependency audit on p
 
 build the full site, verify original deep routes, and inspect desktop/mobile before calling a change complete. ensure external asset paths resolve, photo ratios remain natural, keyboard focus is visible, and the 404 page remains available. docs, construction input, and helper scripts are excluded by `.eleventyignore`.
 
-the frozen v3 source is retained on `archive/v3` in github. never recreate a public v3 archive without the user's request.
+the frozen v3 source is retained on `archive/v3` and the earlier v2 history on `archive/v2` in github. never recreate a public v3 archive without the user's request.
